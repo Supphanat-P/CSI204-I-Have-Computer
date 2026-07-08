@@ -146,14 +146,6 @@
 - API Testing
 - User Acceptance Testing (UAT)
 
-## Test Cases
-
-| Feature | Test Case | Expected Result | Status |
-|----------|-----------|----------------|--------|
-| Login | | | |
-| Register | | | |
-| CRUD | | | |
-
 ---
 
 # 8. ผลลัพธ์ที่คาดว่าจะได้รับ (Expected Outcomes)
