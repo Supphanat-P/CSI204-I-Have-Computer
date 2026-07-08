@@ -65,11 +65,11 @@
 
 ## User Roles
 
-| Role | Description |
-|------|-------------|
-| Admin | |
-| Customers | |
-| Manager | |
+| Role |
+|------|
+| Admin | 
+| Customers |
+| Manager |
 
 ---
 
