@@ -29,7 +29,8 @@
 |------|------------|------|--------|
 | Name | 67162090   | Project Manager | @Supphanat-P |
 | Name | 67178272 | Frontend Developer | @Chinnaphat-ppsadzy |
-| Name | XXXXXXXX | Backend Developer | @username |
+| Name | 67160778 | Backend Developer | @Theeradon-map |
+| Name | XXXXXXXX | UI/UX Designer | @username |
 | Name | XXXXXXXX | UI/UX Designer | @username |
 
 ---
