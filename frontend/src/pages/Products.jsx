@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import ProductCard from "../component/Products/ProductCard";
 import AsideFilterProducts from "../component/Products/AsideFilterProducts";
 
 export default function Products() {
   const [activeNav, setActiveNav] = useState("");
-  const productType = "GPU";
+  const [searchParams] = useSearchParams();
+  const productType = searchParams.get("productType") || "GPU";
 
   return (
     <div>

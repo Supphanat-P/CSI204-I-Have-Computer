@@ -23,6 +23,18 @@ const filterConfig = {
     brands: ["Corsair", "Kingston", "G.Skill", "ADATA"],
     priceMax: "15,000฿+",
   },
+  Headphones: {
+    title: "Headphones",
+    categories: ["IEM", "HEADSET", "WIRELESS", "WIRED"],
+    brands: ["Razer", "Cozoy", "HyperX"],
+    priceMax: "30,000฿+",
+  },
+  Keyboard: {
+    title: "Keyboard",
+    categories: ["HALL EFFECT", "MAGNETIC", "WIRELESS", "WIRED"],
+    brands: ["AULA", "VGN", "WOOTING"],
+    priceMax: "30,000฿+",
+  },
 };
 
 export default function AsideFilterProducts({ productType = "GPU" }) {

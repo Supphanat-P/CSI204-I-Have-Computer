@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function Homepage() {
   const [activeNav, setActiveNav] = useState("Electronics");
@@ -10,12 +11,12 @@ export default function Homepage() {
   const navItems = ["Electronics", "Audio", "Gaming", "Lifestyle"];
 
   const categories = [
-    { icon: "headphones", label: "Headphones" },
-    { icon: "keyboard", label: "Keyboards" },
-    { icon: "mouse", label: "Mice" },
-    { icon: "speaker", label: "Speakers" },
-    { icon: "monitor", label: "Monitors" },
-    { icon: "mic", label: "Microphones" },
+    { icon: "monitor", label: "Monitor", productType: "Monitor" },
+    { icon: "developer_board", label: "GPU", productType: "GPU" },
+    { icon: "memory", label: "CPU", productType: "CPU" },
+    { icon: "memory_alt", label: "RAM", productType: "RAM" },
+    { icon: "headphones", label: "Headphones", productType: "Headphones" },
+    { icon: "keyboard", label: "Keyboard", productType: "Keyboard" },
   ];
 
   const brands = [
@@ -149,10 +150,10 @@ export default function Homepage() {
           </div>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-gutter">
             {categories.map((cat, index) => (
-              <a
+              <Link
                 key={index}
                 className="group flex flex-col items-center gap-3 text-center"
-                href="#"
+                to={`/Products?productType=${encodeURIComponent(cat.productType)}`}
               >
                 <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-surface-container-high flex items-center justify-center border border-outline-variant group-hover:bg-primary-fixed group-hover:shadow-md transition-all">
                   <span className="material-symbols-outlined text-primary text-3xl">
@@ -162,7 +163,7 @@ export default function Homepage() {
                 <span className="font-label-caps text-label-caps text-on-surface uppercase tracking-wider">
                   {cat.label}
                 </span>
-              </a>
+              </Link>
             ))}
           </div>
         </section>
