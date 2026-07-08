@@ -134,6 +134,7 @@
 - Postman
 - VS Code
 - Git Desktop
+- Manual Testing
 
 ---
 
@@ -141,9 +142,8 @@
 
 ## Testing Types
 
-- Unit Testing
-- Integration Testing
-- System Testing
+- Functional Testing
+- API Testing
 - User Acceptance Testing (UAT)
 
 ## Test Cases
