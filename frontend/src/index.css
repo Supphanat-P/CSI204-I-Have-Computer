@@ -1,3 +1,4 @@
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -28,6 +29,8 @@
   @media (max-width: 1024px) {
     font-size: 16px;
   }
+
+
 }
 
 @media (prefers-color-scheme: dark) {
