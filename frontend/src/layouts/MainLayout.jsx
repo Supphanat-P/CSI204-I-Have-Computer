@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import { useState } from "react";
 export default function MainLayout() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -64,13 +64,13 @@ export default function MainLayout() {
                 </button>
               ) : (
                 <>
-                  <button className="p-2 text-on-surface-variant hover:text-primary duration-200 active:scale-90">
+                  <Link to="/login" className="p-2 text-on-surface-variant hover:text-primary duration-200 active:scale-90 font-label-md">
                     Login
-                  </button>
+                  </Link>
 
-                  <button className="p-2 text-on-surface-variant hover:text-primary duration-200 active:scale-90">
+                  <Link to="/register" className="p-2 text-on-surface-variant hover:text-primary duration-200 active:scale-90 font-label-md">
                     Register
-                  </button>
+                  </Link>
                 </>
               )}
             </div>
