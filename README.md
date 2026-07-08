@@ -110,7 +110,7 @@ Lorem ipsum dolor sit amet...
 
 ### Phase 5 - Testing
 
-รายละเอียด...
+- ดำเนินการทดสอบระบบผ่านเครื่องมือ Postman ทำ Manual Testing และ UAT ตรวจสอบบั๊กและแก้ไขลอจิกให้ถูกต้องตามเงื่อนไข
 
 ### Phase 6 - Deployment
 
