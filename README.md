@@ -122,11 +122,10 @@
 
 ## Database
 
-- Database
+- Local Storage
 
 ## DevOps
 
-- Docker
 - GitHub Actions
 
 ## Tools
@@ -134,6 +133,7 @@
 - Figma
 - Postman
 - VS Code
+- Git Desktop
 
 ---
 
