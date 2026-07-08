@@ -126,14 +126,14 @@ Lorem ipsum dolor sit amet...
 
 ## Frontend
 
-- Framework
-- Library
-- CSS Framework
+- REACT VITE
+- TAILSWIND CSS
+- Library etc.
 
 ## Backend
 
-- Framework
-- Language
+- Node js
+- etc.
 
 ## Database
 
