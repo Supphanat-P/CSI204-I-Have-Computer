@@ -1,8 +1,4 @@
-# 📌 Project Name
-
-> คำอธิบายโครงการสั้น ๆ (1-3 บรรทัด)
-
-![Project Banner](./images/banner.png)
+# I HAVE COMPUTER
 
 ---
 
@@ -31,7 +27,7 @@
 
 | Name | Student ID | Role | GitHub |
 |------|------------|------|--------|
-| Name | XXXXXXXX | Project Manager | @username |
+| Name | 67162090   | Project Manager | @Supphanat-P |
 | Name | XXXXXXXX | Frontend Developer | @username |
 | Name | XXXXXXXX | Backend Developer | @username |
 | Name | XXXXXXXX | UI/UX Designer | @username |
