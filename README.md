@@ -67,9 +67,10 @@ Lorem ipsum dolor sit amet...
 
 ## In Scope
 
-- Feature 1
-- Feature 2
-- Feature 3
+- ล็อคอิน / สมัครสมาชิก
+- การค้นหาสินค้า
+- การดูรายละเอียดสินค้า
+- การจัดการตะกร้าสินค้า
 
 ## Out of Scope
 
