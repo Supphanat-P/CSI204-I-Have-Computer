@@ -2,7 +2,7 @@
 
 ---
 
-# 📖 Table of Contents
+# Table of Contents
 
 - [1. ผู้มีส่วนร่วม (Contributors)](#1-ผู้มีส่วนร่วม-contributors)
 - [2. หลักการและเหตุผล (Rationale)](#2-หลักการและเหตุผล-rationale)
@@ -28,7 +28,7 @@
 | Name | Student ID | Role | GitHub |
 |------|------------|------|--------|
 | Name | 67162090   | Project Manager | @Supphanat-P |
-| Name | XXXXXXXX | Frontend Developer | @username |
+| Name | 67178272 | Frontend Developer | @ |
 | Name | XXXXXXXX | Backend Developer | @username |
 | Name | XXXXXXXX | UI/UX Designer | @username |
 
