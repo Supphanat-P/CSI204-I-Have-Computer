@@ -83,8 +83,8 @@ Lorem ipsum dolor sit amet...
 | Role | Description |
 |------|-------------|
 | Admin | |
-| User | |
-| Guest | |
+| Customers | |
+| Manager | |
 
 ---
 
