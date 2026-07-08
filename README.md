@@ -28,7 +28,7 @@
 | Name | Student ID | Role | GitHub |
 |------|------------|------|--------|
 | Name | 67162090   | Project Manager | @Supphanat-P |
-| Name | 67178272 | Frontend Developer | @ |
+| Name | 67178272 | Frontend Developer | @Chinnaphat-ppsadzy |
 | Name | XXXXXXXX | Backend Developer | @username |
 | Name | XXXXXXXX | UI/UX Designer | @username |
 
