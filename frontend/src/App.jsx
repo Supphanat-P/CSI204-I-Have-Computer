@@ -5,6 +5,8 @@ import AdminLayout from "./layouts/AdminLayout";
 
 import Homepage from "./pages/Homepage";
 import Products from "./pages/Products";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Homepage />} />
           <Route path="/Products" element={<Products />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Route>
 
         <Route path="/admin" element={<AdminLayout />}></Route>
