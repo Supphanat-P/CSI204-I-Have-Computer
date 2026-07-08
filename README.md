@@ -106,7 +106,7 @@ Lorem ipsum dolor sit amet...
 
 ### Phase 4 - Development
 
-รายละเอียด...
+- เขียนโปรแกรมฝั่ง Frontend ด้วย React และ Tailwind CSS เชื่อมต่อกับ Backend Node.js และจัดการข้อมูลผ่าน Local Storage
 
 ### Phase 5 - Testing
 
