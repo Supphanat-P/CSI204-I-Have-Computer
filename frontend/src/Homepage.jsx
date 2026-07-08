@@ -32,8 +32,8 @@ export default function Homepage() {
       id: 1,
       name: "Apex Pro Keyboard",
       type: "Wired Mechanical RGB",
-      price: 189.99,
-      oldPrice: 229.99,
+      price: 1500,
+      oldPrice: 2000,
       rating: 4.9,
       reviews: "1.2k",
       image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCMiJUdCMuExhllGBrlYBeUctKNy-luV6HFu33cxyuOb6xnlyAIiZBpKQwzArQ5zpdUto-P-4RRYydLsY1YNuPscvLxf6cec6zCdlhmeJTyLhfjN2bUCWZ4JIe3qwgmfwpHehNY0ZiRZvO96ykBUrBAWdQ4HIs54zuGIe3oCgkFGJ-PFRDrjkmcBvwJhYcrV-PY1dBTasWih-L-XFOR_p4W4XRoGx68HyYbi8jxlD3pD0TGXVJgesMzdg",
@@ -43,8 +43,8 @@ export default function Homepage() {
       id: 2,
       name: "Vector X Precision",
       type: "Wireless Optical Mouse",
-      price: 79.99,
-      oldPrice: 99.00,
+      price: 500,
+      oldPrice: 700,
       rating: 4.8,
       reviews: "850",
       image: "https://lh3.googleusercontent.com/aida-public/AB6AXuA-SSchc4qA1D03bhL_VDRor2hP2k4R_l9PyHgrmRF4mBkTLgzMVlnWVn2n6KGEX-E-lv-87f23EYM329YkKQxmDXmM5734OBUttqt_TSXoMXIMeTdVukg4giJtoPepZ8xfMspkv7sDT_gV0OEUsPx5lMOPTG_hWS6WVNGlDK6KbOB2DPSAjaaI8gwVZwzDNtvhpuAe76cX3mCPuNMyd8QKIKrIHge-uVUmgMhgULvYUvpnjVqQL-d1Zg",
@@ -54,8 +54,8 @@ export default function Homepage() {
       id: 3,
       name: "Sonic Wood Bookshelf",
       type: "Active Bluetooth Pair",
-      price: 349.00,
-      oldPrice: 420.00,
+      price: 250,
+      oldPrice: 300,
       rating: 4.7,
       reviews: "430",
       image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCy9r-z139CXv9Sn7RMahKSuya_RYQzhMVjl__8TmnzQf-Jf1UmNb2odhPEOXqupO9yf_MzGetGmm4uJ00A9K9mV9QohiWzdEzB8CuCpowPhmldQjmnSYNxihQfqs-xSlINHSEUSuTBK7dELUxJqbuWKfkWhpDgS6qG0dQYqqIHlWArGZGZb1XR5zanROSsE72yVOQBKBbuFaNr5D5288AoSPax2YZg4vIxBwiGecB0dxuGUhn9rYSkpA",
@@ -65,8 +65,8 @@ export default function Homepage() {
       id: 4,
       name: "UltraView 4K Pro",
       type: "27\" IPS HDR 600",
-      price: 599.99,
-      oldPrice: 749.00,
+      price: 2500,
+      oldPrice: 3000,
       rating: 4.9,
       reviews: "920",
       image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDTSrkz0kTV7kBxqZS0zDQQO1AjAAJhBVH8qaTBgwW3wJzZMeXRRT1FAcUZnocWJpCxwIPk5qlo_EiXNdC5ATwkpt-eYONxJ5v8tT_EG7O-iInhgxEzuk1ttNMzb26hNqS24pZ3t5JH3-AtUnmh5D1biYqwoslj5DGox4pYd-rTQ8zCvsru9rr-U3lrCkMSXZxozEybuFOGgY_crdelIoYQKkDjVOs9K_tVuds3UdIgsSewb3sTbv6ZUA",
@@ -218,22 +218,23 @@ export default function Homepage() {
 
         {/* Brand Section */}
         <section className="bg-surface-container-low py-12 border-y border-outline-variant">
-          <div className="max-w-container-max mx-auto px-margin-desktop overflow-hidden">
-            <p className="text-center font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-stack-lg">
-              Authorized Global Retailer
-            </p>
-            <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-60 grayscale hover:grayscale-0 transition-all">
-              {brands.map((brand, index) => (
-                <img
-                  key={index}
-                  alt={`${brand.name} Logo`}
-                  className="h-8 md:h-10 object-contain"
-                  src={brand.url}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
+  <div className="max-w-container-max mx-auto px-margin-desktop overflow-hidden">
+    <p className="text-center font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-stack-lg">
+      Authorized Global Retailer
+    </p>
+
+    <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24">
+      {brands.map((brand, index) => (
+        <img
+          key={index}
+          src={brand.url}
+          alt={`${brand.name} Logo`}
+          className="h-8 md:h-10 object-contain"
+        />
+      ))}
+    </div>
+  </div>
+</section>
 
         {/* Featured Products */}
         <section className="py-20 px-margin-desktop max-w-container-max mx-auto">
