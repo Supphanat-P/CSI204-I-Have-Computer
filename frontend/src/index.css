@@ -1,22 +1,24 @@
-
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700;800;900&display=swap");
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
+  /* Colors — matched to Tailwind design system in index.html */
+  --text: #494552;           /* on-surface-variant */
+  --text-h: #181445;         /* on-surface / on-background */
+  --bg: #fcf8ff;             /* background / surface */
+  --border: #cac4d4;         /* outline-variant */
+  --code-bg: #f6f2ff;        /* surface-container-low */
+  --accent: #674bb5;         /* primary */
+  --accent-bg: rgba(103, 75, 181, 0.1);
+  --accent-border: rgba(103, 75, 181, 0.4);
+  --social-bg: rgba(239, 235, 255, 0.5); /* surface-container */
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  /* Fonts — matched to Google Fonts loaded in index.html */
+  --sans: "Kanit", system-ui, sans-serif;
+  --heading: "Kanit", system-ui, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
-  font: 18px/145% var(--sans);
+  font: 18px/1.45 "Kanit", sans-serif;
   letter-spacing: 0.18px;
   color-scheme: light dark;
   color: var(--text);
@@ -29,21 +31,19 @@
   @media (max-width: 1024px) {
     font-size: 16px;
   }
-
-
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
+    --text: #cac4d4;           /* outline-variant (used as muted text in dark) */
+    --text-h: #e3dfff;         /* surface-variant (bright text in dark) */
+    --bg: #12102b;             /* dark background (near inverse-surface) */
+    --border: #494552;         /* on-surface-variant */
+    --code-bg: #1e1b3a;
+    --accent: #cebdff;         /* inverse-primary */
+    --accent-bg: rgba(206, 189, 255, 0.15);
+    --accent-border: rgba(206, 189, 255, 0.4);
+    --social-bg: rgba(45, 42, 91, 0.5); /* inverse-surface */
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
   }
@@ -67,7 +67,7 @@ body {
 
 h1,
 h2 {
-  font-family: var(--heading);
+  font-family: "Kanit", sans-serif;
   font-weight: 500;
   color: var(--text-h);
 }
