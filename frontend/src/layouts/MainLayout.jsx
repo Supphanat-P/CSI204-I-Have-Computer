@@ -1,11 +1,16 @@
-import { Outlet, Link } from "react-router-dom";
-import { useState } from "react";
+import { Outlet, Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 export default function MainLayout() {
+  const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeNav, setActiveNav] = useState("");
   const navItems = [];
   const [searchQuery, setSearchQuery] = useState("");
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    setIsLogin(!!localStorage.getItem("currentUser"));
+  }, [location]);
   return (
     <>
       {/* TopNavBar */}
@@ -49,7 +54,7 @@ export default function MainLayout() {
               </span>
               <input
                 className="w-full bg-surface-container-low border border-outline-variant rounded-full py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                placeholder="Search "
+                placeholder="Search premium tech..."
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -59,26 +64,23 @@ export default function MainLayout() {
               <button className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 relative group">
                 <span className="material-symbols-outlined">shopping_cart</span>
                 <span className="absolute top-1 right-1 w-4 h-4 bg-secondary text-white text-[10px] flex items-center justify-center rounded-full">
-                  {/* {cartCount} */} 1
+                  {/* {cartCount} */} kuy
                 </span>
               </button>
+              <Link to="/profile" className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200">
+                <span className="material-symbols-outlined">person</span>
+              </Link>
               {isLogin ? (
-                <button className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-90">
+                <Link to="/profile" className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-90">
                   <span className="material-symbols-outlined">person</span>
-                </button>
+                </Link>
               ) : (
                 <>
-                  <Link
-                    to="/login"
-                    className="p-2 text-on-surface-variant hover:text-primary duration-200 active:scale-90 font-label-md"
-                  >
+                  <Link to="/login" className="p-2 text-on-surface-variant hover:text-primary duration-200 active:scale-90 font-label-md">
                     Login
                   </Link>
 
-                  <Link
-                    to="/register"
-                    className="p-2 text-on-surface-variant hover:text-primary duration-200 active:scale-90 font-label-md"
-                  >
+                  <Link to="/register" className="p-2 text-on-surface-variant hover:text-primary duration-200 active:scale-90 font-label-md">
                     Register
                   </Link>
                 </>
