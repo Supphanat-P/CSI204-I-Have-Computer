@@ -49,7 +49,7 @@ export default function MainLayout() {
               </span>
               <input
                 className="w-full bg-surface-container-low border border-outline-variant rounded-full py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                placeholder="Search premium tech..."
+                placeholder="Search "
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -59,7 +59,7 @@ export default function MainLayout() {
               <button className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 relative group">
                 <span className="material-symbols-outlined">shopping_cart</span>
                 <span className="absolute top-1 right-1 w-4 h-4 bg-secondary text-white text-[10px] flex items-center justify-center rounded-full">
-                  {/* {cartCount} */} kuy
+                  {/* {cartCount} */} 1
                 </span>
               </button>
               <button className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200">

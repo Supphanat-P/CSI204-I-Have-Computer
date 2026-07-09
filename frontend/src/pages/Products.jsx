@@ -2,24 +2,26 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProductCard from "../component/Products/ProductCard";
 import AsideFilterProducts from "../component/Products/AsideFilterProducts";
+import products from "../data/products";
 
 export default function Products() {
   const [activeNav, setActiveNav] = useState("");
   const [searchParams] = useSearchParams();
   const productType = searchParams.get("productType") || "GPU";
+  const filteredProducts = products.filter((item) => item.productType === productType);
 
   return (
     <div>
-      <main className="mt-20 max-w-container-max mx-auto px-margin-desktop py-stack-lg flex gap-gutter">
+      <main className="mt-20 w-fit mx-40 px-margin-desktop py-stack-lg flex gap-gutter">
         <AsideFilterProducts productType={productType} />
         <section className="flex-1 bg-white rounded-lg p-4 h-fit shadow-md mb-5">
-          <div className="flex flex-col md:flex-row justify-between items-baseline border-b border-outline-variant pb-4 gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-baseline border-b border-outline-variant pb-4 gap-5">
             <div>
               <h2 className="text-headline-lg font-headline-lg text-on-surface">
                 แสดงผลการค้นหาสำหรับ {productType}
               </h2>
               <p className="text-body-md text-on-surface-variant">
-                พบสินค้าทั้งหมด 6 รายการ
+                พบสินค้าทั้งหมด {filteredProducts.length} รายการ
               </p>
             </div>
             <div className="flex items-center gap-stack-md">
@@ -34,13 +36,10 @@ export default function Products() {
               </select>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter mb-16">
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter mb-16">
+            {filteredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
           <section className="w-full mb-16 relative group cursor-pointer overflow-hidden rounded-xl border border-outline-variant">
             <div className="absolute inset-0 from-primary/90 to-transparent z-10 flex flex-col justify-center px-12 pointer-events-none">
