@@ -1,3 +1,4 @@
+<img width="259" height="761" alt="managerSe" src="https://github.com/user-attachments/assets/699843a2-33dc-43ef-8829-593c4b76ca1e" />
 # I HAVE COMPUTER
 
 ---
@@ -243,9 +244,9 @@
 
 ## Diagram
 
-![User Use Case](./Readme/userUsecase.png)
-![Manager Use Case](./Readme/managerUsecase.png)
-![Admin Use Case](./Readme/adminUsecase.png)
+<img width="598" height="625" alt="userUsecase" src="https://github.com/user-attachments/assets/f1ef43ef-ddc6-4d91-ae3b-ae0432678595" />
+<img width="406" height="436" alt="managerUsecase" src="https://github.com/user-attachments/assets/889e40b9-a3dd-4f34-a4ea-ed18cc2f5d4c" />
+<img width="404" height="383" alt="adminUsecase" src="https://github.com/user-attachments/assets/15271798-1bf2-4d11-896b-c4561fa80d0c" />
 
 ---
 
@@ -253,14 +254,16 @@
 
 ## Diagram
 
-![Class Diagram](./Readme/classDiagram.png)
+<img width="689" height="657" alt="classDiagram" src="https://github.com/user-attachments/assets/4f603698-5c1f-4fa2-8fd9-4ea00214352f" />
 
 ---
 
 # 14. Sequence Diagrams
-![User Sequence Diagram](./Readme/userSe.png)
-![Manager Sequence Diagram](./Readme/managerSe.png)
-![Admin Sequence Diagram](./Readme/adminSe.png)
+## Sequence Diagrams
+
+<img width="317" height="632" alt="userSe" src="https://github.com/user-attachments/assets/a257c78c-c130-498d-8bdf-311669483b01" />
+<img width="259" height="761" alt="managerSe" src="https://github.com/user-attachments/assets/04d03b72-395f-4b16-9879-f682b1b35ee4" />
+<img width="259" height="695" alt="adminSe" src="https://github.com/user-attachments/assets/aab3ee9f-d89c-4cf9-adc3-d52fed5c77bd" />
 
 ---
 
