@@ -19,7 +19,6 @@
 - [13. Class Diagram](#13-class-diagram)
 - [14. Sequence Diagrams](#14-sequence-diagrams)
 - [15. Wireframe](#15-wireframe)
-- [16. System Architecture](#16-system-architecture)
 
 ---
 
@@ -28,9 +27,9 @@
 | Name | Student ID | Role | GitHub |
 |------|------------|------|--------|
 | Name | 67162090   | Project Manager | @Supphanat-P |
-| Name | 67178272 | Frontend Developer | @Chinnaphat-ppsadzy |
-| Name | 67160778 | Backend Developer | @Theeradon-map |
-| Name | 67081836 | UI/UX Designer | @Theepakorn-T |
+| Name | 67081836 | Frontend Developer | @Theepakorn-T |
+| Name | 67160778 | Frontend Developer  | @Theeradon-map |
+| Name | 67178272 | UI/UX Designer | @Chinnaphat-ppsadzy |
 | Name | XXXXXXXX | UI/UX Designer | @username |
 
 ---
@@ -175,9 +174,9 @@
 
 ## Functional Requirements
 
-- FR-001
-- FR-002
-- FR-003
+- Cart
+- Login / Register
+- Products Brownser
 
 ## Non-functional Requirements
 
@@ -244,11 +243,10 @@
 
 ## Diagram
 
-![Use Case](./images/usecase.png)
+![Use Case](./Readme/userUsecase.png)
+![Use Case](./Readme/adminUsecase.png)
+![Use Case](./Readme/managerUsecase.png)
 
-## Description
-
-อธิบายภาพรวมของ Use Case
 
 ---
 
@@ -256,84 +254,18 @@
 
 ## Diagram
 
-![Class Diagram](./images/class-diagram.png)
-
-## Description
-
-อธิบายความสัมพันธ์ของคลาส
+![Class Diagram](./Readme/classDiagram.png)
 
 ---
 
 # 14. Sequence Diagrams
+![Sequence Diagram](./Readme/userSe.png)
+![Sequence Diagram](./Readme/managerSe.png)
+![Sequence Diagram](./Readme/adminSe.png)
 
-## Login
-
-![Login Sequence](./images/login-sequence.png)
-
----
-
-## Register
-
-![Register Sequence](./images/register-sequence.png)
-
----
-
-## CRUD
-
-![CRUD Sequence](./images/crud-sequence.png)
 
 ---
 
 # 15. Wireframe
-
-## Home
-
-![Home](./images/home-wireframe.png)
-
----
-
-## Dashboard
-
-![Dashboard](./images/dashboard-wireframe.png)
-
----
-
-## Mobile
-
-![Mobile](./images/mobile-wireframe.png)
-
----
-
-# 16. System Architecture
-
-## Architecture Diagram
-
-![Architecture](./images/architecture.png)
-
-## Description
-
-อธิบายโครงสร้างระบบ เช่น
-
-- Client
-- API
-- Backend
-- Database
-- External Services
-
----
-
-# 📂 Project Structure
-
-```
-project-name/
-│
-├── frontend/
-├── backend/
-├── database/
-├── docs/
-├── images/
-├── README.md
-└── LICENSE
-```
 
 ---
