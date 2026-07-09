@@ -1,4 +1,3 @@
-<img width="259" height="761" alt="managerSe" src="https://github.com/user-attachments/assets/699843a2-33dc-43ef-8829-593c4b76ca1e" />
 # I HAVE COMPUTER
 
 ---
