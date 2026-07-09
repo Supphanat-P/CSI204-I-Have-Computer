@@ -19,7 +19,6 @@
 - [13. Class Diagram](#13-class-diagram)
 - [14. Sequence Diagrams](#14-sequence-diagrams)
 - [15. Wireframe](#15-wireframe)
-- [16. System Architecture](#16-system-architecture)
 
 ---
 
