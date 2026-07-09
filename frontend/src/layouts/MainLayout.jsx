@@ -1,7 +1,8 @@
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 export default function MainLayout() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeNav, setActiveNav] = useState("");
   const navItems = [];
@@ -11,6 +12,14 @@ export default function MainLayout() {
   useEffect(() => {
     setIsLogin(!!localStorage.getItem("currentUser"));
   }, [location]);
+
+  const handleLogout = () => {
+    if (window.confirm("คุณต้องการออกจากระบบใช่หรือไม่?")) {
+      localStorage.removeItem("currentUser");
+      setIsLogin(false);
+      navigate("/login");
+    }
+  };
   return (
     <>
       {/* TopNavBar */}
@@ -67,13 +76,18 @@ export default function MainLayout() {
                   {/* {cartCount} */} kuy
                 </span>
               </button>
-              <Link to="/profile" className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200">
-                <span className="material-symbols-outlined">person</span>
-              </Link>
               {isLogin ? (
-                <Link to="/profile" className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-90">
-                  <span className="material-symbols-outlined">person</span>
-                </Link>
+                <>
+                  <Link to="/profile" className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-90">
+                    <span className="material-symbols-outlined">person</span>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="p-2 text-on-surface-variant hover:text-error duration-200 active:scale-90 font-label-md cursor-pointer bg-transparent border-none"
+                  >
+                    Logout
+                  </button>
+                </>
               ) : (
                 <>
                   <Link to="/login" className="p-2 text-on-surface-variant hover:text-primary duration-200 active:scale-90 font-label-md">
