@@ -246,10 +246,6 @@
 
 ![Use Case](./images/usecase.png)
 
-## Description
-
-อธิบายภาพรวมของ Use Case
-
 ---
 
 # 13. Class Diagram
@@ -258,82 +254,12 @@
 
 ![Class Diagram](./images/class-diagram.png)
 
-## Description
-
-อธิบายความสัมพันธ์ของคลาส
-
 ---
 
 # 14. Sequence Diagrams
 
-## Login
-
-![Login Sequence](./images/login-sequence.png)
-
----
-
-## Register
-
-![Register Sequence](./images/register-sequence.png)
-
----
-
-## CRUD
-
-![CRUD Sequence](./images/crud-sequence.png)
-
 ---
 
 # 15. Wireframe
-
-## Home
-
-![Home](./images/home-wireframe.png)
-
----
-
-## Dashboard
-
-![Dashboard](./images/dashboard-wireframe.png)
-
----
-
-## Mobile
-
-![Mobile](./images/mobile-wireframe.png)
-
----
-
-# 16. System Architecture
-
-## Architecture Diagram
-
-![Architecture](./images/architecture.png)
-
-## Description
-
-อธิบายโครงสร้างระบบ เช่น
-
-- Client
-- API
-- Backend
-- Database
-- External Services
-
----
-
-# 📂 Project Structure
-
-```
-project-name/
-│
-├── frontend/
-├── backend/
-├── database/
-├── docs/
-├── images/
-├── README.md
-└── LICENSE
-```
 
 ---
