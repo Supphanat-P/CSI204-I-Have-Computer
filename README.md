@@ -174,9 +174,9 @@
 
 ## Functional Requirements
 
-- FR-001
-- FR-002
-- FR-003
+- Cart
+- Login / Register
+- Products Brownser
 
 ## Non-functional Requirements
 
