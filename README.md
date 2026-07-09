@@ -247,14 +247,13 @@
 ![Use Case](./Readme/adminUsecase.png)
 ![Use Case](./Readme/managerUsecase.png)
 
-
 ---
 
 # 13. Class Diagram
 
 ## Diagram
 
-![Class Diagram](./Readme/classDiagram.png)
+![Class Diagram](./images/class-diagram.png)
 
 ---
 
@@ -262,7 +261,6 @@
 ![Sequence Diagram](./Readme/userSe.png)
 ![Sequence Diagram](./Readme/managerSe.png)
 ![Sequence Diagram](./Readme/adminSe.png)
-
 
 ---
 
