@@ -5,7 +5,7 @@ export default function MainLayout() {
   const [activeNav, setActiveNav] = useState("");
   const navItems = [];
   const [searchQuery, setSearchQuery] = useState("");
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   return (
     <>
       {/* TopNavBar */}
@@ -62,20 +62,23 @@ export default function MainLayout() {
                   {/* {cartCount} */} 1
                 </span>
               </button>
-              <button className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200">
-                <span className="material-symbols-outlined">person</span>
-              </button>
               {isLogin ? (
                 <button className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-90">
                   <span className="material-symbols-outlined">person</span>
                 </button>
               ) : (
                 <>
-                  <Link to="/login" className="p-2 text-on-surface-variant hover:text-primary duration-200 active:scale-90 font-label-md">
+                  <Link
+                    to="/login"
+                    className="p-2 text-on-surface-variant hover:text-primary duration-200 active:scale-90 font-label-md"
+                  >
                     Login
                   </Link>
 
-                  <Link to="/register" className="p-2 text-on-surface-variant hover:text-primary duration-200 active:scale-90 font-label-md">
+                  <Link
+                    to="/register"
+                    className="p-2 text-on-surface-variant hover:text-primary duration-200 active:scale-90 font-label-md"
+                  >
                     Register
                   </Link>
                 </>

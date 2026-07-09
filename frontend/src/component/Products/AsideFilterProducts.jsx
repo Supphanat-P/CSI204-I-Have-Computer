@@ -1,4 +1,9 @@
 const filterConfig = {
+  ALL: {
+    title: "ALL",
+    catagories: ["Monitor","GPU","CPU","RAM","Headphones","Keyboard"],
+    brands: ["ASUS", "LG", "Dell", "Acer"],
+  },
   Monitor: {
     title: "Monitor",
     categories: ["24 นิ้ว", "27 นิ้ว", "32 นิ้ว", "Ultrawide"],

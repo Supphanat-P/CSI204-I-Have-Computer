@@ -140,9 +140,9 @@ export default function Homepage() {
             </h2>
             <a
               className="text-primary font-label-caps text-label-caps hover:underline flex items-center gap-1 uppercase"
-              href="#"
+              href="/Products?productType=ALL"
             >
-              View all{" "}
+              View all
               <span className="material-symbols-outlined text-[18px]">
                 arrow_forward
               </span>

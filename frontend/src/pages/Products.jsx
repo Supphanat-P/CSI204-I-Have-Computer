@@ -7,8 +7,11 @@ import products from "../data/products";
 export default function Products() {
   const [activeNav, setActiveNav] = useState("");
   const [searchParams] = useSearchParams();
-  const productType = searchParams.get("productType") || "GPU";
-  const filteredProducts = products.filter((item) => item.productType === productType);
+  const productType = searchParams.get("productType") || "ALL";
+  const filteredProducts =
+    productType === "ALL"
+      ? products
+      : products.filter((item) => item.productType === productType);
 
   return (
     <div>
