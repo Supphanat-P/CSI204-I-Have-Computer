@@ -30,7 +30,7 @@
 | Name | 67081836 | Frontend Developer | @Theepakorn-T |
 | Name | 67160778 | Frontend Developer  | @Theeradon-map |
 | Name | 67178272 | UI/UX Designer | @Chinnaphat-ppsadzy |
-| Name | XXXXXXXX | UI/UX Designer | @username |
+| Name | 67158596 | UI/UX Designer | @Peeraphong-Taz |
 
 ---
 
