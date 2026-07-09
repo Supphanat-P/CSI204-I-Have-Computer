@@ -20,11 +20,43 @@ export default function Login() {
     }
 
     setIsLoading(true);
-    // Mock login timeout
+    // Login check
     setTimeout(() => {
+      // Load users from localStorage, initialize with default user if empty
+      let existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
+      if (existingUsers.length === 0) {
+        const defaultUser = {
+          id: "default-user-id",
+          name: "Theepakorn Ruensukhonte",
+          email: "theefordev@gmail.com",
+          password: "password123",
+        };
+        existingUsers = [defaultUser];
+        localStorage.setItem("users", JSON.stringify(existingUsers));
+      }
+
+      const matchedUser = existingUsers.find(
+        (u) => u.email === email && u.password === password
+      );
+
+      if (!matchedUser) {
+        setIsLoading(false);
+        setError("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+        return;
+      }
+
+      // Save user session in localStorage
+      localStorage.setItem(
+        "currentUser",
+        JSON.stringify({
+          id: matchedUser.id,
+          name: matchedUser.name,
+          email: matchedUser.email,
+        })
+      );
+
       setIsLoading(false);
-      // Navigate to homepage
-      navigate("/");
+      navigate("/profile");
     }, 1000);
   };
 
