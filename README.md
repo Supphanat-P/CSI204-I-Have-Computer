@@ -258,6 +258,7 @@
 ---
 
 # 14. Sequence Diagrams
+
 ## Sequence Diagrams
 
 <img width="317" height="632" alt="userSe" src="https://github.com/user-attachments/assets/a257c78c-c130-498d-8bdf-311669483b01" />
@@ -267,5 +268,13 @@
 ---
 
 # 15. Wireframe
+
+## Wireframe
+
+<img width="595" height="769" alt="image" src="https://github.com/user-attachments/assets/ba4c350e-b8de-483d-ab77-ad6a788c0b07" />
+<img width="595" height="769" alt="image" src="https://github.com/user-attachments/assets/c3a0b7dd-d93d-40a5-ae0b-448666e88282" />
+<img width="595" height="769" alt="image" src="https://github.com/user-attachments/assets/ea0c1690-6f35-4093-b47b-b183865a3495" />
+<img width="595" height="769" alt="image" src="https://github.com/user-attachments/assets/fede82fe-d832-4030-99ee-facd725624fa" />
+<img width="595" height="769" alt="image" src="https://github.com/user-attachments/assets/3af1d17d-1613-47f8-b12b-17051edfe5a3" />
 
 ---
