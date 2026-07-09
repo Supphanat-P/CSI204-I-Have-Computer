@@ -253,7 +253,7 @@
 
 ## Diagram
 
-![Class Diagram](./images/class-diagram.png)
+![Class Diagram](./Readme/classDiagram.png)
 
 ---
 
