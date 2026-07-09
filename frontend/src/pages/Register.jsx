@@ -35,8 +35,27 @@ export default function Register() {
     setIsLoading(true);
     // Mock registration timeout
     setTimeout(() => {
+      // Get existing users from localStorage
+      const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
+      
+      // Check if user already exists
+      if (existingUsers.some((u) => u.email === email)) {
+        setIsLoading(false);
+        setError("อีเมลนี้ถูกใช้งานแล้ว");
+        return;
+      }
+      
+      // Add new user to users array
+      const newUser = {
+        id: Date.now().toString(),
+        name,
+        email,
+        password,
+      };
+      existingUsers.push(newUser);
+      localStorage.setItem("users", JSON.stringify(existingUsers));
+
       setIsLoading(false);
-      // Navigate to login page
       navigate("/login");
     }, 1000);
   };

@@ -1,11 +1,16 @@
-import { Outlet, Link } from "react-router-dom";
-import { useState } from "react";
+import { Outlet, Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 export default function MainLayout() {
+  const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeNav, setActiveNav] = useState("");
   const navItems = [];
   const [searchQuery, setSearchQuery] = useState("");
   const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    setIsLogin(!!localStorage.getItem("currentUser"));
+  }, [location]);
   return (
     <>
       {/* TopNavBar */}
@@ -62,13 +67,13 @@ export default function MainLayout() {
                   {/* {cartCount} */} kuy
                 </span>
               </button>
-              <button className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200">
+              <Link to="/profile" className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200">
                 <span className="material-symbols-outlined">person</span>
-              </button>
+              </Link>
               {isLogin ? (
-                <button className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-90">
+                <Link to="/profile" className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-90">
                   <span className="material-symbols-outlined">person</span>
-                </button>
+                </Link>
               ) : (
                 <>
                   <Link to="/login" className="p-2 text-on-surface-variant hover:text-primary duration-200 active:scale-90 font-label-md">
