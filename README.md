@@ -243,9 +243,9 @@
 
 ## Diagram
 
-![Use Case](./Readme/userUsecase.png)
-![Use Case](./Readme/adminUsecase.png)
-![Use Case](./Readme/managerUsecase.png)
+![User Use Case](./Readme/userUsecase.png)
+![Manager Use Case](./Readme/managerUsecase.png)
+![Admin Use Case](./Readme/adminUsecase.png)
 
 ---
 
@@ -258,9 +258,9 @@
 ---
 
 # 14. Sequence Diagrams
-![Sequence Diagram](./Readme/userSe.png)
-![Sequence Diagram](./Readme/managerSe.png)
-![Sequence Diagram](./Readme/adminSe.png)
+![User Sequence Diagram](./Readme/userSe.png)
+![Manager Sequence Diagram](./Readme/managerSe.png)
+![Admin Sequence Diagram](./Readme/adminSe.png)
 
 ---
 
