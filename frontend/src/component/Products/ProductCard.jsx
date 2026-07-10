@@ -24,9 +24,28 @@ export default function ProductCard({ product }) {
         <span className="text-label-sm text-outline font-bold uppercase tracking-wider">
           {product.brand}
         </span>
-        <h3 className="text-body-md font-bold text-on-surface line-clamp-2 mt-1 mb-2 h-12">
+        <h3 className="text-body-md font-bold text-on-surface line-clamp-2 mt-1 mb-2">
           {product.name}
         </h3>
+        <span className="text-sm text-on-surface-variant line-clamp-2">
+          {Object.entries(product)
+            .filter(
+              ([key, value]) =>
+                ![
+                  "id",
+                  "name",
+                  "brand",
+                  "price",
+                  "image",
+                  "badge",
+                  "productType",
+                ].includes(key) &&
+                typeof value === "string" &&
+                Boolean(value),
+            )
+            .map(([, value]) => value)
+            .join(" • ")}
+        </span>
         <div className="mt-auto">
           <div className="flex items-baseline gap-2">
             <span className="text-headline-sm font-bold text-primary">
@@ -44,4 +63,3 @@ export default function ProductCard({ product }) {
     </div>
   );
 }
-

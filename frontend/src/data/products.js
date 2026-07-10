@@ -123,7 +123,7 @@ const products = [
     category: "HALL EFFECT",
     price: 15900,
     image:
-      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=80",
+      "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwooting.io%2F_next%2Fimage%3Furl%3Dhttps%3A%252F%252Fwooting-website.ams3.cdn.digitaloceanspaces.com%252Fproducts%252Fkeyboards%252F60HEv2%252F60he-v2-split-main.webp%26w%3D3840%26q%3D75&f=1&nofb=1&ipt=a4b54def8b61b6c1685a37614c20cee869722b383a2e2214f05d8f0b507c5d7a",
     badge: "Limited",
   },
   {
