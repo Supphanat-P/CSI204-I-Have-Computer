@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Profiles() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   // 1. Session & Authentication check
   const [currentUser, setCurrentUser] = useState(() => {
@@ -18,7 +19,17 @@ export default function Profiles() {
 
   // Active Sidebar Tab state
   // Tabs: 'profile', 'shipping_address', 'tax_address', 'orders', 'wishlist', 'shipping_status', 'payment_methods'
-  const [activeTab, setActiveTab] = useState("profile");
+  const [activeTab, setActiveTab] = useState(() => {
+    return location.state?.activeTab || "profile";
+  });
+
+  useEffect(() => {
+    if (location.state?.activeTab) {
+      setActiveTab(location.state.activeTab);
+    }
+  }, [location.state]);
+
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   // 2. User Profile details state (load from localStorage)
   const [userProfile, setUserProfile] = useState(() => {
@@ -144,6 +155,17 @@ export default function Profiles() {
       localStorage.setItem(`orders_${currentUser.id}`, JSON.stringify(orders));
     }
   }, [orders, currentUser]);
+
+  const handleConfirmDelivery = (orderId) => {
+    if (window.confirm("คุณได้รับสินค้าและต้องการยืนยันว่าการจัดส่งเสร็จสิ้นใช่หรือไม่?")) {
+      setOrders((prevOrders) =>
+        prevOrders.map((ord) =>
+          ord.id === orderId ? { ...ord, status: "เสร็จสิ้น" } : ord
+        )
+      );
+      alert("🎉 ยืนยันการรับสินค้าสำเร็จ! ข้อมูลคำสั่งซื้อถูกบันทึกในประวัติการสั่งซื้อแล้ว");
+    }
+  };
 
   const [wishlist, setWishlist] = useState([
     {
@@ -320,6 +342,44 @@ export default function Profiles() {
 
     return matchesSearch && matchesTag;
   });
+
+  // Helper to render product items vertically (can display list of objects or fallback to legacy string)
+  const renderItemsList = (items) => {
+    if (Array.isArray(items)) {
+      return (
+        <div className="space-y-2 mt-2">
+          {items.map((item, index) => (
+            <div key={index} className="flex items-center gap-3 bg-surface-container-lowest p-3 rounded-xl border border-outline-variant/60">
+              {item.image ? (
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-12 h-12 object-contain bg-white border border-outline-variant/30 rounded-lg shrink-0 p-1"
+                />
+              ) : (
+                <div className="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center text-on-surface-variant shrink-0">
+                  <span className="material-symbols-outlined text-xl">image</span>
+                </div>
+              )}
+              <div className="flex-1 min-w-0">
+                <p className="text-body-sm font-bold text-on-surface truncate">{item.name}</p>
+                <p className="text-xs text-on-surface-variant">
+                  {item.brand && <span>แบรนด์: {item.brand} | </span>}
+                  จำนวน: <span className="font-semibold text-primary">{item.quantity}</span> ชิ้น | ราคา: {item.price.toLocaleString()}฿
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+    // Fallback if legacy comma-separated string
+    return (
+      <div className="bg-surface-container-lowest p-3 rounded-xl border border-outline-variant/60 mt-2">
+        <p className="text-body-sm text-on-surface-variant">{items}</p>
+      </div>
+    );
+  };
 
   if (!currentUser) {
     return null; // Don't render anything if redirecting
@@ -839,20 +899,29 @@ export default function Profiles() {
                 <div className="space-y-4">
                   {orders.map((ord) => (
                     <div key={ord.id} className="border border-outline-variant rounded-2xl p-5 bg-white flex flex-col md:flex-row md:items-center justify-between gap-4">
-                      <div className="space-y-2">
+                      <div className="space-y-2 flex-1">
                         <div className="flex items-center gap-3 flex-wrap">
                           <span className="font-bold text-on-surface text-body-lg">หมายเลขสั่งซื้อ: {ord.id}</span>
                           <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                            ord.status === "เสร็จสิ้น" ? "bg-green-100 text-green-700" : "bg-blue-100 text-blue-700"
+                            ord.status === "เสร็จสิ้น" ? "bg-green-100 text-green-700" :
+                            ord.status === "จัดส่งแล้ว" ? "bg-blue-100 text-blue-700" :
+                            "bg-amber-100 text-amber-700"
                           }`}>{ord.status}</span>
                         </div>
-                        <p className="text-body-sm text-on-surface-variant">{ord.items}</p>
-                        <p className="text-xs text-outline">วันที่ทำรายการ: {ord.date}</p>
+                        {renderItemsList(ord.items)}
+                        <p className="text-xs text-outline pt-1">วันที่ทำรายการ: {ord.date}</p>
                       </div>
                       <div className="text-right shrink-0">
                         <p className="text-xs text-on-surface-variant">ยอดรวมสุทธิ</p>
                         <p className="text-xl font-bold text-primary">{ord.total.toLocaleString()}฿</p>
-                        <button className="mt-2 text-xs font-semibold text-primary hover:underline cursor-pointer">ดูรายละเอียดคำสั่งซื้อ</button>
+                        <div className="flex flex-col sm:flex-row items-end sm:items-center gap-3 mt-2 justify-end">
+                          <button
+                            onClick={() => setSelectedOrder(ord)}
+                            className="text-xs font-semibold text-primary hover:underline cursor-pointer bg-transparent border-none"
+                          >
+                            ดูรายละเอียดคำสั่งซื้อ
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -904,58 +973,150 @@ export default function Profiles() {
                   <h2 className="text-2xl font-bold text-on-surface">ตรวจสอบการจัดส่ง</h2>
                 </div>
 
-                <div className="border border-outline-variant rounded-2xl p-5 bg-white space-y-4">
-                  <div className="flex items-center justify-between border-b border-outline-variant pb-3 flex-wrap gap-2">
-                    <div>
-                      <span className="text-xs text-outline block">พัสดุสำหรับสั่งซื้อ</span>
-                      <span className="font-bold text-on-surface">#IHC-98241</span>
+                {orders.length > 0 ? (
+                  orders.map((ord) => (
+                    <div key={ord.id} className="border border-outline-variant rounded-2xl p-5 bg-white space-y-4 mb-4">
+                      <div className="flex items-center justify-between border-b border-outline-variant pb-3 flex-wrap gap-2">
+                        <div>
+                          <span className="text-xs text-outline block">พัสดุสำหรับสั่งซื้อ</span>
+                          <span className="font-bold text-on-surface">#{ord.id}</span>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-xs text-outline block">ผู้ให้บริการจัดส่ง</span>
+                        </div>
+                      </div>
+                      <div className="py-2">
+                        <div className="text-body-sm text-on-surface-variant block mb-2">
+                          <b>รายการสินค้า:</b>
+                          {renderItemsList(ord.items)}
+                        </div>
+                        {ord.shippingAddress && (
+                          <span className="text-body-sm text-on-surface-variant block mb-1"><b>ที่อยู่จัดส่ง:</b> {ord.shippingAddress}</span>
+                        )}
+                        <div className="flex items-center gap-2 text-body-sm mt-2 font-semibold">
+                          <span className="material-symbols-outlined text-lg">local_shipping</span>
+                          <span className={ord.status === "เสร็จสิ้น" ? "text-green-600" : "text-primary"}>
+                            {ord.status === "เสร็จสิ้น" ? "จัดส่งสินค้าสำเร็จเรียบร้อยแล้ว" :
+                             ord.status === "รอดำเนินการ" ? "กำลังจัดเตรียมสินค้าเพื่อจัดส่ง" :
+                             "อยู่ระหว่างนำส่งพัสดุ (พัสดุจะถึงภายในวันนี้)"}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      {/* Timeline tracker */}
+                      <div className="border-t border-outline-variant pt-4 space-y-3.5">
+                        {ord.status === "เสร็จสิ้น" ? (
+                          <>
+                            <div className="flex gap-3">
+                              <div className="flex flex-col items-center">
+                                <div className="w-3 h-3 rounded-full bg-green-500 z-10"></div>
+                                <div className="w-0.5 h-12 bg-green-300"></div>
+                              </div>
+                              <div>
+                                <span className="text-xs text-green-600 font-bold block">คลังสินค้าเตรียมและจัดส่งพัสดุ</span>
+                                <span className="text-xs text-on-surface-variant">จัดส่งพัสดุออกจากคลังสินค้าเข้าระบบ</span>
+                              </div>
+                            </div>
+                            <div className="flex gap-3">
+                              <div className="flex flex-col items-center">
+                                <div className="w-3 h-3 rounded-full bg-green-500 z-10"></div>
+                                <div className="w-0.5 h-12 bg-green-300"></div>
+                              </div>
+                              <div>
+                                <span className="text-xs text-green-600 font-bold block">นำส่งพัสดุไปยังผู้รับ</span>
+                                <span className="text-xs text-on-surface-variant">พนักงานส่งพัสดุกำลังนำส่งพัสดุไปยังปลายทาง</span>
+                              </div>
+                            </div>
+                            <div className="flex gap-3">
+                              <div className="flex flex-col items-center">
+                                <div className="w-3 h-3 rounded-full bg-green-500 z-10"></div>
+                              </div>
+                              <div>
+                                <span className="text-xs text-green-600 font-bold block">จัดส่งสำเร็จ</span>
+                                <span className="text-xs text-on-surface-variant">พัสดุได้รับการเซ็นรับและตรวจสอบความเรียบร้อยเสร็จสิ้น</span>
+                              </div>
+                            </div>
+                          </>
+                        ) : ord.status === "รอดำเนินการ" ? (
+                          <>
+                            <div className="flex gap-3">
+                              <div className="flex flex-col items-center">
+                                <div className="w-3 h-3 rounded-full bg-green-500 z-10"></div>
+                                <div className="w-0.5 h-12 bg-outline-variant"></div>
+                              </div>
+                              <div>
+                                <span className="text-xs text-green-600 font-bold block">อยู่ระหว่างเตรียมจัดส่ง</span>
+                                <span className="text-xs text-on-surface-variant">คลังสินค้าได้รับการชำระเงินและกำลังจัดเตรียมบรรจุสินค้าลงกล่อง</span>
+                              </div>
+                            </div>
+                            <div className="flex gap-3 opacity-60">
+                              <div className="flex flex-col items-center">
+                                <div className="w-3 h-3 rounded-full bg-outline-variant z-10"></div>
+                              </div>
+                              <div>
+                                <span className="text-xs text-outline font-bold block">รอส่งมอบบริษัทขนส่ง</span>
+                                <span className="text-xs text-on-surface-variant">เตรียมส่งมอบพัสดุให้กับเจ้าหน้าที่ขนส่ง  </span>
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="flex gap-3">
+                              <div className="flex flex-col items-center">
+                                <div className="w-3 h-3 rounded-full bg-green-500 z-10"></div>
+                                <div className="w-0.5 h-12 bg-green-300"></div>
+                              </div>
+                              <div>
+                                <span className="text-xs text-green-600 font-bold block">วานนี้ - ส่งพัสดุออกจากคลัง</span>
+                                <span className="text-xs text-on-surface-variant">คลังสินค้าได้จัดเตรียมสินค้าและส่งมอบพัสดุเข้าระบบ</span>
+                              </div>
+                            </div>
+                            <div className="flex gap-3">
+                              <div className="flex flex-col items-center">
+                                <div className="w-3 h-3 rounded-full bg-green-500 z-10"></div>
+                                <div className="w-0.5 h-12 bg-green-300"></div>
+                              </div>
+                              <div>
+                                <span className="text-xs text-green-600 font-bold block">09:15 น. - ถึงสาขาปลายทาง</span>
+                                <span className="text-xs text-on-surface-variant">พัสดุถึงศูนย์คัดแยกสาขาจตุจักร</span>
+                              </div>
+                            </div>
+                            <div className="flex gap-3">
+                              <div className="flex flex-col items-center">
+                                <div className="w-3 h-3 rounded-full bg-green-500 z-10"></div>
+                              </div>
+                              <div>
+                                <span className="text-xs text-green-600 font-bold block">12:30 น. - นำส่งพัสดุ</span>
+                                <span className="text-xs text-on-surface-variant">พนักงานส่งพัสดุกำลังนำส่งพัสดุไปยังปลายทาง</span>
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </div>
+
+                      {/* Complete order receipt action button */}
+                      {ord.status !== "เสร็จสิ้น" && (
+                        <div className="border-t border-outline-variant pt-4 flex justify-end">
+                          <button
+                            onClick={() => handleConfirmDelivery(ord.id)}
+                            className="bg-green-600 hover:bg-green-700 text-white text-xs px-4 py-2.5 rounded-xl font-bold transition-all active:scale-95 cursor-pointer flex items-center gap-1.5 border-none"
+                          >
+                            <span className="material-symbols-outlined text-sm font-bold">check_circle</span>
+                            <span>ยืนยันได้รับสินค้าเรียบร้อย</span>
+                          </button>
+                        </div>
+                      )}
                     </div>
-                    <div className="text-right">
-                      <span className="text-xs text-outline block">ผู้ให้บริการจัดส่ง</span>
-                      <span className="font-bold text-primary">Kerry Express</span>
-                    </div>
+                  ))
+                ) : (
+                  <div className="bg-surface-container-low border border-outline-variant rounded-2xl p-12 text-center flex flex-col items-center">
+                    <span className="material-symbols-outlined text-6xl text-outline mb-4">local_shipping</span>
+                    <h3 className="font-bold text-lg text-on-surface mb-1">ไม่มีข้อมูลคำสั่งซื้อ</h3>
+                    <p className="text-body-sm text-on-surface-variant max-w-sm">
+                      คุณยังไม่มีคำสั่งซื้อใดๆ ในบัญชีนี้เพื่อใช้ตรวจสอบการจัดส่ง
+                    </p>
                   </div>
-                  <div className="py-2">
-                    <span className="text-body-sm text-on-surface-variant block mb-1">เลขพัสดุ: <b>KER1094038102</b></span>
-                    <div className="flex items-center gap-2 text-green-600 font-semibold text-body-sm">
-                      <span className="material-symbols-outlined text-lg">local_shipping</span>
-                      <span>อยู่ระหว่างนำส่งพัสดุ (พัสดุจะถึงภายในวันนี้)</span>
-                    </div>
-                  </div>
-                  
-                  {/* Mock timeline tracker */}
-                  <div className="border-t border-outline-variant pt-4 space-y-3.5">
-                    <div className="flex gap-3">
-                      <div className="flex flex-col items-center">
-                        <div className="w-3 h-3 rounded-full bg-green-500 z-10"></div>
-                        <div className="w-0.5 h-12 bg-green-300"></div>
-                      </div>
-                      <div>
-                        <span className="text-xs text-green-600 font-bold block">12:30 น. - นำส่งพัสดุ</span>
-                        <span className="text-xs text-on-surface-variant">พนักงานส่งพัสดุกำลังนำส่งพัสดุไปยังปลายทาง</span>
-                      </div>
-                    </div>
-                    <div className="flex gap-3">
-                      <div className="flex flex-col items-center">
-                        <div className="w-3 h-3 rounded-full bg-green-500 z-10"></div>
-                        <div className="w-0.5 h-12 bg-green-300"></div>
-                      </div>
-                      <div>
-                        <span className="text-xs text-green-600 font-bold block">09:15 น. - ถึงสาขาปลายทาง</span>
-                        <span className="text-xs text-on-surface-variant">พัสดุถึงศูนย์คัดแยกสาขาจตุจักร</span>
-                      </div>
-                    </div>
-                    <div className="flex gap-3">
-                      <div className="flex flex-col items-center">
-                        <div className="w-3 h-3 rounded-full bg-outline-variant z-10"></div>
-                      </div>
-                      <div>
-                        <span className="text-xs text-outline font-bold block">วานนี้ - ส่งพัสดุออกจากคลัง</span>
-                        <span className="text-xs text-on-surface-variant">คลังสินค้าได้จัดเตรียมสินค้าและส่งมอบพัสดุเข้าระบบ</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                )}
               </div>
             )}
 
@@ -1173,6 +1334,103 @@ export default function Profiles() {
               </div>
             </form>
 
+          </div>
+        </div>
+      )}
+
+      {/* ORDER DETAILS MODAL OVERLAY */}
+      {selectedOrder && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="bg-white border border-outline-variant rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden p-6 md:p-8 space-y-6 relative z-10">
+            {/* Modal Header */}
+            <div className="flex justify-between items-center border-b border-outline-variant pb-4">
+              <div>
+                <h3 className="text-xl font-bold text-on-surface">รายละเอียดคำสั่งซื้อ</h3>
+                <p className="text-xs text-outline mt-0.5">หมายเลข: #{selectedOrder.id}</p>
+              </div>
+              <button
+                onClick={() => setSelectedOrder(null)}
+                className="p-1.5 hover:bg-surface-container rounded-full text-on-surface-variant cursor-pointer transition-colors border-none bg-transparent"
+              >
+                <span className="material-symbols-outlined text-2xl">close</span>
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="space-y-4 text-body-sm text-on-surface-variant max-h-[60vh] overflow-y-auto pr-1">
+              {/* Order Status & Date */}
+              <div className="flex justify-between items-center bg-surface-container-low p-3.5 rounded-xl border border-outline-variant/40">
+                <div>
+                  <span className="text-xs text-outline block">วันที่สั่งซื้อ</span>
+                  <span className="font-bold text-on-surface">{selectedOrder.date}</span>
+                </div>
+                <div className="text-right">
+                  <span className="text-xs text-outline block mb-0.5">สถานะการชำระเงิน/จัดส่ง</span>
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                    selectedOrder.status === "เสร็จสิ้น" ? "bg-green-100 text-green-700" :
+                    selectedOrder.status === "จัดส่งแล้ว" ? "bg-blue-100 text-blue-700" :
+                    "bg-amber-100 text-amber-700"
+                  }`}>
+                    {selectedOrder.status}
+                  </span>
+                </div>
+              </div>
+
+              {/* Items List */}
+              <div className="space-y-1.5">
+                <span className="text-xs font-bold text-on-surface uppercase tracking-wider block">รายการสินค้า</span>
+                {renderItemsList(selectedOrder.items)}
+              </div>
+
+              {/* Shipping Address & Contact */}
+              {selectedOrder.recipientName && (
+                <div className="space-y-3 pt-2">
+                  <div className="border-t border-outline-variant/40 pt-3">
+                    <span className="text-xs font-bold text-on-surface uppercase tracking-wider block mb-1">ข้อมูลผู้รับสินค้า</span>
+                    <p className="font-medium text-on-surface">{selectedOrder.recipientName} ({selectedOrder.recipientPhone})</p>
+                  </div>
+                  <div>
+                    <span className="text-xs font-bold text-on-surface uppercase tracking-wider block mb-1">ที่อยู่จัดส่ง</span>
+                    <p className="leading-relaxed">{selectedOrder.shippingAddress}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Payment Method */}
+              {selectedOrder.paymentMethod && (
+                <div className="border-t border-outline-variant/40 pt-3 flex justify-between">
+                  <span className="text-xs font-bold text-on-surface uppercase tracking-wider">ช่องทางการชำระเงิน</span>
+                  <span className="font-semibold text-on-surface">{selectedOrder.paymentMethod}</span>
+                </div>
+              )}
+
+              {/* Total breakdown */}
+              <div className="border-t border-outline-variant pt-4 flex justify-between items-center text-on-surface">
+                <span className="font-bold text-body-md">ยอดชำระเงินทั้งหมด</span>
+                <span className="text-primary font-bold text-xl">{selectedOrder.total.toLocaleString()}฿</span>
+              </div>
+            </div>
+
+            {/* Modal Actions */}
+            <div className="flex gap-2.5 justify-end pt-4 border-t border-outline-variant">
+              <button
+                type="button"
+                onClick={() => {
+                  window.print();
+                }}
+                className="border border-outline-variant px-5 py-2.5 rounded-xl font-semibold text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all cursor-pointer flex items-center gap-1 bg-transparent"
+              >
+                <span className="material-symbols-outlined text-sm">print</span>
+                <span>พิมพ์ใบสั่งซื้อ</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedOrder(null)}
+                className="bg-primary text-white hover:brightness-110 px-6 py-2.5 rounded-xl font-bold transition-all active:scale-95 cursor-pointer border-none"
+              >
+                ปิดหน้าต่าง
+              </button>
+            </div>
           </div>
         </div>
       )}

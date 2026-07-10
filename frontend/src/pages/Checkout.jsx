@@ -136,12 +136,18 @@ export default function Checkout() {
   const processOrder = () => {
     // Generate new order
     const orderId = `IHC-${Math.floor(10000 + Math.random() * 90000)}`;
-    const itemsDescription = cart.map((item) => `${item.name} (${item.quantity}ชิ้น)`).join(", ");
     
     const newOrder = {
       id: orderId,
       date: new Date().toISOString().split("T")[0],
-      items: itemsDescription,
+      items: cart.map((item) => ({
+        id: item.id,
+        name: item.name,
+        brand: item.brand,
+        price: item.price,
+        quantity: item.quantity,
+        image: item.image,
+      })),
       total: grandTotal,
       status: "รอดำเนินการ",
       shippingAddress: `${addressForm.details} ต. ${addressForm.subdistrict} อ. ${addressForm.district} จ. ${addressForm.province} ${addressForm.postalCode}`,
@@ -188,7 +194,7 @@ export default function Checkout() {
     clearCart();
     setIsPromptPayModalOpen(false);
     alert(`🎉 ทำรายการสั่งซื้อสำเร็จ!\nหมายเลขคำสั่งซื้อของคุณคือ ${orderId}`);
-    navigate("/profile"); // Redirect to profile page to let them see order history
+    navigate("/profile", { state: { activeTab: "orders" } }); // Redirect to profile page to let them see order history
   };
 
   const handleInputChange = (field, value) => {
