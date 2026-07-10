@@ -1,8 +1,8 @@
 import { useCart } from "../../context/CartContext";
 
 export default function ProductCard({ product }) {
-  if (!product) return null;
   const { addToCart } = useCart();
+  if (!product) return null;
 
   return (
     <div className="group bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden hover:shadow-xl hover:border-primary transition-all duration-300 flex flex-col relative mt-5 p-4 max-w-2xs">

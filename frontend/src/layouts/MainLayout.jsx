@@ -384,15 +384,11 @@ export default function MainLayout() {
                     if (!currentUser) {
                       alert("กรุณาเข้าสู่ระบบก่อนทำการสั่งซื้อสินค้า");
                       setIsCartOpen(false);
-                      window.location.href = "/login";
+                      navigate("/login");
                       return;
                     }
-                    const confirmCheckout = window.confirm("คุณต้องการสั่งซื้อสินค้าทั้งหมดในตะกร้าใช่หรือไม่?");
-                    if (confirmCheckout) {
-                      alert("🎉 สั่งซื้อสินค้าสำเร็จ! ระบบได้รับการสั่งซื้อของคุณแล้ว ขอบคุณที่ใช้บริการ IhaveComputer");
-                      clearCart();
-                      setIsCartOpen(false);
-                    }
+                    setIsCartOpen(false);
+                    navigate("/checkout");
                   }}
                   className="w-full bg-primary text-white py-3 rounded-xl font-bold hover:brightness-110 active:scale-95 transition-all text-center flex items-center justify-center gap-2 cursor-pointer border-none"
                 >

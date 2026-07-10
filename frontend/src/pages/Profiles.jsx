@@ -115,22 +115,35 @@ export default function Profiles() {
   });
 
   // Mock data for other tabs
-  const [orders, setOrders] = useState([
-    {
-      id: "IHC-98241",
-      date: "2026-06-15",
-      items: "Intel Core i7-14700K + ASUS Prime Z790-A Wifi",
-      total: 24900,
-      status: "จัดส่งแล้ว",
-    },
-    {
-      id: "IHC-97304",
-      date: "2026-07-02",
-      items: "Razer DeathAdder V3 Pro Wireless",
-      total: 4990,
-      status: "เสร็จสิ้น",
-    },
-  ]);
+  const [orders, setOrders] = useState(() => {
+    const curr = JSON.parse(localStorage.getItem("currentUser") || "null");
+    if (curr) {
+      const saved = localStorage.getItem(`orders_${curr.id}`);
+      if (saved) return JSON.parse(saved);
+    }
+    return [
+      {
+        id: "IHC-98241",
+        date: "2026-06-15",
+        items: "Intel Core i7-14700K + ASUS Prime Z790-A Wifi",
+        total: 24900,
+        status: "จัดส่งแล้ว",
+      },
+      {
+        id: "IHC-97304",
+        date: "2026-07-02",
+        items: "Razer DeathAdder V3 Pro Wireless",
+        total: 4990,
+        status: "เสร็จสิ้น",
+      },
+    ];
+  });
+
+  useEffect(() => {
+    if (currentUser) {
+      localStorage.setItem(`orders_${currentUser.id}`, JSON.stringify(orders));
+    }
+  }, [orders, currentUser]);
 
   const [wishlist, setWishlist] = useState([
     {
