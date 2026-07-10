@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 export default function Homepage() {
+  const { addToCart } = useCart();
   const [activeNav, setActiveNav] = useState("Electronics");
   const [searchQuery, setSearchQuery] = useState("");
-  const [cartCount, setCartCount] = useState(3);
   const [email, setEmail] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -78,11 +79,6 @@ export default function Homepage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const addToCart = (e) => {
-    if (e) e.preventDefault();
-    setCartCount((prev) => prev + 1);
-  };
-
   const handleSubscribe = (e) => {
     e.preventDefault();
     if (email) {
@@ -109,12 +105,12 @@ export default function Homepage() {
                 designed for pure sonic immersion and comfort.
               </p>
               <div className="pt-4">
-                <button
-                  onClick={addToCart}
-                  className="bg-secondary text-white px-10 py-4 rounded-full font-label-caps text-label-caps hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-secondary/20 uppercase"
+                <Link
+                  to="/Products?productType=ALL"
+                  className="inline-block bg-secondary text-white px-10 py-4 rounded-full font-label-caps text-label-caps hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-secondary/20 uppercase"
                 >
                   Shop Now
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -229,8 +225,8 @@ export default function Homepage() {
                     src={product.image}
                   />
                   <button
-                    onClick={addToCart}
-                    className="absolute bottom-4 right-4 bg-primary text-white p-3 rounded-full shadow-lg opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300"
+                    onClick={() => addToCart(product)}
+                    className="absolute bottom-4 right-4 bg-primary text-white p-3 rounded-full shadow-lg opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300 cursor-pointer"
                   >
                     <span className="material-symbols-outlined">
                       shopping_cart

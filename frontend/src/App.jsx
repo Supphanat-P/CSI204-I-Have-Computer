@@ -8,23 +8,27 @@ import Products from "./pages/Products";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profiles from "./pages/Profiles";
+import { CartProvider } from "./context/CartContext";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/Products" element={<Products />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<Profiles />} />
-        </Route>
+    <CartProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/Products" element={<Products />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profiles />} />
+          </Route>
 
-        <Route path="/admin" element={<AdminLayout />}></Route>
-      </Routes>
-    </BrowserRouter>
+          <Route path="/admin" element={<AdminLayout />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </CartProvider>
   );
 }
 
 export default App;
+
