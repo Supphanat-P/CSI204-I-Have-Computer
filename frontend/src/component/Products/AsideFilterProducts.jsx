@@ -27,7 +27,9 @@ const filterLabel = {
   switch: "Switch",
   connection: "Connection",
   weight: "Weight",
-  rgb: "RGB"
+  rgb: "RGB",
+  microphone: "Microphone",
+  fps:"FPS"
 };
 
 export default function AsideFilterProducts({

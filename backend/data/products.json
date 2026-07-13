@@ -101,7 +101,7 @@
       "capacity": "32GB",
       "ddr": "DDR5",
       "speed": "6000MT/s",
-      "rgb": true
+      "rgb": "RGB"
     }
   },
   {
@@ -179,7 +179,7 @@
     "attributes": {
       "type": "AIO",
       "size": "360mm",
-      "rgb": true
+      "rgb": "RGB"
     }
   },
   {
@@ -256,8 +256,8 @@
     ],
     "attributes": {
       "connection": "Wireless",
-      "microphone": true,
-      "noiseCancelling": false
+      "microphone": "Microphone",
+      "noiseCancelling": "No Noise Cancelling"
     }
   },
   {
@@ -277,7 +277,7 @@
     "attributes": {
       "connection": "USB",
       "polarPattern": "Cardioid",
-      "rgb": true
+      "rgb": "RGB"
     }
   },
   {
@@ -296,8 +296,7 @@
     ],
     "attributes": {
       "resolution": "4K",
-      "fps": "60FPS",
-      "autofocus": true
+      "fps": "60FPS"
     }
   },
   {
@@ -401,7 +400,7 @@
       "capacity": "32GB",
       "ddr": "DDR5",
       "speed": "6400MT/s",
-      "rgb": true
+      "rgb": "RGB"
     }
   },
   {
@@ -442,7 +441,7 @@
     "attributes": {
       "type": "Air Cooler",
       "size": "140mm",
-      "rgb": false
+      "rgb": "No RGB"
     }
   },
   {
@@ -562,8 +561,8 @@
     ],
     "attributes": {
       "connection": "Wired",
-      "microphone": true,
-      "noiseCancelling": false
+      "microphone": "Microphone",
+      "noiseCancelling": "No Noise Cancelling"
     }
   },
   {
@@ -583,7 +582,7 @@
     "attributes": {
       "connection": "XLR",
       "polarPattern": "Cardioid",
-      "rgb": false
+      "rgb": "No RGB"
     }
   },
   {
@@ -602,8 +601,7 @@
     ],
     "attributes": {
       "resolution": "4K",
-      "fps": "60FPS",
-      "autofocus": true
+      "fps": "60FPS"
     }
   },
   {
@@ -708,7 +706,7 @@
       "capacity": "64GB",
       "ddr": "DDR5",
       "speed": "5600MT/s",
-      "rgb": true
+      "rgb": "RGB"
     }
   },
   {
@@ -749,7 +747,7 @@
     "attributes": {
       "type": "AIO",
       "size": "360mm",
-      "rgb": true
+      "rgb": "RGB"
     }
   },
   {
@@ -789,7 +787,7 @@
     "attributes": {
       "type": "AIO",
       "size": "360mm",
-      "rgb": true
+      "rgb": "RGB"
     }
   },
   {
@@ -848,8 +846,8 @@
     ],
     "attributes": {
       "connection": "Wireless/Bluetooth",
-      "microphone": true,
-      "noiseCancelling": true
+      "microphone": "Microphone",
+      "noiseCancelling": "Noise Cancelling"
     }
   },
   {
@@ -869,7 +867,7 @@
     "attributes": {
       "connection": "USB",
       "polarPattern": "Supercardioid",
-      "rgb": true
+      "rgb": "RGB"
     }
   },
   {
