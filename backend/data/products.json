@@ -18,26 +18,62 @@
       "resolution": "2560x1440",
       "panel": "OLED",
       "refreshRate": "240Hz"
+    },
+    "attributesDetails": {
+      "brand": "ASUS",
+      "model": "ROG Swift OLED PG27AQDM",
+      "screenSize": "26.5\"",
+      "resolution": "2560 x 1440 (2K QHD)",
+      "panelType": "OLED",
+      "refreshRate": "240Hz",
+      "responseTime": "0.03 ms (GtG)",
+      "aspectRatio": "16:9",
+      "brightness": "450 cd/m2 (Typical) / 1000 cd/m2 (Peak)",
+      "contrastRatio": "1500000:1",
+      "displayColors": "1.07 Billion",
+      "hdrSupport": "HDR10",
+      "connectivity": "2 x HDMI 2.0, 1 x DisplayPort 1.4, 2 x USB 3.2 Gen 1 Type-A",
+      "warranty": "3 Years"
     }
   },
   {
     "id": 2,
-    "name": "RTX 4070 Ti SUPER",
-    "brand": "NVIDIA",
+    "name": "GIGABYTE GeForce RTX 5050 WINDFORCE OC 8G GDDR6",
+    "brand": "GIGABYTE",
     "type": "GPU",
-    "price": 38900,
+    "price": 8990,
     "stock": 5,
-    "image": "https://images.unsplash.com/photo-1591799265444-d66432b91588?auto=format&fit=crop&w=900&q=80",
-    "description": "การ์ดจอสำหรับเล่นเกมระดับสูง",
+    "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/products118747_800.jpg",
+    "description": "การ์ดจอซีรีส์ใหม่ล่าสุดสถาปัตยกรรม Blackwell ขุมพลังระดับเริ่มต้นที่มาพร้อมแรม 8GB GDDR6 และการรองรับ PCIe 5.0",
     "highlights": [
-      "Ray Tracing",
-      "DLSS 3",
-      "16GB GDDR6X"
+      "8GB GDDR6",
+      "PCI-E 5.0 Support",
+      "NVIDIA Blackwell Architecture",
+      "DLSS 4.5 Support"
     ],
     "attributes": {
-      "chipset": "RTX 4070 Ti SUPER",
-      "memory": "16GB",
-      "architecture": "Ada Lovelace"
+      "gpuSeries": "GeForce RTX™ 50 Series",
+      "memorySize": "8GB GDDR6",
+      "powerRequirement": "550 Watt"
+    },
+    "attributesDetails": {
+      "brand": "GIGABYTE",
+      "gpuSeries": "NVIDIA GeForce RTX™ 50 Series",
+      "gpuModel": "GeForce® RTX 5050",
+      "memorySize": "8GB GDDR6",
+      "busStandards": "PCI-E 5.0",
+      "openGL": "OpenGL® 4.6",
+      "cudaCores": 2560,
+      "memoryInterface": "128-bit",
+      "boostClock": "2632 MHz",
+      "memoryClock": "20.0 Gbps",
+      "maxDigitalResolution": "7680 x 4320",
+      "hdmiPort": "2 x HDMI 2.1b",
+      "displayPort": "2 x DisplayPort™ (2.1b)",
+      "powerConnector": "1 x 8-pin",
+      "powerRequirement": "550 Watt",
+      "dimension": "199 x 116 x 40 mm",
+      "warranty": "3 Years"
     }
   },
   {
@@ -59,6 +95,22 @@
       "cores": 8,
       "threads": 16,
       "boostClock": "5.0GHz"
+    },
+    "attributesDetails": {
+      "brand": "AMD",
+      "cpuSeries": "AMD Ryzen™ 7",
+      "cpuModel": "Ryzen™ 7 7800X3D",
+      "cpuSocket": "AM5",
+      "cores": 8,
+      "threads": 16,
+      "baseClock": "4.2 GHz",
+      "boostClock": "5.0 GHz",
+      "l2Cache": "8 MB",
+      "l3Cache": "96 MB (3D V-Cache)",
+      "architecture": "Zen 4",
+      "tdp": "120 W",
+      "integratedGraphics": "AMD Radeon™ Graphics",
+      "warranty": "3 Years"
     }
   },
   {
@@ -81,6 +133,22 @@
       "memory": "DDR5",
       "formFactor": "ATX",
       "wifi": true
+    },
+    "attributesDetails": {
+      "brand": "MSI",
+      "model": "MAG B650 TOMAHAWK WIFI",
+      "cpuSocket": "AM5",
+      "chipset": "AMD B650",
+      "formFactor": "ATX",
+      "memorySlots": "4 x DDR5 DIMM",
+      "maxMemoryCapacity": "256GB",
+      "memorySpeedSupported": "Up to 7600+(OC) MHz",
+      "expansionSlots": "2 x PCIe x16 slots, 1 x PCIe x1 slot",
+      "storageInterfaces": "3 x M.2 slots (PCIe Gen4), 6 x SATA 6Gb/s",
+      "wirelessNetworking": "Wi-Fi 6E, Bluetooth 5.3",
+      "lan": "1 x Realtek® 2.5Gbps LAN",
+      "audio": "Realtek® ALC4080 Codec 7.1-Channel HD Audio",
+      "warranty": "3 Years"
     }
   },
   {
@@ -102,6 +170,20 @@
       "ddr": "DDR5",
       "speed": "6000MT/s",
       "rgb": "RGB"
+    },
+    "attributesDetails": {
+      "brand": "Kingston",
+      "series": "Fury Beast RGB",
+      "memoryType": "DDR5",
+      "capacity": "32GB (16GB x 2)",
+      "speed": "6000 MT/s",
+      "casLatency": "CL36 / CL40",
+      "voltage": "1.35V",
+      "eccSupport": "On-Die ECC",
+      "color": "Black",
+      "lighting": "RGB (Kingston FURY Infrared Sync Technology™)",
+      "profileSupport": "Intel XMP 3.0 / AMD EXPO",
+      "warranty": "Limited Lifetime"
     }
   },
   {
@@ -123,6 +205,22 @@
       "interface": "PCIe Gen4",
       "formFactor": "M.2 2280",
       "speed": "7400MB/s"
+    },
+    "attributesDetails": {
+      "brand": "Samsung",
+      "series": "990 PRO",
+      "capacity": "2TB",
+      "formFactor": "M.2 (2280)",
+      "interface": "PCIe Gen 4.0 x4, NVMe 2.0",
+      "controller": "Samsung In-House Controller",
+      "nandFlash": "Samsung V-NAND 3-bit MLC",
+      "cacheMemory": "2GB LPDDR4 DRAM",
+      "sequentialRead": "Up to 7450 MB/s",
+      "sequentialWrite": "Up to 6900 MB/s",
+      "randomRead": "Up to 1400000 IOPS",
+      "randomWrite": "Up to 1550000 IOPS",
+      "tbw": "1200 TBW",
+      "warranty": "5 Years"
     }
   },
   {
@@ -142,6 +240,18 @@
       "capacity": "2TB",
       "rpm": "7200RPM",
       "interface": "SATA III"
+    },
+    "attributesDetails": {
+      "brand": "Western Digital",
+      "series": "WD Blue",
+      "model": "WD20EZBX",
+      "capacity": "2TB",
+      "interface": "SATA 6 Gb/s",
+      "formFactor": "3.5 Inch",
+      "rpm": "7200 RPM",
+      "cacheSize": "256 MB",
+      "transferRate": "Up to 215 MB/s",
+      "warranty": "3 Years"
     }
   },
   {
@@ -161,6 +271,19 @@
       "watt": "850W",
       "efficiency": "80+ Gold",
       "modular": "Full Modular"
+    },
+    "attributesDetails": {
+      "brand": "Corsair",
+      "model": "RM850x",
+      "wattage": "850 Watts",
+      "efficiencyRating": "80 PLUS Gold Certified",
+      "modularType": "Full Modular",
+      "fanSize": "135mm (Magnetic Levitation Fan)",
+      "atxVersion": "ATX12V v2.4",
+      "protectionFeatures": "OVP, UVP, SCP, OTP, OPP",
+      "dimensions": "160 x 150 x 86 mm",
+      "mtbf": "100,000 Hours",
+      "warranty": "10 Years"
     }
   },
   {
@@ -180,6 +303,22 @@
       "type": "AIO",
       "size": "360mm",
       "rgb": "RGB"
+    },
+    "attributesDetails": {
+      "brand": "DeepCool",
+      "model": "LT720",
+      "coolerType": "Liquid Cooling System (AIO)",
+      "radiatorSize": "360 mm",
+      "radiatorMaterial": "Aluminum",
+      "pumpSpeed": "3100 RPM",
+      "numberOfFans": 3,
+      "fanDimensions": "120 x 120 x 25 mm",
+      "fanSpeed": "500-2250 RPM",
+      "fanAirflow": "85.85 CFM",
+      "fanNoise": "Up to 32.9 dB(A)",
+      "rgbLighting": "ARGB (Addressable RGB)",
+      "socketSupport": "Intel LGA2066/2011-v3/2011/1700/1200/1151/1150/1155, AMD sTRX4/sTR4/AM5/AM4",
+      "warranty": "5 Years"
     }
   },
   {
@@ -200,6 +339,23 @@
       "motherboardSupport": "ATX",
       "sidePanel": "Tempered Glass",
       "color": "Black"
+    },
+    "attributesDetails": {
+      "brand": "NZXT",
+      "model": "H6 Flow",
+      "caseType": "Mid-Tower",
+      "motherboardSupport": "ATX, Micro-ATX, Mini-ITX",
+      "material": "SGCC Steel, Ultra-clear Tempered Glass (Side & Front)",
+      "dimensions": "432 x 287 x 415 mm",
+      "weight": "9.4 kg",
+      "expansionSlots": "7 Standard",
+      "driveBays": "1 x 3.5\", 2 x 2.5\"",
+      "fanSupport": "Front-Right: 3 x 120mm (Included), Top: 3 x 120mm / 2 x 140mm, Bottom: 2 x 140mm, Rear: 1 x 120mm",
+      "radiatorSupport": "Top: Up to 360mm, Rear: Up to 120mm",
+      "maxGpuLength": "365 mm",
+      "maxCpuCoolerHeight": "163 mm",
+      "ioPorts": "2 x USB 3.2 Gen 1 Type-A, 1 x USB 3.2 Gen 2 Type-C, 1 x Headset Audio Jack",
+      "warranty": "2 Years"
     }
   },
   {
@@ -219,6 +375,21 @@
       "layout": "60%",
       "switch": "Hall Effect",
       "connection": "USB"
+    },
+    "attributesDetails": {
+      "brand": "Wooting",
+      "model": "60HE",
+      "keyboardType": "Analog Mechanical Keyboard",
+      "layout": "60% Ansi Layout",
+      "switchType": "Lekker Switch (Linear Hall Effect)",
+      "actuationPoint": "Adjustable from 0.1mm to 4.0mm",
+      "rapidTrigger": "Supported (0.1mm sensitivity)",
+      "connection": "Detachable USB Type-C to Type-A",
+      "keycaps": "Double-shot PBT Keycaps",
+      "backlight": "Per-key RGB Backlighting",
+      "software": "Wootility (Web-based or Desktop Client)",
+      "onboardMemory": "Supported (4 Profiles)",
+      "warranty": "4 Years"
     }
   },
   {
@@ -239,6 +410,22 @@
       "dpi": "26000",
       "connection": "Wireless",
       "weight": "60g"
+    },
+    "attributesDetails": {
+      "brand": "Logitech",
+      "model": "G Pro X Superlight 2",
+      "mouseType": "Wireless Gaming Mouse",
+      "sensor": "HERO 2 Sensor",
+      "resolution": "100 - 32,000 DPI",
+      "maxAcceleration": "> 40G",
+      "maxSpeed": "> 500 IPS",
+      "pollingRate": "4000 Hz",
+      "connection": "LIGHTSPEED Wireless / USB-C",
+      "switchType": "LIGHTFORCE Hybrid Switches",
+      "weight": "60 g",
+      "batteryLife": "Up to 95 Hours (Constant Motion)",
+      "charging": "USB-C / POWERPLAY Compatible",
+      "warranty": "2 Years"
     }
   },
   {
@@ -258,6 +445,21 @@
       "connection": "Wireless",
       "microphone": "Microphone",
       "noiseCancelling": "No Noise Cancelling"
+    },
+    "attributesDetails": {
+      "brand": "HyperX",
+      "model": "Cloud III Wireless",
+      "headsetType": "Over-Ear Wireless Gaming Headset",
+      "driver": "53mm Dynamic (with Neodymium Magnets)",
+      "frequencyResponse": "10Hz - 21kHz",
+      "impedance": "64 Ohms",
+      "connectionType": "2.4GHz Wireless via USB Dongle",
+      "batteryLife": "Up to 120 Hours",
+      "microphoneType": "Detachable 10mm Electret Condenser Mic",
+      "microphonePolarPattern": "Uni-directional, Noise-cancelling",
+      "audioTechnology": "DTS Headphone:X® Spatial Audio",
+      "weight": "330g (with Mic)",
+      "warranty": "2 Years"
     }
   },
   {
@@ -278,25 +480,19 @@
       "connection": "USB",
       "polarPattern": "Cardioid",
       "rgb": "RGB"
-    }
-  },
-  {
-    "id": 15,
-    "name": "Logitech Brio 4K",
-    "brand": "Logitech",
-    "type": "Webcam",
-    "price": 6990,
-    "stock": 5,
-    "image": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=900&q=80",
-    "description": "เว็บแคม 4K สำหรับประชุมและสตรีม",
-    "highlights": [
-      "4K",
-      "HDR",
-      "Auto Focus"
-    ],
-    "attributes": {
-      "resolution": "4K",
-      "fps": "60FPS"
+    },
+    "attributesDetails": {
+      "brand": "HyperX",
+      "model": "QuadCast S",
+      "microphoneType": "USB Condenser Microphone",
+      "connection": "USB-C to USB-A",
+      "polarPatterns": "Stereo, Omnidirectional, Cardioid, Bidirectional",
+      "frequencyResponse": "20Hz - 20kHz",
+      "sampleRate": "48kHz / 16-bit",
+      "sensitivity": "-36dB (1V/Pa at 1kHz)",
+      "lighting": "RGB (Customizable with NGENUITY Software)",
+      "features": "Built-in Anti-Vibration Shock Mount, Tap-to-Mute Sensor with LED Indicator, Gain Control Dial, Headphone Jack (3.5mm)",
+      "warranty": "2 Years"
     }
   },
   {
@@ -318,6 +514,23 @@
       "cores": 20,
       "threads": 28,
       "boostClock": "5.6GHz"
+    },
+    "attributesDetails": {
+      "brand": "Intel",
+      "cpuSeries": "Intel® Core™ i7 (14th Gen)",
+      "cpuModel": "Core™ i7-14700K",
+      "cpuSocket": "LGA1700",
+      "cores": "20 (8 P-cores + 12 E-cores)",
+      "threads": 28,
+      "baseClock": "P-core: 3.4 GHz / E-core: 2.5 GHz",
+      "boostClock": "Up to 5.6 GHz",
+      "intelSmartCache": "33 MB",
+      "totalL2Cache": "28 MB",
+      "architecture": "Raptor Lake Refresh",
+      "basePower": "125 W",
+      "maxTurboPower": "253 W",
+      "integratedGraphics": "Intel® UHD Graphics 770",
+      "warranty": "3 Years"
     }
   },
   {
@@ -340,46 +553,101 @@
       "memory": "DDR5",
       "formFactor": "ATX",
       "wifi": true
+    },
+    "attributesDetails": {
+      "brand": "ASUS",
+      "model": "ROG STRIX Z790-E GAMING WIFI II",
+      "cpuSocket": "LGA1700",
+      "chipset": "Intel® Z790",
+      "formFactor": "ATX",
+      "memorySlots": "4 x DDR5 DIMM",
+      "maxMemoryCapacity": "192GB",
+      "memorySpeedSupported": "Up to 8000+(OC) MHz",
+      "expansionSlots": "1 x PCIe 5.0 x16 slot, 2 x PCIe 4.0 x16 slots (support x4 mode)",
+      "storageInterfaces": "5 x M.2 slots (1 x PCIe 5.0 x4, 4 x PCIe 4.0 x4), 4 x SATA 6Gb/s",
+      "wirelessNetworking": "Intel® Wi-Fi 7 (802.11be), Bluetooth 5.4",
+      "lan": "1 x Intel® 2.5Gb Ethernet",
+      "audio": "ROG SupremeFX 7.1 Surround Sound ALC4080 High Definition Audio Codec",
+      "warranty": "3 Years"
     }
   },
   {
     "id": 18,
-    "name": "RTX 4090 OC Edition 24GB",
-    "brand": "ASUS",
+    "name": "PALIT GeForce RTX 3050 StormX 6GB GDDR6",
+    "brand": "PALIT",
     "type": "GPU",
-    "price": 75900,
-    "stock": 3,
-    "image": "https://images.unsplash.com/photo-1591799265444-d66432b91588?auto=format&fit=crop&w=900&q=80",
-    "description": "ที่สุดของการ์ดจอสำหรับเกมเมอร์และครีเอเตอร์ระดับมืออาชีพ",
+    "price": 6590,
+    "stock": 5,
+    "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/products85859_800.jpg",
+    "description": "การ์ดจอขนาดคอมแพ็คสำหรับการเล่นเกมระดับเริ่มต้นถึงระดับกลาง ประหยัดพลังงานไม่ต้องต่อไฟเพิ่ม",
     "highlights": [
-      "24GB GDDR6X",
-      "DLSS 3.0",
-      "Ray Tracing"
+      "6GB GDDR6",
+      "No Power Connector Required",
+      "Ray Tracing & DLSS"
     ],
     "attributes": {
-      "chipset": "RTX 4090",
-      "memory": "24GB",
-      "architecture": "Ada Lovelace"
+      "gpuSeries": "GeForce RTX™ 30 Series",
+      "memorySize": "6GB GDDR6",
+      "powerRequirement": "300 Watt"
+    },
+    "attributesDetails": {
+      "gpuSeries": "GeForce RTX™ 30 Series",
+      "gpuModel": "GeForce RTX™ 3050",
+      "memorySize": "6GB GDDR6",
+      "busStandards": "PCI Express 4.0",
+      "openGL": "OpenGL® 4.6",
+      "cudaCores": 2304,
+      "memoryInterface": "96-bit",
+      "boostClock": "1470 MHz",
+      "baseClock": "1042 MHz",
+      "memoryClock": "14.0 Gbps",
+      "maxDigitalResolution": "7680 x 4320",
+      "hdmiPort": "1 x HDMI 2.1",
+      "displayPort": "1 x DisplayPort™ 1.4a",
+      "powerConnector": "N/A",
+      "powerRequirement": "300 Watt",
+      "dimension": "162 x 117 x 40 mm",
+      "warranty": "3 Years"
     }
   },
   {
     "id": 19,
-    "name": "RX 7800 XT Challenger 16GB",
-    "brand": "ASRock",
+    "name": "COLORFUL IGAME GEFORCE RTX 5060 ULTRA W DUO OC - 8GB GDDR7",
+    "brand": "COLORFUL",
     "type": "GPU",
-    "price": 20900,
-    "stock": 8,
-    "image": "https://images.unsplash.com/photo-1591799265444-d66432b91588?auto=format&fit=crop&w=900&q=80",
-    "description": "การ์ดจอราคาสุดคุ้มสำหรับการเล่นเกมความละเอียด 2K",
+    "price": 11990,
+    "stock": 5,
+    "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/products103952_800.jpg",
+    "description": "การ์ดจอระดับกลางซีรีส์ใหม่ล่าสุดสถาปัตยกรรม Blackwell มาพร้อมแรมยุคใหม่ 8GB GDDR7 และชุดระบายความร้อนพัดลมคู่โทนสีขาว",
     "highlights": [
-      "16GB GDDR6",
-      "RDNA 3",
-      "FSR 3"
+      "8GB GDDR7",
+      "NVIDIA Blackwell Architecture",
+      "DLSS 4.5 Support",
+      "White Duo Fans design"
     ],
     "attributes": {
-      "chipset": "RX 7800 XT",
-      "memory": "16GB",
-      "architecture": "RDNA 3"
+      "gpuSeries": "GeForce RTX™ 50 Series",
+      "memorySize": "8GB GDDR7",
+      "powerRequirement": "550 Watt"
+    },
+    "attributesDetails": {
+      "brand": "COLORFUL",
+      "gpuSeries": "NVIDIA GeForce RTX™ 50 Series",
+      "gpuModel": "GeForce® RTX 5060",
+      "memorySize": "8GB GDDR7",
+      "busStandards": "PCI-E 5.0",
+      "openGL": "OpenGL® 4.6",
+      "cudaCores": 3072,
+      "memoryInterface": "128-bit",
+      "boostClock": "2700 MHz",
+      "memoryClock": "28.0 Gbps",
+      "maxDigitalResolution": "7680 x 4320",
+      "hdmiPort": "1 x HDMI 2.1a",
+      "displayPort": "3 x DisplayPort™ (2.1b)",
+      "powerConnector": "1 x 8-pin",
+      "powerRequirement": "550 Watt",
+      "dimension": "242 x 125 x 42 mm",
+      "warranty": "3 Years"
     }
   },
   {
@@ -401,6 +669,20 @@
       "ddr": "DDR5",
       "speed": "6400MT/s",
       "rgb": "RGB"
+    },
+    "attributesDetails": {
+      "brand": "G.Skill",
+      "series": "Trident Z5 RGB",
+      "memoryType": "DDR5",
+      "capacity": "32GB (16GB x 2)",
+      "speed": "6400 MT/s",
+      "casLatency": "CL32",
+      "voltage": "1.40V",
+      "eccSupport": "On-Die ECC",
+      "color": "Matte Black / Metallic Silver",
+      "lighting": "RGB (Compatible with Asus, MSI, Gigabyte, ASRock software)",
+      "profileSupport": "Intel XMP 3.0",
+      "warranty": "Limited Lifetime"
     }
   },
   {
@@ -422,6 +704,20 @@
       "interface": "PCIe Gen5",
       "formFactor": "M.2 2280",
       "speed": "11700MB/s"
+    },
+    "attributesDetails": {
+      "brand": "Crucial",
+      "series": "T700",
+      "capacity": "1TB",
+      "formFactor": "M.2 (2280)",
+      "interface": "PCIe Gen 5.0 x4, NVMe 2.0",
+      "controller": "Phison PS5026-E26",
+      "nandFlash": "Micron 232-Layer 3D TLC",
+      "cacheMemory": "LPDDR4 DRAM Cache",
+      "sequentialRead": "Up to 11,700 MB/s",
+      "sequentialWrite": "Up to 9,500 MB/s",
+      "tbw": "600 TBW",
+      "warranty": "5 Years"
     }
   },
   {
@@ -442,6 +738,21 @@
       "type": "Air Cooler",
       "size": "140mm",
       "rgb": "No RGB"
+    },
+    "attributesDetails": {
+      "brand": "Noctua",
+      "model": "NH-D15 chromax.black",
+      "coolerType": "Air CPU Cooler",
+      "heatsinkDesign": "Dual-Tower",
+      "heatsinkMaterial": "Copper Base and Heatpipes, Aluminum Cooling Fins, Soldered Joints & Nickel Plating",
+      "numberOfFans": 2,
+      "fanModel": "2 x Noctua NF-A15 HS-PWM",
+      "fanDimensions": "140 x 150 x 25 mm",
+      "fanSpeed": "300 - 1500 RPM",
+      "fanAirflow": "140.2 m³/h",
+      "fanNoise": "Up to 24.6 dB(A)",
+      "socketSupport": "Intel LGA1851/1700/1200/1156/1155/1151/1150, AMD AM5/AM4",
+      "warranty": "6 Years"
     }
   },
   {
@@ -462,6 +773,22 @@
       "motherboardSupport": "ATX",
       "sidePanel": "Tempered Glass",
       "color": "White"
+    },
+    "attributesDetails": {
+      "brand": "Lian Li",
+      "model": "O11 Vision",
+      "caseType": "Dual-Chamber Mid-Tower",
+      "motherboardSupport": "E-ATX (under 280mm), ATX, Micro-ATX, Mini-ITX",
+      "material": "Steel, 4.0mm Tempered Glass (Top, Front, Side), 3.0mm Tempered Glass",
+      "dimensions": "480 x 304 x 464.5 mm",
+      "expansionSlots": "7",
+      "driveBays": "Behind MB Tray: 3 x 2.5\" SSD, Hard Drive Cage: 2 x 3.5\" HDD / 2.5\" SSD",
+      "fanSupport": "Side: 3 x 120mm / 2 x 140mm, Bottom: 3 x 120mm / 3 x 140mm, Rear: 1 or 2 x 120mm",
+      "radiatorSupport": "Side: Up to 360mm, Bottom: Up to 360mm, Rear: Up to 240mm",
+      "maxGpuLength": "455 mm",
+      "maxCpuCoolerHeight": "167 mm",
+      "ioPorts": "2 x USB 3.0, 1 x USB 3.1 Type-C, 1 x Audio/Mic Audio Jack",
+      "warranty": "1 Year"
     }
   },
   {
@@ -482,6 +809,19 @@
       "watt": "1000W",
       "efficiency": "80+ Gold",
       "modular": "Full Modular"
+    },
+    "attributesDetails": {
+      "brand": "Seasonic",
+      "model": "Vertex GX-1000",
+      "wattage": "1000 Watts",
+      "efficiencyRating": "80 PLUS Gold Certified",
+      "modularType": "Full Modular",
+      "atxVersion": "Intel ATX 3.0 / PCIe 5.0 Ready (12VHPWR Cable Included)",
+      "fanSize": "135mm (Fluid Dynamic Bearing Fan)",
+      "protectionFeatures": "OPP, OVP, UVP, OCP, OTP, SCP",
+      "dimensions": "160 x 150 x 86 mm",
+      "mtbf": "100,000 Hours",
+      "warranty": "12 Years"
     }
   },
   {
@@ -503,6 +843,21 @@
       "resolution": "1920x1080",
       "panel": "TN",
       "refreshRate": "240Hz"
+    },
+    "attributesDetails": {
+      "brand": "BenQ ZOWIE",
+      "model": "XL2546K",
+      "screenSize": "24.5\"",
+      "resolution": "1920 x 1080 (Full HD)",
+      "panelType": "TN",
+      "refreshRate": "240Hz",
+      "responseTime": "0.5 ms (GtG)",
+      "aspectRatio": "16:9",
+      "brightness": "320 cd/m2",
+      "contrastRatio": "1000:1",
+      "specialFeatures": "DyAc⁺™ Technology, XL Setting to Share™, S Switch, Shield (แผงกั้นข้างจอ)",
+      "connectivity": "3 x HDMI 2.0, 1 x DisplayPort 1.2, Headphone Jack",
+      "warranty": "3 Years"
     }
   },
   {
@@ -523,6 +878,21 @@
       "dpi": "30000",
       "connection": "Wireless",
       "weight": "63g"
+    },
+    "attributesDetails": {
+      "brand": "Razer",
+      "model": "DeathAdder V3 Pro",
+      "mouseType": "Wireless Ergonomic Gaming Mouse",
+      "sensor": "Focus Pro 30K Optical Sensor",
+      "resolution": "Up to 30,000 DPI",
+      "maxAcceleration": "70G",
+      "maxSpeed": "750 IPS",
+      "pollingRate": "1000 Hz (Upgradable to 8000 Hz with HyperPolling Wireless Dongle)",
+      "connection": "Razer HyperSpeed Wireless / Wired Speedflex Cable USB-C",
+      "switchType": "Optical Mouse Switches Gen-3 (90 Million Clicks)",
+      "weight": "63 g",
+      "batteryLife": "Up to 90 Hours (at 1000Hz)",
+      "warranty": "2 Years"
     }
   },
   {
@@ -543,6 +913,20 @@
       "layout": "80% (TKL)",
       "switch": "Adjustable Mechanical",
       "connection": "USB"
+    },
+    "attributesDetails": {
+      "brand": "SteelSeries",
+      "model": "Apex Pro TKL (2023)",
+      "keyboardType": "Adjustable Mechanical Keyboard",
+      "layout": "80% Tenkeyless (TKL)",
+      "switchType": "OmniPoint 2.0 Adjustable Mechanical Switch",
+      "actuationPoint": "0.1 mm to 4.0 mm (Dual Actuation Capable)",
+      "connection": "Detachable USB Type-C",
+      "material": "Aircraft Grade Aluminum Alloy Frame",
+      "display": "OLED Smart Display",
+      "backlight": "Per-Key RGB Illumination",
+      "features": "Magnetic Wrist Rest Included, 2-in-1 Action Keys",
+      "warranty": "1 Year"
     }
   },
   {
@@ -563,6 +947,20 @@
       "connection": "Wired",
       "microphone": "Microphone",
       "noiseCancelling": "No Noise Cancelling"
+    },
+    "attributesDetails": {
+      "brand": "Audio-Technica",
+      "model": "ATH-M50xSTS StreamSet",
+      "headsetType": "Wired Studio Streaming Headset",
+      "driver": "45mm Dynamic (with Rare Earth Magnets)",
+      "frequencyResponseHeadphones": "15Hz - 28kHz",
+      "impedance": "38 Ohms",
+      "connectionType": "2.0m Attached Cable with XLR (Mic) and 6.3mm/3.5mm (Headphone) plugs",
+      "microphoneType": "Cardioid Condenser (Adopted from 20-series microphones)",
+      "frequencyResponseMicrophone": "50Hz - 20kHz",
+      "microphoneFeature": "Flip-up Mute Function",
+      "weight": "330g (without cable)",
+      "warranty": "1 Year"
     }
   },
   {
@@ -583,45 +981,20 @@
       "connection": "XLR",
       "polarPattern": "Cardioid",
       "rgb": "No RGB"
-    }
-  },
-  {
-    "id": 30,
-    "name": "Elgato Facecam Pro",
-    "brand": "Elgato",
-    "type": "Webcam",
-    "price": 11900,
-    "stock": 6,
-    "image": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=900&q=80",
-    "description": "เว็บแคมระดับพรีเมียมตัวแรกของโลกที่บันทึกภาพได้ถึง 4K 60FPS แท้",
-    "highlights": [
-      "4K 60FPS",
-      "Sony STARVIS Sensor",
-      "USB 3.0"
-    ],
-    "attributes": {
-      "resolution": "4K",
-      "fps": "60FPS"
-    }
-  },
-  {
-    "id": 31,
-    "name": "Elgato Stream Deck MK.2",
-    "brand": "Elgato",
-    "type": "Streaming Accessory",
-    "price": 5990,
-    "stock": 10,
-    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=80",
-    "description": "คอนโทรลเลอร์ปุ่ม LCD สำหรับควบคุมการสตรีมและแอปพลิเคชัน",
-    "highlights": [
-      "15 LCD Keys",
-      "Customizable",
-      "Hot-swappable Faceplate"
-    ],
-    "attributes": {
-      "keys": 15,
-      "connection": "USB-C",
-      "software": "Stream Deck App"
+    },
+    "attributesDetails": {
+      "brand": "Shure",
+      "model": "SM7B",
+      "microphoneType": "Dynamic Microphone",
+      "connection": "XLR Connector",
+      "polarPattern": "Cardioid",
+      "frequencyResponse": "50Hz - 20kHz",
+      "outputImpedance": "150 Ohms",
+      "sensitivity": "-59.0 dBV/Pa (1.12 mV)",
+      "switches": "Bass Rolloff (High-pass filter) and Mid-Range Emphasis (Presence Boost)",
+      "features": "Internal Air Suspension Shock Isolation, Built-in Pop Filter, Detachable Windscreen included",
+      "powerRequirements": "No Phantom Power Required (Requires standard high-gain preamp)",
+      "warranty": "2 Years"
     }
   },
   {
@@ -643,6 +1016,23 @@
       "resolution": "3440x1440",
       "panel": "Nano IPS",
       "refreshRate": "160Hz"
+    },
+    "attributesDetails": {
+      "brand": "LG",
+      "model": "UltraGear 34GN850-B",
+      "screenSize": "34\" Curved",
+      "resolution": "3440 x 1440 (UltraWide QHD)",
+      "panelType": "Nano IPS",
+      "refreshRate": "144Hz (Overclockable to 160Hz)",
+      "responseTime": "1 ms (GtG at Faster)",
+      "aspectRatio": "21:9",
+      "curvature": "1900R",
+      "brightness": "400 cd/m2",
+      "colorGamut": "DCI-P3 98% (CIE1976)",
+      "hdrSupport": "VESA DisplayHDR™ 400",
+      "adaptiveSync": "NVIDIA G-SYNC Compatible, AMD FreeSync Premium",
+      "connectivity": "2 x HDMI, 1 x DisplayPort, 2 x USB Downstream, 1 x USB Upstream, Headphone Out",
+      "warranty": "3 Years"
     }
   },
   {
@@ -664,6 +1054,22 @@
       "cores": 16,
       "threads": 32,
       "boostClock": "5.7GHz"
+    },
+    "attributesDetails": {
+      "brand": "AMD",
+      "cpuSeries": "AMD Ryzen™ 9",
+      "cpuModel": "Ryzen™ 9 7950X",
+      "cpuSocket": "AM5",
+      "cores": 16,
+      "threads": 32,
+      "baseClock": "4.5 GHz",
+      "boostClock": "5.7 GHz",
+      "l2Cache": "16 MB",
+      "l3Cache": "64 MB",
+      "architecture": "Zen 4",
+      "tdp": "170 W",
+      "integratedGraphics": "AMD Radeon™ Graphics",
+      "warranty": "3 Years"
     }
   },
   {
@@ -686,6 +1092,22 @@
       "memory": "DDR5",
       "formFactor": "Micro-ATX",
       "wifi": true
+    },
+    "attributesDetails": {
+      "brand": "ASUS",
+      "model": "TUF GAMING B650M-PLUS WIFI",
+      "cpuSocket": "AM5",
+      "chipset": "AMD B650",
+      "formFactor": "Micro-ATX",
+      "memorySlots": "4 x DDR5 DIMM",
+      "maxMemoryCapacity": "192GB",
+      "memorySpeedSupported": "Up to 7600+(OC) MHz",
+      "expansionSlots": "1 x PCIe 4.0 x16 slot, 1 x PCIe 4.0 x16 slot (supports x4 mode), 1 x PCIe 4.0 x1 slot",
+      "storageInterfaces": "2 x M.2 slots (1 x PCIe 5.0 x4 mode, 1 x PCIe 4.0 x4 mode), 4 x SATA 6Gb/s",
+      "wirelessNetworking": "Wi-Fi 6 (802.11ax), Bluetooth 5.2",
+      "lan": "1 x Realtek 2.5Gb Ethernet",
+      "audio": "Realtek 7.1 Surround Sound High Definition Audio Codec",
+      "warranty": "3 Years"
     }
   },
   {
@@ -707,6 +1129,20 @@
       "ddr": "DDR5",
       "speed": "5600MT/s",
       "rgb": "RGB"
+    },
+    "attributesDetails": {
+      "brand": "Corsair",
+      "series": "Vengeance RGB DDR5",
+      "memoryType": "DDR5",
+      "capacity": "64GB (32GB x 2)",
+      "speed": "5600 MT/s",
+      "casLatency": "CL40",
+      "voltage": "1.25V",
+      "eccSupport": "On-Die ECC",
+      "color": "Black",
+      "lighting": "Dynamic Ten-Zone RGB (Customizable via iCUE Software)",
+      "profileSupport": "Intel XMP 3.0",
+      "warranty": "Limited Lifetime"
     }
   },
   {
@@ -728,6 +1164,20 @@
       "interface": "PCIe Gen4",
       "formFactor": "M.2 2280",
       "speed": "7300MB/s"
+    },
+    "attributesDetails": {
+      "brand": "Western Digital",
+      "series": "WD_BLACK SN850X",
+      "capacity": "2TB",
+      "formFactor": "M.2 (2280)",
+      "interface": "PCIe Gen4 x4, NVMe 1.4",
+      "sequentialRead": "Up to 7300 MB/s",
+      "sequentialWrite": "Up to 6600 MB/s",
+      "randomRead": "Up to 1,200,000 IOPS",
+      "randomWrite": "Up to 1,100,000 IOPS",
+      "tbw": "1200 TBW",
+      "features": "Game Mode 2.0 (via WD_BLACK Dashboard)",
+      "warranty": "5 Years"
     }
   },
   {
@@ -748,6 +1198,24 @@
       "type": "AIO",
       "size": "360mm",
       "rgb": "RGB"
+    },
+    "attributesDetails": {
+      "brand": "NZXT",
+      "model": "Kraken Elite 360 RGB",
+      "coolerType": "Liquid Cooling System (AIO)",
+      "radiatorSize": "360 mm",
+      "radiatorMaterial": "Aluminum",
+      "pumpSpeed": "800 - 3600 RPM",
+      "displaySpecs": "2.36\" Wide Angle TFT-LCD, 640x640 resolution, 60Hz, 690 cd/m² Brightness",
+      "numberOfFans": 3,
+      "fanModel": "3 x F120 RGB Core Fans",
+      "fanDimensions": "120 x 120 x 26 mm",
+      "fanSpeed": "500 - 1800 RPM",
+      "fanAirflow": "78.86 CFM",
+      "fanNoise": "Up to 33.88 dBA",
+      "rgbLighting": "RGB Fans & Customizable Display (via NZXT CAM Software)",
+      "socketSupport": "Intel LGA 1700/1200/115X, AMD AM5/AM4/sTRX4/TR4",
+      "warranty": "6 Years"
     }
   },
   {
@@ -768,6 +1236,22 @@
       "motherboardSupport": "ATX",
       "sidePanel": "Tempered Glass",
       "color": "Red/Black"
+    },
+    "attributesDetails": {
+      "brand": "HYTE",
+      "model": "Y60",
+      "caseType": "Dual-Chamber Mid-Tower ATX",
+      "motherboardSupport": "E-ATX, ATX, Micro-ATX, Mini-ITX",
+      "material": "ABS, Steel, Tempered Glass",
+      "dimensions": "456 x 285 x 462 mm",
+      "expansionSlots": "3 Vertical (PCIe 4.0 Riser Cable Included), 7 Half-Height Horizontal",
+      "driveBays": "2 x 3.5\" HDD or 4 x 2.5\" SSD",
+      "fanSupport": "Top: 3 x 120mm, Side: 2 x 120mm / 2 x 140mm, Rear: 1 x 120mm (Included), Bottom: 2 x 120mm / 2 x 140mm (2 x 120mm Included)",
+      "radiatorSupport": "Top: Up to 360mm, Side: Up to 280mm, Rear: Up to 120mm",
+      "maxGpuThickness": "75 mm (Recommended up to 60 mm for optimal cooling)",
+      "maxCpuCoolerHeight": "160 mm",
+      "ioPorts": "2 x USB 3.0 Type-A, 1 x USB 3.2 Gen 2 Type-C, 1 x Audio/Mic Combo Jack",
+      "warranty": "3 Years"
     }
   },
   {
@@ -788,6 +1272,22 @@
       "type": "AIO",
       "size": "360mm",
       "rgb": "RGB"
+    },
+    "attributesDetails": {
+      "brand": "Antec",
+      "model": "Symphony 360 ARGB",
+      "coolerType": "Liquid Cooling System (AIO)",
+      "radiatorSize": "360 mm",
+      "radiatorMaterial": "EPDM+IIR High-Density Tubing, Aluminum Fins",
+      "pumpSpeed": "2800 ± 10% RPM",
+      "numberOfFans": 3,
+      "fanDimensions": "120 x 120 x 25 mm",
+      "fanSpeed": "800 - 1600 ± 100 RPM",
+      "fanAirflow": "72 CFM",
+      "fanNoise": "Up to 35 dB(A)",
+      "rgbLighting": "ARGB Mirror Pump Head & ARGB Fans (Syncs with Motherboard)",
+      "socketSupport": "Intel LGA 2066/2011/1700/1200/115X, AMD AM5/AM4",
+      "warranty": "3 Years"
     }
   },
   {
@@ -808,6 +1308,22 @@
       "layout": "80% (TKL)",
       "switch": "Low Profile Mechanical",
       "connection": "Wireless/Bluetooth"
+    },
+    "attributesDetails": {
+      "brand": "Logitech",
+      "model": "G915 TKL Wireless",
+      "keyboardType": "Wireless Low-Profile Mechanical Keyboard",
+      "layout": "80% Tenkeyless (TKL)",
+      "switchType": "GL Tactile Low Profile Mechanical Switches",
+      "actuationDistance": "1.5 mm",
+      "totalTravelDistance": "2.7 mm",
+      "actuationForce": "50g",
+      "connection": "LIGHTSPEED Wireless / Bluetooth / Micro-USB",
+      "material": "Aircraft-grade aluminum alloy top case",
+      "backlight": "LIGHTSYNC RGB (Per-Key Lighting)",
+      "batteryLife": "Up to 40 Hours (at 100% brightness)",
+      "features": "Dedicated Media Controls, Edgeless Volume Roller",
+      "warranty": "2 Years"
     }
   },
   {
@@ -828,6 +1344,20 @@
       "dpi": "26000",
       "connection": "Wireless",
       "weight": "29g"
+    },
+    "attributesDetails": {
+      "brand": "Finalmouse",
+      "model": "UltralightX (Cheetah/Lion/Tiger)",
+      "mouseType": "Ultra-lightweight Wireless Gaming Mouse",
+      "sensor": "PixArt PAW3395 (Custom implementation)",
+      "resolution": "Up to 26,000 DPI",
+      "pollingRate": "Up to 8000 Hz Wireless (With UltralightX Wireless Receiver)",
+      "connection": "Proprietary Wireless / USB-C Wired",
+      "chassisMaterial": "Carbon Fiber Composite (Honeycomb design)",
+      "switchType": "Omron Optical Switches",
+      "weight": "29 grams to 37 grams (Depending on Size Variant)",
+      "batteryLife": "Up to 40 Hours (Standard Polling)",
+      "warranty": "1 Year"
     }
   },
   {
@@ -848,6 +1378,22 @@
       "connection": "Wireless/Bluetooth",
       "microphone": "Microphone",
       "noiseCancelling": "Noise Cancelling"
+    },
+    "attributesDetails": {
+      "brand": "Sony",
+      "model": "INZONE H9 (WH-G900N)",
+      "headsetType": "Over-Ear Wireless Noise Cancelling Gaming Headset",
+      "driver": "40mm Dome Type (EDCC Voice Coil)",
+      "frequencyResponse": "5Hz - 20kHz",
+      "connectionType": "2.4GHz Wireless via USB Dongle & Bluetooth 5.0 (Simultaneous Connection Supported)",
+      "noiseCancelling": "Dual Noise Sensor Technology (Active Noise Cancelling) & Ambient Sound Mode",
+      "audioTechnology": "360 Spatial Sound for Gaming (via INZONE Hub software)",
+      "batteryLife": "Up to 32 Hours (NC Off)",
+      "fastCharging": "10-minute charge gives up to 60 minutes of play",
+      "microphoneType": "Bidirectional Electret Condenser Boom Microphone (Flip-to-Mute)",
+      "compatibility": "PC & PlayStation® 5 (Supports on-screen status overlay)",
+      "weight": "approx. 330g",
+      "warranty": "1 Year"
     }
   },
   {
@@ -868,46 +1414,20 @@
       "connection": "USB",
       "polarPattern": "Supercardioid",
       "rgb": "RGB"
-    }
-  },
-  {
-    "id": 44,
-    "name": "ASUS ROG Destrier Ergo Gaming Chair",
-    "brand": "ASUS",
-    "type": "Furniture",
-    "price": 29900,
-    "stock": 2,
-    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=80",
-    "description": "เก้าอี้เกมมิ่งเพื่อสุขภาพ ปรับเปลี่ยนได้หลายระดับตามสรีระศาสตร์การนั่ง",
-    "highlights": [
-      "Ergonomic Design",
-      "Acoustic Panel",
-      "Breathable Mesh"
-    ],
-    "attributes": {
-      "material": "Mesh & Aluminum",
-      "weightCapacity": "150kg",
-      "adjustableArmrest": "4D"
-    }
-  },
-  {
-    "id": 45,
-    "name": "Elgato Key Light Air",
-    "brand": "Elgato",
-    "type": "Streaming Accessory",
-    "price": 4890,
-    "stock": 12,
-    "image": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=900&q=80",
-    "description": "โคมไฟ LED อัจฉริยะสำหรับสตรีมเมอร์ ควบคุมความสว่างและอุณหภูมิสีผ่านแอปได้",
-    "highlights": [
-      "1400 Lumens",
-      "App-Controlled",
-      "Edge-Lit Architecture"
-    ],
-    "attributes": {
-      "brightness": "1400 lm",
-      "colorTemperature": "2900K - 7000K",
-      "connection": "Wi-Fi"
+    },
+    "attributesDetails": {
+      "brand": "Razer",
+      "model": "Seiren V3 Chroma",
+      "microphoneType": "USB Condenser Microphone",
+      "capsuleSize": "16mm Condenser Capsule",
+      "polarPattern": "Supercardioid",
+      "frequencyResponse": "20Hz - 20kHz",
+      "sampleRate": "96kHz / 24-bit",
+      "maxSpl": "110dB",
+      "lighting": "Stream and Game Reactive Chroma RGB (via Razer Synapse)",
+      "features": "Multi-function Tap-to-Mute Sensor, Built-in Shock Absorber, High-pass Filter, 3.5mm Headphone Monitoring Port",
+      "connectionType": "Type-C to Type-A Cable Included",
+      "warranty": "2 Years"
     }
   }
 ]
