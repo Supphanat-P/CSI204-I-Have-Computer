@@ -74,21 +74,9 @@ export default function ProductDetails() {
         }
     };
 
-    const productSpecs = Object.entries(product).filter(
-        ([key, value]) =>
-            ![
-                "id",
-                "name",
-                "brand",
-                "price",
-                "image",
-                "badge",
-                "productType",
-                "category",
-            ].includes(key) &&
-            typeof value === "string" &&
-            Boolean(value)
-    );
+    const productSpecs = product?.attributesDetails
+        ? Object.entries(product.attributesDetails)
+        : [];
 
     return (
         <div className="bg-background min-h-screen pt-5 pb-16 px-4 md:px-margin-desktop">
@@ -140,19 +128,7 @@ export default function ProductDetails() {
                         </p>
                     </div>
 
-                    {productSpecs.length > 0 && (
-                        <div className="mb-8">
-                            <h3 className="text-headline-md font-bold text-on-surface mb-4">ข้อมูลจำเพาะ (Specs)</h3>
-                            <div className="grid grid-cols-2 gap-y-3 gap-x-6">
-                                {productSpecs.map(([key, value]) => (
-                                    <div key={key} className="flex flex-col border-b border-outline-variant/30 pb-2">
-                                        <span className="text-label-sm text-on-surface-variant uppercase">{key}</span>
-                                        <span className="text-body-md text-on-surface font-medium">{value}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
+
 
                     <div className="flex flex-col sm:flex-row gap-4 mt-auto pt-6 border-t border-outline-variant/50">
                         <div className="flex items-center border border-outline-variant rounded-lg bg-surface-container-lowest overflow-hidden h-[56px] w-full sm:w-[140px] shrink-0">
@@ -183,6 +159,25 @@ export default function ProductDetails() {
                     </div>
                 </div>
             </div>
+ 
+            {/* Product Full Specifications Section */}
+            {productSpecs.length > 0 && (
+                <div className="w-[80%] mx-auto mt-12">
+                    <h2 className="text-headline-md font-bold text-on-surface mb-6">รายละเอียดข้อมูลจำเพาะ</h2>
+                    <div className="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+                        {productSpecs.map(([key, value]) => (
+                            <div key={key} className="grid grid-cols-1 md:grid-cols-4 border-b border-outline-variant last:border-b-0 hover:bg-surface-container/30 transition-colors">
+                                <div className="py-4 px-6 font-semibold text-on-surface capitalize border-r-0 md:border-r border-outline-variant/50">
+                                    {key.replace(/([A-Z])/g, ' $1').trim()}
+                                </div>
+                                <div className="py-4 px-6 text-on-surface-variant md:col-span-3 whitespace-pre-line">
+                                    {value}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             {/* Related Products Section */}
             {relatedProducts.length > 0 && (
