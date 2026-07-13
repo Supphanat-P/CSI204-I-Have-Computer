@@ -1,6 +1,7 @@
 const http = require("http");
 const { getProducts, getProductById } = require("./routes/products");
 const { registerUser, loginUser, updateProfile } = require("./routes/auth");
+const { createOrder, getOrders } = require("./routes/orders");
 const { authMiddleware } = require("./middleware/authMiddleware");
 
 const PORT = process.env.PORT || 5000;
@@ -42,6 +43,20 @@ const server = http.createServer((req, res) => {
   if (url.pathname === "/api/profile/update" && req.method === "POST") {
     authMiddleware(req, res, () => {
       updateProfile(req, res);
+    });
+    return;
+  }
+
+  if (url.pathname === "/api/orders" && req.method === "POST") {
+    authMiddleware(req, res, () => {
+      createOrder(req, res);
+    });
+    return;
+  }
+
+  if (url.pathname === "/api/orders" && req.method === "GET") {
+    authMiddleware(req, res, () => {
+      getOrders(req, res);
     });
     return;
   }

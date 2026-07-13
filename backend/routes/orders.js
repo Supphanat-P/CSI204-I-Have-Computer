@@ -1,1 +1,70 @@
-// api สร้างการสั่งซื้อ , ดึงข้อมูลการสั่งซื้อ
+const { readJsonFile, writeJsonFile } = require("../utils/fileHandler");
+
+// Utility to parse request JSON body
+function parseBody(req) {
+  return new Promise((resolve, reject) => {
+    let body = "";
+    req.on("data", (chunk) => {
+      body += chunk.toString();
+    });
+    req.on("end", () => {
+      try {
+        resolve(body ? JSON.parse(body) : {});
+      } catch (err) {
+        reject(err);
+      }
+    });
+  });
+}
+
+// Handler to create a new order
+async function createOrder(req, res) {
+  try {
+    const orderData = await parseBody(req);
+    const orders = readJsonFile("orders.json");
+
+    // In server.js, authMiddleware will populate req.user
+    const userId = req.user ? req.user.id : (orderData.userId || "guest");
+
+    const newOrder = {
+      ...orderData,
+      userId,
+      id: orderData.id || `IHC-${Math.floor(10000 + Math.random() * 90000)}`,
+      date: orderData.date || new Date().toISOString().split("T")[0]
+    };
+
+    orders.push(newOrder);
+    writeJsonFile("orders.json", orders);
+
+    res.writeHead(201, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ success: true, order: newOrder }));
+  } catch (error) {
+    console.error("Create order error:", error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "เกิดข้อผิดพลาดในการสร้างคำสั่งซื้อ" }));
+  }
+}
+
+// Handler to get order history for authenticated user
+function getOrders(req, res) {
+  try {
+    const orders = readJsonFile("orders.json");
+    const userId = req.user ? req.user.id : null;
+
+    if (!userId) {
+      res.writeHead(401, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "ไม่มีสิทธิ์เข้าถึงข้อมูล" }));
+      return;
+    }
+
+    const userOrders = orders.filter((o) => o.userId === userId);
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(userOrders));
+  } catch (error) {
+    console.error("Get orders error:", error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ" }));
+  }
+}
+
+module.exports = { createOrder, getOrders };

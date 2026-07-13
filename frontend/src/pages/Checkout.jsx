@@ -27,6 +27,18 @@ export default function Checkout() {
     }
   }, [cart, currentUser, navigate, orderCompleted]);
 
+  // Redirect if no shipping address exists
+  useEffect(() => {
+    if (currentUser) {
+      const saved = localStorage.getItem(`shippingAddresses_${currentUser.id}`);
+      const addresses = saved ? JSON.parse(saved) : [];
+      if (addresses.length === 0) {
+        alert("กรุณากรอกข้อมูลที่อยู่สำหรับจัดส่งสินค้าก่อนทำการชำระเงิน");
+        navigate("/profile", { state: { activeTab: "shipping_address" } });
+      }
+    }
+  }, [currentUser, navigate]);
+
   // 2. Shipping calculation logic
   const SHIPPING_THRESHOLD = 1000;
   const STANDARD_SHIPPING_FEE = 100;
@@ -41,6 +53,24 @@ export default function Checkout() {
     }
     return [];
   });
+
+  // 3.5 Credit Card options (load from localStorage)
+  const [savedCards] = useState(() => {
+    if (currentUser) {
+      const saved = localStorage.getItem(`payments_${currentUser.id}`);
+      return saved ? JSON.parse(saved) : [];
+    }
+    return [];
+  });
+  const [selectedCardId, setSelectedCardId] = useState("");
+
+  // Sync selected card
+  useEffect(() => {
+    if (savedCards.length > 0) {
+      const defCard = savedCards.find((c) => c.isDefault) || savedCards[0];
+      setSelectedCardId(String(defCard.id));
+    }
+  }, [savedCards]);
 
   // Billing / Shipping Form state
   const [selectedAddressId, setSelectedAddressId] = useState("");
@@ -126,6 +156,11 @@ export default function Checkout() {
       return;
     }
 
+    if (paymentMethod === "card" && savedCards.length === 0) {
+      alert("กรุณาเพิ่มบัตรเครดิตในหน้าโปรไฟล์ของคุณก่อนทำรายการชำระเงินครับ/ค่ะ");
+      return;
+    }
+
     if (paymentMethod === "promptpay") {
       setIsPromptPayModalOpen(true);
     } else {
@@ -133,10 +168,13 @@ export default function Checkout() {
     }
   };
 
-  const processOrder = () => {
+  const processOrder = async () => {
     // Generate new order
     const orderId = `IHC-${Math.floor(10000 + Math.random() * 90000)}`;
     
+    const selectedCard = savedCards.find((c) => String(c.id) === String(selectedCardId));
+    const cardDetail = selectedCard ? `${selectedCard.type} ${selectedCard.cardNumber}` : "บัตรเครดิต/เดบิต";
+
     const newOrder = {
       id: orderId,
       date: new Date().toISOString().split("T")[0],
@@ -155,46 +193,64 @@ export default function Checkout() {
       recipientPhone: addressForm.phone,
       paymentMethod: paymentMethod === "transfer" ? "โอนเงินผ่านบัญชีธนาคาร" : 
                      paymentMethod === "promptpay" ? "พร้อมเพย์ QR" : 
-                     paymentMethod === "card" ? "บัตรเครดิต/เดบิต" : "เก็บเงินปลายทาง",
+                     paymentMethod === "card" ? cardDetail : "เก็บเงินปลายทาง",
     };
 
-    // Save order history in localStorage
-    const savedOrdersKey = `orders_${currentUser.id}`;
-    const existingOrders = JSON.parse(localStorage.getItem(savedOrdersKey) || "[]");
-    
-    // Profiles.jsx loads static mock orders first if empty. Let's make sure we prepend or append.
-    // If there were no saved orders yet, let's load default mocks from Profiles.jsx and add this one.
-    let baseOrders = [];
-    if (localStorage.getItem(savedOrdersKey)) {
-      baseOrders = existingOrders;
-    } else {
-      baseOrders = [
-        {
-          id: "IHC-98241",
-          date: "2026-06-15",
-          items: "Intel Core i7-14700K + ASUS Prime Z790-A Wifi",
-          total: 24900,
-          status: "จัดส่งแล้ว",
+    try {
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${currentUser.token}`,
         },
-        {
-          id: "IHC-97304",
-          date: "2026-07-02",
-          items: "Razer DeathAdder V3 Pro Wireless",
-          total: 4990,
-          status: "เสร็จสิ้น",
-        },
-      ];
-    }
-    
-    const updatedOrders = [newOrder, ...baseOrders];
-    localStorage.setItem(savedOrdersKey, JSON.stringify(updatedOrders));
+        body: JSON.stringify(newOrder),
+      });
 
-    // Clear cart and redirect
-    setOrderCompleted(true);
-    clearCart();
-    setIsPromptPayModalOpen(false);
-    alert(`🎉 ทำรายการสั่งซื้อสำเร็จ!\nหมายเลขคำสั่งซื้อของคุณคือ ${orderId}`);
-    navigate("/profile", { state: { activeTab: "orders" } }); // Redirect to profile page to let them see order history
+      if (!response.ok) {
+        const data = await response.json();
+        alert(data.message || "เกิดข้อผิดพลาดในการบันทึกคำสั่งซื้อไปยังเซิร์ฟเวอร์");
+        return;
+      }
+
+      // Save order history in localStorage
+      const savedOrdersKey = `orders_${currentUser.id}`;
+      const existingOrders = JSON.parse(localStorage.getItem(savedOrdersKey) || "[]");
+      
+      let baseOrders = [];
+      if (localStorage.getItem(savedOrdersKey)) {
+        baseOrders = existingOrders;
+      } else {
+        baseOrders = [
+          {
+            id: "IHC-98241",
+            date: "2026-06-15",
+            items: "Intel Core i7-14700K + ASUS Prime Z790-A Wifi",
+            total: 24900,
+            status: "จัดส่งแล้ว",
+          },
+          {
+            id: "IHC-97304",
+            date: "2026-07-02",
+            items: "Razer DeathAdder V3 Pro Wireless",
+            total: 4990,
+            status: "เสร็จสิ้น",
+          },
+        ];
+      }
+      
+      const updatedOrders = [newOrder, ...baseOrders];
+      localStorage.setItem(savedOrdersKey, JSON.stringify(updatedOrders));
+
+      // Clear cart and redirect
+      setOrderCompleted(true);
+      clearCart();
+      setIsPromptPayModalOpen(false);
+      alert(`🎉 ทำรายการสั่งซื้อสำเร็จ!\nหมายเลขคำสั่งซื้อของคุณคือ ${orderId}`);
+      navigate("/profile", { state: { activeTab: "orders" } }); // Redirect to profile page to let them see order history
+    } catch (err) {
+      console.error(err);
+      alert("ไม่สามารถติดต่อเซิร์ฟเวอร์เพื่อบันทึกการสั่งซื้อได้ กรุณาลองใหม่อีกครั้ง");
+    }
   };
 
   const handleInputChange = (field, value) => {
@@ -258,7 +314,7 @@ export default function Checkout() {
                   >
                     {savedAddresses.map((addr) => (
                       <option key={addr.id} value={addr.id}>
-                        [{addr.type === "home" ? "บ้าน" : addr.type === "work" ? "ที่ทำงาน" : "อื่นๆ"}] {addr.name} - {addr.details}, {addr.province} {addr.postalCode}
+                        [{addr.isDefault ? "ที่อยู่หลัก" : "ที่อยู่รอง"}] ({addr.type === "home" ? "บ้าน" : addr.type === "work" ? "ที่ทำงาน" : "อื่นๆ"}) {addr.name} - {addr.details}, {addr.province} {addr.postalCode}
                       </option>
                     ))}
                     <option value="new">+ กรอกที่อยู่จัดส่งใหม่</option>
@@ -497,13 +553,33 @@ export default function Checkout() {
                 )}
                 {paymentMethod === "card" && (
                   <div className="space-y-2">
-                    <p className="font-semibold text-on-surface">กรอกข้อมูลบัตรเครดิต:</p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
-                      <input type="text" placeholder="หมายเลขบัตร 16 หลัก" className="bg-white border border-outline-variant rounded-lg py-1.5 px-3 text-xs w-full outline-none" />
-                      <input type="text" placeholder="ชื่อบนบัตร" className="bg-white border border-outline-variant rounded-lg py-1.5 px-3 text-xs w-full outline-none" />
-                      <input type="text" placeholder="ดด/ปป" className="bg-white border border-outline-variant rounded-lg py-1.5 px-3 text-xs w-full outline-none" />
-                      <input type="password" placeholder="CVV" className="bg-white border border-outline-variant rounded-lg py-1.5 px-3 text-xs w-full outline-none" />
-                    </div>
+                    {savedCards.length > 0 ? (
+                      <>
+                        <p className="font-semibold text-on-surface text-xs mb-1">เลือกบัตรเครดิตที่ต้องการชำระเงิน:</p>
+                        <select
+                          value={selectedCardId}
+                          onChange={(e) => setSelectedCardId(e.target.value)}
+                          className="w-full bg-white border border-outline-variant rounded-lg py-2 px-3 text-xs font-semibold outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
+                        >
+                          {savedCards.map((card) => (
+                            <option key={card.id} value={card.id}>
+                              [{card.isDefault ? "บัตรเริ่มต้น" : "บัตรเสริม"}] {card.type} - {card.cardNumber} ({card.holder})
+                            </option>
+                          ))}
+                        </select>
+                      </>
+                    ) : (
+                      <div className="bg-error-container/10 border border-error/20 p-3 rounded-lg text-center space-y-2">
+                        <p className="text-error font-semibold text-[11px]">คุณยังไม่ได้บันทึกบัตรเครดิตในระบบ</p>
+                        <button
+                          type="button"
+                          onClick={() => navigate("/profile", { state: { activeTab: "payment_methods" } })}
+                          className="bg-primary text-white hover:brightness-110 px-3 py-1.5 rounded-lg font-bold text-[9px] transition-all cursor-pointer border-none"
+                        >
+                          ไปที่หน้าโปรไฟล์เพื่อเพิ่มบัตรเครดิต
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
                 {paymentMethod === "cod" && (
