@@ -1,15 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import axios from 'axios';
 import ProductCard from "../component/Products/ProductCard";
 import AsideFilterProducts from "../component/Products/AsideFilterProducts";
 
 export default function Products() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const productType = searchParams.get("productType") || "ALL";
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [selectedCategories, setSelectedCategories] = useState([]);
+
+  const [selectedType, setSelectedType] = useState("");
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedExtras, setSelectedExtras] = useState({});
   const [maxPrice, setMaxPrice] = useState(Number.MAX_SAFE_INTEGER);
@@ -22,10 +24,9 @@ export default function Products() {
       setError("");
 
       try {
-        const response = await fetch("/api/products");
-        if (!response.ok) throw new Error("Failed to load products");
+        const { data } = await axios.get("/api/products");
+        console.log(data)
 
-        const data = await response.json();
         if (isMounted) {
           setProducts(data);
         }
@@ -33,6 +34,7 @@ export default function Products() {
         if (isMounted) {
           setError("ไม่สามารถโหลดข้อมูลสินค้าได้ในขณะนี้");
         }
+        console.error(err);
       } finally {
         if (isMounted) {
           setLoading(false);
@@ -48,65 +50,103 @@ export default function Products() {
   }, []);
 
   const availableProducts = useMemo(() => {
-    if (productType === "ALL") return products;
-    return products.filter((item) => item.productType === productType);
-  }, [productType, products]);
+    if (productType !== "ALL") {
+      return products.filter((p) => p.type === productType);
+    }
+
+    if (selectedType) {
+      return products.filter((p) => p.type === selectedType);
+    }
+
+    return products;
+  }, [products, productType, selectedType]);
+
+  const brands = useMemo(() => {
+    return [...new Set(availableProducts.map((p) => p.brand))].sort();
+  }, [availableProducts]);
+
+  const types = useMemo(() => {
+    return [...new Set(products.map((p) => p.type))].sort();
+  }, [products]);
+
+  const priceMaxLimit = useMemo(() => {
+    if (!availableProducts.length) return 0;
+
+    return Math.max(
+      ...availableProducts.map((p) => p.price)
+    );
+  }, [availableProducts]);
 
   useEffect(() => {
-    setSelectedCategories([]);
+    setSelectedType("");
     setSelectedBrands([]);
     setSelectedExtras({});
-    setMaxPrice(
-      Math.max(...availableProducts.map((product) => product.price), 0),
-    );
-  }, [availableProducts, productType]);
+  }, [productType]);
 
-  const priceMaxLimit = useMemo(
-    () => Math.max(...availableProducts.map((product) => product.price), 0),
-    [availableProducts],
-  );
+  useEffect(() => {
+    setMaxPrice(priceMaxLimit);
+  }, [priceMaxLimit]);
+
+  const filters = useMemo(() => {
+    const result = {};
+
+    availableProducts.forEach((product) => {
+      Object.entries(product.attributes || {}).forEach(([key, value]) => {
+        if (!result[key]) {
+          result[key] = new Set();
+        }
+
+        if (Array.isArray(value)) {
+          value.forEach((item) => result[key].add(item));
+        } else {
+          result[key].add(value);
+        }
+      });
+    });
+
+    return Object.fromEntries(
+      Object.entries(result).map(([key, values]) => [
+        key,
+        [...values].sort((a, b) => {
+          const na = Number(a);
+          const nb = Number(b);
+
+          if (!Number.isNaN(na) && !Number.isNaN(nb)) {
+            return na - nb;
+          }
+
+          return String(a).localeCompare(String(b));
+        }),
+      ]),
+    );
+  }, [availableProducts]);
 
   const filteredProducts = useMemo(() => {
     return availableProducts.filter((product) => {
-      const matchesCategory =
-        selectedCategories.length === 0 ||
-        (productType === "ALL"
-          ? selectedCategories.includes(product.productType)
-          : selectedCategories.includes(product.category));
+      const matchBrand =
+        selectedBrands.length === 0 ||
+        selectedBrands.includes(product.brand);
 
-      const matchesBrand =
-        selectedBrands.length === 0 || selectedBrands.includes(product.brand);
+      const matchAttributes = Object.entries(selectedExtras).every(
+        ([key, selected]) => {
+          if (!selected.length) return true;
 
-      const matchesExtras = Object.entries(selectedExtras).every(
-        ([key, values]) => {
-          if (!values.length) return true;
+          const value = product.attributes?.[key];
 
-          const productValue = product[key];
-          
-          console.log("-------------")
-          console.log("Product", values)
-          console.log("Key", key)
-          console.log("ProductKey", productValue)
-          console.log("-------------")
-
-          if (Array.isArray(productValue)) {
-            return values.some((selectedValue) =>
-              productValue.includes(selectedValue),
-            );
+          if (Array.isArray(value)) {
+            return selected.some((item) => value.includes(item));
           }
 
-          return values.includes(productValue);
+          return selected.includes(value);
         },
       );
 
-      const matchesPrice = product.price <= maxPrice;
+      const matchPrice = product.price <= maxPrice;
 
-      return matchesCategory && matchesBrand && matchesExtras && matchesPrice;
+      return matchBrand && matchAttributes && matchPrice;
     });
   }, [
     availableProducts,
-    productType,
-    selectedCategories,
     selectedBrands,
     selectedExtras,
     maxPrice,
@@ -116,10 +156,6 @@ export default function Products() {
     currentValues.includes(value)
       ? currentValues.filter((item) => item !== value)
       : [...currentValues, value];
-
-  const handleCategoryChange = (category) => {
-    setSelectedCategories((current) => toggleValue(current, category));
-  };
 
   const handleBrandChange = (brand) => {
     setSelectedBrands((current) => toggleValue(current, brand));
@@ -140,11 +176,16 @@ export default function Products() {
   };
   return (
     <div>
-      <main className="mt-20 mx-40 px-margin-desktop py-stack-lg flex gap-gutter">
+      <main
+        className={`mt-20 mx-40 px-margin-desktop py-stack-lg ${productType === "ALL"
+          ? ""
+          : "flex gap-gutter"
+          }`}
+      >        {productType !== "ALL" && (
         <AsideFilterProducts
           productType={productType}
-          selectedCategories={selectedCategories}
-          onCategoryChange={handleCategoryChange}
+          brands={brands}
+          filters={filters}
           selectedBrands={selectedBrands}
           onBrandChange={handleBrandChange}
           selectedExtras={selectedExtras}
@@ -153,18 +194,51 @@ export default function Products() {
           priceMaxLimit={priceMaxLimit}
           onPriceChange={setMaxPrice}
         />
+      )}
+
+        {productType === "ALL" && (
+          <div className="flex flex-wrap gap-3 mt-5 mb-6">
+            <button
+              onClick={() =>
+                setSearchParams({ productType: "ALL" })
+              } className={`px-4 py-2 rounded-full border transition
+                        ${selectedType === ""
+                  ? "bg-primary text-white border-primary"
+                  : "bg-white hover:bg-gray-100"
+                }`}
+            >
+              ทั้งหมด
+            </button>
+
+            {types.map((type) => (
+              <button
+                key={type}
+                onClick={() =>
+                  setSearchParams({ productType: type })
+                } className={`px-4 py-2 rounded-full border transition
+                          ${selectedType === type
+                    ? "bg-primary text-white border-primary"
+                    : "bg-white hover:bg-gray-100"
+                  }`}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+        )}
         <section className="flex-1 bg-white rounded-lg p-4 h-fit shadow-md mb-5">
           <div className="flex flex-col md:flex-row justify-between items-baseline border-b border-outline-variant pb-4 gap-5">
             <div>
               <h2 className="text-headline-lg font-headline-lg text-on-surface">
-                แสดงผลการค้นหาสำหรับ {productType}
+                {productType === "ALL"
+                  ? "แสดงสินค้าทั้งหมด"
+                  : `แสดงผลการค้นหาสำหรับ ${productType}`}
               </h2>
-
               <p className="text-body-md text-on-surface-variant">
                 พบสินค้าทั้งหมด {filteredProducts.length} รายการ
               </p>
             </div>
-            <div className="flex items-center gap-stack-md">
+            {/* <div className="flex items-center gap-stack-md">
               <span className="text-label-md text-on-surface-variant">
                 เรียงตาม:
               </span>
@@ -174,7 +248,15 @@ export default function Products() {
                 <option>ราคา: สูง-ต่ำ</option>
                 <option>มาใหม่</option>
               </select>
-            </div>
+            </div> */}
+            {productType != "ALL" && (
+              <button
+                className="px-4 py-2 rounded-full shadow border transition hover:bg-primary hover:shadow-md"
+                onClick={() => setSearchParams({ productType: "ALL" })}
+              >
+                X
+              </button>
+            )}
           </div>
 
           {loading ? (

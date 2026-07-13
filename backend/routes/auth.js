@@ -18,7 +18,6 @@ function parseBody(req) {
   });
 }
 
-// Handler for user registration
 async function registerUser(req, res) {
   try {
     const { name, email, password } = await parseBody(req);
@@ -31,7 +30,6 @@ async function registerUser(req, res) {
 
     const users = readJsonFile("users.json");
 
-    // Check if user already exists
     if (users.some((u) => u.email.toLowerCase() === email.toLowerCase())) {
       res.writeHead(400, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ message: "อีเมลนี้ถูกใช้งานแล้ว" }));
