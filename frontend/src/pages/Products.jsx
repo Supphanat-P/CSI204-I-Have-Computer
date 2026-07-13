@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import ProductCard from "../component/Products/ProductCard";
 import AsideFilterProducts from "../component/Products/AsideFilterProducts";
@@ -176,8 +177,16 @@ export default function Products() {
   };
   return (
     <div>
+      <nav className="flex mt-5 mx-14 mb-0 items-center gap-2 text-label-md text-on-surface-variant">
+        <Link to="/" className="hover:text-primary transition-colors">หน้าแรก</Link>
+        <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+        <Link to={`/Products?productType=${productType}`}>
+          {productType}
+        </Link>
+        <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+      </nav>
       <main
-        className={`mt-20 mx-40 px-margin-desktop py-stack-lg ${productType === "ALL"
+        className={`mt-10 mx-40 px-margin-desktop py-stack-lg ${productType === "ALL"
           ? ""
           : "flex gap-gutter"
           }`}
