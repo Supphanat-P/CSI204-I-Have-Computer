@@ -83,7 +83,7 @@
     "type": "CPU",
     "price": 18900,
     "stock": 10,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/product16311_800.jpg",
     "description": "ซีพียูเกมมิ่งประสิทธิภาพสูง",
     "highlights": [
       "8 Cores",
@@ -120,7 +120,7 @@
     "type": "Mainboard",
     "price": 7990,
     "stock": 7,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "image": "https://media-cdn.bnn.in.th/251772/msi-mag-b650-tomahawk-wifi-d5-1-square_medium.jpg",
     "description": "เมนบอร์ดสำหรับ AMD AM5",
     "highlights": [
       "WiFi",
@@ -158,7 +158,7 @@
     "type": "RAM",
     "price": 5900,
     "stock": 20,
-    "image": "https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2022060413310953593_1.jpg",
     "description": "แรม DDR5 ความเร็วสูง",
     "highlights": [
       "DDR5",
@@ -193,7 +193,7 @@
     "type": "SSD",
     "price": 6490,
     "stock": 12,
-    "image": "https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2023082416295161614_1.jpg",
     "description": "SSD PCIe Gen4 ความเร็วสูง",
     "highlights": [
       "2TB",
@@ -230,7 +230,7 @@
     "type": "HDD",
     "price": 1990,
     "stock": 15,
-    "image": "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=900&q=80",
+    "image": "https://img.advice.co.th/cdn-cgi/image/format=auto,width=700,quality=82,fit=contain/images_nas/pic_product4/A0136256/A0136256OK_BIG_1.jpg",
     "description": "ฮาร์ดดิสก์สำหรับเก็บข้อมูล",
     "highlights": [
       "2TB",
@@ -261,7 +261,7 @@
     "type": "PSU",
     "price": 5490,
     "stock": 9,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/20250702151933_71710_287_1.jpg",
     "description": "พาวเวอร์ซัพพลาย 850W",
     "highlights": [
       "80+ Gold",
@@ -293,7 +293,7 @@
     "type": "CPU Cooler",
     "price": 4290,
     "stock": 8,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2023071914440960972_1.jpg",
     "description": "ชุดน้ำ AIO ขนาด 360mm",
     "highlights": [
       "360mm",
@@ -328,7 +328,7 @@
     "type": "Case",
     "price": 4590,
     "stock": 6,
-    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2023110709401563460_1.jpg",
     "description": "เคส ATX กระจก Tempered Glass",
     "highlights": [
       "ATX",
@@ -365,7 +365,7 @@
     "type": "Keyboard",
     "price": 15900,
     "stock": 4,
-    "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=80",
+    "image": "https://wooting-website.ams3.cdn.digitaloceanspaces.com/products/keyboards/60HE/60HE_OG.webp",
     "description": "คีย์บอร์ด Hall Effect",
     "highlights": [
       "Rapid Trigger",
@@ -399,7 +399,7 @@
     "type": "Mouse",
     "price": 4990,
     "stock": 10,
-    "image": "https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/20250619154956_61791_66_1.jpg",
     "description": "เมาส์เกมมิ่งไร้สายน้ำหนักเบา",
     "highlights": [
       "Wireless",
@@ -435,7 +435,7 @@
     "type": "Headphones",
     "price": 4990,
     "stock": 9,
-    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
+    "image": "https://row.hyperx.com/cdn/shop/files/hyperx_cloud_iii_wireless_red_77z46aa_main_1.jpg?v=1764893494",
     "description": "หูฟังเกมมิ่งไร้สาย",
     "highlights": [
       "Wireless",
@@ -469,7 +469,7 @@
     "type": "Microphone",
     "price": 5490,
     "stock": 6,
-    "image": "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/20201204145230_44041_66_1.png",
     "description": "ไมโครโฟน USB สำหรับสตรีม",
     "highlights": [
       "RGB",
