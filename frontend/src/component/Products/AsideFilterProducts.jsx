@@ -1,7 +1,7 @@
+import { useState } from "react";
 function formatPrice(value) {
   return `${value.toLocaleString("th-TH")}฿`;
 }
-
 const filterLabel = {
   socket: "Socket",
   chipset: "Chipset",
@@ -29,7 +29,12 @@ const filterLabel = {
   weight: "Weight",
   rgb: "RGB",
   microphone: "Microphone",
-  fps:"FPS"
+  fps: "FPS",
+  gpuSeries: "GPU Series",
+  memorySize: "Memory Size",
+  powerRequirement: "Power Requirement",
+  threads: "Threads",
+  boostClock: "Boost Clock"
 };
 
 export default function AsideFilterProducts({
@@ -51,6 +56,13 @@ export default function AsideFilterProducts({
   priceMaxLimit,
   onPriceChange,
 }) {
+  const [collapsed, setCollapsed] = useState({});
+  const toggleSection = (key) => {
+    setCollapsed((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
   const renderSection = (
     key,
     title,
@@ -60,33 +72,41 @@ export default function AsideFilterProducts({
     icon = "tune",
   ) => (
     <div className="flex flex-col gap-stack-sm mt-3" key={key}>
-      <div className="flex items-center gap-2 text-primary">
-        <span className="material-symbols-outlined">{icon}</span>
-        <span className="font-label-md text-label-md">
-          {title}
+      <button
+        type="button"
+        onClick={() => toggleSection(key)}
+        className="flex items-center justify-between w-full text-primary"
+      >
+        <div className="flex items-center gap-2">
+          <span className="material-symbols-outlined">{icon}</span>
+          <span className="font-label-md">{title}</span>
+        </div>
+
+        <span className="material-symbols-outlined">
+          {collapsed[key] ? "expand_more" : "expand_less"}
         </span>
-      </div>
+      </button>
 
-      <div className="flex flex-col gap-2 pl-8">
-        {items.map((item) => (
-          <label
-            key={item}
-            className="flex items-center gap-2 cursor-pointer"
-          >
-            <input
-              type="checkbox"
-              className="rounded accent-primary"
-              checked={selectedValues.includes(item)}
-              onChange={() => onChange(item)}
-            />
-
-            {item}
-          </label>
-        ))}
-      </div>
+      {!collapsed[key] && (
+        <div className="flex flex-col gap-2 pl-8">
+          {items.map((item) => (
+            <label
+              key={item}
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              <input
+                type="checkbox"
+                className="rounded accent-primary"
+                checked={selectedValues.includes(item)}
+                onChange={() => onChange(item)}
+              />
+              {item}
+            </label>
+          ))}
+        </div>
+      )}
     </div>
   );
-
   return (
     <aside className="hidden md:flex flex-col bg-white p-4 rounded-lg w-64 shrink-0 sticky top-24 h-fit overflow-y-auto no-scrollbar gap-stack-lg border-r shadow-md">
       <div>
