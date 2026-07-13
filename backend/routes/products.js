@@ -1,23 +1,27 @@
-const { readJsonFile } = require("../utils/fileHandler");
+const { readJsonFile, writeJsonFile } = require("../utils/fileHandler");
 
 function getProducts(req, res) {
   const products = readJsonFile("products.json");
-  res.writeHead(200, { "Content-Type": "application/json" });
-  res.end(JSON.stringify(products));
+  res.json(products);
 }
 
-function getProductById(req, res, id) {
+function getProductById(req, res) {
   const products = readJsonFile("products.json");
-  const product = products.find((item) => item.id === Number(id));
+
+  const product = products.find(
+    (item) => item.id === Number(req.params.id)
+  );
 
   if (!product) {
-    res.writeHead(404, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ message: "Product not found" }));
-    return;
+    return res.status(404).json({
+      message: "Product not found",
+    });
   }
 
-  res.writeHead(200, { "Content-Type": "application/json" });
-  res.end(JSON.stringify(product));
+  res.json(product);
 }
 
-module.exports = { getProducts, getProductById };
+module.exports = {
+  getProducts,
+  getProductById,
+};

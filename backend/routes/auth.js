@@ -1,9 +1,42 @@
 const { readJsonFile, writeJsonFile } = require("../utils/fileHandler");
 const { signJwt } = require("../middleware/authMiddleware");
+const bcrypt = require("bcryptjs");
+
+// Helper to check if string is a bcrypt hash
+function isBcryptHash(password) {
+  return typeof password === "string" && /^\$2[ayb]\$[0-9]{2}\$[./A-Za-z0-9]{53}$/.test(password);
+}
+
+// Migrate any plain text passwords in users.json to bcrypt hashes
+function migrateUsers() {
+  const users = readJsonFile("users.json");
+  let modified = false;
+
+  const migratedUsers = users.map((user) => {
+    if (!isBcryptHash(user.password)) {
+      const salt = bcrypt.genSaltSync(10);
+      user.password = bcrypt.hashSync(user.password, salt);
+      modified = true;
+    }
+    return user;
+  });
+
+  if (modified) {
+    writeJsonFile("users.json", migratedUsers);
+    console.log("Successfully migrated plain text passwords to bcrypt hashes.");
+  }
+}
+
+// Run migration on load
+migrateUsers();
 
 // Utility to parse request JSON body in native Node.js
 function parseBody(req) {
   return new Promise((resolve, reject) => {
+    if (req.body && typeof req.body === "object") {
+      resolve(req.body);
+      return;
+    }
     let body = "";
     req.on("data", (chunk) => {
       body += chunk.toString();
@@ -51,23 +84,27 @@ async function registerUser(req, res) {
       }
     }
 
+    // Hash password with bcrypt before storing
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     // Create new user object with empty profile fields
     const newUser = {
       id: nextId.toString(),
       name,
       email,
-      password, // Stored as plain text as requested / compatible with current localStorage setup
+      password: hashedPassword,
       phone: "-",
       birthDate: "-",
       lineId: "-",
       facebook: "-",
+      role: "user",
     };
 
     users.push(newUser);
     writeJsonFile("users.json", users);
 
     // Generate JWT token for the newly registered user
-    const token = signJwt({ id: newUser.id, email: newUser.email });
+    const token = signJwt({ id: newUser.id, email: newUser.email, role: newUser.role });
 
     res.writeHead(201, { "Content-Type": "application/json" });
     res.end(
@@ -82,6 +119,7 @@ async function registerUser(req, res) {
           birthDate: newUser.birthDate,
           lineId: newUser.lineId,
           facebook: newUser.facebook,
+          role: newUser.role,
         },
       })
     );
@@ -122,19 +160,22 @@ async function loginUser(req, res) {
     // }
 
     const matchedUser = users.find(
-      (u) =>
-        u.email.toLowerCase() === email.toLowerCase() &&
-        u.password === password
+      (u) => u.email.toLowerCase() === email.toLowerCase()
     );
 
-    if (!matchedUser) {
+    let isPasswordCorrect = false;
+    if (matchedUser) {
+      isPasswordCorrect = await bcrypt.compare(password, matchedUser.password);
+    }
+
+    if (!matchedUser || !isPasswordCorrect) {
       res.writeHead(401, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ message: "อีเมลหรือรหัสผ่านไม่ถูกต้อง" }));
       return;
     }
 
     // Generate JWT token for the user
-    const token = signJwt({ id: matchedUser.id, email: matchedUser.email });
+    const token = signJwt({ id: matchedUser.id, email: matchedUser.email, role: matchedUser.role || "user" });
 
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(
@@ -149,6 +190,7 @@ async function loginUser(req, res) {
           birthDate: matchedUser.birthDate || "-",
           lineId: matchedUser.lineId || "-",
           facebook: matchedUser.facebook || "-",
+          role: matchedUser.role || "user",
         },
       })
     );
@@ -224,6 +266,7 @@ async function updateProfile(req, res) {
           birthDate: updatedUser.birthDate,
           lineId: updatedUser.lineId,
           facebook: updatedUser.facebook,
+          role: updatedUser.role || "user",
         },
       })
     );

@@ -1,260 +1,1430 @@
 [
   {
     "id": 1,
-    "name": "ASUS ROG Swift OLED 27\"",
+    "name": "ASUS ROG Swift OLED PG27AQDM",
     "brand": "ASUS",
-    "productType": "Monitor",
-    "category": "27 นิ้ว",
+    "type": "Monitor",
     "price": 24900,
-    "image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=80",
     "stock": 8,
-    "description": "จอเกม OLED ขนาด 27 นิ้ว ให้สีสันสดใสและการตอบสนองที่รวดเร็ว เหมาะสำหรับเกมและงานกราฟิก",
+    "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?auto=format&fit=crop&w=900&q=80",
+    "description": "จอเกมมิ่ง OLED ความละเอียด 2K รีเฟรชเรท 240Hz",
     "highlights": [
-      "OLED Panel",
-      "240Hz Refresh Rate",
-      "HDR True Black"
+      "OLED",
+      "240Hz",
+      "HDR"
     ],
-    "specs": {
+    "attributes": {
+      "size": "27\"",
       "resolution": "2560x1440",
       "panel": "OLED",
       "refreshRate": "240Hz"
+    },
+    "attributesDetails": {
+      "brand": "ASUS",
+      "model": "ROG Swift OLED PG27AQDM",
+      "screenSize": "26.5\"",
+      "resolution": "2560 x 1440 (2K QHD)",
+      "panelType": "OLED",
+      "refreshRate": "240Hz",
+      "responseTime": "0.03 ms (GtG)",
+      "aspectRatio": "16:9",
+      "brightness": "450 cd/m2 (Typical) / 1000 cd/m2 (Peak)",
+      "contrastRatio": "1500000:1",
+      "displayColors": "1.07 Billion",
+      "hdrSupport": "HDR10",
+      "connectivity": "2 x HDMI 2.0, 1 x DisplayPort 1.4, 2 x USB 3.2 Gen 1 Type-A",
+      "warranty": "3 Years"
     }
   },
   {
     "id": 2,
-    "name": "LG UltraGear 32\" 4K",
-    "brand": "LG",
-    "productType": "Monitor",
-    "category": "32 นิ้ว",
-    "price": 31900,
-    "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?auto=format&fit=crop&w=900&q=80",
+    "name": "GIGABYTE GeForce RTX 5050 WINDFORCE OC 8G GDDR6",
+    "brand": "GIGABYTE",
+    "type": "GPU",
+    "price": 8990,
     "stock": 5,
-    "description": "จอ 32 นิ้วความละเอียด 4K เหมาะกับการเล่นเกมและดูหนังในความละเอียดสูง",
+    "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/products118747_800.jpg",
+    "description": "การ์ดจอซีรีส์ใหม่ล่าสุดสถาปัตยกรรม Blackwell ขุมพลังระดับเริ่มต้นที่มาพร้อมแรม 8GB GDDR6 และการรองรับ PCIe 5.0",
     "highlights": [
-      "4K UHD",
-      "144Hz",
-      "Adaptive Sync"
+      "8GB GDDR6",
+      "PCI-E 5.0 Support",
+      "NVIDIA Blackwell Architecture",
+      "DLSS 4.5 Support"
     ],
-    "specs": {
-      "resolution": "3840x2160",
-      "panel": "IPS",
-      "refreshRate": "144Hz"
+    "attributes": {
+      "gpuSeries": "GeForce RTX™ 50 Series",
+      "memorySize": "8GB GDDR6",
+      "powerRequirement": "550 Watt"
+    },
+    "attributesDetails": {
+      "brand": "GIGABYTE",
+      "gpuSeries": "NVIDIA GeForce RTX™ 50 Series",
+      "gpuModel": "GeForce® RTX 5050",
+      "memorySize": "8GB GDDR6",
+      "busStandards": "PCI-E 5.0",
+      "openGL": "OpenGL® 4.6",
+      "cudaCores": 2560,
+      "memoryInterface": "128-bit",
+      "boostClock": "2632 MHz",
+      "memoryClock": "20.0 Gbps",
+      "maxDigitalResolution": "7680 x 4320",
+      "hdmiPort": "2 x HDMI 2.1b",
+      "displayPort": "2 x DisplayPort™ (2.1b)",
+      "powerConnector": "1 x 8-pin",
+      "powerRequirement": "550 Watt",
+      "dimension": "199 x 116 x 40 mm",
+      "warranty": "3 Years"
     }
   },
   {
     "id": 3,
-    "name": "RTX 4070 Ti SUPER",
-    "brand": "NVIDIA",
-    "productType": "GPU",
-    "category": "RTX 4070",
-    "price": 38900,
-    "image": "https://images.unsplash.com/photo-1591799265444-d66432b91588?auto=format&fit=crop&w=900&q=80",
-    "stock": 3,
-    "description": "การ์ดจอระดับไฮเอนด์สำหรับเกม 4K และงานสร้างสรรค์ที่ต้องการประสิทธิภาพสูง",
+    "name": "AMD Ryzen 7 7800X3D",
+    "brand": "AMD",
+    "type": "CPU",
+    "price": 18900,
+    "stock": 10,
+    "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/product16311_800.jpg",
+    "description": "ซีพียูเกมมิ่งประสิทธิภาพสูง",
     "highlights": [
-      "12GB GDDR6X",
-      "Ray Tracing",
-      "DLSS 3"
+      "8 Cores",
+      "3D V-Cache",
+      "AM5"
     ],
-    "specs": {
-      "memory": "12GB",
-      "architecture": "Ada Lovelace",
-      "powerConnector": "12VHPWR"
+    "attributes": {
+      "socket": "AM5",
+      "cores": 8,
+      "threads": 16,
+      "boostClock": "5.0GHz"
+    },
+    "attributesDetails": {
+      "brand": "AMD",
+      "cpuSeries": "AMD Ryzen™ 7",
+      "cpuModel": "Ryzen™ 7 7800X3D",
+      "cpuSocket": "AM5",
+      "cores": 8,
+      "threads": 16,
+      "baseClock": "4.2 GHz",
+      "boostClock": "5.0 GHz",
+      "l2Cache": "8 MB",
+      "l3Cache": "96 MB (3D V-Cache)",
+      "architecture": "Zen 4",
+      "tdp": "120 W",
+      "integratedGraphics": "AMD Radeon™ Graphics",
+      "warranty": "3 Years"
     }
   },
   {
     "id": 4,
-    "name": "RX 7600 XT",
-    "brand": "AMD",
-    "productType": "GPU",
-    "category": "RX 7600",
-    "price": 12900,
-    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=80",
-    "stock": 10,
-    "description": "การ์ดจอคุ้มค่าในระดับกลางที่ให้ประสิทธิภาพเกม 1080p และ 1440p ได้ดี",
+    "name": "MSI MAG B650 Tomahawk WiFi",
+    "brand": "MSI",
+    "type": "Mainboard",
+    "price": 7990,
+    "stock": 7,
+    "image": "https://media-cdn.bnn.in.th/251772/msi-mag-b650-tomahawk-wifi-d5-1-square_medium.jpg",
+    "description": "เมนบอร์ดสำหรับ AMD AM5",
     "highlights": [
-      "8GB GDDR6",
-      "FidelityFX",
-      "Good Value"
+      "WiFi",
+      "DDR5",
+      "PCIe 5.0"
     ],
-    "specs": {
-      "memory": "8GB",
-      "architecture": "RDNA 3",
-      "targetResolution": "1440p"
+    "attributes": {
+      "socket": "AM5",
+      "chipset": "B650",
+      "memory": "DDR5",
+      "formFactor": "ATX",
+      "wifi": true
+    },
+    "attributesDetails": {
+      "brand": "MSI",
+      "model": "MAG B650 TOMAHAWK WIFI",
+      "cpuSocket": "AM5",
+      "chipset": "AMD B650",
+      "formFactor": "ATX",
+      "memorySlots": "4 x DDR5 DIMM",
+      "maxMemoryCapacity": "256GB",
+      "memorySpeedSupported": "Up to 7600+(OC) MHz",
+      "expansionSlots": "2 x PCIe x16 slots, 1 x PCIe x1 slot",
+      "storageInterfaces": "3 x M.2 slots (PCIe Gen4), 6 x SATA 6Gb/s",
+      "wirelessNetworking": "Wi-Fi 6E, Bluetooth 5.3",
+      "lan": "1 x Realtek® 2.5Gbps LAN",
+      "audio": "Realtek® ALC4080 Codec 7.1-Channel HD Audio",
+      "warranty": "3 Years"
     }
   },
   {
     "id": 5,
-    "name": "Intel Core i7-14700K",
-    "brand": "Intel",
-    "productType": "CPU",
-    "category": "Intel Core i7",
-    "socket": "INTEL 1700",
-    "price": 16900,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
-    "stock": 7,
-    "description": "CPU 20 cores ที่ให้ประสิทธิภาพสูงสำหรับเกมและงานสร้างสรรค์",
+    "name": "Kingston Fury Beast 32GB",
+    "brand": "Kingston",
+    "type": "RAM",
+    "price": 5900,
+    "stock": 20,
+    "image": "https://www.jib.co.th/img_master/product/original/2022060413310953593_1.jpg",
+    "description": "แรม DDR5 ความเร็วสูง",
     "highlights": [
-      "20 Cores",
-      "High Clock Speed",
-      "Great Multitasking"
+      "DDR5",
+      "RGB",
+      "32GB"
     ],
-    "specs": {
-      "socket": "LGA1700",
-      "cores": "20",
-      "threads": "28"
+    "attributes": {
+      "capacity": "32GB",
+      "ddr": "DDR5",
+      "speed": "6000MT/s",
+      "rgb": "RGB"
+    },
+    "attributesDetails": {
+      "brand": "Kingston",
+      "series": "Fury Beast RGB",
+      "memoryType": "DDR5",
+      "capacity": "32GB (16GB x 2)",
+      "speed": "6000 MT/s",
+      "casLatency": "CL36 / CL40",
+      "voltage": "1.35V",
+      "eccSupport": "On-Die ECC",
+      "color": "Black",
+      "lighting": "RGB (Kingston FURY Infrared Sync Technology™)",
+      "profileSupport": "Intel XMP 3.0 / AMD EXPO",
+      "warranty": "Limited Lifetime"
     }
   },
   {
     "id": 6,
-    "name": "Ryzen 7 7800X3D",
-    "brand": "AMD",
-    "productType": "CPU",
-    "category": "Ryzen 7",
-    "socket": "AMD AM5",
-    "price": 18900,
-    "image": "https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=900&q=80",
-    "stock": 6,
-    "description": "ซีพียูเกมระดับต้นๆ ที่มีความเร็วและประสิทธิภาพในการเล่นเกมชั้นยอด",
+    "name": "Samsung 990 PRO 2TB",
+    "brand": "Samsung",
+    "type": "SSD",
+    "price": 6490,
+    "stock": 12,
+    "image": "https://www.jib.co.th/img_master/product/original/2023082416295161614_1.jpg",
+    "description": "SSD PCIe Gen4 ความเร็วสูง",
     "highlights": [
-      "3D V-Cache",
-      "AM5 Platform",
-      "Excellent Gaming"
+      "2TB",
+      "PCIe Gen4",
+      "7400MB/s"
     ],
-    "specs": {
-      "socket": "AM5",
-      "cores": "8",
-      "threads": "16"
+    "attributes": {
+      "capacity": "2TB",
+      "interface": "PCIe Gen4",
+      "formFactor": "M.2 2280",
+      "speed": "7400MB/s"
+    },
+    "attributesDetails": {
+      "brand": "Samsung",
+      "series": "990 PRO",
+      "capacity": "2TB",
+      "formFactor": "M.2 (2280)",
+      "interface": "PCIe Gen 4.0 x4, NVMe 2.0",
+      "controller": "Samsung In-House Controller",
+      "nandFlash": "Samsung V-NAND 3-bit MLC",
+      "cacheMemory": "2GB LPDDR4 DRAM",
+      "sequentialRead": "Up to 7450 MB/s",
+      "sequentialWrite": "Up to 6900 MB/s",
+      "randomRead": "Up to 1400000 IOPS",
+      "randomWrite": "Up to 1550000 IOPS",
+      "tbw": "1200 TBW",
+      "warranty": "5 Years"
     }
   },
   {
     "id": 7,
-    "name": "Kingston Fury Beast 32GB",
-    "brand": "Kingston",
-    "productType": "RAM",
-    "category": "32GB",
-    "ddr": "DDR5",
-    "bus": "3600",
-    "price": 5900,
-    "image": "https://images.unsplash.com/photo-1562976540-1502c2145186-bc8f1f6f6f5d?auto=format&fit=crop&w=900&q=80",
-    "stock": 14,
-    "description": "แรม DDR5 ความจุ 32GB ที่ให้ความเร็วสูงและเสถียรภาพดีสำหรับคอมพิวเตอร์สมัยใหม่",
+    "name": "WD Blue 2TB",
+    "brand": "Western Digital",
+    "type": "HDD",
+    "price": 1990,
+    "stock": 15,
+    "image": "https://img.advice.co.th/cdn-cgi/image/format=auto,width=700,quality=82,fit=contain/images_nas/pic_product4/A0136256/A0136256OK_BIG_1.jpg",
+    "description": "ฮาร์ดดิสก์สำหรับเก็บข้อมูล",
     "highlights": [
-      "DDR5",
-      "32GB Capacity",
-      "RGB Lighting"
+      "2TB",
+      "7200RPM"
     ],
-    "specs": {
-      "ddr": "DDR5",
-      "bus": "3600MT/s",
-      "capacity": "32GB"
+    "attributes": {
+      "capacity": "2TB",
+      "rpm": "7200RPM",
+      "interface": "SATA III"
+    },
+    "attributesDetails": {
+      "brand": "Western Digital",
+      "series": "WD Blue",
+      "model": "WD20EZBX",
+      "capacity": "2TB",
+      "interface": "SATA 6 Gb/s",
+      "formFactor": "3.5 Inch",
+      "rpm": "7200 RPM",
+      "cacheSize": "256 MB",
+      "transferRate": "Up to 215 MB/s",
+      "warranty": "3 Years"
     }
   },
   {
     "id": 8,
-    "name": "Corsair Vengeance RGB 16GB",
+    "name": "Corsair RM850x",
     "brand": "Corsair",
-    "productType": "RAM",
-    "category": "16GB",
-    "ddr": "DDR4",
-    "bus": "3200",
-    "price": 3200,
-    "image": "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=900&q=80",
-    "stock": 18,
-    "description": "แรม DDR4 ที่มาพร้อมไฟ RGB และเหมาะสำหรับการอัปเกรดคอมพิวเตอร์ทั่วไป",
+    "type": "PSU",
+    "price": 5490,
+    "stock": 9,
+    "image": "https://www.jib.co.th/img_master/product/original/20250702151933_71710_287_1.jpg",
+    "description": "พาวเวอร์ซัพพลาย 850W",
     "highlights": [
-      "RGB",
-      "DDR4",
-      "Low Latency"
+      "80+ Gold",
+      "Full Modular"
     ],
-    "specs": {
-      "ddr": "DDR4",
-      "bus": "3200MT/s",
-      "capacity": "16GB"
+    "attributes": {
+      "watt": "850W",
+      "efficiency": "80+ Gold",
+      "modular": "Full Modular"
+    },
+    "attributesDetails": {
+      "brand": "Corsair",
+      "model": "RM850x",
+      "wattage": "850 Watts",
+      "efficiencyRating": "80 PLUS Gold Certified",
+      "modularType": "Full Modular",
+      "fanSize": "135mm (Magnetic Levitation Fan)",
+      "atxVersion": "ATX12V v2.4",
+      "protectionFeatures": "OVP, UVP, SCP, OTP, OPP",
+      "dimensions": "160 x 150 x 86 mm",
+      "mtbf": "100,000 Hours",
+      "warranty": "10 Years"
     }
   },
   {
     "id": 9,
-    "name": "Sony WH-1000XM5",
-    "brand": "Sony",
-    "productType": "Headphones",
-    "category": "WIRELESS",
-    "price": 12900,
-    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
-    "stock": 9,
-    "description": "หูฟังไร้สายคุณภาพสูงด้วยเสียงคมชัดและตัดเสียงรบกวนได้ดีเยี่ยม",
+    "name": "DeepCool LT720",
+    "brand": "DeepCool",
+    "type": "CPU Cooler",
+    "price": 4290,
+    "stock": 8,
+    "image": "https://www.jib.co.th/img_master/product/original/2023071914440960972_1.jpg",
+    "description": "ชุดน้ำ AIO ขนาด 360mm",
     "highlights": [
-      "Noise Cancelling",
-      "Bluetooth 5.2",
-      "Long Battery Life"
+      "360mm",
+      "ARGB"
     ],
-    "specs": {
-      "type": "Wireless",
-      "batteryLife": "30 hours",
-      "connectivity": "Bluetooth"
+    "attributes": {
+      "type": "AIO",
+      "size": "360mm",
+      "rgb": "RGB"
+    },
+    "attributesDetails": {
+      "brand": "DeepCool",
+      "model": "LT720",
+      "coolerType": "Liquid Cooling System (AIO)",
+      "radiatorSize": "360 mm",
+      "radiatorMaterial": "Aluminum",
+      "pumpSpeed": "3100 RPM",
+      "numberOfFans": 3,
+      "fanDimensions": "120 x 120 x 25 mm",
+      "fanSpeed": "500-2250 RPM",
+      "fanAirflow": "85.85 CFM",
+      "fanNoise": "Up to 32.9 dB(A)",
+      "rgbLighting": "ARGB (Addressable RGB)",
+      "socketSupport": "Intel LGA2066/2011-v3/2011/1700/1200/1151/1150/1155, AMD sTRX4/sTR4/AM5/AM4",
+      "warranty": "5 Years"
     }
   },
   {
     "id": 10,
-    "name": "HyperX Cloud II",
-    "brand": "HyperX",
-    "productType": "Headphones",
-    "category": "HEADSET",
-    "price": 2990,
-    "image": "https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?auto=format&fit=crop&w=900&q=80",
-    "stock": 12,
-    "description": "หูฟังเกมมิ่งที่ให้ความสบายและเสียงที่ชัดเจน เหมาะสำหรับการเล่นเกมเป็นเวลานาน",
+    "name": "NZXT H6 Flow",
+    "brand": "NZXT",
+    "type": "Case",
+    "price": 4590,
+    "stock": 6,
+    "image": "https://www.jib.co.th/img_master/product/original/2023110709401563460_1.jpg",
+    "description": "เคส ATX กระจก Tempered Glass",
     "highlights": [
-      "7.1 Surround Sound",
-      "Comfortable Cushion",
-      "Detachable Mic"
+      "ATX",
+      "Airflow",
+      "Tempered Glass"
     ],
-    "specs": {
-      "type": "Wired",
-      "mic": "Detachable",
-      "connection": "3.5mm"
+    "attributes": {
+      "motherboardSupport": "ATX",
+      "sidePanel": "Tempered Glass",
+      "color": "Black"
+    },
+    "attributesDetails": {
+      "brand": "NZXT",
+      "model": "H6 Flow",
+      "caseType": "Mid-Tower",
+      "motherboardSupport": "ATX, Micro-ATX, Mini-ITX",
+      "material": "SGCC Steel, Ultra-clear Tempered Glass (Side & Front)",
+      "dimensions": "432 x 287 x 415 mm",
+      "weight": "9.4 kg",
+      "expansionSlots": "7 Standard",
+      "driveBays": "1 x 3.5\", 2 x 2.5\"",
+      "fanSupport": "Front-Right: 3 x 120mm (Included), Top: 3 x 120mm / 2 x 140mm, Bottom: 2 x 140mm, Rear: 1 x 120mm",
+      "radiatorSupport": "Top: Up to 360mm, Rear: Up to 120mm",
+      "maxGpuLength": "365 mm",
+      "maxCpuCoolerHeight": "163 mm",
+      "ioPorts": "2 x USB 3.2 Gen 1 Type-A, 1 x USB 3.2 Gen 2 Type-C, 1 x Headset Audio Jack",
+      "warranty": "2 Years"
     }
   },
   {
     "id": 11,
     "name": "Wooting 60HE",
-    "brand": "WOOTING",
-    "productType": "Keyboard",
-    "category": "HALL EFFECT",
+    "brand": "Wooting",
+    "type": "Keyboard",
     "price": 15900,
-    "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwooting.io%2F_next%2Fimage%3Furl%3Dhttps%3A%252F%252Fwooting-website.ams3.cdn.digitaloceanspaces.com%252Fproducts%252Fkeyboards%252F60HEv2%252F60he-v2-split-main.webp%26w%3D3840%26q%3D75&f=1&nofb=1&ipt=a4b54def8b61b6c1685a37614c20cee869722b383a2e2214f05d8f0b507c5d7a",
     "stock": 4,
-    "description": "คีย์บอร์ดเกมมิ่ง Hall Effect ที่ให้ความแม่นยำและตอบสนองดีเยี่ยมสำหรับเกมเมอร์ระดับสูง",
+    "image": "https://wooting-website.ams3.cdn.digitaloceanspaces.com/products/keyboards/60HE/60HE_OG.webp",
+    "description": "คีย์บอร์ด Hall Effect",
     "highlights": [
-      "Hall Effect",
       "Rapid Trigger",
-      "Compact 60%"
+      "Hall Effect"
     ],
-    "specs": {
+    "attributes": {
       "layout": "60%",
-      "switchType": "Hall Effect",
-      "connectivity": "Wired/USB"
+      "switch": "Hall Effect",
+      "connection": "USB"
+    },
+    "attributesDetails": {
+      "brand": "Wooting",
+      "model": "60HE",
+      "keyboardType": "Analog Mechanical Keyboard",
+      "layout": "60% Ansi Layout",
+      "switchType": "Lekker Switch (Linear Hall Effect)",
+      "actuationPoint": "Adjustable from 0.1mm to 4.0mm",
+      "rapidTrigger": "Supported (0.1mm sensitivity)",
+      "connection": "Detachable USB Type-C to Type-A",
+      "keycaps": "Double-shot PBT Keycaps",
+      "backlight": "Per-key RGB Backlighting",
+      "software": "Wootility (Web-based or Desktop Client)",
+      "onboardMemory": "Supported (4 Profiles)",
+      "warranty": "4 Years"
     }
   },
   {
     "id": 12,
-    "name": "Logitech G915 TKL",
+    "name": "Logitech G Pro X Superlight 2",
     "brand": "Logitech",
-    "productType": "Keyboard",
-    "category": "MECHANICAL",
-    "price": 8990,
-    "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=80",
-    "stock": 11,
-    "description": "คีย์บอร์ดเมคานิคอลทรงสั้นที่ให้ความสวยงามและใช้งานง่ายพร้อมแสง RGB",
+    "type": "Mouse",
+    "price": 4990,
+    "stock": 10,
+    "image": "https://www.jib.co.th/img_master/product/original/20250619154956_61791_66_1.jpg",
+    "description": "เมาส์เกมมิ่งไร้สายน้ำหนักเบา",
     "highlights": [
-      "Low Profile",
-      "RGB Lighting",
-      "Wireless"
+      "Wireless",
+      "26000 DPI",
+      "60g"
     ],
-    "specs": {
-      "layout": "TKL",
-      "switchType": "Low Profile",
-      "connectivity": "Wireless"
+    "attributes": {
+      "dpi": "26000",
+      "connection": "Wireless",
+      "weight": "60g"
+    },
+    "attributesDetails": {
+      "brand": "Logitech",
+      "model": "G Pro X Superlight 2",
+      "mouseType": "Wireless Gaming Mouse",
+      "sensor": "HERO 2 Sensor",
+      "resolution": "100 - 32,000 DPI",
+      "maxAcceleration": "> 40G",
+      "maxSpeed": "> 500 IPS",
+      "pollingRate": "4000 Hz",
+      "connection": "LIGHTSPEED Wireless / USB-C",
+      "switchType": "LIGHTFORCE Hybrid Switches",
+      "weight": "60 g",
+      "batteryLife": "Up to 95 Hours (Constant Motion)",
+      "charging": "USB-C / POWERPLAY Compatible",
+      "warranty": "2 Years"
+    }
+  },
+  {
+    "id": 13,
+    "name": "HyperX Cloud III Wireless",
+    "brand": "HyperX",
+    "type": "Headphones",
+    "price": 4990,
+    "stock": 9,
+    "image": "https://row.hyperx.com/cdn/shop/files/hyperx_cloud_iii_wireless_red_77z46aa_main_1.jpg?v=1764893494",
+    "description": "หูฟังเกมมิ่งไร้สาย",
+    "highlights": [
+      "Wireless",
+      "53mm Driver"
+    ],
+    "attributes": {
+      "connection": "Wireless",
+      "microphone": "Microphone",
+      "noiseCancelling": "No Noise Cancelling"
+    },
+    "attributesDetails": {
+      "brand": "HyperX",
+      "model": "Cloud III Wireless",
+      "headsetType": "Over-Ear Wireless Gaming Headset",
+      "driver": "53mm Dynamic (with Neodymium Magnets)",
+      "frequencyResponse": "10Hz - 21kHz",
+      "impedance": "64 Ohms",
+      "connectionType": "2.4GHz Wireless via USB Dongle",
+      "batteryLife": "Up to 120 Hours",
+      "microphoneType": "Detachable 10mm Electret Condenser Mic",
+      "microphonePolarPattern": "Uni-directional, Noise-cancelling",
+      "audioTechnology": "DTS Headphone:X® Spatial Audio",
+      "weight": "330g (with Mic)",
+      "warranty": "2 Years"
+    }
+  },
+  {
+    "id": 14,
+    "name": "HyperX QuadCast S",
+    "brand": "HyperX",
+    "type": "Microphone",
+    "price": 5490,
+    "stock": 6,
+    "image": "https://www.jib.co.th/img_master/product/original/20201204145230_44041_66_1.png",
+    "description": "ไมโครโฟน USB สำหรับสตรีม",
+    "highlights": [
+      "RGB",
+      "USB",
+      "Cardioid"
+    ],
+    "attributes": {
+      "connection": "USB",
+      "polarPattern": "Cardioid",
+      "rgb": "RGB"
+    },
+    "attributesDetails": {
+      "brand": "HyperX",
+      "model": "QuadCast S",
+      "microphoneType": "USB Condenser Microphone",
+      "connection": "USB-C to USB-A",
+      "polarPatterns": "Stereo, Omnidirectional, Cardioid, Bidirectional",
+      "frequencyResponse": "20Hz - 20kHz",
+      "sampleRate": "48kHz / 16-bit",
+      "sensitivity": "-36dB (1V/Pa at 1kHz)",
+      "lighting": "RGB (Customizable with NGENUITY Software)",
+      "features": "Built-in Anti-Vibration Shock Mount, Tap-to-Mute Sensor with LED Indicator, Gain Control Dial, Headphone Jack (3.5mm)",
+      "warranty": "2 Years"
+    }
+  },
+  {
+    "id": 16,
+    "name": "Intel Core i7-14700K",
+    "brand": "Intel",
+    "type": "CPU",
+    "price": 16900,
+    "stock": 12,
+    "image": "https://www.jib.co.th/img_master/product/original/2023101615255663038_1.png",
+    "description": "ซีพียูประสิทธิภาพสูงสำหรับการเล่นเกมและการทำงานสร้างสรรค์",
+    "highlights": [
+      "20 Cores",
+      "28 Threads",
+      "LGA1700"
+    ],
+    "attributes": {
+      "socket": "LGA1700",
+      "cores": 20,
+      "threads": 28,
+      "boostClock": "5.6GHz"
+    },
+    "attributesDetails": {
+      "brand": "Intel",
+      "cpuSeries": "Intel® Core™ i7 (14th Gen)",
+      "cpuModel": "Core™ i7-14700K",
+      "cpuSocket": "LGA1700",
+      "cores": "20 (8 P-cores + 12 E-cores)",
+      "threads": 28,
+      "baseClock": "P-core: 3.4 GHz / E-core: 2.5 GHz",
+      "boostClock": "Up to 5.6 GHz",
+      "intelSmartCache": "33 MB",
+      "totalL2Cache": "28 MB",
+      "architecture": "Raptor Lake Refresh",
+      "basePower": "125 W",
+      "maxTurboPower": "253 W",
+      "integratedGraphics": "Intel® UHD Graphics 770",
+      "warranty": "3 Years"
+    }
+  },
+  {
+    "id": 17,
+    "name": "ASUS ROG Strix Z790-E Gaming WiFi II",
+    "brand": "ASUS",
+    "type": "Mainboard",
+    "price": 18500,
+    "stock": 6,
+    "image": "https://www.jib.co.th/img_master/product/original/2024010815053264727_1.jpg",
+    "description": "เมนบอร์ดระดับท็อปสำหรับซีพียู Intel เจนเนอเรชั่นล่าสุด",
+    "highlights": [
+      "WiFi 7",
+      "DDR5",
+      "PCIe 5.0"
+    ],
+    "attributes": {
+      "socket": "LGA1700",
+      "chipset": "Z790",
+      "memory": "DDR5",
+      "formFactor": "ATX",
+      "wifi": true
+    },
+    "attributesDetails": {
+      "brand": "ASUS",
+      "model": "ROG STRIX Z790-E GAMING WIFI II",
+      "cpuSocket": "LGA1700",
+      "chipset": "Intel® Z790",
+      "formFactor": "ATX",
+      "memorySlots": "4 x DDR5 DIMM",
+      "maxMemoryCapacity": "192GB",
+      "memorySpeedSupported": "Up to 8000+(OC) MHz",
+      "expansionSlots": "1 x PCIe 5.0 x16 slot, 2 x PCIe 4.0 x16 slots (support x4 mode)",
+      "storageInterfaces": "5 x M.2 slots (1 x PCIe 5.0 x4, 4 x PCIe 4.0 x4), 4 x SATA 6Gb/s",
+      "wirelessNetworking": "Intel® Wi-Fi 7 (802.11be), Bluetooth 5.4",
+      "lan": "1 x Intel® 2.5Gb Ethernet",
+      "audio": "ROG SupremeFX 7.1 Surround Sound ALC4080 High Definition Audio Codec",
+      "warranty": "3 Years"
+    }
+  },
+  {
+    "id": 18,
+    "name": "PALIT GeForce RTX 3050 StormX 6GB GDDR6",
+    "brand": "PALIT",
+    "type": "GPU",
+    "price": 6590,
+    "stock": 5,
+    "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/products85859_800.jpg",
+    "description": "การ์ดจอขนาดคอมแพ็คสำหรับการเล่นเกมระดับเริ่มต้นถึงระดับกลาง ประหยัดพลังงานไม่ต้องต่อไฟเพิ่ม",
+    "highlights": [
+      "6GB GDDR6",
+      "No Power Connector Required",
+      "Ray Tracing & DLSS"
+    ],
+    "attributes": {
+      "gpuSeries": "GeForce RTX™ 30 Series",
+      "memorySize": "6GB GDDR6",
+      "powerRequirement": "300 Watt"
+    },
+    "attributesDetails": {
+      "gpuSeries": "GeForce RTX™ 30 Series",
+      "gpuModel": "GeForce RTX™ 3050",
+      "memorySize": "6GB GDDR6",
+      "busStandards": "PCI Express 4.0",
+      "openGL": "OpenGL® 4.6",
+      "cudaCores": 2304,
+      "memoryInterface": "96-bit",
+      "boostClock": "1470 MHz",
+      "baseClock": "1042 MHz",
+      "memoryClock": "14.0 Gbps",
+      "maxDigitalResolution": "7680 x 4320",
+      "hdmiPort": "1 x HDMI 2.1",
+      "displayPort": "1 x DisplayPort™ 1.4a",
+      "powerConnector": "N/A",
+      "powerRequirement": "300 Watt",
+      "dimension": "162 x 117 x 40 mm",
+      "warranty": "3 Years"
+    }
+  },
+  {
+    "id": 19,
+    "name": "COLORFUL IGAME GEFORCE RTX 5060 ULTRA W DUO OC - 8GB GDDR7",
+    "brand": "COLORFUL",
+    "type": "GPU",
+    "price": 11990,
+    "stock": 5,
+    "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/products103952_800.jpg",
+    "description": "การ์ดจอระดับกลางซีรีส์ใหม่ล่าสุดสถาปัตยกรรม Blackwell มาพร้อมแรมยุคใหม่ 8GB GDDR7 และชุดระบายความร้อนพัดลมคู่โทนสีขาว",
+    "highlights": [
+      "8GB GDDR7",
+      "NVIDIA Blackwell Architecture",
+      "DLSS 4.5 Support",
+      "White Duo Fans design"
+    ],
+    "attributes": {
+      "gpuSeries": "GeForce RTX™ 50 Series",
+      "memorySize": "8GB GDDR7",
+      "powerRequirement": "550 Watt"
+    },
+    "attributesDetails": {
+      "brand": "COLORFUL",
+      "gpuSeries": "NVIDIA GeForce RTX™ 50 Series",
+      "gpuModel": "GeForce® RTX 5060",
+      "memorySize": "8GB GDDR7",
+      "busStandards": "PCI-E 5.0",
+      "openGL": "OpenGL® 4.6",
+      "cudaCores": 3072,
+      "memoryInterface": "128-bit",
+      "boostClock": "2700 MHz",
+      "memoryClock": "28.0 Gbps",
+      "maxDigitalResolution": "7680 x 4320",
+      "hdmiPort": "1 x HDMI 2.1a",
+      "displayPort": "3 x DisplayPort™ (2.1b)",
+      "powerConnector": "1 x 8-pin",
+      "powerRequirement": "550 Watt",
+      "dimension": "242 x 125 x 42 mm",
+      "warranty": "3 Years"
+    }
+  },
+  {
+    "id": 20,
+    "name": "G.Skill Trident Z5 RGB 32GB",
+    "brand": "G.Skill",
+    "type": "RAM",
+    "price": 6450,
+    "stock": 15,
+    "image": "https://media-cdn.bnn.in.th/279671/gskill-ddr4-trident-z5-rgb-dual-channel-1-square_medium.jpg",
+    "description": "แรม DDR5 บัสสูง ดีไซน์สปอร์ตพร้อมไฟ RGB สวยงาม",
+    "highlights": [
+      "DDR5",
+      "RGB",
+      "6400MT/s"
+    ],
+    "attributes": {
+      "capacity": "32GB",
+      "ddr": "DDR5",
+      "speed": "6400MT/s",
+      "rgb": "RGB"
+    },
+    "attributesDetails": {
+      "brand": "G.Skill",
+      "series": "Trident Z5 RGB",
+      "memoryType": "DDR5",
+      "capacity": "32GB (16GB x 2)",
+      "speed": "6400 MT/s",
+      "casLatency": "CL32",
+      "voltage": "1.40V",
+      "eccSupport": "On-Die ECC",
+      "color": "Matte Black / Metallic Silver",
+      "lighting": "RGB (Compatible with Asus, MSI, Gigabyte, ASRock software)",
+      "profileSupport": "Intel XMP 3.0",
+      "warranty": "Limited Lifetime"
+    }
+  },
+  {
+    "id": 21,
+    "name": "Crucial T700 1TB NVMe M.2",
+    "brand": "Crucial",
+    "type": "SSD",
+    "price": 6890,
+    "stock": 7,
+    "image": "https://media-cdn.bnn.in.th/454583/crucial-t700-pcie-gen5-1-square_medium.jpg",
+    "description": "SSD ความเร็วสูงยุคใหม่ด้วยอินเตอร์เฟส PCIe Gen5",
+    "highlights": [
+      "1TB",
+      "PCIe Gen5",
+      "11700MB/s"
+    ],
+    "attributes": {
+      "capacity": "1TB",
+      "interface": "PCIe Gen5",
+      "formFactor": "M.2 2280",
+      "speed": "11700MB/s"
+    },
+    "attributesDetails": {
+      "brand": "Crucial",
+      "series": "T700",
+      "capacity": "1TB",
+      "formFactor": "M.2 (2280)",
+      "interface": "PCIe Gen 5.0 x4, NVMe 2.0",
+      "controller": "Phison PS5026-E26",
+      "nandFlash": "Micron 232-Layer 3D TLC",
+      "cacheMemory": "LPDDR4 DRAM Cache",
+      "sequentialRead": "Up to 11,700 MB/s",
+      "sequentialWrite": "Up to 9,500 MB/s",
+      "tbw": "600 TBW",
+      "warranty": "5 Years"
+    }
+  },
+  {
+    "id": 22,
+    "name": "Noctua NH-D15 chromax.black",
+    "brand": "Noctua",
+    "type": "CPU Cooler",
+    "price": 4190,
+    "stock": 10,
+    "image": "https://www.jib.co.th/img_master/product/original/20200226120720_35913_287_2.jpg",
+    "description": "ซิงค์ลมระบายความร้อนระดับตำนาน เงียบและเย็นเป็นพิเศษ",
+    "highlights": [
+      "Dual-Tower",
+      "140mm Fan",
+      "Quiet Performance"
+    ],
+    "attributes": {
+      "type": "Air Cooler",
+      "size": "140mm",
+      "rgb": "No RGB"
+    },
+    "attributesDetails": {
+      "brand": "Noctua",
+      "model": "NH-D15 chromax.black",
+      "coolerType": "Air CPU Cooler",
+      "heatsinkDesign": "Dual-Tower",
+      "heatsinkMaterial": "Copper Base and Heatpipes, Aluminum Cooling Fins, Soldered Joints & Nickel Plating",
+      "numberOfFans": 2,
+      "fanModel": "2 x Noctua NF-A15 HS-PWM",
+      "fanDimensions": "140 x 150 x 25 mm",
+      "fanSpeed": "300 - 1500 RPM",
+      "fanAirflow": "140.2 m³/h",
+      "fanNoise": "Up to 24.6 dB(A)",
+      "socketSupport": "Intel LGA1851/1700/1200/1156/1155/1151/1150, AMD AM5/AM4",
+      "warranty": "6 Years"
+    }
+  },
+  {
+    "id": 23,
+    "name": "Lian Li O11 Vision",
+    "brand": "Lian Li",
+    "type": "Case",
+    "price": 5290,
+    "stock": 5,
+    "image": "https://www.jib.co.th/img_master/product/original/2025021116554074162_1.jpg",
+    "description": "เคสคอมพิวเตอร์ไร้เสามุม โชว์อุปกรณ์ภายในได้ 3 ด้าน",
+    "highlights": [
+      "Dual-Chamber",
+      "Tempered Glass",
+      "Panoramic View"
+    ],
+    "attributes": {
+      "motherboardSupport": "ATX",
+      "sidePanel": "Tempered Glass",
+      "color": "White"
+    },
+    "attributesDetails": {
+      "brand": "Lian Li",
+      "model": "O11 Vision",
+      "caseType": "Dual-Chamber Mid-Tower",
+      "motherboardSupport": "E-ATX (under 280mm), ATX, Micro-ATX, Mini-ITX",
+      "material": "Steel, 4.0mm Tempered Glass (Top, Front, Side), 3.0mm Tempered Glass",
+      "dimensions": "480 x 304 x 464.5 mm",
+      "expansionSlots": "7",
+      "driveBays": "Behind MB Tray: 3 x 2.5\" SSD, Hard Drive Cage: 2 x 3.5\" HDD / 2.5\" SSD",
+      "fanSupport": "Side: 3 x 120mm / 2 x 140mm, Bottom: 3 x 120mm / 3 x 140mm, Rear: 1 or 2 x 120mm",
+      "radiatorSupport": "Side: Up to 360mm, Bottom: Up to 360mm, Rear: Up to 240mm",
+      "maxGpuLength": "455 mm",
+      "maxCpuCoolerHeight": "167 mm",
+      "ioPorts": "2 x USB 3.0, 1 x USB 3.1 Type-C, 1 x Audio/Mic Audio Jack",
+      "warranty": "1 Year"
+    }
+  },
+  {
+    "id": 24,
+    "name": "Seasonic Vertex GX-1000",
+    "brand": "Seasonic",
+    "type": "PSU",
+    "price": 7990,
+    "stock": 8,
+    "image": "https://down-th.img.susercontent.com/file/th-11134201-23030-oq2fzivpjlov55",
+    "description": "พาวเวอร์ซัพพลายเสถียรภาพสูง รองรับมาตรฐาน ATX 3.0",
+    "highlights": [
+      "1000W",
+      "80+ Gold",
+      "ATX 3.0 PCIe 5.0"
+    ],
+    "attributes": {
+      "watt": "1000W",
+      "efficiency": "80+ Gold",
+      "modular": "Full Modular"
+    },
+    "attributesDetails": {
+      "brand": "Seasonic",
+      "model": "Vertex GX-1000",
+      "wattage": "1000 Watts",
+      "efficiencyRating": "80 PLUS Gold Certified",
+      "modularType": "Full Modular",
+      "atxVersion": "Intel ATX 3.0 / PCIe 5.0 Ready (12VHPWR Cable Included)",
+      "fanSize": "135mm (Fluid Dynamic Bearing Fan)",
+      "protectionFeatures": "OPP, OVP, UVP, OCP, OTP, SCP",
+      "dimensions": "160 x 150 x 86 mm",
+      "mtbf": "100,000 Hours",
+      "warranty": "12 Years"
+    }
+  },
+  {
+    "id": 25,
+    "name": "BenQ ZOWIE XL2546K",
+    "brand": "BenQ",
+    "type": "Monitor",
+    "price": 19900,
+    "stock": 11,
+    "image": "https://image.benq.com/is/image/benqco/XL%20Series%20Prosetting?$ResponsivePreset$&fmt=png-alpha",
+    "description": "จอเกมมิ่งยอดนิยมสำหรับการแข่งขัน Esports",
+    "highlights": [
+      "240Hz",
+      "DyAc⁺ Technology",
+      "TN Panel"
+    ],
+    "attributes": {
+      "size": "24.5\"",
+      "resolution": "1920x1080",
+      "panel": "TN",
+      "refreshRate": "240Hz"
+    },
+    "attributesDetails": {
+      "brand": "BenQ ZOWIE",
+      "model": "XL2546K",
+      "screenSize": "24.5\"",
+      "resolution": "1920 x 1080 (Full HD)",
+      "panelType": "TN",
+      "refreshRate": "240Hz",
+      "responseTime": "0.5 ms (GtG)",
+      "aspectRatio": "16:9",
+      "brightness": "320 cd/m2",
+      "contrastRatio": "1000:1",
+      "specialFeatures": "DyAc⁺™ Technology, XL Setting to Share™, S Switch, Shield (แผงกั้นข้างจอ)",
+      "connectivity": "3 x HDMI 2.0, 1 x DisplayPort 1.2, Headphone Jack",
+      "warranty": "3 Years"
+    }
+  },
+  {
+    "id": 26,
+    "name": "Razer DeathAdder V3 Pro",
+    "brand": "Razer",
+    "type": "Mouse",
+    "price": 5690,
+    "stock": 14,
+    "image": "https://www.jib.co.th/img_master/product/original/2022082208511054753_1.jpg",
+    "description": "เมาส์เกมมิ่งไร้สายทรง Ergonomic น้ำหนักเบาพิเศษจับถนัดมือ",
+    "highlights": [
+      "Wireless",
+      "30000 DPI",
+      "63g"
+    ],
+    "attributes": {
+      "dpi": "30000",
+      "connection": "Wireless",
+      "weight": "63g"
+    },
+    "attributesDetails": {
+      "brand": "Razer",
+      "model": "DeathAdder V3 Pro",
+      "mouseType": "Wireless Ergonomic Gaming Mouse",
+      "sensor": "Focus Pro 30K Optical Sensor",
+      "resolution": "Up to 30,000 DPI",
+      "maxAcceleration": "70G",
+      "maxSpeed": "750 IPS",
+      "pollingRate": "1000 Hz (Upgradable to 8000 Hz with HyperPolling Wireless Dongle)",
+      "connection": "Razer HyperSpeed Wireless / Wired Speedflex Cable USB-C",
+      "switchType": "Optical Mouse Switches Gen-3 (90 Million Clicks)",
+      "weight": "63 g",
+      "batteryLife": "Up to 90 Hours (at 1000Hz)",
+      "warranty": "2 Years"
+    }
+  },
+  {
+    "id": 27,
+    "name": "SteelSeries Apex Pro TKL (2023)",
+    "brand": "SteelSeries",
+    "type": "Keyboard",
+    "price": 8990,
+    "stock": 9,
+    "image": "https://www.jib.co.th/img_master/product/original/2024102515045471557_1.jpg",
+    "description": "คีย์บอร์ดกลไกปรับระยะการกดสวิตช์ได้ตามต้องการ",
+    "highlights": [
+      "OmniPoint 2.0",
+      "OLED Smart Display",
+      "TKL"
+    ],
+    "attributes": {
+      "layout": "80% (TKL)",
+      "switch": "Adjustable Mechanical",
+      "connection": "USB"
+    },
+    "attributesDetails": {
+      "brand": "SteelSeries",
+      "model": "Apex Pro TKL (2023)",
+      "keyboardType": "Adjustable Mechanical Keyboard",
+      "layout": "80% Tenkeyless (TKL)",
+      "switchType": "OmniPoint 2.0 Adjustable Mechanical Switch",
+      "actuationPoint": "0.1 mm to 4.0 mm (Dual Actuation Capable)",
+      "connection": "Detachable USB Type-C",
+      "material": "Aircraft Grade Aluminum Alloy Frame",
+      "display": "OLED Smart Display",
+      "backlight": "Per-Key RGB Illumination",
+      "features": "Magnetic Wrist Rest Included, 2-in-1 Action Keys",
+      "warranty": "1 Year"
+    }
+  },
+  {
+    "id": 28,
+    "name": "Cozoy D1 In-Ear Monitors (IEMs)",
+    "brand": "Cozoy",
+    "type": "Headphones",
+    "price": 1090,
+    "stock": 9,
+    "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/products160454_800.jpg",
+    "description": "หูฟังอินเอียร์มอนิเตอร์ไดรเวอร์ Dynamic ไดอะแฟรมกราฟีน ให้เสียงเที่ยงตรง มิติเสียงกว้าง เหมาะทั้งฟังเพลงและเล่นเกม",
+    "highlights": [
+      "10mm Graphene Diaphragm",
+      "Dual-Magnetic Dual-Cavity Driver",
+      "Medical-Grade 3D Printed Shell"
+    ],
+    "attributes": {
+      "layout": "In-Ear Monitors (IEMs)",
+      "switch": "10mm Dynamic Driver",
+      "connection": "3.5mm Single-Ended (with Mic option)"
+    },
+    "attributesDetails": {
+      "brand": "Cozoy",
+      "model": "D1",
+      "headphoneType": "In-Ear Monitor (IEM)",
+      "driverType": "10mm Independently Developed Dual-Magnetic Dual-Cavity Dynamic Driver",
+      "diaphragmMaterial": "High-Fidelity Graphene Diaphragm",
+      "frequencyResponse": "20 Hz - 20 kHz",
+      "impedance": "32 Ohms",
+      "sensitivity": "100 dB",
+      "cableMaterial": "4-core (216 strands) Single Crystal Copper Silver-Plated (SPC)",
+      "connectorType": "2-Pin 0.78 mm (Detachable)",
+      "plugType": "3.5mm Audio Jack",
+      "chassisMaterial": "Medical-Grade 3D Printed Resin Shell",
+      "features": "Ergonomic Design for 95% Ear Shapes, Accurate Sound Imaging for Gaming",
+      "warranty": "1 Year (3 Months for Cable)"
+    }
+  },
+  {
+    "id": 29,
+    "name": "Shure SM7B",
+    "brand": "Shure",
+    "type": "Microphone",
+    "price": 16900,
+    "stock": 4,
+    "image": "data:image/webp;base64,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",
+    "description": "ไมโครโฟนไดนามิกสตูดิโอยอดนิยมสำหรับพอดแคสต์และสตรีมมิ่ง",
+    "highlights": [
+      "Vocal Clarity",
+      "XLR Connection",
+      "Dynamic Microphone"
+    ],
+    "attributes": {
+      "connection": "XLR",
+      "polarPattern": "Cardioid",
+      "rgb": "No RGB"
+    },
+    "attributesDetails": {
+      "brand": "Shure",
+      "model": "SM7B",
+      "microphoneType": "Dynamic Microphone",
+      "connection": "XLR Connector",
+      "polarPattern": "Cardioid",
+      "frequencyResponse": "50Hz - 20kHz",
+      "outputImpedance": "150 Ohms",
+      "sensitivity": "-59.0 dBV/Pa (1.12 mV)",
+      "switches": "Bass Rolloff (High-pass filter) and Mid-Range Emphasis (Presence Boost)",
+      "features": "Internal Air Suspension Shock Isolation, Built-in Pop Filter, Detachable Windscreen included",
+      "powerRequirements": "No Phantom Power Required (Requires standard high-gain preamp)",
+      "warranty": "2 Years"
+    }
+  },
+  {
+    "id": 32,
+    "name": "LG UltraGear 34GN850-B",
+    "brand": "LG",
+    "type": "Monitor",
+    "price": 27900,
+    "stock": 4,
+    "image": "https://www.lg.com/content/dam/channel/wcms/th/image-update/monitor/2025/45gx950a-b-atm/gallery/gallery/ultragear-gaming-45gx950a-2025-gallery-gallery-01-2010.jpg/jcr:content/renditions/thum-1600x1062.jpeg?w=800",
+    "description": "จอเกมมิ่งจอโค้งแบบ UltraWide อัตราส่วน 21:9 กว้างเต็มตา",
+    "highlights": [
+      "Nano IPS",
+      "160Hz Overclock",
+      "1ms GtG"
+    ],
+    "attributes": {
+      "size": "34\"",
+      "resolution": "3440x1440",
+      "panel": "Nano IPS",
+      "refreshRate": "160Hz"
+    },
+    "attributesDetails": {
+      "brand": "LG",
+      "model": "UltraGear 34GN850-B",
+      "screenSize": "34\" Curved",
+      "resolution": "3440 x 1440 (UltraWide QHD)",
+      "panelType": "Nano IPS",
+      "refreshRate": "144Hz (Overclockable to 160Hz)",
+      "responseTime": "1 ms (GtG at Faster)",
+      "aspectRatio": "21:9",
+      "curvature": "1900R",
+      "brightness": "400 cd/m2",
+      "colorGamut": "DCI-P3 98% (CIE1976)",
+      "hdrSupport": "VESA DisplayHDR™ 400",
+      "adaptiveSync": "NVIDIA G-SYNC Compatible, AMD FreeSync Premium",
+      "connectivity": "2 x HDMI, 1 x DisplayPort, 2 x USB Downstream, 1 x USB Upstream, Headphone Out",
+      "warranty": "3 Years"
+    }
+  },
+  {
+    "id": 33,
+    "name": "AMD Ryzen 9 7950X",
+    "brand": "AMD",
+    "type": "CPU",
+    "price": 23500,
+    "stock": 8,
+    "image": "https://www.jib.co.th/img_master/product/original/2022092613555155412_1.jpg",
+    "description": "ซีพียูเรือธงสำหรับการประมวลผลขั้นสูง งานเรนเดอร์ และการสตรีม",
+    "highlights": [
+      "16 Cores",
+      "32 Threads",
+      "Zen 4"
+    ],
+    "attributes": {
+      "socket": "AM5",
+      "cores": 16,
+      "threads": 32,
+      "boostClock": "5.7GHz"
+    },
+    "attributesDetails": {
+      "brand": "AMD",
+      "cpuSeries": "AMD Ryzen™ 9",
+      "cpuModel": "Ryzen™ 9 7950X",
+      "cpuSocket": "AM5",
+      "cores": 16,
+      "threads": 32,
+      "baseClock": "4.5 GHz",
+      "boostClock": "5.7 GHz",
+      "l2Cache": "16 MB",
+      "l3Cache": "64 MB",
+      "architecture": "Zen 4",
+      "tdp": "170 W",
+      "integratedGraphics": "AMD Radeon™ Graphics",
+      "warranty": "3 Years"
+    }
+  },
+  {
+    "id": 34,
+    "name": "ASUS TUF Gaming B650M-Plus WiFi",
+    "brand": "ASUS",
+    "type": "Mainboard",
+    "price": 6890,
+    "stock": 15,
+    "image": "https://www.jib.co.th/img_master/product/original/2025052816365055782_1.jpg",
+    "description": "เมนบอร์ดขนาด M-ATX ที่ทนทานและคุ้มราคาสำหรับเซ็ต AMD AM5",
+    "highlights": [
+      "DDR5",
+      "PCIe 5.0 M.2",
+      "TUF Protection"
+    ],
+    "attributes": {
+      "socket": "AM5",
+      "chipset": "B650",
+      "memory": "DDR5",
+      "formFactor": "Micro-ATX",
+      "wifi": true
+    },
+    "attributesDetails": {
+      "brand": "ASUS",
+      "model": "TUF GAMING B650M-PLUS WIFI",
+      "cpuSocket": "AM5",
+      "chipset": "AMD B650",
+      "formFactor": "Micro-ATX",
+      "memorySlots": "4 x DDR5 DIMM",
+      "maxMemoryCapacity": "192GB",
+      "memorySpeedSupported": "Up to 7600+(OC) MHz",
+      "expansionSlots": "1 x PCIe 4.0 x16 slot, 1 x PCIe 4.0 x16 slot (supports x4 mode), 1 x PCIe 4.0 x1 slot",
+      "storageInterfaces": "2 x M.2 slots (1 x PCIe 5.0 x4 mode, 1 x PCIe 4.0 x4 mode), 4 x SATA 6Gb/s",
+      "wirelessNetworking": "Wi-Fi 6 (802.11ax), Bluetooth 5.2",
+      "lan": "1 x Realtek 2.5Gb Ethernet",
+      "audio": "Realtek 7.1 Surround Sound High Definition Audio Codec",
+      "warranty": "3 Years"
+    }
+  },
+  {
+    "id": 35,
+    "name": "Corsair Vengeance RGB 64GB",
+    "brand": "Corsair",
+    "type": "RAM",
+    "price": 11500,
+    "stock": 8,
+    "image": "https://media-cdn.bnn.in.th/560028/corsair-ram-pc-ddr5-64gb5600mhz-cl40-32gbx2-vengeance-rgb-black-1-square_medium.jpg",
+    "description": "ชุดแรมความจุสูงพิเศษ 64GB เหมาะสำหรับงานตัดต่อวิดีโอและเล่นเกมหนักๆ",
+    "highlights": [
+      "64GB (2x32GB)",
+      "DDR5",
+      "5600MT/s"
+    ],
+    "attributes": {
+      "capacity": "64GB",
+      "ddr": "DDR5",
+      "speed": "5600MT/s",
+      "rgb": "RGB"
+    },
+    "attributesDetails": {
+      "brand": "Corsair",
+      "series": "Vengeance RGB DDR5",
+      "memoryType": "DDR5",
+      "capacity": "64GB (32GB x 2)",
+      "speed": "5600 MT/s",
+      "casLatency": "CL40",
+      "voltage": "1.25V",
+      "eccSupport": "On-Die ECC",
+      "color": "Black",
+      "lighting": "Dynamic Ten-Zone RGB (Customizable via iCUE Software)",
+      "profileSupport": "Intel XMP 3.0",
+      "warranty": "Limited Lifetime"
+    }
+  },
+  {
+    "id": 36,
+    "name": "WD Black SN850X 2TB",
+    "brand": "Western Digital",
+    "type": "SSD",
+    "price": 6990,
+    "stock": 13,
+    "image": "https://www.jib.co.th/img_master/product/original/2023071013582760771_1.jpg",
+    "description": "SSD เกมมิ่งระดับพรีเมียม โหลดเกมได้รวดเร็วทันใจ",
+    "highlights": [
+      "2TB",
+      "PCIe Gen4",
+      "7300MB/s"
+    ],
+    "attributes": {
+      "capacity": "2TB",
+      "interface": "PCIe Gen4",
+      "formFactor": "M.2 2280",
+      "speed": "7300MB/s"
+    },
+    "attributesDetails": {
+      "brand": "Western Digital",
+      "series": "WD_BLACK SN850X",
+      "capacity": "2TB",
+      "formFactor": "M.2 (2280)",
+      "interface": "PCIe Gen4 x4, NVMe 1.4",
+      "sequentialRead": "Up to 7300 MB/s",
+      "sequentialWrite": "Up to 6600 MB/s",
+      "randomRead": "Up to 1,200,000 IOPS",
+      "randomWrite": "Up to 1,100,000 IOPS",
+      "tbw": "1200 TBW",
+      "features": "Game Mode 2.0 (via WD_BLACK Dashboard)",
+      "warranty": "5 Years"
+    }
+  },
+  {
+    "id": 37,
+    "name": "NZXT Kraken Elite 360 RGB",
+    "brand": "NZXT",
+    "type": "CPU Cooler",
+    "price": 10900,
+    "stock": 5,
+    "image": "https://nzxt.com/cdn/shop/files/Cooling_KrakenElite_RGB_WH_360_Carousel_Hero_EN.png?v=1758538277&width=700",
+    "description": "ชุดน้ำปิดหน้าจอ LCD ทรงกลมขนาดใหญ่ ปรับแต่งภาพ GIF ได้ตามใจชอบ",
+    "highlights": [
+      "2.36\" LCD",
+      "360mm Radiator",
+      "RGB Fans"
+    ],
+    "attributes": {
+      "type": "AIO",
+      "size": "360mm",
+      "rgb": "RGB"
+    },
+    "attributesDetails": {
+      "brand": "NZXT",
+      "model": "Kraken Elite 360 RGB",
+      "coolerType": "Liquid Cooling System (AIO)",
+      "radiatorSize": "360 mm",
+      "radiatorMaterial": "Aluminum",
+      "pumpSpeed": "800 - 3600 RPM",
+      "displaySpecs": "2.36\" Wide Angle TFT-LCD, 640x640 resolution, 60Hz, 690 cd/m² Brightness",
+      "numberOfFans": 3,
+      "fanModel": "3 x F120 RGB Core Fans",
+      "fanDimensions": "120 x 120 x 26 mm",
+      "fanSpeed": "500 - 1800 RPM",
+      "fanAirflow": "78.86 CFM",
+      "fanNoise": "Up to 33.88 dBA",
+      "rgbLighting": "RGB Fans & Customizable Display (via NZXT CAM Software)",
+      "socketSupport": "Intel LGA 1700/1200/115X, AMD AM5/AM4/sTRX4/TR4",
+      "warranty": "6 Years"
+    }
+  },
+  {
+    "id": 38,
+    "name": "HYTE Y60",
+    "brand": "HYTE",
+    "type": "Case",
+    "price": 7590,
+    "stock": 4,
+    "image": "https://www.jib.co.th/img_master/product/original/2024011614354264880_1.jpg",
+    "description": "เคสตู้ปลาดีไซน์กระจกโค้ง 3 ชิ้นรอบตัว โชว์การ์ดจอแนวตั้งแบบโดดเด่น",
+    "highlights": [
+      "Panoramic Glass",
+      "Vertical GPU Mount",
+      "Modern Design"
+    ],
+    "attributes": {
+      "motherboardSupport": "ATX",
+      "sidePanel": "Tempered Glass",
+      "color": "Red/Black"
+    },
+    "attributesDetails": {
+      "brand": "HYTE",
+      "model": "Y60",
+      "caseType": "Dual-Chamber Mid-Tower ATX",
+      "motherboardSupport": "E-ATX, ATX, Micro-ATX, Mini-ITX",
+      "material": "ABS, Steel, Tempered Glass",
+      "dimensions": "456 x 285 x 462 mm",
+      "expansionSlots": "3 Vertical (PCIe 4.0 Riser Cable Included), 7 Half-Height Horizontal",
+      "driveBays": "2 x 3.5\" HDD or 4 x 2.5\" SSD",
+      "fanSupport": "Top: 3 x 120mm, Side: 2 x 120mm / 2 x 140mm, Rear: 1 x 120mm (Included), Bottom: 2 x 120mm / 2 x 140mm (2 x 120mm Included)",
+      "radiatorSupport": "Top: Up to 360mm, Side: Up to 280mm, Rear: Up to 120mm",
+      "maxGpuThickness": "75 mm (Recommended up to 60 mm for optimal cooling)",
+      "maxCpuCoolerHeight": "160 mm",
+      "ioPorts": "2 x USB 3.0 Type-A, 1 x USB 3.2 Gen 2 Type-C, 1 x Audio/Mic Combo Jack",
+      "warranty": "3 Years"
+    }
+  },
+  {
+    "id": 39,
+    "name": "Antec Symphony 360 ARGB",
+    "brand": "Antec",
+    "type": "CPU Cooler",
+    "price": 3490,
+    "stock": 10,
+    "image": "https://www.antec.com/product/cooling/images/symphony-360-argb-pdt01.png",
+    "description": "ชุดน้ำสามตอนราคามิตรภาพ ระบายความร้อนดีเยี่ยมพร้อมไฟวิบวับ",
+    "highlights": [
+      "360mm",
+      "ARGB Mirror Pump",
+      "Budget Friendly"
+    ],
+    "attributes": {
+      "type": "AIO",
+      "size": "360mm",
+      "rgb": "RGB"
+    },
+    "attributesDetails": {
+      "brand": "Antec",
+      "model": "Symphony 360 ARGB",
+      "coolerType": "Liquid Cooling System (AIO)",
+      "radiatorSize": "360 mm",
+      "radiatorMaterial": "EPDM+IIR High-Density Tubing, Aluminum Fins",
+      "pumpSpeed": "2800 ± 10% RPM",
+      "numberOfFans": 3,
+      "fanDimensions": "120 x 120 x 25 mm",
+      "fanSpeed": "800 - 1600 ± 100 RPM",
+      "fanAirflow": "72 CFM",
+      "fanNoise": "Up to 35 dB(A)",
+      "rgbLighting": "ARGB Mirror Pump Head & ARGB Fans (Syncs with Motherboard)",
+      "socketSupport": "Intel LGA 2066/2011/1700/1200/115X, AMD AM5/AM4",
+      "warranty": "3 Years"
+    }
+  },
+  {
+    "id": 40,
+    "name": "VGN Neon HE+",
+    "brand": "VGN",
+    "type": "Keyboard",
+    "price": 3177,
+    "stock": 5,
+    "image": "https://scontent.fbkk12-2.fna.fbcdn.net/v/t39.30808-6/671234628_10162388394260740_8489461301492968214_n.jpg?stp=dst-jpg_tt6&cstp=mx800x800&ctp=p526x296&_nc_cat=104&ccb=1-7&_nc_sid=aa7b47&_nc_ohc=xlObWgXSkj8Q7kNvwHbucX4&_nc_oc=AdqNhlOH11ggI1xWYMRDzK2d3S-PkInUu4pdvbbAXL7i8pkvmLh_YqUfbW-eWJvaods&_nc_zt=23&_nc_ht=scontent.fbkk12-2.fna&_nc_gid=r57US7AP2x9Iy9XNuED5pQ&_nc_ss=7a289&oh=00_AQAy2lqqIMLakCDV0ykGNgB5hXa1cHkSAQ4mzsFFtdS3pg&oe=6A5B1941",
+    "description": "คีย์บอร์ดเกมมิ่งสวิตช์แม่เหล็ก (Magnetic Switch) ตอบสนองความเร็วสูง รองรับฟังก์ชัน Hot-swappable และไฟ RGB เต็มรูปแบบ",
+    "highlights": [
+      "Magnetic Switch",
+      "8K Polling Rate Support",
+      "RGB Backlight"
+    ],
+    "attributes": {
+      "layout": "75%",
+      "switch": "Magnetic Axis",
+      "connection": "Wired (Type-C)"
+    },
+    "attributesDetails": {
+      "brand": "VGN",
+      "model": "Neon HE+",
+      "keyboardType": "Magnetic Switch Gaming Keyboard",
+      "layout": "75% Layout",
+      "switchType": "Elven King / Hulk Magnetic Switches (Hot-swappable)",
+      "connection": "USB Type-C",
+      "backlight": "16 Million Colors RGB Backlight",
+      "features": "Gasket Structure, V HUB Driver Support, Dynamic Keystroke (DKS/RT)",
+      "warranty": "1 Year"
+    }
+  },
+  {
+    "id": 41,
+    "name": "Finalmouse UltralightX",
+    "brand": "Finalmouse",
+    "type": "Mouse",
+    "price": 9900,
+    "stock": 3,
+    "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQml1JeTDxk9h3lpvadW6EDQcji0Ydub9mhLMd0ycRERuNDOLb0r30dJKUSGLrgGRT125aydkz0tQIaSouobDMCLPQPcgfRmgE05_4rY9WRMh-rtKzpHdBh",
+    "description": "เมาส์ไร้สายโครงสร้างคาร์บอนไฟเบอร์คอมโพสิต เบาที่สุดในโลก",
+    "highlights": [
+      "Carbon Fiber",
+      "29g Ultra Light",
+      "Limited Edition"
+    ],
+    "attributes": {
+      "dpi": "26000",
+      "connection": "Wireless",
+      "weight": "29g"
+    },
+    "attributesDetails": {
+      "brand": "Finalmouse",
+      "model": "UltralightX (Cheetah/Lion/Tiger)",
+      "mouseType": "Ultra-lightweight Wireless Gaming Mouse",
+      "sensor": "PixArt PAW3395 (Custom implementation)",
+      "resolution": "Up to 26,000 DPI",
+      "pollingRate": "Up to 8000 Hz Wireless (With UltralightX Wireless Receiver)",
+      "connection": "Proprietary Wireless / USB-C Wired",
+      "chassisMaterial": "Carbon Fiber Composite (Honeycomb design)",
+      "switchType": "Omron Optical Switches",
+      "weight": "29 grams to 37 grams (Depending on Size Variant)",
+      "batteryLife": "Up to 40 Hours (Standard Polling)",
+      "warranty": "1 Year"
+    }
+  },
+  {
+    "id": 42,
+    "name": "Sony INZONE H9",
+    "brand": "Sony",
+    "type": "Headphones",
+    "price": 8990,
+    "stock": 6,
+    "image": "https://www.sony.co.th/image/ae6f02a9e1a5abdb2f723eca247209c4?fmt=png-alpha&wid=1578&hei=1050&bgcolor=F6F9FF",
+    "description": "หูฟังเกมมิ่งไร้สายจาก Sony พร้อมระบบตัดเสียงรบกวนและมิติเสียง 360 องศา",
+    "highlights": [
+      "Active Noise Cancelling",
+      "Spatial Sound",
+      "PS5 Compatible"
+    ],
+    "attributes": {
+      "connection": "Wireless/Bluetooth",
+      "microphone": "Microphone",
+      "noiseCancelling": "Noise Cancelling"
+    },
+    "attributesDetails": {
+      "brand": "Sony",
+      "model": "INZONE H9 (WH-G900N)",
+      "headsetType": "Over-Ear Wireless Noise Cancelling Gaming Headset",
+      "driver": "40mm Dome Type (EDCC Voice Coil)",
+      "frequencyResponse": "5Hz - 20kHz",
+      "connectionType": "2.4GHz Wireless via USB Dongle & Bluetooth 5.0 (Simultaneous Connection Supported)",
+      "noiseCancelling": "Dual Noise Sensor Technology (Active Noise Cancelling) & Ambient Sound Mode",
+      "audioTechnology": "360 Spatial Sound for Gaming (via INZONE Hub software)",
+      "batteryLife": "Up to 32 Hours (NC Off)",
+      "fastCharging": "10-minute charge gives up to 60 minutes of play",
+      "microphoneType": "Bidirectional Electret Condenser Boom Microphone (Flip-to-Mute)",
+      "compatibility": "PC & PlayStation® 5 (Supports on-screen status overlay)",
+      "weight": "approx. 330g",
+      "warranty": "1 Year"
+    }
+  },
+  {
+    "id": 43,
+    "name": "Razer Seiren V3 Chroma",
+    "brand": "Razer",
+    "type": "Microphone",
+    "price": 4990,
+    "stock": 9,
+    "image": "https://www.jib.co.th/img_master/product/original/2024030613494565897_1.jpg",
+    "description": "ไมโครโฟน USB สตรีมมิ่งที่สามารถแสดงแสงไฟ RGB ตอบสนองตามเหตุการณ์ในเกมได้",
+    "highlights": [
+      "Stream Reactive Lighting",
+      "Tap-to-Mute Sensor",
+      "Supercardioid"
+    ],
+    "attributes": {
+      "connection": "USB",
+      "polarPattern": "Supercardioid",
+      "rgb": "RGB"
+    },
+    "attributesDetails": {
+      "brand": "Razer",
+      "model": "Seiren V3 Chroma",
+      "microphoneType": "USB Condenser Microphone",
+      "capsuleSize": "16mm Condenser Capsule",
+      "polarPattern": "Supercardioid",
+      "frequencyResponse": "20Hz - 20kHz",
+      "sampleRate": "96kHz / 24-bit",
+      "maxSpl": "110dB",
+      "lighting": "Stream and Game Reactive Chroma RGB (via Razer Synapse)",
+      "features": "Multi-function Tap-to-Mute Sensor, Built-in Shock Absorber, High-pass Filter, 3.5mm Headphone Monitoring Port",
+      "connectionType": "Type-C to Type-A Cable Included",
+      "warranty": "2 Years"
     }
   }
 ]

@@ -1,72 +1,30 @@
-const http = require("http");
+const express = require("express");
+const cors = require("cors");
+
 const { getProducts, getProductById } = require("./routes/products");
 const { registerUser, loginUser, updateProfile } = require("./routes/auth");
 const { createOrder, getOrders } = require("./routes/orders");
 const { authMiddleware } = require("./middleware/authMiddleware");
 
+const app = express();
 const PORT = process.env.PORT || 5000;
 
-const server = http.createServer((req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS, POST");
+app.use(cors());
+app.use(express.json());
 
-  if (req.method === "OPTIONS") {
-    res.writeHead(204);
-    res.end();
-    return;
-  }
+app.get("/api/products", getProducts);
+app.get("/api/products/:id", getProductById);
 
-  const url = new URL(req.url || "/", "http://localhost");
+app.post("/api/register", registerUser);
+app.post("/api/login", loginUser);
+app.post("/api/profile/update", authMiddleware, updateProfile);
 
-  if (url.pathname === "/api/products") {
-    getProducts(req, res);
-    return;
-  }
-
-  if (url.pathname.startsWith("/api/products/")) {
-    const productId = url.pathname.split("/").pop();
-    getProductById(req, res, productId);
-    return;
-  }
-
-  if (url.pathname === "/api/register" && req.method === "POST") {
-    registerUser(req, res);
-    return;
-  }
-
-  if (url.pathname === "/api/login" && req.method === "POST") {
-    loginUser(req, res);
-    return;
-  }
-
-  if (url.pathname === "/api/profile/update" && req.method === "POST") {
-    authMiddleware(req, res, () => {
-      updateProfile(req, res);
-    });
-    return;
-  }
-
-  if (url.pathname === "/api/orders" && req.method === "POST") {
-    authMiddleware(req, res, () => {
-      createOrder(req, res);
-    });
-    return;
-  }
-
-  if (url.pathname === "/api/orders" && req.method === "GET") {
-    authMiddleware(req, res, () => {
-      getOrders(req, res);
-    });
-    return;
-  }
-
-  res.writeHead(404, { "Content-Type": "application/json" });
-  res.end(JSON.stringify({ message: "Route not found" }));
+app.use((req, res) => {
+  res.status(404).json({
+    message: "Route not found",
+  });
 });
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Backend running on port ${PORT}`);
 });
-
-
