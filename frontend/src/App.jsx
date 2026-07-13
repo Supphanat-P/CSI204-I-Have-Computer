@@ -5,6 +5,7 @@ import AdminLayout from "./layouts/AdminLayout";
 
 import Homepage from "./pages/Homepage";
 import Products from "./pages/Products";
+import ProductDetails from "./pages/ProductDetails";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profiles from "./pages/Profiles";
@@ -18,7 +19,8 @@ function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route path="/" element={<Homepage />} />
-            <Route path="/Products" element={<Products />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/productsDetails/:id" element={<ProductDetails />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profiles />} />

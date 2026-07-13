@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 
 export default function ProductCard({ product }) {
@@ -6,54 +7,34 @@ export default function ProductCard({ product }) {
 
   return (
     <div className="group bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden hover:shadow-xl hover:border-primary transition-all duration-300 flex flex-col relative mt-5 p-4 max-w-2xs">
-      {/* <div className="absolute top-2 left-2 z-10">
-        {product.badge && (
-          <span className="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-label-sm font-bold">
-            {product.badge}
+      <Link to={`/productsDetails/${product.id}`} className="flex flex-col flex-1">
+        <div className="aspect-square bg-surface overflow-hidden">
+          <img
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 rounded-sm"
+            alt={product.name}
+            src={product.image}
+          />
+        </div>
+        <div className="p-stack-md flex flex-col flex-1">
+          <span className="text-label-sm text-outline font-bold uppercase tracking-wider">
+            {product.brand}
           </span>
-        )}
-      </div> */}
-      <div className="aspect-square bg-surface overflow-hidden">
-        <img
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 rounded-sm"
-          alt={product.name}
-          src={product.image}
-        />
-      </div>
-      <div className="p-stack-md flex flex-col flex-1">
-        <span className="text-label-sm text-outline font-bold uppercase tracking-wider">
-          {product.brand}
-        </span>
-        <h3 className="text-body-md font-bold text-on-surface line-clamp-2 mt-1 mb-2">
-          {product.name}
-        </h3>
-        <span className="text-sm text-on-surface-variant line-clamp-2">
-          {Object.entries(product)
-            .filter(
-              ([key, value]) =>
-                ![
-                  "id",
-                  "name",
-                  "brand",
-                  "price",
-                  "image",
-                  "badge",
-                  "productType",
-                ].includes(key) &&
-                typeof value === "string" &&
-                Boolean(value),
-            )
-            .map(([, value]) => value)
-            .join(" • ")}
-        </span>
-        <div className="mt-auto">
-          <div className="flex items-baseline gap-2">
+          <h3 className="text-body-md font-bold text-on-surface line-clamp-2 mt-1 mb-2">
+            {product.name}
+          </h3>
+          <span className="text-sm text-on-surface-variant line-clamp-2">
+            {product.description || "สินค้าที่พร้อมส่งและให้บริการหลังการขาย"}
+          </span>
+          <div className="mt-auto pt-3 flex items-center justify-between">
             <span className="text-headline-sm font-bold text-primary">
               {product.price.toLocaleString()}฿
             </span>
+            <span className="text-label-sm text-on-surface-variant">
+              สต็อก {product.stock}
+            </span>
           </div>
         </div>
-      </div>
+      </Link>
       <button
         onClick={() => addToCart(product)}
         className="absolute bottom-4 right-4 bg-primary text-on-primary w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all active:scale-90 cursor-pointer"
