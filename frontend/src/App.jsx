@@ -27,10 +27,11 @@ function App() {
             <Route path="/profile" element={<Profiles />} />
             <Route path="/checkout" element={<Checkout />} />
           </Route>
-
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminProducts />} />
+          
+          <Route element={<AdminLayout />}>
+            <Route path="/admin" element={<AdminProducts />} />
           </Route>
+
         </Routes>
       </BrowserRouter>
     </CartProvider>
