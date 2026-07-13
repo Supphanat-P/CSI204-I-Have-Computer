@@ -12,6 +12,22 @@ export default function MainLayout() {
   const [isLogin, setIsLogin] = useState(false);
   const { cart, updateQuantity, removeFromCart, clearCart, cartCount, cartTotal } = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [favoriteCount, setFavoriteCount] = useState(0);
+
+  const updateFavoriteCount = () => {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+    const favoritesKey = currentUser ? `favorites_${currentUser.id}` : "favorites_guest";
+    const favs = JSON.parse(localStorage.getItem(favoritesKey) || "[]");
+    setFavoriteCount(favs.length);
+  };
+
+  useEffect(() => {
+    updateFavoriteCount();
+    window.addEventListener("favoritesUpdated", updateFavoriteCount);
+    return () => {
+      window.removeEventListener("favoritesUpdated", updateFavoriteCount);
+    };
+  }, [location]);
 
   useEffect(() => {
     setIsLogin(!!localStorage.getItem("currentUser"));
@@ -59,8 +75,8 @@ export default function MainLayout() {
                 href="#"
                 onClick={() => setActiveNav(item)}
                 className={`font-label-caps text-label-caps transition-colors duration-200 cursor-pointer ${activeNav === item
-                    ? "text-primary border-b-2 border-primary pb-1"
-                    : "text-on-surface-variant hover:text-primary"
+                  ? "text-primary border-b-2 border-primary pb-1"
+                  : "text-on-surface-variant hover:text-primary"
                   }`}
               >
                 {item}
@@ -83,6 +99,18 @@ export default function MainLayout() {
               />
             </div>
             <div className="flex items-center gap-2">
+              <Link
+                to="/profile"
+                state={{ activeTab: "wishlist" }}
+                className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 relative group cursor-pointer"
+              >
+                <span className="material-symbols-outlined">favorite</span>
+                {favoriteCount > 0 && (
+                  <span className="absolute top-1 right-1 w-4 h-4 bg-error text-white text-[10px] flex items-center justify-center rounded-full font-bold">
+                    {favoriteCount}
+                  </span>
+                )}
+              </Link>
               <button
                 onClick={() => {
                   const currentUser = localStorage.getItem("currentUser");

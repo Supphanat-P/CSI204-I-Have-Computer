@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 export default function Profiles() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { addToCart } = useCart();
 
   // 1. Session & Authentication check
   const [currentUser, setCurrentUser] = useState(() => {
@@ -167,22 +169,50 @@ export default function Profiles() {
     }
   };
 
-  const [wishlist, setWishlist] = useState([
-    {
-      id: 1,
-      name: "Apex Pro Keyboard",
-      type: "Wired Mechanical RGB",
-      price: 1500,
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCMiJUdCMuExhllGBrlYBeUctKNy-luV6HFu33cxyuOb6xnlyAIiZBpKQwzArQ5zpdUto-P-4RRYydLsY1YNuPscvLxf6cec6zCdlhmeJTyLhfjN2bUCWZ4JIe3qwgmfwpHehNY0ZiRZvO96ykBUrBAWdQ4HIs54zuGIe3oCgkFGJ-PFRDrjkmcBvwJhYcrV-PY1dBTasWih-L-XFOR_p4W4XRoGx68HyYbi8jxlD3pD0TGXVJgesMzdg",
-    },
-    {
-      id: 2,
-      name: "Vector X Precision",
-      type: "Wireless Optical Mouse",
-      price: 790,
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuA-SSchc4qA1D03bhL_VDRor2hP2k4R_l9PyHgrmRF4mBkTLgzMVlnWVn2n6KGEX-E-lv-87f23EYM329YkKQxmDXmM5734OBUttqt_TSXoMXIMeTdVukg4giJtoPepZ8xfMspkv7sDT_gV0OEUsPx5lMOPTG_hWS6WVNGlDK6KbOB2DPSAjaaI8gwVZwzDNtvhpuAe76cX3mCPuNMyd8QKIKrIHge-uVUmgMhgULvYUvpnjVqQL-d1Zg",
-    },
-  ]);
+  const [products, setProducts] = useState([]);
+  const [favoriteIds, setFavoriteIds] = useState([]);
+
+  const loadFavorites = () => {
+    const curr = JSON.parse(localStorage.getItem("currentUser") || "null");
+    const favoritesKey = curr ? `favorites_${curr.id}` : "favorites_guest";
+    const favs = JSON.parse(localStorage.getItem(favoritesKey) || "[]");
+    setFavoriteIds(favs);
+  };
+
+  useEffect(() => {
+    loadFavorites();
+    window.addEventListener("favoritesUpdated", loadFavorites);
+
+    async function fetchProducts() {
+      try {
+        const res = await fetch("/api/products");
+        if (res.ok) {
+          const data = await res.json();
+          setProducts(data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch products for wishlist", err);
+      }
+    }
+    fetchProducts();
+
+    return () => {
+      window.removeEventListener("favoritesUpdated", loadFavorites);
+    };
+  }, []);
+
+  const wishlist = useMemo(() => {
+    return products.filter((p) => favoriteIds.includes(p.id));
+  }, [products, favoriteIds]);
+
+  const handleUnlike = (productId) => {
+    const curr = JSON.parse(localStorage.getItem("currentUser") || "null");
+    const favoritesKey = curr ? `favorites_${curr.id}` : "favorites_guest";
+    let favs = JSON.parse(localStorage.getItem(favoritesKey) || "[]");
+    favs = favs.filter((id) => id !== productId);
+    localStorage.setItem(favoritesKey, JSON.stringify(favs));
+    window.dispatchEvent(new Event("favoritesUpdated"));
+  };
 
   const [payments, setPayments] = useState([
     {
@@ -981,31 +1011,52 @@ export default function Profiles() {
                   <h2 className="text-2xl font-bold text-on-surface">สินค้าที่ชอบ</h2>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                  {wishlist.map((item) => (
-                    <div key={item.id} className="border border-outline-variant rounded-2xl p-4 bg-white flex flex-col justify-between hover:shadow-md transition-shadow">
-                      <div>
-                        <div className="aspect-square w-full bg-surface-container rounded-xl overflow-hidden mb-3 relative flex items-center justify-center">
-                          <img src={item.image} alt={item.name} className="max-h-full max-w-full object-contain p-2" />
+                {wishlist.length === 0 ? (
+                  <div className="py-16 text-center text-on-surface-variant flex flex-col items-center">
+                    <div className="w-16 h-16 bg-error/5 rounded-full flex items-center justify-center text-error mb-4 shadow-inner">
+                      <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 0" }}>
+                        favorite
+                      </span>
+                    </div>
+                    <h3 className="font-bold text-lg text-on-surface mb-1">ยังไม่มีสินค้าที่ถูกใจ</h3>
+                    <p className="text-sm text-on-surface-variant max-w-xs mb-6">คุณสามารถกดปุ่มรูปหัวใจบนหน้าสินค้าที่คุณชื่นชอบเพื่อเก็บไว้ดูได้ที่นี่</p>
+                    <button
+                      onClick={() => navigate("/products")}
+                      className="bg-primary text-white px-6 py-2.5 rounded-xl text-body-sm font-semibold hover:bg-primary-fixed-dim hover:text-primary-fixed transition-all duration-200 active:scale-95 cursor-pointer shadow-md"
+                    >
+                      ไปเลือกช็อปสินค้า
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    {wishlist.map((item) => (
+                      <div key={item.id} className="border border-outline-variant rounded-2xl p-4 bg-white flex flex-col justify-between hover:shadow-md transition-shadow relative">
+                        <div>
+                          <div className="aspect-square w-full bg-surface-container rounded-xl overflow-hidden mb-3 relative flex items-center justify-center">
+                            <img src={item.image} alt={item.name} className="max-h-full max-w-full object-contain p-2" />
+                            <button
+                              onClick={() => handleUnlike(item.id)}
+                              className="absolute top-2 right-2 p-1.5 bg-white/80 backdrop-blur-sm rounded-full text-red-500 hover:bg-white transition-colors cursor-pointer flex items-center justify-center"
+                            >
+                              <span className="material-symbols-outlined text-lg leading-none" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
+                            </button>
+                          </div>
+                          <h4 className="font-bold text-on-surface text-body-md line-clamp-1">{item.name}</h4>
+                          <p className="text-xs text-on-surface-variant mb-2">{item.brand} | {item.category || item.productType}</p>
+                        </div>
+                        <div className="flex justify-between items-center mt-3 pt-2 border-t border-outline-variant">
+                          <span className="font-bold text-primary">{item.price.toLocaleString()}฿</span>
                           <button
-                            onClick={() => setWishlist(wishlist.filter(w => w.id !== item.id))}
-                            className="absolute top-2 right-2 p-1.5 bg-white/80 backdrop-blur-sm rounded-full text-red-500 hover:bg-white transition-colors cursor-pointer"
+                            onClick={() => addToCart(item)}
+                            className="bg-primary text-white text-xs px-3.5 py-1.5 rounded-lg hover:bg-primary-container hover:text-on-primary-container font-semibold transition-all cursor-pointer"
                           >
-                            <span className="material-symbols-outlined text-lg leading-none">favorite</span>
+                            ใส่รถเข็น
                           </button>
                         </div>
-                        <h4 className="font-bold text-on-surface text-body-md line-clamp-1">{item.name}</h4>
-                        <p className="text-xs text-on-surface-variant mb-2">{item.type}</p>
                       </div>
-                      <div className="flex justify-between items-center mt-3 pt-2 border-t border-outline-variant">
-                        <span className="font-bold text-primary">{item.price.toLocaleString()}฿</span>
-                        <button className="bg-primary text-white text-xs px-3.5 py-1.5 rounded-lg hover:bg-primary-container hover:text-on-primary-container font-semibold transition-all cursor-pointer">
-                          ใส่รถเข็น
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
