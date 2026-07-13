@@ -177,7 +177,7 @@ export default function Homepage() {
                   key={index}
                   src={brand.url}
                   alt={`${brand.name} Logo`}
-                  className="h-8 md:h-10 object-contain"
+                  className="h-8 md:h-20 object-contain rounded-2xl shadow hover:scale-105 transition-all duration-300"
                 />
               ))}
             </div>
