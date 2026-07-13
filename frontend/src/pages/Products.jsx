@@ -82,6 +82,12 @@ export default function Products() {
           if (!values.length) return true;
 
           const productValue = product[key];
+          
+          console.log("-------------")
+          console.log("Product", values)
+          console.log("Key", key)
+          console.log("ProductKey", productValue)
+          console.log("-------------")
 
           if (Array.isArray(productValue)) {
             return values.some((selectedValue) =>
@@ -132,7 +138,6 @@ export default function Products() {
       };
     });
   };
-
   return (
     <div>
       <main className="mt-20 mx-40 px-margin-desktop py-stack-lg flex gap-gutter">
