@@ -1,5 +1,34 @@
 const { readJsonFile, writeJsonFile } = require("../utils/fileHandler");
 const { signJwt } = require("../middleware/authMiddleware");
+const bcrypt = require("bcryptjs");
+
+// Helper to check if string is a bcrypt hash
+function isBcryptHash(password) {
+  return typeof password === "string" && /^\$2[ayb]\$[0-9]{2}\$[./A-Za-z0-9]{53}$/.test(password);
+}
+
+// Migrate any plain text passwords in users.json to bcrypt hashes
+function migrateUsers() {
+  const users = readJsonFile("users.json");
+  let modified = false;
+
+  const migratedUsers = users.map((user) => {
+    if (!isBcryptHash(user.password)) {
+      const salt = bcrypt.genSaltSync(10);
+      user.password = bcrypt.hashSync(user.password, salt);
+      modified = true;
+    }
+    return user;
+  });
+
+  if (modified) {
+    writeJsonFile("users.json", migratedUsers);
+    console.log("Successfully migrated plain text passwords to bcrypt hashes.");
+  }
+}
+
+// Run migration on load
+migrateUsers();
 
 // Utility to parse request JSON body in native Node.js
 function parseBody(req) {
@@ -51,12 +80,15 @@ async function registerUser(req, res) {
       }
     }
 
+    // Hash password with bcrypt before storing
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     // Create new user object with empty profile fields
     const newUser = {
       id: nextId.toString(),
       name,
       email,
-      password, // Stored as plain text as requested / compatible with current localStorage setup
+      password: hashedPassword,
       phone: "-",
       birthDate: "-",
       lineId: "-",
@@ -107,11 +139,12 @@ async function loginUser(req, res) {
 
     // If users.json is empty, initialize with default user
     if (users.length === 0) {
+      const hashedPassword = bcrypt.hashSync("password123", 10);
       const defaultUser = {
         id: "1",
         name: "Theepakorn Ruensukhonte",
         email: "theefordev@gmail.com",
-        password: "password123",
+        password: hashedPassword,
         phone: "-",
         birthDate: "-",
         lineId: "-",
@@ -122,12 +155,15 @@ async function loginUser(req, res) {
     }
 
     const matchedUser = users.find(
-      (u) =>
-        u.email.toLowerCase() === email.toLowerCase() &&
-        u.password === password
+      (u) => u.email.toLowerCase() === email.toLowerCase()
     );
 
-    if (!matchedUser) {
+    let isPasswordCorrect = false;
+    if (matchedUser) {
+      isPasswordCorrect = await bcrypt.compare(password, matchedUser.password);
+    }
+
+    if (!matchedUser || !isPasswordCorrect) {
       res.writeHead(401, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ message: "อีเมลหรือรหัสผ่านไม่ถูกต้อง" }));
       return;
