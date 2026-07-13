@@ -93,13 +93,14 @@ async function registerUser(req, res) {
       birthDate: "-",
       lineId: "-",
       facebook: "-",
+      role: "user",
     };
 
     users.push(newUser);
     writeJsonFile("users.json", users);
 
     // Generate JWT token for the newly registered user
-    const token = signJwt({ id: newUser.id, email: newUser.email });
+    const token = signJwt({ id: newUser.id, email: newUser.email, role: newUser.role });
 
     res.writeHead(201, { "Content-Type": "application/json" });
     res.end(
@@ -114,6 +115,7 @@ async function registerUser(req, res) {
           birthDate: newUser.birthDate,
           lineId: newUser.lineId,
           facebook: newUser.facebook,
+          role: newUser.role,
         },
       })
     );
@@ -170,7 +172,7 @@ async function loginUser(req, res) {
     }
 
     // Generate JWT token for the user
-    const token = signJwt({ id: matchedUser.id, email: matchedUser.email });
+    const token = signJwt({ id: matchedUser.id, email: matchedUser.email, role: matchedUser.role || "user" });
 
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(
@@ -185,6 +187,7 @@ async function loginUser(req, res) {
           birthDate: matchedUser.birthDate || "-",
           lineId: matchedUser.lineId || "-",
           facebook: matchedUser.facebook || "-",
+          role: matchedUser.role || "user",
         },
       })
     );
@@ -260,6 +263,7 @@ async function updateProfile(req, res) {
           birthDate: updatedUser.birthDate,
           lineId: updatedUser.lineId,
           facebook: updatedUser.facebook,
+          role: updatedUser.role || "user",
         },
       })
     );

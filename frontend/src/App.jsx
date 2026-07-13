@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profiles from "./pages/Profiles";
 import Checkout from "./pages/Checkout";
+import AdminProducts from "./pages/AdminProducts";
 import { CartProvider } from "./context/CartContext";
 
 function App() {
@@ -27,7 +28,9 @@ function App() {
             <Route path="/checkout" element={<Checkout />} />
           </Route>
 
-          <Route path="/admin" element={<AdminLayout />}></Route>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminProducts />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </CartProvider>
@@ -35,4 +38,3 @@ function App() {
 }
 
 export default App;
-

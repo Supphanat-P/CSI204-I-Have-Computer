@@ -1,5 +1,5 @@
 const http = require("http");
-const { getProducts, getProductById } = require("./routes/products");
+const { getProducts, getProductById, createProduct, updateProduct } = require("./routes/products");
 const { registerUser, loginUser, updateProfile } = require("./routes/auth");
 const { authMiddleware } = require("./middleware/authMiddleware");
 
@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 const server = http.createServer((req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS, POST");
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT");
 
   if (req.method === "OPTIONS") {
     res.writeHead(204);
@@ -42,6 +42,20 @@ const server = http.createServer((req, res) => {
   if (url.pathname === "/api/profile/update" && req.method === "POST") {
     authMiddleware(req, res, () => {
       updateProfile(req, res);
+    });
+    return;
+  }
+
+  if (url.pathname === "/api/products/create" && req.method === "POST") {
+    authMiddleware(req, res, () => {
+      createProduct(req, res);
+    });
+    return;
+  }
+
+  if (url.pathname === "/api/products/update" && req.method === "POST") {
+    authMiddleware(req, res, () => {
+      updateProduct(req, res);
     });
     return;
   }
