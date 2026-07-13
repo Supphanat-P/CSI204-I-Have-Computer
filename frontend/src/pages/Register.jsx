@@ -13,7 +13,7 @@ export default function Register() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -33,31 +33,46 @@ export default function Register() {
     }
 
     setIsLoading(true);
-    // Mock registration timeout
-    setTimeout(() => {
-      // Get existing users from localStorage
-      const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
-      
-      // Check if user already exists
-      if (existingUsers.some((u) => u.email === email)) {
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
         setIsLoading(false);
-        setError("อีเมลนี้ถูกใช้งานแล้ว");
+        setError(data.message || "สมัครสมาชิกไม่สำเร็จ");
         return;
       }
-      
-      // Add new user to users array
-      const newUser = {
-        id: Date.now().toString(),
-        name,
-        email,
-        password,
-      };
-      existingUsers.push(newUser);
-      localStorage.setItem("users", JSON.stringify(existingUsers));
+
+      // Sync new user to localStorage users list to maintain full frontend compatibility
+      const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
+      if (!existingUsers.some((u) => u.id === data.user.id)) {
+        existingUsers.push({
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email,
+          password: password, // Store password locally for compatibility
+          phone: "-",
+          birthDate: "-",
+          lineId: "-",
+          facebook: "-",
+        });
+        localStorage.setItem("users", JSON.stringify(existingUsers));
+      }
 
       setIsLoading(false);
       navigate("/login");
-    }, 1000);
+    } catch (err) {
+      console.error(err);
+      setIsLoading(false);
+      setError("ไม่สามารถติดต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง");
+    }
   };
 
   return (

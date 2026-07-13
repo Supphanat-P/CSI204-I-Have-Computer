@@ -10,7 +10,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -20,44 +20,63 @@ export default function Login() {
     }
 
     setIsLoading(true);
-    // Login check
-    setTimeout(() => {
-      // Load users from localStorage, initialize with default user if empty
-      let existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
-      if (existingUsers.length === 0) {
-        const defaultUser = {
-          id: "default-user-id",
-          name: "Theepakorn Ruensukhonte",
-          email: "theefordev@gmail.com",
-          password: "password123",
-        };
-        existingUsers = [defaultUser];
-        localStorage.setItem("users", JSON.stringify(existingUsers));
-      }
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-      const matchedUser = existingUsers.find(
-        (u) => u.email === email && u.password === password
-      );
+      const data = await response.json();
 
-      if (!matchedUser) {
+      if (!response.ok) {
         setIsLoading(false);
-        setError("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+        setError(data.message || "อีเมลหรือรหัสผ่านไม่ถูกต้อง");
         return;
       }
 
-      // Save user session in localStorage
+      // Save user session in localStorage with JWT token included
       localStorage.setItem(
         "currentUser",
         JSON.stringify({
-          id: matchedUser.id,
-          name: matchedUser.name,
-          email: matchedUser.email,
+          ...data.user,
+          token: data.token,
         })
       );
 
+      // Sync user to localStorage users list to maintain full compatibility with address/order pages
+      let existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
+      const userIndex = existingUsers.findIndex((u) => u.id === data.user.id);
+      const userObj = {
+        id: data.user.id,
+        name: data.user.name,
+        email: data.user.email,
+        password: password,
+        phone: data.user.phone || "-",
+        birthDate: data.user.birthDate || "-",
+        lineId: data.user.lineId || "-",
+        facebook: data.user.facebook || "-",
+      };
+
+      if (userIndex === -1) {
+        existingUsers.push(userObj);
+      } else {
+        existingUsers[userIndex] = {
+          ...existingUsers[userIndex],
+          ...userObj,
+        };
+      }
+      localStorage.setItem("users", JSON.stringify(existingUsers));
+
       setIsLoading(false);
       navigate("/profile");
-    }, 1000);
+    } catch (err) {
+      console.error(err);
+      setIsLoading(false);
+      setError("ไม่สามารถติดต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง");
+    }
   };
 
   return (

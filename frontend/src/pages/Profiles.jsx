@@ -196,23 +196,60 @@ export default function Profiles() {
   ]);
 
   // Profile Edit functions
-  const handleSaveProfile = (e) => {
+  const handleSaveProfile = async (e) => {
     e.preventDefault();
-    setUserProfile({ ...tempProfile });
     
-    // Save to localStorage users array
-    if (currentUser) {
+    if (!currentUser) return;
+
+    try {
+      const response = await fetch("/api/profile/update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${currentUser.token}`,
+        },
+        body: JSON.stringify({
+          id: currentUser.id,
+          name: `${tempProfile.firstName} ${tempProfile.lastName}`,
+          email: tempProfile.email,
+          phone: tempProfile.phone,
+          birthDate: tempProfile.birthDate,
+          lineId: tempProfile.lineId,
+          facebook: tempProfile.facebook,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.message || "ไม่สามารถบันทึกข้อมูลได้");
+        return;
+      }
+
+      const updatedUser = data.user;
+      
+      setUserProfile({
+        firstName: updatedUser.name.split(" ")[0] || "",
+        lastName: updatedUser.name.split(" ").slice(1).join(" ") || "",
+        email: updatedUser.email || "",
+        phone: updatedUser.phone || "-",
+        birthDate: updatedUser.birthDate || "-",
+        lineId: updatedUser.lineId || "-",
+        facebook: updatedUser.facebook || "-",
+      });
+
+      // Save to localStorage users array
       const users = JSON.parse(localStorage.getItem("users") || "[]");
       const updatedUsers = users.map((u) => {
         if (u.id === currentUser.id) {
           return {
             ...u,
-            name: `${tempProfile.firstName} ${tempProfile.lastName}`,
-            email: tempProfile.email,
-            phone: tempProfile.phone,
-            birthDate: tempProfile.birthDate,
-            lineId: tempProfile.lineId,
-            facebook: tempProfile.facebook,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            phone: updatedUser.phone,
+            birthDate: updatedUser.birthDate,
+            lineId: updatedUser.lineId,
+            facebook: updatedUser.facebook,
           };
         }
         return u;
@@ -222,14 +259,21 @@ export default function Profiles() {
       // Update current user details in session
       const updatedCurrentUser = {
         ...currentUser,
-        name: `${tempProfile.firstName} ${tempProfile.lastName}`,
-        email: tempProfile.email,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        phone: updatedUser.phone,
+        birthDate: updatedUser.birthDate,
+        lineId: updatedUser.lineId,
+        facebook: updatedUser.facebook,
       };
       localStorage.setItem("currentUser", JSON.stringify(updatedCurrentUser));
       setCurrentUser(updatedCurrentUser);
-    }
 
-    setIsEditingProfile(false);
+      setIsEditingProfile(false);
+    } catch (err) {
+      console.error(err);
+      alert("ไม่สามารถติดต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง");
+    }
   };
 
   const handleCancelProfileEdit = () => {
