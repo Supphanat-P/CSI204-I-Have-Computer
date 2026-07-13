@@ -1,4 +1,4 @@
-const { readJsonFile } = require("../utils/fileHandler");
+const { readJsonFile, writeJsonFile } = require("../utils/fileHandler");
 
 function getProducts(req, res) {
   const products = readJsonFile("products.json");

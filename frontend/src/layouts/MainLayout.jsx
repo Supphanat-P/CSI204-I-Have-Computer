@@ -10,6 +10,7 @@ export default function MainLayout() {
   const navItems = [];
   const [searchQuery, setSearchQuery] = useState("");
   const [isLogin, setIsLogin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const { cart, updateQuantity, removeFromCart, clearCart, cartCount, cartTotal } = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [favoriteCount, setFavoriteCount] = useState(0);
@@ -30,7 +31,9 @@ export default function MainLayout() {
   }, [location]);
 
   useEffect(() => {
-    setIsLogin(!!localStorage.getItem("currentUser"));
+    const user = JSON.parse(localStorage.getItem("currentUser") || "null");
+    setIsLogin(!!user);
+    setIsAdmin(user?.role === "admin");
   }, [location]);
 
   useEffect(() => {
@@ -131,6 +134,15 @@ export default function MainLayout() {
               </button>
               {isLogin ? (
                 <>
+                  {isAdmin && (
+                    <Link
+                      to="/admin"
+                      className="flex items-center gap-1 px-3 py-1.5 bg-primary text-white text-xs font-bold rounded-full hover:brightness-110 active:scale-95 transition-all"
+                    >
+                      <span className="material-symbols-outlined text-sm">admin_panel_settings</span>
+                      Admin
+                    </Link>
+                  )}
                   <Link to="/profile" className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-90">
                     <span className="material-symbols-outlined">person</span>
                   </Link>

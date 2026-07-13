@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
 export default function Profiles() {
@@ -576,6 +576,24 @@ export default function Profiles() {
                 </button>
               </div>
             </div>
+
+            {/* Menu Group 3: ผู้ดูแลระบบ (visible only for admin) */}
+            {currentUser?.role === "admin" && (
+              <div className="p-4 border-t border-outline-variant">
+                <span className="px-4 text-[11px] font-bold tracking-widest text-primary uppercase block mb-2">
+                  ผู้ดูแลระบบ
+                </span>
+                <div className="flex flex-col gap-1">
+                  <Link
+                    to="/admin"
+                    className="w-full text-left rounded-xl transition-all flex items-center gap-3 px-4 py-3 text-primary hover:bg-primary/10 font-semibold"
+                  >
+                    <span className="material-symbols-outlined">admin_panel_settings</span>
+                    <span className="text-body-md">จัดการสินค้า / สต็อก</span>
+                  </Link>
+                </div>
+              </div>
+            )}
 
             {/* Logout Button */}
             <div className="p-4 border-t border-outline-variant bg-surface-container-low">

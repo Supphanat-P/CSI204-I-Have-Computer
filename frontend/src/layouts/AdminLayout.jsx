@@ -1,68 +1,64 @@
-import { Outlet } from "react-router-dom";
-import { useState } from "react";
-export default function () {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const navItems = [];
-  const [searchQuery, setSearchQuery] = useState("");
+import { Outlet, Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+export default function AdminLayout() {
+  const navigate = useNavigate();
+  const [currentUser] = useState(() =>
+    JSON.parse(localStorage.getItem("currentUser") || "null")
+  );
+
+  // Protect route: redirect non-admin users
+  useEffect(() => {
+    if (!currentUser) {
+      navigate("/login", { replace: true });
+    } else if (currentUser.role !== "admin") {
+      navigate("/", { replace: true });
+    }
+  }, [currentUser, navigate]);
+
+  if (!currentUser || currentUser.role !== "admin") return null;
 
   return (
     <>
-      <nav
-        className={`flex flex-col w-full sticky top-0 z-50 px-margin-desktop py-stack-md bg-surface bg-opacity-90 border-b border-outline-variant backdrop-blur-md transition-shadow duration-200 ${
-          isScrolled ? "shadow-sm" : ""
-        }`}
-      >
-        <div className="max-w-container-max mx-auto w-full flex items-center justify-between gap-gutter">
-          <a
-            className="font-display text-display text-primary tracking-tighter shrink-0"
-            href="/"
+      <nav className="flex w-full sticky top-0 z-50 px-8 py-4 bg-white/90 border-b border-outline-variant backdrop-blur-md shadow-sm">
+        <div className="max-w-container-max mx-auto w-full flex items-center justify-between gap-6">
+          {/* Brand */}
+          <Link
+            to="/"
+            className="font-bold text-xl text-primary tracking-tighter shrink-0"
           >
-            IHaveComputer
-          </a>
+            IhaveComputer
+          </Link>
 
-          <div className="hidden md:flex items-center gap-8">
-            {navItems.map((item) => (
-              <a
-                key={item}
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setActiveNav(item);
-                }}
-                className={`font-label-md text-label-md transition-colors duration-200 ${
-                  activeNav === item
-                    ? "text-primary border-b-2 border-primary pb-1"
-                    : "text-on-surface-variant hover:text-primary"
-                }`}
-              >
-                {item}
-              </a>
-            ))}
-          </div>
+          {/* Admin label */}
+          <span className="flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-wider">
+            <span className="material-symbols-outlined text-sm">admin_panel_settings</span>
+            Admin Panel
+          </span>
 
-          {/* Search & Actions */}
-          <div className="flex items-center gap-stack-md flex-1 justify-end max-w-xl">
-            <div className="relative w-full hidden sm:block">
-              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
-                search
-              </span>
-              <input
-                className="w-full bg-surface-container-low border border-outline-variant rounded-lg py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                placeholder="Search ..."
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-
-            <div className="flex items-center gap-stack-sm">
-              <button className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 relative group active:scale-90">
-                <span className="material-symbols-outlined">shopping_cart</span>
-              </button>
-              <button className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-90">
-                <span className="material-symbols-outlined">person</span>
-              </button>
-            </div>
+          {/* Nav Links */}
+          <div className="flex items-center gap-4 ml-auto">
+            <Link
+              to="/admin"
+              className="flex items-center gap-1.5 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors"
+            >
+              <span className="material-symbols-outlined text-sm">inventory_2</span>
+              จัดการสินค้า
+            </Link>
+            <Link
+              to="/"
+              className="flex items-center gap-1.5 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors"
+            >
+              <span className="material-symbols-outlined text-sm">storefront</span>
+              กลับหน้าหลัก
+            </Link>
+            <Link
+              to="/profile"
+              className="flex items-center gap-1.5 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors"
+            >
+              <span className="material-symbols-outlined text-sm">person</span>
+              โปรไฟล์
+            </Link>
           </div>
         </div>
       </nav>

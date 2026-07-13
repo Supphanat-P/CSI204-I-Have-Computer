@@ -7,7 +7,8 @@
     "phone": "-",
     "birthDate": "-",
     "lineId": "-",
-    "facebook": "-"
+    "facebook": "-",
+    "role": "admin"
   },
   {
     "id": "2",
@@ -17,7 +18,8 @@
     "phone": "-",
     "birthDate": "-",
     "lineId": "-",
-    "facebook": "-"
+    "facebook": "-",
+    "role": "user"
   },
   {
     "id": "3",
@@ -27,6 +29,18 @@
     "phone": "-",
     "birthDate": "-",
     "lineId": "-",
-    "facebook": "-"
+    "facebook": "-",
+    "role": "user"
+  },
+  {
+    "id": "4",
+    "name": "Kira",
+    "email": "pondezxb@gmail.com",
+    "password": "$2a$10$SRbynvqbCePv3bg.gzOCxe1PGru76qt1nvuZVIM30C.TkXRvIKJ0C",
+    "phone": "-",
+    "birthDate": "-",
+    "lineId": "-",
+    "facebook": "-",
+    "role": "admin"
   }
 ]
