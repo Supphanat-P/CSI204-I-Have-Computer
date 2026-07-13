@@ -67,8 +67,7 @@ export default function AdminProducts() {
 
   // Product types for filter
   const productTypes = useMemo(() => {
-    const types = [...new Set(products.map((p) => p.productType).filter(Boolean))];
-    return types;
+    return [...new Set(products.map((p) => p.type).filter(Boolean))];
   }, [products]);
 
   // Filtered + sorted products
@@ -425,13 +424,24 @@ export default function AdminProducts() {
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-on-surface-variant mb-1">ประเภทสินค้า</label>
-                  <input
-                    type="text"
+                  <select
                     value={formData.productType}
-                    onChange={(e) => setFormData((f) => ({ ...f, productType: e.target.value }))}
-                    placeholder="เช่น GPU, CPU, Monitor"
-                    className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                  />
+                    onChange={(e) =>
+                      setFormData((f) => ({
+                        ...f,
+                        productType: e.target.value,
+                      }))
+                    }
+                    className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl"
+                  >
+                    <option value="">เลือกประเภทสินค้า</option>
+
+                    {productTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
