@@ -33,6 +33,10 @@ migrateUsers();
 // Utility to parse request JSON body in native Node.js
 function parseBody(req) {
   return new Promise((resolve, reject) => {
+    if (req.body && typeof req.body === "object") {
+      resolve(req.body);
+      return;
+    }
     let body = "";
     req.on("data", (chunk) => {
       body += chunk.toString();
@@ -47,6 +51,7 @@ function parseBody(req) {
   });
 }
 
+// Handler for user registration
 async function registerUser(req, res) {
   try {
     const { name, email, password } = await parseBody(req);
@@ -59,6 +64,7 @@ async function registerUser(req, res) {
 
     const users = readJsonFile("users.json");
 
+    // Check if user already exists
     if (users.some((u) => u.email.toLowerCase() === email.toLowerCase())) {
       res.writeHead(400, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ message: "อีเมลนี้ถูกใช้งานแล้ว" }));

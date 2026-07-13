@@ -91,7 +91,7 @@ export default function ProductDetails() {
     );
 
     return (
-        <div className="bg-background min-h-screen pt-20 pb-16 px-4 md:px-margin-desktop">
+        <div className="bg-background min-h-screen pt-5 pb-16 px-4 md:px-margin-desktop">
             {/* Breadcrumbs */}
             <nav className="flex items-center gap-2 text-label-md text-on-surface-variant mb-8">
                 <Link to="/" className="hover:text-primary transition-colors">หน้าแรก</Link>

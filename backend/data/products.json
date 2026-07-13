@@ -83,7 +83,7 @@
     "type": "CPU",
     "price": 18900,
     "stock": 10,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/product16311_800.jpg",
     "description": "ซีพียูเกมมิ่งประสิทธิภาพสูง",
     "highlights": [
       "8 Cores",
@@ -120,7 +120,7 @@
     "type": "Mainboard",
     "price": 7990,
     "stock": 7,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "image": "https://media-cdn.bnn.in.th/251772/msi-mag-b650-tomahawk-wifi-d5-1-square_medium.jpg",
     "description": "เมนบอร์ดสำหรับ AMD AM5",
     "highlights": [
       "WiFi",
@@ -158,7 +158,7 @@
     "type": "RAM",
     "price": 5900,
     "stock": 20,
-    "image": "https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2022060413310953593_1.jpg",
     "description": "แรม DDR5 ความเร็วสูง",
     "highlights": [
       "DDR5",
@@ -193,7 +193,7 @@
     "type": "SSD",
     "price": 6490,
     "stock": 12,
-    "image": "https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2023082416295161614_1.jpg",
     "description": "SSD PCIe Gen4 ความเร็วสูง",
     "highlights": [
       "2TB",
@@ -230,7 +230,7 @@
     "type": "HDD",
     "price": 1990,
     "stock": 15,
-    "image": "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=900&q=80",
+    "image": "https://img.advice.co.th/cdn-cgi/image/format=auto,width=700,quality=82,fit=contain/images_nas/pic_product4/A0136256/A0136256OK_BIG_1.jpg",
     "description": "ฮาร์ดดิสก์สำหรับเก็บข้อมูล",
     "highlights": [
       "2TB",
@@ -261,7 +261,7 @@
     "type": "PSU",
     "price": 5490,
     "stock": 9,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/20250702151933_71710_287_1.jpg",
     "description": "พาวเวอร์ซัพพลาย 850W",
     "highlights": [
       "80+ Gold",
@@ -293,7 +293,7 @@
     "type": "CPU Cooler",
     "price": 4290,
     "stock": 8,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2023071914440960972_1.jpg",
     "description": "ชุดน้ำ AIO ขนาด 360mm",
     "highlights": [
       "360mm",
@@ -328,7 +328,7 @@
     "type": "Case",
     "price": 4590,
     "stock": 6,
-    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2023110709401563460_1.jpg",
     "description": "เคส ATX กระจก Tempered Glass",
     "highlights": [
       "ATX",
@@ -365,7 +365,7 @@
     "type": "Keyboard",
     "price": 15900,
     "stock": 4,
-    "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=80",
+    "image": "https://wooting-website.ams3.cdn.digitaloceanspaces.com/products/keyboards/60HE/60HE_OG.webp",
     "description": "คีย์บอร์ด Hall Effect",
     "highlights": [
       "Rapid Trigger",
@@ -399,7 +399,7 @@
     "type": "Mouse",
     "price": 4990,
     "stock": 10,
-    "image": "https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/20250619154956_61791_66_1.jpg",
     "description": "เมาส์เกมมิ่งไร้สายน้ำหนักเบา",
     "highlights": [
       "Wireless",
@@ -435,7 +435,7 @@
     "type": "Headphones",
     "price": 4990,
     "stock": 9,
-    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
+    "image": "https://row.hyperx.com/cdn/shop/files/hyperx_cloud_iii_wireless_red_77z46aa_main_1.jpg?v=1764893494",
     "description": "หูฟังเกมมิ่งไร้สาย",
     "highlights": [
       "Wireless",
@@ -469,7 +469,7 @@
     "type": "Microphone",
     "price": 5490,
     "stock": 6,
-    "image": "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/20201204145230_44041_66_1.png",
     "description": "ไมโครโฟน USB สำหรับสตรีม",
     "highlights": [
       "RGB",
@@ -502,7 +502,7 @@
     "type": "CPU",
     "price": 16900,
     "stock": 12,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2023101615255663038_1.png",
     "description": "ซีพียูประสิทธิภาพสูงสำหรับการเล่นเกมและการทำงานสร้างสรรค์",
     "highlights": [
       "20 Cores",
@@ -540,7 +540,7 @@
     "type": "Mainboard",
     "price": 18500,
     "stock": 6,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2024010815053264727_1.jpg",
     "description": "เมนบอร์ดระดับท็อปสำหรับซีพียู Intel เจนเนอเรชั่นล่าสุด",
     "highlights": [
       "WiFi 7",
@@ -657,7 +657,7 @@
     "type": "RAM",
     "price": 6450,
     "stock": 15,
-    "image": "https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=900&q=80",
+    "image": "https://media-cdn.bnn.in.th/279671/gskill-ddr4-trident-z5-rgb-dual-channel-1-square_medium.jpg",
     "description": "แรม DDR5 บัสสูง ดีไซน์สปอร์ตพร้อมไฟ RGB สวยงาม",
     "highlights": [
       "DDR5",
@@ -692,7 +692,7 @@
     "type": "SSD",
     "price": 6890,
     "stock": 7,
-    "image": "https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=900&q=80",
+    "image": "https://media-cdn.bnn.in.th/454583/crucial-t700-pcie-gen5-1-square_medium.jpg",
     "description": "SSD ความเร็วสูงยุคใหม่ด้วยอินเตอร์เฟส PCIe Gen5",
     "highlights": [
       "1TB",
@@ -727,7 +727,7 @@
     "type": "CPU Cooler",
     "price": 4190,
     "stock": 10,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/20200226120720_35913_287_2.jpg",
     "description": "ซิงค์ลมระบายความร้อนระดับตำนาน เงียบและเย็นเป็นพิเศษ",
     "highlights": [
       "Dual-Tower",
@@ -762,7 +762,7 @@
     "type": "Case",
     "price": 5290,
     "stock": 5,
-    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2025021116554074162_1.jpg",
     "description": "เคสคอมพิวเตอร์ไร้เสามุม โชว์อุปกรณ์ภายในได้ 3 ด้าน",
     "highlights": [
       "Dual-Chamber",
@@ -798,7 +798,7 @@
     "type": "PSU",
     "price": 7990,
     "stock": 8,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "image": "https://down-th.img.susercontent.com/file/th-11134201-23030-oq2fzivpjlov55",
     "description": "พาวเวอร์ซัพพลายเสถียรภาพสูง รองรับมาตรฐาน ATX 3.0",
     "highlights": [
       "1000W",
@@ -831,7 +831,7 @@
     "type": "Monitor",
     "price": 19900,
     "stock": 11,
-    "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?auto=format&fit=crop&w=900&q=80",
+    "image": "https://image.benq.com/is/image/benqco/XL%20Series%20Prosetting?$ResponsivePreset$&fmt=png-alpha",
     "description": "จอเกมมิ่งยอดนิยมสำหรับการแข่งขัน Esports",
     "highlights": [
       "240Hz",
@@ -867,7 +867,7 @@
     "type": "Mouse",
     "price": 5690,
     "stock": 14,
-    "image": "https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2022082208511054753_1.jpg",
     "description": "เมาส์เกมมิ่งไร้สายทรง Ergonomic น้ำหนักเบาพิเศษจับถนัดมือ",
     "highlights": [
       "Wireless",
@@ -902,7 +902,7 @@
     "type": "Keyboard",
     "price": 8990,
     "stock": 9,
-    "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2024102515045471557_1.jpg",
     "description": "คีย์บอร์ดกลไกปรับระยะการกดสวิตช์ได้ตามต้องการ",
     "highlights": [
       "OmniPoint 2.0",
@@ -931,36 +931,38 @@
   },
   {
     "id": 28,
-    "name": "Audio-Technica ATH-M50xSTS StreamSet",
-    "brand": "Audio-Technica",
+    "name": "Cozoy D1 In-Ear Monitors (IEMs)",
+    "brand": "Cozoy",
     "type": "Headphones",
-    "price": 7900,
-    "stock": 5,
-    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
-    "description": "หูฟังสตูดิโอมอนิเตอร์ระดับตำนานที่มาพร้อมกับไมค์สตรีมเมอร์",
+    "price": 1090,
+    "stock": 9,
+    "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/products160454_800.jpg",
+    "description": "หูฟังอินเอียร์มอนิเตอร์ไดรเวอร์ Dynamic ไดอะแฟรมกราฟีน ให้เสียงเที่ยงตรง มิติเสียงกว้าง เหมาะทั้งฟังเพลงและเล่นเกม",
     "highlights": [
-      "Studio Sound",
-      "Cardioid Condenser Mic",
-      "Wired XLR/USB"
+      "10mm Graphene Diaphragm",
+      "Dual-Magnetic Dual-Cavity Driver",
+      "Medical-Grade 3D Printed Shell"
     ],
     "attributes": {
-      "connection": "Wired",
-      "microphone": "Microphone",
-      "noiseCancelling": "No Noise Cancelling"
+      "layout": "In-Ear Monitors (IEMs)",
+      "switch": "10mm Dynamic Driver",
+      "connection": "3.5mm Single-Ended (with Mic option)"
     },
     "attributesDetails": {
-      "brand": "Audio-Technica",
-      "model": "ATH-M50xSTS StreamSet",
-      "headsetType": "Wired Studio Streaming Headset",
-      "driver": "45mm Dynamic (with Rare Earth Magnets)",
-      "frequencyResponseHeadphones": "15Hz - 28kHz",
-      "impedance": "38 Ohms",
-      "connectionType": "2.0m Attached Cable with XLR (Mic) and 6.3mm/3.5mm (Headphone) plugs",
-      "microphoneType": "Cardioid Condenser (Adopted from 20-series microphones)",
-      "frequencyResponseMicrophone": "50Hz - 20kHz",
-      "microphoneFeature": "Flip-up Mute Function",
-      "weight": "330g (without cable)",
-      "warranty": "1 Year"
+      "brand": "Cozoy",
+      "model": "D1",
+      "headphoneType": "In-Ear Monitor (IEM)",
+      "driverType": "10mm Independently Developed Dual-Magnetic Dual-Cavity Dynamic Driver",
+      "diaphragmMaterial": "High-Fidelity Graphene Diaphragm",
+      "frequencyResponse": "20 Hz - 20 kHz",
+      "impedance": "32 Ohms",
+      "sensitivity": "100 dB",
+      "cableMaterial": "4-core (216 strands) Single Crystal Copper Silver-Plated (SPC)",
+      "connectorType": "2-Pin 0.78 mm (Detachable)",
+      "plugType": "3.5mm Audio Jack",
+      "chassisMaterial": "Medical-Grade 3D Printed Resin Shell",
+      "features": "Ergonomic Design for 95% Ear Shapes, Accurate Sound Imaging for Gaming",
+      "warranty": "1 Year (3 Months for Cable)"
     }
   },
   {
@@ -970,7 +972,7 @@
     "type": "Microphone",
     "price": 16900,
     "stock": 4,
-    "image": "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=900&q=80",
+    "image": "data:image/webp;base64,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",
     "description": "ไมโครโฟนไดนามิกสตูดิโอยอดนิยมสำหรับพอดแคสต์และสตรีมมิ่ง",
     "highlights": [
       "Vocal Clarity",
@@ -1004,7 +1006,7 @@
     "type": "Monitor",
     "price": 27900,
     "stock": 4,
-    "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.lg.com/content/dam/channel/wcms/th/image-update/monitor/2025/45gx950a-b-atm/gallery/gallery/ultragear-gaming-45gx950a-2025-gallery-gallery-01-2010.jpg/jcr:content/renditions/thum-1600x1062.jpeg?w=800",
     "description": "จอเกมมิ่งจอโค้งแบบ UltraWide อัตราส่วน 21:9 กว้างเต็มตา",
     "highlights": [
       "Nano IPS",
@@ -1042,7 +1044,7 @@
     "type": "CPU",
     "price": 23500,
     "stock": 8,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2022092613555155412_1.jpg",
     "description": "ซีพียูเรือธงสำหรับการประมวลผลขั้นสูง งานเรนเดอร์ และการสตรีม",
     "highlights": [
       "16 Cores",
@@ -1079,7 +1081,7 @@
     "type": "Mainboard",
     "price": 6890,
     "stock": 15,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2025052816365055782_1.jpg",
     "description": "เมนบอร์ดขนาด M-ATX ที่ทนทานและคุ้มราคาสำหรับเซ็ต AMD AM5",
     "highlights": [
       "DDR5",
@@ -1117,7 +1119,7 @@
     "type": "RAM",
     "price": 11500,
     "stock": 8,
-    "image": "https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=900&q=80",
+    "image": "https://media-cdn.bnn.in.th/560028/corsair-ram-pc-ddr5-64gb5600mhz-cl40-32gbx2-vengeance-rgb-black-1-square_medium.jpg",
     "description": "ชุดแรมความจุสูงพิเศษ 64GB เหมาะสำหรับงานตัดต่อวิดีโอและเล่นเกมหนักๆ",
     "highlights": [
       "64GB (2x32GB)",
@@ -1152,7 +1154,7 @@
     "type": "SSD",
     "price": 6990,
     "stock": 13,
-    "image": "https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2023071013582760771_1.jpg",
     "description": "SSD เกมมิ่งระดับพรีเมียม โหลดเกมได้รวดเร็วทันใจ",
     "highlights": [
       "2TB",
@@ -1187,7 +1189,7 @@
     "type": "CPU Cooler",
     "price": 10900,
     "stock": 5,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "image": "https://nzxt.com/cdn/shop/files/Cooling_KrakenElite_RGB_WH_360_Carousel_Hero_EN.png?v=1758538277&width=700",
     "description": "ชุดน้ำปิดหน้าจอ LCD ทรงกลมขนาดใหญ่ ปรับแต่งภาพ GIF ได้ตามใจชอบ",
     "highlights": [
       "2.36\" LCD",
@@ -1225,7 +1227,7 @@
     "type": "Case",
     "price": 7590,
     "stock": 4,
-    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2024011614354264880_1.jpg",
     "description": "เคสตู้ปลาดีไซน์กระจกโค้ง 3 ชิ้นรอบตัว โชว์การ์ดจอแนวตั้งแบบโดดเด่น",
     "highlights": [
       "Panoramic Glass",
@@ -1261,7 +1263,7 @@
     "type": "CPU Cooler",
     "price": 3490,
     "stock": 10,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.antec.com/product/cooling/images/symphony-360-argb-pdt01.png",
     "description": "ชุดน้ำสามตอนราคามิตรภาพ ระบายความร้อนดีเยี่ยมพร้อมไฟวิบวับ",
     "highlights": [
       "360mm",
@@ -1292,38 +1294,33 @@
   },
   {
     "id": 40,
-    "name": "Logitech G915 TKL Wireless",
-    "brand": "Logitech",
+    "name": "VGN Neon HE+",
+    "brand": "VGN",
     "type": "Keyboard",
-    "price": 6990,
-    "stock": 7,
-    "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=80",
-    "description": "คีย์บอร์ดเกมมิ่งไร้สายแบบ Low-Profile บางเฉียบ หรูหราและตอบสนองไว",
+    "price": 3177,
+    "stock": 5,
+    "image": "https://scontent.fbkk12-2.fna.fbcdn.net/v/t39.30808-6/671234628_10162388394260740_8489461301492968214_n.jpg?stp=dst-jpg_tt6&cstp=mx800x800&ctp=p526x296&_nc_cat=104&ccb=1-7&_nc_sid=aa7b47&_nc_ohc=xlObWgXSkj8Q7kNvwHbucX4&_nc_oc=AdqNhlOH11ggI1xWYMRDzK2d3S-PkInUu4pdvbbAXL7i8pkvmLh_YqUfbW-eWJvaods&_nc_zt=23&_nc_ht=scontent.fbkk12-2.fna&_nc_gid=r57US7AP2x9Iy9XNuED5pQ&_nc_ss=7a289&oh=00_AQAy2lqqIMLakCDV0ykGNgB5hXa1cHkSAQ4mzsFFtdS3pg&oe=6A5B1941",
+    "description": "คีย์บอร์ดเกมมิ่งสวิตช์แม่เหล็ก (Magnetic Switch) ตอบสนองความเร็วสูง รองรับฟังก์ชัน Hot-swappable และไฟ RGB เต็มรูปแบบ",
     "highlights": [
-      "LIGHTSPEED Wireless",
-      "Low Profile",
-      "GL Tactile"
+      "Magnetic Switch",
+      "8K Polling Rate Support",
+      "RGB Backlight"
     ],
     "attributes": {
-      "layout": "80% (TKL)",
-      "switch": "Low Profile Mechanical",
-      "connection": "Wireless/Bluetooth"
+      "layout": "75%",
+      "switch": "Magnetic Axis",
+      "connection": "Wired (Type-C)"
     },
     "attributesDetails": {
-      "brand": "Logitech",
-      "model": "G915 TKL Wireless",
-      "keyboardType": "Wireless Low-Profile Mechanical Keyboard",
-      "layout": "80% Tenkeyless (TKL)",
-      "switchType": "GL Tactile Low Profile Mechanical Switches",
-      "actuationDistance": "1.5 mm",
-      "totalTravelDistance": "2.7 mm",
-      "actuationForce": "50g",
-      "connection": "LIGHTSPEED Wireless / Bluetooth / Micro-USB",
-      "material": "Aircraft-grade aluminum alloy top case",
-      "backlight": "LIGHTSYNC RGB (Per-Key Lighting)",
-      "batteryLife": "Up to 40 Hours (at 100% brightness)",
-      "features": "Dedicated Media Controls, Edgeless Volume Roller",
-      "warranty": "2 Years"
+      "brand": "VGN",
+      "model": "Neon HE+",
+      "keyboardType": "Magnetic Switch Gaming Keyboard",
+      "layout": "75% Layout",
+      "switchType": "Elven King / Hulk Magnetic Switches (Hot-swappable)",
+      "connection": "USB Type-C",
+      "backlight": "16 Million Colors RGB Backlight",
+      "features": "Gasket Structure, V HUB Driver Support, Dynamic Keystroke (DKS/RT)",
+      "warranty": "1 Year"
     }
   },
   {
@@ -1333,7 +1330,7 @@
     "type": "Mouse",
     "price": 9900,
     "stock": 3,
-    "image": "https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=900&q=80",
+    "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQml1JeTDxk9h3lpvadW6EDQcji0Ydub9mhLMd0ycRERuNDOLb0r30dJKUSGLrgGRT125aydkz0tQIaSouobDMCLPQPcgfRmgE05_4rY9WRMh-rtKzpHdBh",
     "description": "เมาส์ไร้สายโครงสร้างคาร์บอนไฟเบอร์คอมโพสิต เบาที่สุดในโลก",
     "highlights": [
       "Carbon Fiber",
@@ -1367,7 +1364,7 @@
     "type": "Headphones",
     "price": 8990,
     "stock": 6,
-    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.sony.co.th/image/ae6f02a9e1a5abdb2f723eca247209c4?fmt=png-alpha&wid=1578&hei=1050&bgcolor=F6F9FF",
     "description": "หูฟังเกมมิ่งไร้สายจาก Sony พร้อมระบบตัดเสียงรบกวนและมิติเสียง 360 องศา",
     "highlights": [
       "Active Noise Cancelling",
@@ -1403,7 +1400,7 @@
     "type": "Microphone",
     "price": 4990,
     "stock": 9,
-    "image": "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=900&q=80",
+    "image": "https://www.jib.co.th/img_master/product/original/2024030613494565897_1.jpg",
     "description": "ไมโครโฟน USB สตรีมมิ่งที่สามารถแสดงแสงไฟ RGB ตอบสนองตามเหตุการณ์ในเกมได้",
     "highlights": [
       "Stream Reactive Lighting",
