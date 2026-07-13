@@ -191,7 +191,7 @@ export default function ProductDetails() {
                             ดูทั้งหมด <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
                         </Link>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-gutter">
                         {relatedProducts.map((p) => (
                             <ProductCard key={p.id} product={p} />
                         ))}
