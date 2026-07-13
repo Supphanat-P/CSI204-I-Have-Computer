@@ -1,15 +1,184 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { useCart } from "../context/CartContext";
+import products from "../data/products";
+import ProductCard from "../component/Products/ProductCard";
 
 export default function ProductDetails() {
-    const { id } = useParams();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
+  const [quantity, setQuantity] = useState(1);
 
+  const product = useMemo(() => {
+    return products.find((p) => p.id === parseInt(id));
+  }, [id]);
+
+  const relatedProducts = useMemo(() => {
+    if (!product) return [];
+    return products
+      .filter(
+        (p) => p.productType === product.productType && p.id !== product.id
+      )
+      .slice(0, 4);
+  }, [product]);
+
+  if (!product) {
     return (
-        <>
-            <div>
-                <h1>Viewing Product ID: {id}</h1>
-            </div>
-        </>
-    )
-}
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+        <span className="material-symbols-outlined text-[64px] text-outline">error</span>
+        <h2 className="text-headline-md font-bold text-on-surface">ไม่พบสินค้านี้</h2>
+        <button
+          onClick={() => navigate(-1)}
+          className="bg-primary text-on-primary px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors"
+        >
+          กลับไปหน้าก่อนหน้า
+        </button>
+      </div>
+    );
+  }
 
-//ตัสทำหน้านี้
+  const handleAddToCart = () => {
+    for (let i = 0; i < quantity; i++) {
+      addToCart(product);
+    }
+    // Optional: show a toast or feedback
+  };
+
+  const productSpecs = Object.entries(product).filter(
+    ([key, value]) =>
+      ![
+        "id",
+        "name",
+        "brand",
+        "price",
+        "image",
+        "badge",
+        "productType",
+        "category",
+      ].includes(key) &&
+      typeof value === "string" &&
+      Boolean(value)
+  );
+
+  return (
+    <div className="bg-background min-h-screen pt-20 pb-16 px-4 md:px-margin-desktop">
+      {/* Breadcrumbs */}
+      <nav className="flex items-center gap-2 text-label-md text-on-surface-variant mb-8">
+        <Link to="/" className="hover:text-primary transition-colors">หน้าแรก</Link>
+        <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+        <Link to={`/Products?productType=${product.productType}`} className="hover:text-primary transition-colors">
+          {product.productType}
+        </Link>
+        <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+        <span className="text-on-surface truncate max-w-[200px] md:max-w-none">{product.name}</span>
+      </nav>
+
+      {/* Main Product Section */}
+      <div className="bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant p-6 md:p-8 flex flex-col lg:flex-row gap-8 lg:gap-16">
+        {/* Product Image */}
+        <div className="w-full lg:w-1/2 flex flex-col gap-4">
+          <div className="aspect-square bg-surface rounded-xl overflow-hidden relative border border-outline-variant/30 flex items-center justify-center p-4">
+            {product.badge && (
+              <span className="absolute top-4 left-4 z-10 bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full text-label-md font-bold shadow-sm">
+                {product.badge}
+              </span>
+            )}
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-full object-contain hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+        </div>
+
+        {/* Product Info */}
+        <div className="w-full lg:w-1/2 flex flex-col justify-center">
+          <span className="text-primary font-bold tracking-widest uppercase text-label-md mb-2">
+            {product.brand}
+          </span>
+          <h1 className="text-display-lg-mobile md:text-[40px] font-bold text-on-surface mb-2 leading-tight">
+            {product.name}
+          </h1>
+          <p className="text-body-lg text-on-surface-variant mb-6">
+            หมวดหมู่: <span className="font-medium text-on-surface">{product.category}</span>
+          </p>
+
+          <div className="bg-surface-container rounded-xl p-6 mb-8 border border-outline-variant/50">
+            <div className="flex items-end gap-4 mb-2">
+              <span className="text-[32px] md:text-[48px] font-bold text-primary leading-none">
+                {product.price.toLocaleString()}฿
+              </span>
+            </div>
+            <p className="text-label-sm text-outline flex items-center gap-1 mt-2">
+              <span className="material-symbols-outlined text-[16px]">local_shipping</span>
+              จัดส่งฟรีทั่วประเทศเมื่อมียอดสั่งซื้อขั้นต่ำ 1,000฿
+            </p>
+          </div>
+
+          {productSpecs.length > 0 && (
+            <div className="mb-8">
+              <h3 className="text-headline-md font-bold text-on-surface mb-4">ข้อมูลจำเพาะ (Specs)</h3>
+              <div className="grid grid-cols-2 gap-y-3 gap-x-6">
+                {productSpecs.map(([key, value]) => (
+                  <div key={key} className="flex flex-col border-b border-outline-variant/30 pb-2">
+                    <span className="text-label-sm text-on-surface-variant uppercase">{key}</span>
+                    <span className="text-body-md text-on-surface font-medium">{value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="flex flex-col sm:flex-row gap-4 mt-auto pt-6 border-t border-outline-variant/50">
+            <div className="flex items-center border border-outline-variant rounded-lg bg-surface-container-lowest overflow-hidden h-[56px] w-full sm:w-[140px] shrink-0">
+              <button
+                className="w-12 h-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors"
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+              >
+                <span className="material-symbols-outlined">remove</span>
+              </button>
+              <div className="flex-1 h-full flex items-center justify-center font-bold text-body-lg text-on-surface">
+                {quantity}
+              </div>
+              <button
+                className="w-12 h-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors"
+                onClick={() => setQuantity(quantity + 1)}
+              >
+                <span className="material-symbols-outlined">add</span>
+              </button>
+            </div>
+            
+            <button
+              onClick={handleAddToCart}
+              className="flex-1 h-[56px] bg-primary text-on-primary rounded-lg font-bold text-body-lg flex items-center justify-center gap-2 hover:bg-primary/90 hover:scale-[1.02] active:scale-95 transition-all shadow-md shadow-primary/20"
+            >
+              <span className="material-symbols-outlined">shopping_cart_checkout</span>
+              เพิ่มลงรถเข็น
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Related Products Section */}
+      {relatedProducts.length > 0 && (
+        <div className="mt-16">
+          <div className="flex items-center justify-between mb-8 border-b border-outline-variant pb-4">
+            <h2 className="text-headline-md font-bold text-on-surface">สินค้าอื่นๆ ในหมวดหมู่เดียวกัน</h2>
+            <Link
+              to={`/Products?productType=${product.productType}`}
+              className="text-primary font-medium hover:underline flex items-center gap-1"
+            >
+              ดูทั้งหมด <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+            {relatedProducts.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

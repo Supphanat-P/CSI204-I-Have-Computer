@@ -1,20 +1,20 @@
 [
   {
     "id": 1,
-    "name": "ASUS ROG Swift OLED 27\"",
+    "name": "ASUS ROG Swift OLED PG27AQDM",
     "brand": "ASUS",
-    "productType": "Monitor",
-    "category": "27 นิ้ว",
+    "type": "Monitor",
     "price": 24900,
-    "image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=80",
     "stock": 8,
-    "description": "จอเกม OLED ขนาด 27 นิ้ว ให้สีสันสดใสและการตอบสนองที่รวดเร็ว เหมาะสำหรับเกมและงานกราฟิก",
+    "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?auto=format&fit=crop&w=900&q=80",
+    "description": "จอเกมมิ่ง OLED ความละเอียด 2K รีเฟรชเรท 240Hz",
     "highlights": [
-      "OLED Panel",
-      "240Hz Refresh Rate",
-      "HDR True Black"
+      "OLED",
+      "240Hz",
+      "HDR"
     ],
-    "specs": {
+    "attributes": {
+      "size": "27\"",
       "resolution": "2560x1440",
       "panel": "OLED",
       "refreshRate": "240Hz"
@@ -22,239 +22,892 @@
   },
   {
     "id": 2,
-    "name": "LG UltraGear 32\" 4K",
-    "brand": "LG",
-    "productType": "Monitor",
-    "category": "32 นิ้ว",
-    "price": 31900,
-    "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?auto=format&fit=crop&w=900&q=80",
+    "name": "RTX 4070 Ti SUPER",
+    "brand": "NVIDIA",
+    "type": "GPU",
+    "price": 38900,
     "stock": 5,
-    "description": "จอ 32 นิ้วความละเอียด 4K เหมาะกับการเล่นเกมและดูหนังในความละเอียดสูง",
+    "image": "https://images.unsplash.com/photo-1591799265444-d66432b91588?auto=format&fit=crop&w=900&q=80",
+    "description": "การ์ดจอสำหรับเล่นเกมระดับสูง",
     "highlights": [
-      "4K UHD",
-      "144Hz",
-      "Adaptive Sync"
+      "Ray Tracing",
+      "DLSS 3",
+      "16GB GDDR6X"
     ],
-    "specs": {
-      "resolution": "3840x2160",
-      "panel": "IPS",
-      "refreshRate": "144Hz"
+    "attributes": {
+      "chipset": "RTX 4070 Ti SUPER",
+      "memory": "16GB",
+      "architecture": "Ada Lovelace"
     }
   },
   {
     "id": 3,
-    "name": "RTX 4070 Ti SUPER",
-    "brand": "NVIDIA",
-    "productType": "GPU",
-    "category": "RTX 4070",
-    "price": 38900,
-    "image": "https://images.unsplash.com/photo-1591799265444-d66432b91588?auto=format&fit=crop&w=900&q=80",
-    "stock": 3,
-    "description": "การ์ดจอระดับไฮเอนด์สำหรับเกม 4K และงานสร้างสรรค์ที่ต้องการประสิทธิภาพสูง",
+    "name": "AMD Ryzen 7 7800X3D",
+    "brand": "AMD",
+    "type": "CPU",
+    "price": 18900,
+    "stock": 10,
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "description": "ซีพียูเกมมิ่งประสิทธิภาพสูง",
     "highlights": [
-      "12GB GDDR6X",
-      "Ray Tracing",
-      "DLSS 3"
+      "8 Cores",
+      "3D V-Cache",
+      "AM5"
     ],
-    "specs": {
-      "memory": "12GB",
-      "architecture": "Ada Lovelace",
-      "powerConnector": "12VHPWR"
+    "attributes": {
+      "socket": "AM5",
+      "cores": 8,
+      "threads": 16,
+      "boostClock": "5.0GHz"
     }
   },
   {
     "id": 4,
-    "name": "RX 7600 XT",
-    "brand": "AMD",
-    "productType": "GPU",
-    "category": "RX 7600",
-    "price": 12900,
-    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=80",
-    "stock": 10,
-    "description": "การ์ดจอคุ้มค่าในระดับกลางที่ให้ประสิทธิภาพเกม 1080p และ 1440p ได้ดี",
+    "name": "MSI MAG B650 Tomahawk WiFi",
+    "brand": "MSI",
+    "type": "Mainboard",
+    "price": 7990,
+    "stock": 7,
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "description": "เมนบอร์ดสำหรับ AMD AM5",
     "highlights": [
-      "8GB GDDR6",
-      "FidelityFX",
-      "Good Value"
+      "WiFi",
+      "DDR5",
+      "PCIe 5.0"
     ],
-    "specs": {
-      "memory": "8GB",
-      "architecture": "RDNA 3",
-      "targetResolution": "1440p"
+    "attributes": {
+      "socket": "AM5",
+      "chipset": "B650",
+      "memory": "DDR5",
+      "formFactor": "ATX",
+      "wifi": true
     }
   },
   {
     "id": 5,
-    "name": "Intel Core i7-14700K",
-    "brand": "Intel",
-    "productType": "CPU",
-    "category": "Intel Core i7",
-    "socket": "INTEL 1700",
-    "price": 16900,
-    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
-    "stock": 7,
-    "description": "CPU 20 cores ที่ให้ประสิทธิภาพสูงสำหรับเกมและงานสร้างสรรค์",
+    "name": "Kingston Fury Beast 32GB",
+    "brand": "Kingston",
+    "type": "RAM",
+    "price": 5900,
+    "stock": 20,
+    "image": "https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=900&q=80",
+    "description": "แรม DDR5 ความเร็วสูง",
     "highlights": [
-      "20 Cores",
-      "High Clock Speed",
-      "Great Multitasking"
+      "DDR5",
+      "RGB",
+      "32GB"
     ],
-    "specs": {
-      "socket": "LGA1700",
-      "cores": "20",
-      "threads": "28"
+    "attributes": {
+      "capacity": "32GB",
+      "ddr": "DDR5",
+      "speed": "6000MT/s",
+      "rgb": "RGB"
     }
   },
   {
     "id": 6,
-    "name": "Ryzen 7 7800X3D",
-    "brand": "AMD",
-    "productType": "CPU",
-    "category": "Ryzen 7",
-    "socket": "AMD AM5",
-    "price": 18900,
-    "image": "https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=900&q=80",
-    "stock": 6,
-    "description": "ซีพียูเกมระดับต้นๆ ที่มีความเร็วและประสิทธิภาพในการเล่นเกมชั้นยอด",
+    "name": "Samsung 990 PRO 2TB",
+    "brand": "Samsung",
+    "type": "SSD",
+    "price": 6490,
+    "stock": 12,
+    "image": "https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=900&q=80",
+    "description": "SSD PCIe Gen4 ความเร็วสูง",
     "highlights": [
-      "3D V-Cache",
-      "AM5 Platform",
-      "Excellent Gaming"
+      "2TB",
+      "PCIe Gen4",
+      "7400MB/s"
     ],
-    "specs": {
-      "socket": "AM5",
-      "cores": "8",
-      "threads": "16"
+    "attributes": {
+      "capacity": "2TB",
+      "interface": "PCIe Gen4",
+      "formFactor": "M.2 2280",
+      "speed": "7400MB/s"
     }
   },
   {
     "id": 7,
-    "name": "Kingston Fury Beast 32GB",
-    "brand": "Kingston",
-    "productType": "RAM",
-    "category": "32GB",
-    "ddr": "DDR5",
-    "bus": "3600",
-    "price": 5900,
-    "image": "https://images.unsplash.com/photo-1562976540-1502c2145186-bc8f1f6f6f5d?auto=format&fit=crop&w=900&q=80",
-    "stock": 14,
-    "description": "แรม DDR5 ความจุ 32GB ที่ให้ความเร็วสูงและเสถียรภาพดีสำหรับคอมพิวเตอร์สมัยใหม่",
+    "name": "WD Blue 2TB",
+    "brand": "Western Digital",
+    "type": "HDD",
+    "price": 1990,
+    "stock": 15,
+    "image": "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=900&q=80",
+    "description": "ฮาร์ดดิสก์สำหรับเก็บข้อมูล",
     "highlights": [
-      "DDR5",
-      "32GB Capacity",
-      "RGB Lighting"
+      "2TB",
+      "7200RPM"
     ],
-    "specs": {
-      "ddr": "DDR5",
-      "bus": "3600MT/s",
-      "capacity": "32GB"
+    "attributes": {
+      "capacity": "2TB",
+      "rpm": "7200RPM",
+      "interface": "SATA III"
     }
   },
   {
     "id": 8,
-    "name": "Corsair Vengeance RGB 16GB",
+    "name": "Corsair RM850x",
     "brand": "Corsair",
-    "productType": "RAM",
-    "category": "16GB",
-    "ddr": "DDR4",
-    "bus": "3200",
-    "price": 3200,
-    "image": "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=900&q=80",
-    "stock": 18,
-    "description": "แรม DDR4 ที่มาพร้อมไฟ RGB และเหมาะสำหรับการอัปเกรดคอมพิวเตอร์ทั่วไป",
+    "type": "PSU",
+    "price": 5490,
+    "stock": 9,
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "description": "พาวเวอร์ซัพพลาย 850W",
     "highlights": [
-      "RGB",
-      "DDR4",
-      "Low Latency"
+      "80+ Gold",
+      "Full Modular"
     ],
-    "specs": {
-      "ddr": "DDR4",
-      "bus": "3200MT/s",
-      "capacity": "16GB"
+    "attributes": {
+      "watt": "850W",
+      "efficiency": "80+ Gold",
+      "modular": "Full Modular"
     }
   },
   {
     "id": 9,
-    "name": "Sony WH-1000XM5",
-    "brand": "Sony",
-    "productType": "Headphones",
-    "category": "WIRELESS",
-    "price": 12900,
-    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
-    "stock": 9,
-    "description": "หูฟังไร้สายคุณภาพสูงด้วยเสียงคมชัดและตัดเสียงรบกวนได้ดีเยี่ยม",
+    "name": "DeepCool LT720",
+    "brand": "DeepCool",
+    "type": "CPU Cooler",
+    "price": 4290,
+    "stock": 8,
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "description": "ชุดน้ำ AIO ขนาด 360mm",
     "highlights": [
-      "Noise Cancelling",
-      "Bluetooth 5.2",
-      "Long Battery Life"
+      "360mm",
+      "ARGB"
     ],
-    "specs": {
-      "type": "Wireless",
-      "batteryLife": "30 hours",
-      "connectivity": "Bluetooth"
+    "attributes": {
+      "type": "AIO",
+      "size": "360mm",
+      "rgb": "RGB"
     }
   },
   {
     "id": 10,
-    "name": "HyperX Cloud II",
-    "brand": "HyperX",
-    "productType": "Headphones",
-    "category": "HEADSET",
-    "price": 2990,
-    "image": "https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?auto=format&fit=crop&w=900&q=80",
-    "stock": 12,
-    "description": "หูฟังเกมมิ่งที่ให้ความสบายและเสียงที่ชัดเจน เหมาะสำหรับการเล่นเกมเป็นเวลานาน",
+    "name": "NZXT H6 Flow",
+    "brand": "NZXT",
+    "type": "Case",
+    "price": 4590,
+    "stock": 6,
+    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=80",
+    "description": "เคส ATX กระจก Tempered Glass",
     "highlights": [
-      "7.1 Surround Sound",
-      "Comfortable Cushion",
-      "Detachable Mic"
+      "ATX",
+      "Airflow",
+      "Tempered Glass"
     ],
-    "specs": {
-      "type": "Wired",
-      "mic": "Detachable",
-      "connection": "3.5mm"
+    "attributes": {
+      "motherboardSupport": "ATX",
+      "sidePanel": "Tempered Glass",
+      "color": "Black"
     }
   },
   {
     "id": 11,
     "name": "Wooting 60HE",
-    "brand": "WOOTING",
-    "productType": "Keyboard",
-    "category": "HALL EFFECT",
+    "brand": "Wooting",
+    "type": "Keyboard",
     "price": 15900,
-    "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwooting.io%2F_next%2Fimage%3Furl%3Dhttps%3A%252F%252Fwooting-website.ams3.cdn.digitaloceanspaces.com%252Fproducts%252Fkeyboards%252F60HEv2%252F60he-v2-split-main.webp%26w%3D3840%26q%3D75&f=1&nofb=1&ipt=a4b54def8b61b6c1685a37614c20cee869722b383a2e2214f05d8f0b507c5d7a",
     "stock": 4,
-    "description": "คีย์บอร์ดเกมมิ่ง Hall Effect ที่ให้ความแม่นยำและตอบสนองดีเยี่ยมสำหรับเกมเมอร์ระดับสูง",
+    "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=80",
+    "description": "คีย์บอร์ด Hall Effect",
     "highlights": [
-      "Hall Effect",
       "Rapid Trigger",
-      "Compact 60%"
+      "Hall Effect"
     ],
-    "specs": {
+    "attributes": {
       "layout": "60%",
-      "switchType": "Hall Effect",
-      "connectivity": "Wired/USB"
+      "switch": "Hall Effect",
+      "connection": "USB"
     }
   },
   {
     "id": 12,
-    "name": "Logitech G915 TKL",
+    "name": "Logitech G Pro X Superlight 2",
     "brand": "Logitech",
-    "productType": "Keyboard",
-    "category": "MECHANICAL",
-    "price": 8990,
-    "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=80",
-    "stock": 11,
-    "description": "คีย์บอร์ดเมคานิคอลทรงสั้นที่ให้ความสวยงามและใช้งานง่ายพร้อมแสง RGB",
+    "type": "Mouse",
+    "price": 4990,
+    "stock": 10,
+    "image": "https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=900&q=80",
+    "description": "เมาส์เกมมิ่งไร้สายน้ำหนักเบา",
     "highlights": [
-      "Low Profile",
-      "RGB Lighting",
-      "Wireless"
+      "Wireless",
+      "26000 DPI",
+      "60g"
     ],
-    "specs": {
-      "layout": "TKL",
-      "switchType": "Low Profile",
-      "connectivity": "Wireless"
+    "attributes": {
+      "dpi": "26000",
+      "connection": "Wireless",
+      "weight": "60g"
+    }
+  },
+  {
+    "id": 13,
+    "name": "HyperX Cloud III Wireless",
+    "brand": "HyperX",
+    "type": "Headphones",
+    "price": 4990,
+    "stock": 9,
+    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
+    "description": "หูฟังเกมมิ่งไร้สาย",
+    "highlights": [
+      "Wireless",
+      "53mm Driver"
+    ],
+    "attributes": {
+      "connection": "Wireless",
+      "microphone": "Microphone",
+      "noiseCancelling": "No Noise Cancelling"
+    }
+  },
+  {
+    "id": 14,
+    "name": "HyperX QuadCast S",
+    "brand": "HyperX",
+    "type": "Microphone",
+    "price": 5490,
+    "stock": 6,
+    "image": "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=900&q=80",
+    "description": "ไมโครโฟน USB สำหรับสตรีม",
+    "highlights": [
+      "RGB",
+      "USB",
+      "Cardioid"
+    ],
+    "attributes": {
+      "connection": "USB",
+      "polarPattern": "Cardioid",
+      "rgb": "RGB"
+    }
+  },
+  {
+    "id": 15,
+    "name": "Logitech Brio 4K",
+    "brand": "Logitech",
+    "type": "Webcam",
+    "price": 6990,
+    "stock": 5,
+    "image": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=900&q=80",
+    "description": "เว็บแคม 4K สำหรับประชุมและสตรีม",
+    "highlights": [
+      "4K",
+      "HDR",
+      "Auto Focus"
+    ],
+    "attributes": {
+      "resolution": "4K",
+      "fps": "60FPS"
+    }
+  },
+  {
+    "id": 16,
+    "name": "Intel Core i7-14700K",
+    "brand": "Intel",
+    "type": "CPU",
+    "price": 16900,
+    "stock": 12,
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "description": "ซีพียูประสิทธิภาพสูงสำหรับการเล่นเกมและการทำงานสร้างสรรค์",
+    "highlights": [
+      "20 Cores",
+      "28 Threads",
+      "LGA1700"
+    ],
+    "attributes": {
+      "socket": "LGA1700",
+      "cores": 20,
+      "threads": 28,
+      "boostClock": "5.6GHz"
+    }
+  },
+  {
+    "id": 17,
+    "name": "ASUS ROG Strix Z790-E Gaming WiFi II",
+    "brand": "ASUS",
+    "type": "Mainboard",
+    "price": 18500,
+    "stock": 6,
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "description": "เมนบอร์ดระดับท็อปสำหรับซีพียู Intel เจนเนอเรชั่นล่าสุด",
+    "highlights": [
+      "WiFi 7",
+      "DDR5",
+      "PCIe 5.0"
+    ],
+    "attributes": {
+      "socket": "LGA1700",
+      "chipset": "Z790",
+      "memory": "DDR5",
+      "formFactor": "ATX",
+      "wifi": true
+    }
+  },
+  {
+    "id": 18,
+    "name": "RTX 4090 OC Edition 24GB",
+    "brand": "ASUS",
+    "type": "GPU",
+    "price": 75900,
+    "stock": 3,
+    "image": "https://images.unsplash.com/photo-1591799265444-d66432b91588?auto=format&fit=crop&w=900&q=80",
+    "description": "ที่สุดของการ์ดจอสำหรับเกมเมอร์และครีเอเตอร์ระดับมืออาชีพ",
+    "highlights": [
+      "24GB GDDR6X",
+      "DLSS 3.0",
+      "Ray Tracing"
+    ],
+    "attributes": {
+      "chipset": "RTX 4090",
+      "memory": "24GB",
+      "architecture": "Ada Lovelace"
+    }
+  },
+  {
+    "id": 19,
+    "name": "RX 7800 XT Challenger 16GB",
+    "brand": "ASRock",
+    "type": "GPU",
+    "price": 20900,
+    "stock": 8,
+    "image": "https://images.unsplash.com/photo-1591799265444-d66432b91588?auto=format&fit=crop&w=900&q=80",
+    "description": "การ์ดจอราคาสุดคุ้มสำหรับการเล่นเกมความละเอียด 2K",
+    "highlights": [
+      "16GB GDDR6",
+      "RDNA 3",
+      "FSR 3"
+    ],
+    "attributes": {
+      "chipset": "RX 7800 XT",
+      "memory": "16GB",
+      "architecture": "RDNA 3"
+    }
+  },
+  {
+    "id": 20,
+    "name": "G.Skill Trident Z5 RGB 32GB",
+    "brand": "G.Skill",
+    "type": "RAM",
+    "price": 6450,
+    "stock": 15,
+    "image": "https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=900&q=80",
+    "description": "แรม DDR5 บัสสูง ดีไซน์สปอร์ตพร้อมไฟ RGB สวยงาม",
+    "highlights": [
+      "DDR5",
+      "RGB",
+      "6400MT/s"
+    ],
+    "attributes": {
+      "capacity": "32GB",
+      "ddr": "DDR5",
+      "speed": "6400MT/s",
+      "rgb": "RGB"
+    }
+  },
+  {
+    "id": 21,
+    "name": "Crucial T700 1TB NVMe M.2",
+    "brand": "Crucial",
+    "type": "SSD",
+    "price": 6890,
+    "stock": 7,
+    "image": "https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=900&q=80",
+    "description": "SSD ความเร็วสูงยุคใหม่ด้วยอินเตอร์เฟส PCIe Gen5",
+    "highlights": [
+      "1TB",
+      "PCIe Gen5",
+      "11700MB/s"
+    ],
+    "attributes": {
+      "capacity": "1TB",
+      "interface": "PCIe Gen5",
+      "formFactor": "M.2 2280",
+      "speed": "11700MB/s"
+    }
+  },
+  {
+    "id": 22,
+    "name": "Noctua NH-D15 chromax.black",
+    "brand": "Noctua",
+    "type": "CPU Cooler",
+    "price": 4190,
+    "stock": 10,
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "description": "ซิงค์ลมระบายความร้อนระดับตำนาน เงียบและเย็นเป็นพิเศษ",
+    "highlights": [
+      "Dual-Tower",
+      "140mm Fan",
+      "Quiet Performance"
+    ],
+    "attributes": {
+      "type": "Air Cooler",
+      "size": "140mm",
+      "rgb": "No RGB"
+    }
+  },
+  {
+    "id": 23,
+    "name": "Lian Li O11 Vision",
+    "brand": "Lian Li",
+    "type": "Case",
+    "price": 5290,
+    "stock": 5,
+    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=80",
+    "description": "เคสคอมพิวเตอร์ไร้เสามุม โชว์อุปกรณ์ภายในได้ 3 ด้าน",
+    "highlights": [
+      "Dual-Chamber",
+      "Tempered Glass",
+      "Panoramic View"
+    ],
+    "attributes": {
+      "motherboardSupport": "ATX",
+      "sidePanel": "Tempered Glass",
+      "color": "White"
+    }
+  },
+  {
+    "id": 24,
+    "name": "Seasonic Vertex GX-1000",
+    "brand": "Seasonic",
+    "type": "PSU",
+    "price": 7990,
+    "stock": 8,
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "description": "พาวเวอร์ซัพพลายเสถียรภาพสูง รองรับมาตรฐาน ATX 3.0",
+    "highlights": [
+      "1000W",
+      "80+ Gold",
+      "ATX 3.0 PCIe 5.0"
+    ],
+    "attributes": {
+      "watt": "1000W",
+      "efficiency": "80+ Gold",
+      "modular": "Full Modular"
+    }
+  },
+  {
+    "id": 25,
+    "name": "BenQ ZOWIE XL2546K",
+    "brand": "BenQ",
+    "type": "Monitor",
+    "price": 19900,
+    "stock": 11,
+    "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?auto=format&fit=crop&w=900&q=80",
+    "description": "จอเกมมิ่งยอดนิยมสำหรับการแข่งขัน Esports",
+    "highlights": [
+      "240Hz",
+      "DyAc⁺ Technology",
+      "TN Panel"
+    ],
+    "attributes": {
+      "size": "24.5\"",
+      "resolution": "1920x1080",
+      "panel": "TN",
+      "refreshRate": "240Hz"
+    }
+  },
+  {
+    "id": 26,
+    "name": "Razer DeathAdder V3 Pro",
+    "brand": "Razer",
+    "type": "Mouse",
+    "price": 5690,
+    "stock": 14,
+    "image": "https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=900&q=80",
+    "description": "เมาส์เกมมิ่งไร้สายทรง Ergonomic น้ำหนักเบาพิเศษจับถนัดมือ",
+    "highlights": [
+      "Wireless",
+      "30000 DPI",
+      "63g"
+    ],
+    "attributes": {
+      "dpi": "30000",
+      "connection": "Wireless",
+      "weight": "63g"
+    }
+  },
+  {
+    "id": 27,
+    "name": "SteelSeries Apex Pro TKL (2023)",
+    "brand": "SteelSeries",
+    "type": "Keyboard",
+    "price": 8990,
+    "stock": 9,
+    "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=80",
+    "description": "คีย์บอร์ดกลไกปรับระยะการกดสวิตช์ได้ตามต้องการ",
+    "highlights": [
+      "OmniPoint 2.0",
+      "OLED Smart Display",
+      "TKL"
+    ],
+    "attributes": {
+      "layout": "80% (TKL)",
+      "switch": "Adjustable Mechanical",
+      "connection": "USB"
+    }
+  },
+  {
+    "id": 28,
+    "name": "Audio-Technica ATH-M50xSTS StreamSet",
+    "brand": "Audio-Technica",
+    "type": "Headphones",
+    "price": 7900,
+    "stock": 5,
+    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
+    "description": "หูฟังสตูดิโอมอนิเตอร์ระดับตำนานที่มาพร้อมกับไมค์สตรีมเมอร์",
+    "highlights": [
+      "Studio Sound",
+      "Cardioid Condenser Mic",
+      "Wired XLR/USB"
+    ],
+    "attributes": {
+      "connection": "Wired",
+      "microphone": "Microphone",
+      "noiseCancelling": "No Noise Cancelling"
+    }
+  },
+  {
+    "id": 29,
+    "name": "Shure SM7B",
+    "brand": "Shure",
+    "type": "Microphone",
+    "price": 16900,
+    "stock": 4,
+    "image": "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=900&q=80",
+    "description": "ไมโครโฟนไดนามิกสตูดิโอยอดนิยมสำหรับพอดแคสต์และสตรีมมิ่ง",
+    "highlights": [
+      "Vocal Clarity",
+      "XLR Connection",
+      "Dynamic Microphone"
+    ],
+    "attributes": {
+      "connection": "XLR",
+      "polarPattern": "Cardioid",
+      "rgb": "No RGB"
+    }
+  },
+  {
+    "id": 30,
+    "name": "Elgato Facecam Pro",
+    "brand": "Elgato",
+    "type": "Webcam",
+    "price": 11900,
+    "stock": 6,
+    "image": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=900&q=80",
+    "description": "เว็บแคมระดับพรีเมียมตัวแรกของโลกที่บันทึกภาพได้ถึง 4K 60FPS แท้",
+    "highlights": [
+      "4K 60FPS",
+      "Sony STARVIS Sensor",
+      "USB 3.0"
+    ],
+    "attributes": {
+      "resolution": "4K",
+      "fps": "60FPS"
+    }
+  },
+  {
+    "id": 31,
+    "name": "Elgato Stream Deck MK.2",
+    "brand": "Elgato",
+    "type": "Streaming Accessory",
+    "price": 5990,
+    "stock": 10,
+    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=80",
+    "description": "คอนโทรลเลอร์ปุ่ม LCD สำหรับควบคุมการสตรีมและแอปพลิเคชัน",
+    "highlights": [
+      "15 LCD Keys",
+      "Customizable",
+      "Hot-swappable Faceplate"
+    ],
+    "attributes": {
+      "keys": 15,
+      "connection": "USB-C",
+      "software": "Stream Deck App"
+    }
+  },
+  {
+    "id": 32,
+    "name": "LG UltraGear 34GN850-B",
+    "brand": "LG",
+    "type": "Monitor",
+    "price": 27900,
+    "stock": 4,
+    "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?auto=format&fit=crop&w=900&q=80",
+    "description": "จอเกมมิ่งจอโค้งแบบ UltraWide อัตราส่วน 21:9 กว้างเต็มตา",
+    "highlights": [
+      "Nano IPS",
+      "160Hz Overclock",
+      "1ms GtG"
+    ],
+    "attributes": {
+      "size": "34\"",
+      "resolution": "3440x1440",
+      "panel": "Nano IPS",
+      "refreshRate": "160Hz"
+    }
+  },
+  {
+    "id": 33,
+    "name": "AMD Ryzen 9 7950X",
+    "brand": "AMD",
+    "type": "CPU",
+    "price": 23500,
+    "stock": 8,
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "description": "ซีพียูเรือธงสำหรับการประมวลผลขั้นสูง งานเรนเดอร์ และการสตรีม",
+    "highlights": [
+      "16 Cores",
+      "32 Threads",
+      "Zen 4"
+    ],
+    "attributes": {
+      "socket": "AM5",
+      "cores": 16,
+      "threads": 32,
+      "boostClock": "5.7GHz"
+    }
+  },
+  {
+    "id": 34,
+    "name": "ASUS TUF Gaming B650M-Plus WiFi",
+    "brand": "ASUS",
+    "type": "Mainboard",
+    "price": 6890,
+    "stock": 15,
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "description": "เมนบอร์ดขนาด M-ATX ที่ทนทานและคุ้มราคาสำหรับเซ็ต AMD AM5",
+    "highlights": [
+      "DDR5",
+      "PCIe 5.0 M.2",
+      "TUF Protection"
+    ],
+    "attributes": {
+      "socket": "AM5",
+      "chipset": "B650",
+      "memory": "DDR5",
+      "formFactor": "Micro-ATX",
+      "wifi": true
+    }
+  },
+  {
+    "id": 35,
+    "name": "Corsair Vengeance RGB 64GB",
+    "brand": "Corsair",
+    "type": "RAM",
+    "price": 11500,
+    "stock": 8,
+    "image": "https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=900&q=80",
+    "description": "ชุดแรมความจุสูงพิเศษ 64GB เหมาะสำหรับงานตัดต่อวิดีโอและเล่นเกมหนักๆ",
+    "highlights": [
+      "64GB (2x32GB)",
+      "DDR5",
+      "5600MT/s"
+    ],
+    "attributes": {
+      "capacity": "64GB",
+      "ddr": "DDR5",
+      "speed": "5600MT/s",
+      "rgb": "RGB"
+    }
+  },
+  {
+    "id": 36,
+    "name": "WD Black SN850X 2TB",
+    "brand": "Western Digital",
+    "type": "SSD",
+    "price": 6990,
+    "stock": 13,
+    "image": "https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=900&q=80",
+    "description": "SSD เกมมิ่งระดับพรีเมียม โหลดเกมได้รวดเร็วทันใจ",
+    "highlights": [
+      "2TB",
+      "PCIe Gen4",
+      "7300MB/s"
+    ],
+    "attributes": {
+      "capacity": "2TB",
+      "interface": "PCIe Gen4",
+      "formFactor": "M.2 2280",
+      "speed": "7300MB/s"
+    }
+  },
+  {
+    "id": 37,
+    "name": "NZXT Kraken Elite 360 RGB",
+    "brand": "NZXT",
+    "type": "CPU Cooler",
+    "price": 10900,
+    "stock": 5,
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "description": "ชุดน้ำปิดหน้าจอ LCD ทรงกลมขนาดใหญ่ ปรับแต่งภาพ GIF ได้ตามใจชอบ",
+    "highlights": [
+      "2.36\" LCD",
+      "360mm Radiator",
+      "RGB Fans"
+    ],
+    "attributes": {
+      "type": "AIO",
+      "size": "360mm",
+      "rgb": "RGB"
+    }
+  },
+  {
+    "id": 38,
+    "name": "HYTE Y60",
+    "brand": "HYTE",
+    "type": "Case",
+    "price": 7590,
+    "stock": 4,
+    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=80",
+    "description": "เคสตู้ปลาดีไซน์กระจกโค้ง 3 ชิ้นรอบตัว โชว์การ์ดจอแนวตั้งแบบโดดเด่น",
+    "highlights": [
+      "Panoramic Glass",
+      "Vertical GPU Mount",
+      "Modern Design"
+    ],
+    "attributes": {
+      "motherboardSupport": "ATX",
+      "sidePanel": "Tempered Glass",
+      "color": "Red/Black"
+    }
+  },
+  {
+    "id": 39,
+    "name": "Antec Symphony 360 ARGB",
+    "brand": "Antec",
+    "type": "CPU Cooler",
+    "price": 3490,
+    "stock": 10,
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+    "description": "ชุดน้ำสามตอนราคามิตรภาพ ระบายความร้อนดีเยี่ยมพร้อมไฟวิบวับ",
+    "highlights": [
+      "360mm",
+      "ARGB Mirror Pump",
+      "Budget Friendly"
+    ],
+    "attributes": {
+      "type": "AIO",
+      "size": "360mm",
+      "rgb": "RGB"
+    }
+  },
+  {
+    "id": 40,
+    "name": "Logitech G915 TKL Wireless",
+    "brand": "Logitech",
+    "type": "Keyboard",
+    "price": 6990,
+    "stock": 7,
+    "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=80",
+    "description": "คีย์บอร์ดเกมมิ่งไร้สายแบบ Low-Profile บางเฉียบ หรูหราและตอบสนองไว",
+    "highlights": [
+      "LIGHTSPEED Wireless",
+      "Low Profile",
+      "GL Tactile"
+    ],
+    "attributes": {
+      "layout": "80% (TKL)",
+      "switch": "Low Profile Mechanical",
+      "connection": "Wireless/Bluetooth"
+    }
+  },
+  {
+    "id": 41,
+    "name": "Finalmouse UltralightX",
+    "brand": "Finalmouse",
+    "type": "Mouse",
+    "price": 9900,
+    "stock": 3,
+    "image": "https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=900&q=80",
+    "description": "เมาส์ไร้สายโครงสร้างคาร์บอนไฟเบอร์คอมโพสิต เบาที่สุดในโลก",
+    "highlights": [
+      "Carbon Fiber",
+      "29g Ultra Light",
+      "Limited Edition"
+    ],
+    "attributes": {
+      "dpi": "26000",
+      "connection": "Wireless",
+      "weight": "29g"
+    }
+  },
+  {
+    "id": 42,
+    "name": "Sony INZONE H9",
+    "brand": "Sony",
+    "type": "Headphones",
+    "price": 8990,
+    "stock": 6,
+    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80",
+    "description": "หูฟังเกมมิ่งไร้สายจาก Sony พร้อมระบบตัดเสียงรบกวนและมิติเสียง 360 องศา",
+    "highlights": [
+      "Active Noise Cancelling",
+      "Spatial Sound",
+      "PS5 Compatible"
+    ],
+    "attributes": {
+      "connection": "Wireless/Bluetooth",
+      "microphone": "Microphone",
+      "noiseCancelling": "Noise Cancelling"
+    }
+  },
+  {
+    "id": 43,
+    "name": "Razer Seiren V3 Chroma",
+    "brand": "Razer",
+    "type": "Microphone",
+    "price": 4990,
+    "stock": 9,
+    "image": "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=900&q=80",
+    "description": "ไมโครโฟน USB สตรีมมิ่งที่สามารถแสดงแสงไฟ RGB ตอบสนองตามเหตุการณ์ในเกมได้",
+    "highlights": [
+      "Stream Reactive Lighting",
+      "Tap-to-Mute Sensor",
+      "Supercardioid"
+    ],
+    "attributes": {
+      "connection": "USB",
+      "polarPattern": "Supercardioid",
+      "rgb": "RGB"
+    }
+  },
+  {
+    "id": 44,
+    "name": "ASUS ROG Destrier Ergo Gaming Chair",
+    "brand": "ASUS",
+    "type": "Furniture",
+    "price": 29900,
+    "stock": 2,
+    "image": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=80",
+    "description": "เก้าอี้เกมมิ่งเพื่อสุขภาพ ปรับเปลี่ยนได้หลายระดับตามสรีระศาสตร์การนั่ง",
+    "highlights": [
+      "Ergonomic Design",
+      "Acoustic Panel",
+      "Breathable Mesh"
+    ],
+    "attributes": {
+      "material": "Mesh & Aluminum",
+      "weightCapacity": "150kg",
+      "adjustableArmrest": "4D"
+    }
+  },
+  {
+    "id": 45,
+    "name": "Elgato Key Light Air",
+    "brand": "Elgato",
+    "type": "Streaming Accessory",
+    "price": 4890,
+    "stock": 12,
+    "image": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=900&q=80",
+    "description": "โคมไฟ LED อัจฉริยะสำหรับสตรีมเมอร์ ควบคุมความสว่างและอุณหภูมิสีผ่านแอปได้",
+    "highlights": [
+      "1400 Lumens",
+      "App-Controlled",
+      "Edge-Lit Architecture"
+    ],
+    "attributes": {
+      "brightness": "1400 lm",
+      "colorTemperature": "2900K - 7000K",
+      "connection": "Wi-Fi"
     }
   }
 ]
