@@ -92,7 +92,7 @@ export default function MainLayout() {
               </span>
               <input
                 className="w-full bg-surface-container-low border border-outline-variant rounded-full py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                placeholder="Search premium tech..."
+                placeholder="Search ..."
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -157,7 +157,7 @@ export default function MainLayout() {
         </div>
       </nav>
       <Outlet />
-      <footer className="bg-surface-container-lowest border-t border-outline-variant pt-24 pb-12">
+      <footer className="bg-surface-container-lowest border-t border-outline-variant pt-24 pb-12 mt-5">
         <div className="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-gutter mb-16">
           {/* Brand Column */}
           <div className="space-y-6">
