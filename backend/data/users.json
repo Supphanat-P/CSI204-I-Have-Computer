@@ -64,6 +64,6 @@
     "password": "$2a$10$rMEk1RT59aFNg4vYkTHVdeZDIytTJGLbBYMR2jpmkbSiM5gOWl3Ry",
     "phone": "0000000000",
     "birthDate": "00/00/0000",
-    "role": "user"
+    "role": "admin"
   }
 ]

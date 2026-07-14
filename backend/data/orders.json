@@ -61,5 +61,26 @@
     "recipientPhone": "1234567890",
     "paymentMethod": "โอนเงินผ่านบัญชีธนาคาร",
     "userId": "1"
+  },
+  {
+    "id": "IHC-41284",
+    "date": "2026-07-14",
+    "items": [
+      {
+        "id": 16,
+        "name": "Intel Core i7-14700K",
+        "brand": "Intel",
+        "price": 16900,
+        "quantity": 1,
+        "image": "https://www.jib.co.th/img_master/product/original/2023101615255663038_1.png"
+      }
+    ],
+    "total": 16900,
+    "status": "รอดำเนินการ",
+    "shippingAddress": "ห ต. ห อ. ห จ. ห 12345",
+    "recipientName": "ห",
+    "recipientPhone": "1234567890",
+    "paymentMethod": "โอนเงินผ่านบัญชีธนาคาร",
+    "userId": "6"
   }
 ]
