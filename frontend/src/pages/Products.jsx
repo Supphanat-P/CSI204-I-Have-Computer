@@ -177,7 +177,7 @@ export default function Products() {
   };
   return (
     <div>
-      <nav className="flex mt-5 mx-14 mb-0 items-center gap-2 text-label-md text-on-surface-variant">
+      <nav className="flex mt-[25px] ml-[245px] mb-[-15px] items-center gap-2 text-label-md text-on-surface-variant">
         <Link to="/" className="hover:text-primary transition-colors">หน้าแรก</Link>
         <span className="material-symbols-outlined text-[16px]">chevron_right</span>
         <Link to={`/Products?productType=${productType}`}>

@@ -81,7 +81,7 @@ export default function ProductDetails() {
     return (
         <div className="bg-background min-h-screen pt-5 pb-16 px-4 md:px-margin-desktop">
             {/* Breadcrumbs */}
-            <nav className="flex items-center gap-2 text-label-md text-on-surface-variant mb-8">
+            <nav className="flex items-center gap-2 mt-[5px] ml-[180px] mb-5 text-label-md text-on-surface-variant mb-8">
                 <Link to="/" className="hover:text-primary transition-colors">หน้าแรก</Link>
                 <span className="material-symbols-outlined text-[16px]">chevron_right</span>
                 <Link to={`/Products?productType=${product.type}`}>
