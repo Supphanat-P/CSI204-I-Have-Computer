@@ -19,6 +19,9 @@ app.post("/api/register", registerUser);
 app.post("/api/login", loginUser);
 app.post("/api/profile/update", authMiddleware, updateProfile);
 
+app.post("/api/orders", authMiddleware, createOrder);
+app.get("/api/orders", authMiddleware, getOrders);
+
 app.use((req, res) => {
   res.status(404).json({
     message: "Route not found",
