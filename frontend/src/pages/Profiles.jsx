@@ -228,7 +228,7 @@ export default function Profiles() {
   // Profile Edit functions
   const handleSaveProfile = async (e) => {
     e.preventDefault();
-    
+
     if (!currentUser) return;
 
     try {
@@ -257,7 +257,7 @@ export default function Profiles() {
       }
 
       const updatedUser = data.user;
-      
+
       setUserProfile({
         firstName: updatedUser.name.split(" ")[0] || "",
         lastName: updatedUser.name.split(" ").slice(1).join(" ") || "",
@@ -463,10 +463,10 @@ export default function Profiles() {
     <div className="min-h-screen bg-background py-10 px-4 md:px-margin-desktop font-sans text-on-surface">
       <div className="max-w-container-max mx-auto">
         <div className="flex flex-col lg:flex-row gap-gutter items-start">
-          
+
           {/* Sidebar Nav */}
           <aside className="w-full lg:w-80 shrink-0 bg-surface-container-lowest border border-outline-variant rounded-2xl overflow-hidden shadow-sm">
-            
+
             {/* Header / Brand label in Sidebar */}
             <div className="p-6 border-b border-outline-variant bg-surface-container-low">
               <div className="flex items-center gap-3">
@@ -490,33 +490,30 @@ export default function Profiles() {
               <div className="flex flex-col gap-1">
                 <button
                   onClick={() => setActiveTab("orders")}
-                  className={`w-full text-left rounded-xl transition-all cursor-pointer ${
-                    activeTab === "orders"
-                      ? "flex items-center gap-3 px-4 py-3 text-primary border-l-4 border-primary bg-primary/5 font-semibold"
-                      : "flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-low"
-                  }`}
+                  className={`w-full text-left rounded-xl transition-all cursor-pointer ${activeTab === "orders"
+                    ? "flex items-center gap-3 px-4 py-3 text-primary border-l-4 border-primary bg-primary/5 font-semibold"
+                    : "flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-low"
+                    }`}
                 >
                   <span className="material-symbols-outlined">shopping_bag</span>
                   <span className="text-body-md">คำสั่งซื้อ</span>
                 </button>
                 <button
                   onClick={() => setActiveTab("wishlist")}
-                  className={`w-full text-left rounded-xl transition-all cursor-pointer ${
-                    activeTab === "wishlist"
-                      ? "flex items-center gap-3 px-4 py-3 text-primary border-l-4 border-primary bg-primary/5 font-semibold"
-                      : "flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-low"
-                  }`}
+                  className={`w-full text-left rounded-xl transition-all cursor-pointer ${activeTab === "wishlist"
+                    ? "flex items-center gap-3 px-4 py-3 text-primary border-l-4 border-primary bg-primary/5 font-semibold"
+                    : "flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-low"
+                    }`}
                 >
                   <span className="material-symbols-outlined">favorite</span>
                   <span className="text-body-md">สินค้าที่ถูกใจ</span>
                 </button>
                 <button
                   onClick={() => setActiveTab("shipping_status")}
-                  className={`w-full text-left rounded-xl transition-all cursor-pointer ${
-                    activeTab === "shipping_status"
-                      ? "flex items-center gap-3 px-4 py-3 text-primary border-l-4 border-primary bg-primary/5 font-semibold"
-                      : "flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-low"
-                  }`}
+                  className={`w-full text-left rounded-xl transition-all cursor-pointer ${activeTab === "shipping_status"
+                    ? "flex items-center gap-3 px-4 py-3 text-primary border-l-4 border-primary bg-primary/5 font-semibold"
+                    : "flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-low"
+                    }`}
                 >
                   <span className="material-symbols-outlined">local_shipping</span>
                   <span className="text-body-md">เช็คสถานะการจัดส่ง</span>
@@ -532,44 +529,40 @@ export default function Profiles() {
               <div className="flex flex-col gap-1">
                 <button
                   onClick={() => setActiveTab("profile")}
-                  className={`w-full text-left rounded-xl transition-all cursor-pointer ${
-                    activeTab === "profile"
-                      ? "flex items-center gap-3 px-4 py-3 text-primary border-l-4 border-primary bg-primary/5 font-semibold"
-                      : "flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-low"
-                  }`}
+                  className={`w-full text-left rounded-xl transition-all cursor-pointer ${activeTab === "profile"
+                    ? "flex items-center gap-3 px-4 py-3 text-primary border-l-4 border-primary bg-primary/5 font-semibold"
+                    : "flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-low"
+                    }`}
                 >
                   <span className="material-symbols-outlined">person</span>
                   <span className="text-body-md">ข้อมูลส่วนตัว</span>
                 </button>
                 <button
                   onClick={() => setActiveTab("shipping_address")}
-                  className={`w-full text-left rounded-xl transition-all cursor-pointer ${
-                    activeTab === "shipping_address"
-                      ? "flex items-center gap-3 px-4 py-3 text-primary border-l-4 border-primary bg-primary/5 font-semibold"
-                      : "flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-low"
-                  }`}
+                  className={`w-full text-left rounded-xl transition-all cursor-pointer ${activeTab === "shipping_address"
+                    ? "flex items-center gap-3 px-4 py-3 text-primary border-l-4 border-primary bg-primary/5 font-semibold"
+                    : "flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-low"
+                    }`}
                 >
                   <span className="material-symbols-outlined">location_on</span>
                   <span className="text-body-md">ที่อยู่สำหรับจัดส่ง</span>
                 </button>
                 <button
                   onClick={() => setActiveTab("tax_address")}
-                  className={`w-full text-left rounded-xl transition-all cursor-pointer ${
-                    activeTab === "tax_address"
-                      ? "flex items-center gap-3 px-4 py-3 text-primary border-l-4 border-primary bg-primary/5 font-semibold"
-                      : "flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-low"
-                  }`}
+                  className={`w-full text-left rounded-xl transition-all cursor-pointer ${activeTab === "tax_address"
+                    ? "flex items-center gap-3 px-4 py-3 text-primary border-l-4 border-primary bg-primary/5 font-semibold"
+                    : "flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-low"
+                    }`}
                 >
                   <span className="material-symbols-outlined">receipt_long</span>
                   <span className="text-body-md">ที่อยู่สำหรับออกใบกำกับภาษี</span>
                 </button>
                 <button
                   onClick={() => setActiveTab("payment_methods")}
-                  className={`w-full text-left rounded-xl transition-all cursor-pointer ${
-                    activeTab === "payment_methods"
-                      ? "flex items-center gap-3 px-4 py-3 text-primary border-l-4 border-primary bg-primary/5 font-semibold"
-                      : "flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-low"
-                  }`}
+                  className={`w-full text-left rounded-xl transition-all cursor-pointer ${activeTab === "payment_methods"
+                    ? "flex items-center gap-3 px-4 py-3 text-primary border-l-4 border-primary bg-primary/5 font-semibold"
+                    : "flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-low"
+                    }`}
                 >
                   <span className="material-symbols-outlined">credit_card</span>
                   <span className="text-body-md">ช่องทางการชำระเงิน</span>
@@ -614,11 +607,11 @@ export default function Profiles() {
 
           {/* Main Area */}
           <main className="flex-1 w-full bg-surface-container-lowest border border-outline-variant rounded-2xl p-6 md:p-8 shadow-sm">
-            
+
             {/* VIEW 1: ข้อมูลส่วนตัว (Personal Info) */}
             {activeTab === "profile" && (
               <div className="space-y-6">
-                
+
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-outline-variant">
                   <div className="flex items-center gap-2.5">
@@ -745,7 +738,7 @@ export default function Profiles() {
                   <div className="space-y-6">
                     {/* User overview and counts card */}
                     <div className="bg-surface-container-low border border-outline-variant p-6 rounded-2xl flex flex-col md:flex-row items-center gap-6">
-                      
+
                       {/* Avatar */}
                       <div className="w-20 h-20 rounded-full bg-outline-variant/40 flex items-center justify-center text-outline text-4xl shrink-0">
                         <span className="material-symbols-outlined text-5xl">person</span>
@@ -817,7 +810,7 @@ export default function Profiles() {
             {/* VIEW 2 & 3: ที่อยู่สำหรับจัดส่ง & ที่อยู่สำหรับออกใบกำกับภาษี (Address Lists) */}
             {(activeTab === "shipping_address" || activeTab === "tax_address") && (
               <div className="space-y-6">
-                
+
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-outline-variant">
                   <div className="flex items-center gap-2.5">
@@ -867,11 +860,10 @@ export default function Profiles() {
                       <button
                         key={pill.key}
                         onClick={() => setAddressTagFilter(pill.key)}
-                        className={`px-4 py-2 rounded-xl text-body-sm font-semibold transition-all whitespace-nowrap active:scale-95 cursor-pointer ${
-                          addressTagFilter === pill.key
-                            ? "bg-primary text-white"
-                            : "bg-white border border-outline-variant text-on-surface-variant hover:bg-surface-container-low"
-                        }`}
+                        className={`px-4 py-2 rounded-xl text-body-sm font-semibold transition-all whitespace-nowrap active:scale-95 cursor-pointer ${addressTagFilter === pill.key
+                          ? "bg-primary text-white"
+                          : "bg-white border border-outline-variant text-on-surface-variant hover:bg-surface-container-low"
+                          }`}
                       >
                         {pill.label}
                       </button>
@@ -885,23 +877,21 @@ export default function Profiles() {
                     {filteredAddresses.map((addr) => (
                       <div
                         key={addr.id}
-                        className={`p-5 rounded-2xl border transition-all flex flex-col justify-between ${
-                          addr.isDefault
-                            ? "bg-primary/5 border-primary shadow-sm"
-                            : "bg-white border-outline-variant hover:border-primary/50"
-                        }`}
+                        className={`p-5 rounded-2xl border transition-all flex flex-col justify-between ${addr.isDefault
+                          ? "bg-primary/5 border-primary shadow-sm"
+                          : "bg-white border-outline-variant hover:border-primary/50"
+                          }`}
                       >
                         <div>
                           {/* Top Badges */}
                           <div className="flex justify-between items-center gap-2 mb-3">
                             <span
-                              className={`px-3 py-1 rounded-full text-xs font-semibold uppercase ${
-                                addr.type === "home"
-                                  ? "bg-green-100 text-green-700"
-                                  : addr.type === "work"
+                              className={`px-3 py-1 rounded-full text-xs font-semibold uppercase ${addr.type === "home"
+                                ? "bg-green-100 text-green-700"
+                                : addr.type === "work"
                                   ? "bg-blue-100 text-blue-700"
                                   : "bg-gray-100 text-gray-700"
-                              }`}
+                                }`}
                             >
                               {addr.type === "home" ? "บ้าน" : addr.type === "work" ? "ที่ทำงาน" : "อื่นๆ"}
                             </span>
@@ -946,7 +936,7 @@ export default function Profiles() {
                               <span>ที่อยู่หลักสำหรับการจัดส่ง</span>
                             </div>
                           )}
-                          
+
                           <div className="flex items-center gap-2">
                             <button
                               onClick={() => openAddressModal(activeTab === "shipping_address" ? "shipping" : "tax", addr)}
@@ -989,34 +979,66 @@ export default function Profiles() {
                 </div>
 
                 <div className="space-y-4">
-                  {orders.map((ord) => (
-                    <div key={ord.id} className="border border-outline-variant rounded-2xl p-5 bg-white flex flex-col md:flex-row md:items-center justify-between gap-4">
-                      <div className="space-y-2 flex-1">
-                        <div className="flex items-center gap-3 flex-wrap">
-                          <span className="font-bold text-on-surface text-body-lg">หมายเลขสั่งซื้อ: {ord.id}</span>
-                          <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                            ord.status === "เสร็จสิ้น" ? "bg-green-100 text-green-700" :
-                            ord.status === "จัดส่งแล้ว" ? "bg-blue-100 text-blue-700" :
-                            "bg-amber-100 text-amber-700"
-                          }`}>{ord.status}</span>
+                  {orders.length > 0 ? (
+                    orders.map((ord) => (
+                      <div
+                        key={ord.id}
+                        className="border border-outline-variant rounded-2xl p-5 bg-white flex flex-col md:flex-row md:items-center justify-between gap-4"
+                      >
+                        <div className="space-y-2 flex-1">
+                          <div className="flex items-center gap-3 flex-wrap">
+                            <span className="font-bold text-on-surface text-body-lg">
+                              หมายเลขสั่งซื้อ: {ord.id}
+                            </span>
+
+                            <span
+                              className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${ord.status === "เสร็จสิ้น"
+                                ? "bg-green-100 text-green-700"
+                                : ord.status === "จัดส่งแล้ว"
+                                  ? "bg-blue-100 text-blue-700"
+                                  : "bg-amber-100 text-amber-700"
+                                }`}
+                            >
+                              {ord.status}
+                            </span>
+                          </div>
+
+                          {renderItemsList(ord.items)}
+
+                          <p className="text-xs text-outline pt-1">
+                            วันที่ทำรายการ: {ord.date}
+                          </p>
                         </div>
-                        {renderItemsList(ord.items)}
-                        <p className="text-xs text-outline pt-1">วันที่ทำรายการ: {ord.date}</p>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <p className="text-xs text-on-surface-variant">ยอดรวมสุทธิ</p>
-                        <p className="text-xl font-bold text-primary">{ord.total.toLocaleString()}฿</p>
-                        <div className="flex flex-col sm:flex-row items-end sm:items-center gap-3 mt-2 justify-end">
-                          <button
-                            onClick={() => setSelectedOrder(ord)}
-                            className="text-xs font-semibold text-primary hover:underline cursor-pointer bg-transparent border-none"
-                          >
-                            ดูรายละเอียดคำสั่งซื้อ
-                          </button>
+
+                        <div className="text-right shrink-0">
+                          <p className="text-xs text-on-surface-variant">
+                            ยอดรวมสุทธิ
+                          </p>
+
+                          <p className="text-xl font-bold text-primary">
+                            {ord.total.toLocaleString()}฿
+                          </p>
+
+                          <div className="flex flex-col sm:flex-row items-end sm:items-center gap-3 mt-2 justify-end">
+                            <button
+                              onClick={() => setSelectedOrder(ord)}
+                              className="text-xs font-semibold text-primary hover:underline cursor-pointer bg-transparent border-none"
+                            >
+                              ดูรายละเอียดคำสั่งซื้อ
+                            </button>
+                          </div>
                         </div>
                       </div>
+                    ))
+                  ) : (
+                    <div className="bg-surface-container-low border border-outline-variant rounded-2xl p-12 text-center flex flex-col items-center">
+                      <span className="material-symbols-outlined text-6xl text-outline mb-4">shopping_bag</span>
+                      <h3 className="font-bold text-lg text-on-surface mb-1">ไม่มีข้อมูลคำสั่งซื้อ</h3>
+                      <p className="text-body-sm text-on-surface-variant max-w-sm">
+                        คุณยังไม่มีคำสั่งซื้อใดๆ ในบัญชีนี้เพื่อใช้ตรวจสอบการจัดส่ง
+                      </p>
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
             )}
@@ -1110,12 +1132,12 @@ export default function Profiles() {
                           <span className="material-symbols-outlined text-lg">local_shipping</span>
                           <span className={ord.status === "เสร็จสิ้น" ? "text-green-600" : "text-primary"}>
                             {ord.status === "เสร็จสิ้น" ? "จัดส่งสินค้าสำเร็จเรียบร้อยแล้ว" :
-                             ord.status === "รอดำเนินการ" ? "กำลังจัดเตรียมสินค้าเพื่อจัดส่ง" :
-                             "อยู่ระหว่างนำส่งพัสดุ (พัสดุจะถึงภายในวันนี้)"}
+                              ord.status === "รอดำเนินการ" ? "กำลังจัดเตรียมสินค้าเพื่อจัดส่ง" :
+                                "อยู่ระหว่างนำส่งพัสดุ (พัสดุจะถึงภายในวันนี้)"}
                           </span>
                         </div>
                       </div>
-                      
+
                       {/* Timeline tracker */}
                       <div className="border-t border-outline-variant pt-4 space-y-3.5">
                         {ord.status === "เสร็จสิ้น" ? (
@@ -1273,7 +1295,7 @@ export default function Profiles() {
       {isAddressModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
           <div className="bg-white border border-outline-variant rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 md:p-8 space-y-6">
-            
+
             {/* Modal Header */}
             <div className="flex justify-between items-center border-b border-outline-variant pb-4">
               <h3 className="text-xl font-bold text-on-surface flex items-center gap-2">
@@ -1295,7 +1317,7 @@ export default function Profiles() {
             {/* Modal Form */}
             <form onSubmit={saveAddress} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                
+
                 {/* Recipient Name */}
                 <div className="md:col-span-2">
                   <label className="block text-body-sm font-medium text-on-surface-variant mb-1.5">
@@ -1479,11 +1501,10 @@ export default function Profiles() {
                 </div>
                 <div className="text-right">
                   <span className="text-xs text-outline block mb-0.5">สถานะการชำระเงิน/จัดส่ง</span>
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                    selectedOrder.status === "เสร็จสิ้น" ? "bg-green-100 text-green-700" :
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${selectedOrder.status === "เสร็จสิ้น" ? "bg-green-100 text-green-700" :
                     selectedOrder.status === "จัดส่งแล้ว" ? "bg-blue-100 text-blue-700" :
-                    "bg-amber-100 text-amber-700"
-                  }`}>
+                      "bg-amber-100 text-amber-700"
+                    }`}>
                     {selectedOrder.status}
                   </span>
                 </div>

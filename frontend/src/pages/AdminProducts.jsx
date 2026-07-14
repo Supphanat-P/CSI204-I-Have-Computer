@@ -7,7 +7,6 @@ export default function AdminProducts() {
     JSON.parse(localStorage.getItem("currentUser") || "null")
   );
 
-  // Guard: redirect if not admin
   useEffect(() => {
     if (!currentUser || currentUser.role !== "admin") {
       navigate("/", { replace: true });

@@ -52,14 +52,13 @@ export default function ProductCard({ product }) {
   };
 
   return (
-    <div className="group bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden hover:shadow-xl hover:border-primary transition-all duration-300 flex flex-col relative mt-5 p-4 max-w-2xs">
+    <div className="group bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden hover:shadow-xl hover:border-primary transition-all duration-300 flex flex-col relative mt-5 p-4 max-w-2xs max-w-[320px] max-h-[500px]">
       <button
         onClick={handleToggleLike}
-        className={`absolute top-6 right-6 z-10 p-2 bg-surface-container-lowest/90 hover:bg-surface-container-low text-on-surface-variant hover:text-error rounded-full shadow-md backdrop-blur-sm transition-all duration-300 cursor-pointer active:scale-90 flex items-center justify-center border border-outline-variant/30 ${
-          isLiked
-            ? "opacity-100 scale-100"
-            : "opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100"
-        }`}
+        className={`absolute top-6 right-6 z-10 p-2 bg-surface-container-lowest/90 hover:bg-surface-container-low text-on-surface-variant hover:text-error rounded-full shadow-md backdrop-blur-sm transition-all duration-300 cursor-pointer active:scale-90 flex items-center justify-center border border-outline-variant/30 ${isLiked
+          ? "opacity-100 scale-100"
+          : "opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100"
+          }`}
       >
         <span
           className="material-symbols-outlined text-lg transition-colors duration-200"
@@ -87,12 +86,12 @@ export default function ProductCard({ product }) {
           <span className="text-sm text-on-surface-variant line-clamp-2">
             {product.description || "สินค้าที่พร้อมส่งและให้บริการหลังการขาย"}
           </span>
-          <div className="mt-auto pt-3 flex items-center justify-between">
+          <div className="mt-auto pt-3 flex flex-col gap-1">
             <span className="text-headline-sm font-bold text-primary">
-              {product.price.toLocaleString()}฿
+              {product.price.toLocaleString()}$
             </span>
             <span className="text-label-sm text-on-surface-variant">
-              สต็อก {product.stock}
+              สต๊อก {product.stock}
             </span>
           </div>
         </div>

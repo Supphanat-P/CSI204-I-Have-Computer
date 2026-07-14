@@ -4,10 +4,7 @@
     "name": "Thonradee Saetang",
     "email": "thonradee@gmail.com",
     "password": "$2a$10$TYHUaihGQgniRZwHplekdu.SucnCCT/vE4wCWkwjiLcec/itXrCsa",
-    "phone": "-",
-    "birthDate": "-",
-    "lineId": "-",
-    "facebook": "-",
+    "phone": "",
     "role": "admin"
   },
   {
@@ -15,10 +12,7 @@
     "name": "พอล มอนดรีฟ อเธดิส",
     "email": "paul@gm",
     "password": "$2a$10$rFgHpxHnbhoDLy6MwTJPQO5CVBQKIwDR3qSAywBlERauXTvoFfrgm",
-    "phone": "-",
-    "birthDate": "-",
-    "lineId": "-",
-    "facebook": "-",
+    "phone": "",
     "role": "user"
   },
   {
@@ -26,10 +20,7 @@
     "name": "test 1",
     "email": "test1@gm",
     "password": "$2a$10$Sav9o8h41gNYr.zI3pTEbuRt.o1EsImP4DvSvWepX1NAlemXBD57y",
-    "phone": "-",
-    "birthDate": "-",
-    "lineId": "-",
-    "facebook": "-",
+    "phone": "",
     "role": "user"
   },
   {
@@ -37,10 +28,15 @@
     "name": "Kira",
     "email": "pondezxb@gmail.com",
     "password": "$2a$10$SRbynvqbCePv3bg.gzOCxe1PGru76qt1nvuZVIM30C.TkXRvIKJ0C",
-    "phone": "-",
-    "birthDate": "-",
-    "lineId": "-",
-    "facebook": "-",
+    "phone": "",
+    "role": "admin"
+  },
+  {
+    "id": "5",
+    "name": "ศุภณัฐ เดี่ยวไหมครับ",
+    "email": "Deawpa@gmail.com",
+    "password": "$2a$10$IGPCHO.13fnCDHTLoZvfQeE/fub7bRneqIQTwSZda2J4ZvIfqppuy",
+    "phone": "",
     "role": "admin"
   }
 ]

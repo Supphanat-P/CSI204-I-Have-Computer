@@ -271,10 +271,15 @@
 
 ## Wireframe
 
-<img width="595" height="769" alt="image" src="https://github.com/user-attachments/assets/ba4c350e-b8de-483d-ab77-ad6a788c0b07" />
-<img width="595" height="769" alt="image" src="https://github.com/user-attachments/assets/c3a0b7dd-d93d-40a5-ae0b-448666e88282" />
-<img width="595" height="769" alt="image" src="https://github.com/user-attachments/assets/ea0c1690-6f35-4093-b47b-b183865a3495" />
-<img width="595" height="769" alt="image" src="https://github.com/user-attachments/assets/fede82fe-d832-4030-99ee-facd725624fa" />
-<img width="595" height="769" alt="image" src="https://github.com/user-attachments/assets/3af1d17d-1613-47f8-b12b-17051edfe5a3" />
+Home
+<img width="1920" height="1080" alt="1 Home" src="https://github.com/user-attachments/assets/543be1fa-ca68-48e0-8a9c-2eacda6c4ddc" />
+Browser
+<img width="1920" height="1080" alt="2 Browser" src="https://github.com/user-attachments/assets/74274f02-86a8-4597-8d09-34842a6691ee" />
+Product
+<img width="1920" height="1080" alt="3 Product" src="https://github.com/user-attachments/assets/ebd20da7-ef2a-48a7-a1cd-e422b92ddb7a" />
+Cart 
+<img width="1920" height="1080" alt="4 Carts" src="https://github.com/user-attachments/assets/8d13c276-5c77-4216-a87b-0ec814e761a5" />
+Profile
+<img width="1920" height="1080" alt="5 Profile" src="https://github.com/user-attachments/assets/17848815-3243-4d1b-9049-0c5c51554d72" />
 
 ---
