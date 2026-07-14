@@ -156,7 +156,21 @@ export default function Profiles() {
     };
     fetchOrders();
   }, [currentUser]);
+  const ordersWaiting = orders.filter(
+    (order) => order.status === "รอดำเนินการ"
+  );
 
+  const ordersDelivered = orders.filter(
+    (order) => order.status === "จัดส่งแล้ว"
+  );
+
+  const ordersCompleted = orders.filter(
+    (order) => order.status === "เสร็จสิ้น"
+  );
+
+  const ordersPendingPayment = orders.filter(
+    (order) => order.status === "รอชำระเงิน"
+  );
   useEffect(() => {
     if (currentUser) {
       localStorage.setItem(`orders_${currentUser.id}`, JSON.stringify(orders));
@@ -670,7 +684,7 @@ export default function Profiles() {
                 </span>
                 <div className="flex flex-col gap-1">
                   <Link
-                    to="/admin"
+                    to="/admin/manageProduct"
                     className="w-full text-left rounded-xl transition-all flex items-center gap-3 px-4 py-3 text-primary hover:bg-primary/10 font-semibold"
                   >
                     <span className="material-symbols-outlined">admin_panel_settings</span>
