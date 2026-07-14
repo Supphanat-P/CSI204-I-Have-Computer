@@ -263,7 +263,7 @@
 
 <img width="317" height="632" alt="userSe" src="https://github.com/user-attachments/assets/a257c78c-c130-498d-8bdf-311669483b01" />
 <img width="259" height="761" alt="managerSe" src="https://github.com/user-attachments/assets/04d03b72-395f-4b16-9879-f682b1b35ee4" />
-<img width="259" height="695" alt="adminSe" src="https://github.com/user-attachments/assets/aab3ee9f-d89c-4cf9-adc3-d52fed5c77bd" />
+<img width="697" height="458" alt="adminSe" src="https://github.com/user-attachments/assets/a2e1bbd4-ad81-4546-8544-439c3760dab3" />
 
 ---
 
