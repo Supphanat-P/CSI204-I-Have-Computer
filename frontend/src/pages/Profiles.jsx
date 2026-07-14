@@ -1,11 +1,13 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useAlert } from "../context/AlertContext";
 
 export default function Profiles() {
   const navigate = useNavigate();
   const location = useLocation();
   const { addToCart } = useCart();
+  const { showAlert } = useAlert();
 
   // 1. Session & Authentication check
   const [currentUser, setCurrentUser] = useState(() => {
@@ -14,10 +16,12 @@ export default function Profiles() {
 
   useEffect(() => {
     if (!currentUser) {
-      alert("กรุณาเข้าสู่ระบบเพื่อเข้าสู่หน้าโปรไฟล์");
-      navigate("/login");
+      showAlert({
+        title: "ต้องเข้าสู่ระบบ",
+        message: "กรุณาเข้าสู่ระบบเพื่อเข้าสู่หน้าโปรไฟล์"
+      }).then(() => navigate("/login"));
     }
-  }, [currentUser, navigate]);
+  }, [currentUser, navigate, showAlert]);
 
   // Active Sidebar Tab state
   // Tabs: 'profile', 'shipping_address', 'tax_address', 'orders', 'wishlist', 'shipping_status', 'payment_methods'
@@ -152,13 +156,6 @@ export default function Profiles() {
     };
     fetchOrders();
   }, [currentUser]);
-
-  useEffect(() => {
-    if (currentUser) {
-      localStorage.setItem(`orders_${currentUser.id}`, JSON.stringify(orders));
-    }
-  }, [orders, currentUser]);
-
   const ordersWaiting = orders.filter(
     (order) => order.status === "รอดำเนินการ"
   );
@@ -174,15 +171,31 @@ export default function Profiles() {
   const ordersPendingPayment = orders.filter(
     (order) => order.status === "รอชำระเงิน"
   );
+  useEffect(() => {
+    if (currentUser) {
+      localStorage.setItem(`orders_${currentUser.id}`, JSON.stringify(orders));
+    }
+  }, [orders, currentUser]);
 
-  const handleConfirmDelivery = (orderId) => {
-    if (window.confirm("คุณได้รับสินค้าและต้องการยืนยันว่าการจัดส่งเสร็จสิ้นใช่หรือไม่?")) {
+  const handleConfirmDelivery = async (orderId) => {
+    const confirmed = await showAlert({
+      title: "ยืนยันการรับสินค้า",
+      message: "คุณได้รับสินค้าและต้องการยืนยันว่าการจัดส่งเสร็จสิ้นใช่หรือไม่?",
+      showCancel: true,
+      confirmText: "ยืนยัน",
+      cancelText: "ยกเลิก"
+    });
+
+    if (confirmed) {
       setOrders((prevOrders) =>
         prevOrders.map((ord) =>
           ord.id === orderId ? { ...ord, status: "เสร็จสิ้น" } : ord
         )
       );
-      alert("🎉 ยืนยันการรับสินค้าสำเร็จ! ข้อมูลคำสั่งซื้อถูกบันทึกในประวัติการสั่งซื้อแล้ว");
+      await showAlert({
+        title: "สำเร็จ",
+        message: "🎉 ยืนยันการรับสินค้าสำเร็จ! ข้อมูลคำสั่งซื้อถูกบันทึกในประวัติการสั่งซื้อแล้ว"
+      });
     }
   };
 
@@ -339,7 +352,10 @@ export default function Profiles() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message || "ไม่สามารถบันทึกข้อมูลได้");
+        await showAlert({
+          title: "เกิดข้อผิดพลาด",
+          message: data.message || "ไม่สามารถบันทึกข้อมูลได้"
+        });
         return;
       }
 
@@ -389,7 +405,10 @@ export default function Profiles() {
       setIsEditingProfile(false);
     } catch (err) {
       console.error(err);
-      alert("ไม่สามารถติดต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง");
+      await showAlert({
+        title: "เกิดข้อผิดพลาด",
+        message: "ไม่สามารถติดต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง"
+      });
     }
   };
 
@@ -665,7 +684,7 @@ export default function Profiles() {
                 </span>
                 <div className="flex flex-col gap-1">
                   <Link
-                    to="/admin"
+                    to="/admin/manageProduct"
                     className="w-full text-left rounded-xl transition-all flex items-center gap-3 px-4 py-3 text-primary hover:bg-primary/10 font-semibold"
                   >
                     <span className="material-symbols-outlined">admin_panel_settings</span>
@@ -678,8 +697,15 @@ export default function Profiles() {
             {/* Logout Button */}
             <div className="p-4 border-t border-outline-variant bg-surface-container-low">
               <button
-                onClick={() => {
-                  if (window.confirm("คุณต้องการออกจากระบบใช่หรือไม่?")) {
+                onClick={async () => {
+                  const confirmed = await showAlert({
+                    title: "ออกจากระบบ",
+                    message: "คุณต้องการออกจากระบบใช่หรือไม่?",
+                    showCancel: true,
+                    confirmText: "ออกจากระบบ",
+                    cancelText: "ยกเลิก"
+                  });
+                  if (confirmed) {
                     localStorage.removeItem("currentUser");
                     navigate("/login");
                   }
@@ -763,9 +789,15 @@ export default function Profiles() {
                           หมายเลขโทรศัพท์
                         </label>
                         <input
-                          type="text"
+                          type="tel"
+                          inputMode="numeric"
+                          maxLength={10}
+                          pattern="[0-9]{10}"
                           value={tempProfile.phone}
-                          onChange={(e) => setTempProfile({ ...tempProfile, phone: e.target.value })}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\D/g, "");
+                            setTempProfile({ ...tempProfile, phone: value });
+                          }}
                           className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
                         />
                       </div>
@@ -775,31 +807,22 @@ export default function Profiles() {
                         </label>
                         <input
                           type="text"
+                          inputMode="numeric"
                           placeholder="เช่น 01/01/2543"
+                          maxLength={10}
+                          pattern="\d{2}/\d{2}/\d{4}"
                           value={tempProfile.birthDate}
-                          onChange={(e) => setTempProfile({ ...tempProfile, birthDate: e.target.value })}
-                          className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-body-sm font-medium text-on-surface-variant mb-1.5">
-                          ไลน์ไอดี
-                        </label>
-                        <input
-                          type="text"
-                          value={tempProfile.lineId}
-                          onChange={(e) => setTempProfile({ ...tempProfile, lineId: e.target.value })}
-                          className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                        />
-                      </div>
-                      <div className="md:col-span-2">
-                        <label className="block text-body-sm font-medium text-on-surface-variant mb-1.5">
-                          เฟสบุ๊ค
-                        </label>
-                        <input
-                          type="text"
-                          value={tempProfile.facebook}
-                          onChange={(e) => setTempProfile({ ...tempProfile, facebook: e.target.value })}
+                          onChange={(e) => {
+                            let value = e.target.value.replace(/\D/g, "");
+
+                            if (value.length > 2) value = value.slice(0, 2) + "/" + value.slice(2);
+                            if (value.length > 5) value = value.slice(0, 5) + "/" + value.slice(5);
+
+                            setTempProfile({
+                              ...tempProfile,
+                              birthDate: value.slice(0, 10),
+                            });
+                          }}
                           className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
                         />
                       </div>

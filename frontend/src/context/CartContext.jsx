@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { useAlert } from "./AlertContext";
 
 const CartContext = createContext();
 
@@ -13,14 +14,19 @@ export function CartProvider({ children }) {
     }
   });
 
+  const { showAlert } = useAlert();
+
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  const addToCart = (product) => {
+  const addToCart = async (product) => {
     const currentUser = localStorage.getItem("currentUser");
     if (!currentUser) {
-      alert("กรุณาเข้าสู่ระบบก่อนทำการเพิ่มสินค้าลงตะกร้า");
+      await showAlert({
+        title: "ต้องเข้าสู่ระบบ",
+        message: "กรุณาเข้าสู่ระบบก่อนทำการเพิ่มสินค้าลงตะกร้า"
+      });
       window.location.href = "/login";
       return;
     }

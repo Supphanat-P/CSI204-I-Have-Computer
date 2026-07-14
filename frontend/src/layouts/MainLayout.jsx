@@ -1,6 +1,7 @@
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
+import { useAlert } from "../context/AlertContext";
 
 export default function MainLayout() {
   const location = useLocation();
@@ -11,7 +12,9 @@ export default function MainLayout() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLogin, setIsLogin] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isManager, setIsManager] = useState(false);
   const { cart, updateQuantity, removeFromCart, clearCart, cartCount, cartTotal } = useCart();
+  const { showAlert } = useAlert();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [favoriteCount, setFavoriteCount] = useState(0);
 
@@ -34,6 +37,7 @@ export default function MainLayout() {
     const user = JSON.parse(localStorage.getItem("currentUser") || "null");
     setIsLogin(!!user);
     setIsAdmin(user?.role === "admin");
+    setIsManager(user?.role === "manager" || user?.role === "admin");
   }, [location]);
 
   useEffect(() => {
@@ -47,8 +51,16 @@ export default function MainLayout() {
     };
   }, [isCartOpen]);
 
-  const handleLogout = () => {
-    if (window.confirm("คุณต้องการออกจากระบบใช่หรือไม่?")) {
+  const handleLogout = async () => {
+    const confirmed = await showAlert({
+      title: "ออกจากระบบ",
+      message: "คุณต้องการออกจากระบบใช่หรือไม่?",
+      showCancel: true,
+      confirmText: "ออกจากระบบ",
+      cancelText: "ยกเลิก"
+    });
+    
+    if (confirmed) {
       localStorage.removeItem("currentUser");
       setIsLogin(false);
       navigate("/login");
@@ -134,7 +146,7 @@ export default function MainLayout() {
               </button>
               {isLogin ? (
                 <>
-                  {isAdmin && (
+                  {isAdmin ? (
                     <Link
                       to="/admin"
                       className="flex items-center gap-1 px-3 py-1.5 bg-primary text-white text-xs font-bold rounded-full hover:brightness-110 active:scale-95 transition-all"
@@ -142,7 +154,15 @@ export default function MainLayout() {
                       <span className="material-symbols-outlined text-sm">admin_panel_settings</span>
                       Admin
                     </Link>
-                  )}
+                  ) : isManager ? (
+                    <Link
+                      to="/manager/shipping"
+                      className="flex items-center gap-1 px-3 py-1.5 bg-secondary text-white text-xs font-bold rounded-full hover:brightness-110 active:scale-95 transition-all"
+                    >
+                      <span className="material-symbols-outlined text-sm">local_shipping</span>
+                      Manager
+                    </Link>
+                  ) : null}
                   <Link to="/profile" className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-90">
                     <span className="material-symbols-outlined">person</span>
                   </Link>
@@ -419,10 +439,13 @@ export default function MainLayout() {
               </div>
               <div className="grid gap-2">
                 <button
-                  onClick={() => {
+                  onClick={async () => {
                     const currentUser = localStorage.getItem("currentUser");
                     if (!currentUser) {
-                      alert("กรุณาเข้าสู่ระบบก่อนทำการสั่งซื้อสินค้า");
+                      await showAlert({
+                        title: "ต้องเข้าสู่ระบบ",
+                        message: "กรุณาเข้าสู่ระบบก่อนทำการสั่งซื้อสินค้า"
+                      });
                       setIsCartOpen(false);
                       navigate("/login");
                       return;
