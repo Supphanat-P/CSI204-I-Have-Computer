@@ -10,9 +10,10 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profiles from "./pages/Profiles";
 import Checkout from "./pages/Checkout";
-import AdminProducts from "./pages/AdminProducts";
+import ManageProducts from "./pages/manager/ManageProducts";
 import ManagerLayout from "./layouts/ManagerLayout";
-import ShippingStatus from "./pages/ShippingStatus";
+import ShippingStatus from "./pages/manager/ShippingStatus";
+import ManageUser from "./pages/admin/ManageUser";
 import { CartProvider } from "./context/CartContext";
 
 function App() {
@@ -30,11 +31,14 @@ function App() {
             <Route path="/checkout" element={<Checkout />} />
           </Route>
 
-          <Route element={<AdminLayout />}>
-            <Route path="/admin" element={<AdminProducts />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="manageProduct" element={<ManageProducts />} />
+            <Route path="manageUser" element={<ManageUser />} />
+            <Route path="shipping" element={<ShippingStatus />} />
           </Route>
 
           <Route path="/manager" element={<ManagerLayout />}>
+            <Route path="manageProduct" element={<ManageProducts />} />
             <Route path="shipping" element={<ShippingStatus />} />
           </Route>
         </Routes>

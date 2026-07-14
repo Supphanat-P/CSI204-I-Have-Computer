@@ -38,7 +38,7 @@
     "email": "pondezxb@gmail.com",
     "password": "$2a$10$SRbynvqbCePv3bg.gzOCxe1PGru76qt1nvuZVIM30C.TkXRvIKJ0C",
     "phone": "",
-    "role": "admin"
+    "role": "manager"
   },
   {
     "id": "6",
@@ -47,5 +47,16 @@
     "password": "$2a$10$IGPCHO.13fnCDHTLoZvfQeE/fub7bRneqIQTwSZda2J4ZvIfqppuy",
     "phone": "",
     "role": "admin"
+  },
+  {
+    "id": "7",
+    "name": "222",
+    "email": "thonradee2@gmail.com",
+    "password": "$2a$10$ks89p6KNNUvCzq.i/7vH0.ikUGc2SBOexm8wsYimSPauUX86sup/a",
+    "phone": "-",
+    "birthDate": "-",
+    "lineId": "-",
+    "facebook": "-",
+    "role": "user"
   }
 ]

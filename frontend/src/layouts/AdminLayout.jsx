@@ -60,11 +60,25 @@ export default function AdminLayout() {
           {/* Nav Links */}
           <div className="flex items-center gap-4 ml-auto">
             <Link
-              to="/admin"
+              to="/manager/shipping"
+              className="flex items-center gap-1.5 text-sm font-medium text-on-surface-variant hover:text-secondary transition-colors"
+            >
+              <span className="material-symbols-outlined text-sm">local_shipping</span>
+              จัดการสถานะการขนส่ง
+            </Link>
+            <Link
+              to="/admin/manageProduct"
               className="flex items-center gap-1.5 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors"
             >
               <span className="material-symbols-outlined text-sm">inventory_2</span>
               จัดการสินค้า
+            </Link>
+            <Link
+              to="/admin/manageUser"
+              className="flex items-center gap-1.5 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors"
+            >
+              <span className="material-symbols-outlined text-sm">inventory_2</span>
+              จัดการผู้ใช้
             </Link>
             <Link
               to="/"

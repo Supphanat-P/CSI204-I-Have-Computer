@@ -11,6 +11,7 @@ export default function MainLayout() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLogin, setIsLogin] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isManager, setIsManager] = useState(false);
   const { cart, updateQuantity, removeFromCart, clearCart, cartCount, cartTotal } = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [favoriteCount, setFavoriteCount] = useState(0);
@@ -34,6 +35,7 @@ export default function MainLayout() {
     const user = JSON.parse(localStorage.getItem("currentUser") || "null");
     setIsLogin(!!user);
     setIsAdmin(user?.role === "admin");
+    setIsManager(user?.role === "manager" || user?.role === "admin");
   }, [location]);
 
   useEffect(() => {
@@ -134,7 +136,7 @@ export default function MainLayout() {
               </button>
               {isLogin ? (
                 <>
-                  {isAdmin && (
+                  {isAdmin ? (
                     <Link
                       to="/admin"
                       className="flex items-center gap-1 px-3 py-1.5 bg-primary text-white text-xs font-bold rounded-full hover:brightness-110 active:scale-95 transition-all"
@@ -142,7 +144,15 @@ export default function MainLayout() {
                       <span className="material-symbols-outlined text-sm">admin_panel_settings</span>
                       Admin
                     </Link>
-                  )}
+                  ) : isManager ? (
+                    <Link
+                      to="/manager/shipping"
+                      className="flex items-center gap-1 px-3 py-1.5 bg-secondary text-white text-xs font-bold rounded-full hover:brightness-110 active:scale-95 transition-all"
+                    >
+                      <span className="material-symbols-outlined text-sm">local_shipping</span>
+                      Manager
+                    </Link>
+                  ) : null}
                   <Link to="/profile" className="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-90">
                     <span className="material-symbols-outlined">person</span>
                   </Link>

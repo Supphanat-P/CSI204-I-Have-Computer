@@ -77,15 +77,13 @@ export default function ManagerLayout() {
               <span className="material-symbols-outlined text-sm">local_shipping</span>
               จัดการสถานะการขนส่ง
             </Link>
-            {currentUser.role === "admin" && (
-              <Link
-                to="/admin"
-                className="flex items-center gap-1.5 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors"
-              >
-                <span className="material-symbols-outlined text-sm">inventory_2</span>
-                จัดการสินค้า
-              </Link>
-            )}
+            <Link
+              to="/manager/manageProduct"
+              className="flex items-center gap-1.5 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors"
+            >
+              <span className="material-symbols-outlined text-sm">inventory_2</span>
+              จัดการสินค้า
+            </Link>
             <Link
               to="/"
               className="flex items-center gap-1.5 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors"

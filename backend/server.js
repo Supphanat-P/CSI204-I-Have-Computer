@@ -7,7 +7,7 @@ const {
   createProduct,
   updateProduct,
 } = require("./routes/products");
-const { registerUser, loginUser, updateProfile } = require("./routes/auth");
+const { registerUser, loginUser, getUsers, updateUserRole, updateProfile } = require("./routes/auth");
 const {
   createOrder,
   getOrders,
@@ -33,6 +33,8 @@ app.post("/api/products/update", authMiddleware, updateProduct);
 
 app.post("/api/register", registerUser);
 app.post("/api/login", loginUser);
+app.get("/api/users", authMiddleware, adminMiddleware, getUsers);
+app.post("/api/users/role", authMiddleware, adminMiddleware, updateUserRole);
 app.post("/api/profile/update", authMiddleware, updateProfile);
 
 app.post("/api/orders", authMiddleware, createOrder);
