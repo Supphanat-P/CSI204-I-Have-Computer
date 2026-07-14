@@ -21,23 +21,34 @@ const getRoleFromToken = (token) => {
   }
 };
 
-export default function AdminLayout() {
+export default function ManagerLayout() {
   const navigate = useNavigate();
   const [currentUser] = useState(() =>
     JSON.parse(localStorage.getItem("currentUser") || "null")
   );
 
-  // Protect route: redirect non-admin users
+  // Protect route: redirect non-manager and non-admin users
   useEffect(() => {
     const tokenRole = getRoleFromToken(currentUser?.token);
+    const isAuthorized =
+      currentUser &&
+      (currentUser.role === "manager" || currentUser.role === "admin") &&
+      (tokenRole === "manager" || tokenRole === "admin");
+
     if (!currentUser) {
       navigate("/login", { replace: true });
-    } else if (currentUser.role !== "admin" || tokenRole !== "admin") {
+    } else if (!isAuthorized) {
       navigate("/", { replace: true });
     }
   }, [currentUser, navigate]);
 
-  if (!currentUser || currentUser.role !== "admin" || getRoleFromToken(currentUser?.token) !== "admin") return null;
+  const tokenRole = getRoleFromToken(currentUser?.token);
+  const isAuthorized =
+    currentUser &&
+    (currentUser.role === "manager" || currentUser.role === "admin") &&
+    (tokenRole === "manager" || tokenRole === "admin");
+
+  if (!isAuthorized) return null;
 
   return (
     <>
@@ -51,21 +62,30 @@ export default function AdminLayout() {
             IhaveComputer
           </Link>
 
-          {/* Admin label */}
-          <span className="flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-wider">
-            <span className="material-symbols-outlined text-sm">admin_panel_settings</span>
-            Admin Panel
+          {/* Manager label */}
+          <span className="flex items-center gap-1.5 px-3 py-1 bg-secondary/10 text-secondary rounded-full text-xs font-bold uppercase tracking-wider">
+            <span className="material-symbols-outlined text-sm">local_shipping</span>
+            Manager Panel
           </span>
 
           {/* Nav Links */}
           <div className="flex items-center gap-4 ml-auto">
             <Link
-              to="/admin"
-              className="flex items-center gap-1.5 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors"
+              to="/manager/shipping"
+              className="flex items-center gap-1.5 text-sm font-medium text-on-surface-variant hover:text-secondary transition-colors"
             >
-              <span className="material-symbols-outlined text-sm">inventory_2</span>
-              จัดการสินค้า
+              <span className="material-symbols-outlined text-sm">local_shipping</span>
+              จัดการสถานะการขนส่ง
             </Link>
+            {currentUser.role === "admin" && (
+              <Link
+                to="/admin"
+                className="flex items-center gap-1.5 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors"
+              >
+                <span className="material-symbols-outlined text-sm">inventory_2</span>
+                จัดการสินค้า
+              </Link>
+            )}
             <Link
               to="/"
               className="flex items-center gap-1.5 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors"

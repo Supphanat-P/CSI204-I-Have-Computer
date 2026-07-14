@@ -67,4 +67,49 @@ function getOrders(req, res) {
   }
 }
 
-module.exports = { createOrder, getOrders };
+// Handler to get all orders (for managers and admins)
+function getAllOrdersForManager(req, res) {
+  try {
+    const orders = readJsonFile("orders.json");
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(orders));
+  } catch (error) {
+    console.error("Get all orders error:", error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อทั้งหมด" }));
+  }
+}
+
+// Handler to update an order's status
+async function updateOrderStatus(req, res) {
+  try {
+    const { orderId, status } = await parseBody(req);
+
+    if (!orderId || !status) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "กรุณาระบุรหัสใบสั่งซื้อและสถานะ" }));
+      return;
+    }
+
+    const orders = readJsonFile("orders.json");
+    const orderIndex = orders.findIndex((o) => o.id === orderId);
+
+    if (orderIndex === -1) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "ไม่พบใบสั่งซื้อนี้ในระบบ" }));
+      return;
+    }
+
+    orders[orderIndex].status = status;
+    writeJsonFile("orders.json", orders);
+
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ success: true, order: orders[orderIndex] }));
+  } catch (error) {
+    console.error("Update order status error:", error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "เกิดข้อผิดพลาดในการอัปเดตสถานะการจัดส่ง" }));
+  }
+}
+
+module.exports = { createOrder, getOrders, getAllOrdersForManager, updateOrderStatus };
