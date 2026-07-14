@@ -90,9 +90,13 @@ export default function ProductCard({ product }) {
             <span className="text-headline-sm font-bold text-primary">
               {product.price.toLocaleString()}$
             </span>
-            <span className="text-label-sm text-on-surface-variant">
-              สต๊อก {product.stock}
-            </span>
+            {product.stock > 0 ? (
+              <span className="text-label-sm text-on-surface-variant">
+                สต๊อก {product.stock}
+              </span>
+            ) : (
+              <span className="text-label-sm text-red-500">สินค้า่หมด</span>
+            )}
           </div>
         </div>
       </Link>

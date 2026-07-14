@@ -5,7 +5,7 @@
     "brand": "ASUS",
     "type": "Monitor",
     "price": 24900,
-    "stock": 8,
+    "stock": 0,
     "image": "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?auto=format&fit=crop&w=900&q=80",
     "description": "จอเกมมิ่ง OLED ความละเอียด 2K รีเฟรชเรท 240Hz",
     "highlights": [
@@ -34,7 +34,9 @@
       "hdrSupport": "HDR10",
       "connectivity": "2 x HDMI 2.0, 1 x DisplayPort 1.4, 2 x USB 3.2 Gen 1 Type-A",
       "warranty": "3 Years"
-    }
+    },
+    "productType": "Monitor",
+    "category": ""
   },
   {
     "id": 2,
