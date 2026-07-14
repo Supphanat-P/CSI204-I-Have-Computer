@@ -55,19 +55,15 @@
     "password": "$2a$10$ks89p6KNNUvCzq.i/7vH0.ikUGc2SBOexm8wsYimSPauUX86sup/a",
     "phone": "-",
     "birthDate": "-",
-    "lineId": "-",
-    "facebook": "-",
     "role": "user"
   },
   {
     "id": "8",
-    "name": "ทองเหม็น ใจสะอาด",
-    "email": "Thongmen@gmail.com",
+    "name": "ทองเหม็น2 ใจสะอาด2",
+    "email": "Thongmen2@gmail.com",
     "password": "$2a$10$rMEk1RT59aFNg4vYkTHVdeZDIytTJGLbBYMR2jpmkbSiM5gOWl3Ry",
-    "phone": "-",
-    "birthDate": "-",
-    "lineId": "-",
-    "facebook": "-",
+    "phone": "0000000000",
+    "birthDate": "00/00/0000",
     "role": "user"
   }
 ]

@@ -789,9 +789,15 @@ export default function Profiles() {
                           หมายเลขโทรศัพท์
                         </label>
                         <input
-                          type="text"
+                          type="tel"
+                          inputMode="numeric"
+                          maxLength={10}
+                          pattern="[0-9]{10}"
                           value={tempProfile.phone}
-                          onChange={(e) => setTempProfile({ ...tempProfile, phone: e.target.value })}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\D/g, "");
+                            setTempProfile({ ...tempProfile, phone: value });
+                          }}
                           className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
                         />
                       </div>
@@ -801,31 +807,22 @@ export default function Profiles() {
                         </label>
                         <input
                           type="text"
+                          inputMode="numeric"
                           placeholder="เช่น 01/01/2543"
+                          maxLength={10}
+                          pattern="\d{2}/\d{2}/\d{4}"
                           value={tempProfile.birthDate}
-                          onChange={(e) => setTempProfile({ ...tempProfile, birthDate: e.target.value })}
-                          className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-body-sm font-medium text-on-surface-variant mb-1.5">
-                          ไลน์ไอดี
-                        </label>
-                        <input
-                          type="text"
-                          value={tempProfile.lineId}
-                          onChange={(e) => setTempProfile({ ...tempProfile, lineId: e.target.value })}
-                          className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                        />
-                      </div>
-                      <div className="md:col-span-2">
-                        <label className="block text-body-sm font-medium text-on-surface-variant mb-1.5">
-                          เฟสบุ๊ค
-                        </label>
-                        <input
-                          type="text"
-                          value={tempProfile.facebook}
-                          onChange={(e) => setTempProfile({ ...tempProfile, facebook: e.target.value })}
+                          onChange={(e) => {
+                            let value = e.target.value.replace(/\D/g, "");
+
+                            if (value.length > 2) value = value.slice(0, 2) + "/" + value.slice(2);
+                            if (value.length > 5) value = value.slice(0, 5) + "/" + value.slice(5);
+
+                            setTempProfile({
+                              ...tempProfile,
+                              birthDate: value.slice(0, 10),
+                            });
+                          }}
                           className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
                         />
                       </div>
