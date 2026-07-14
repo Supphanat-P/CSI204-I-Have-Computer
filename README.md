@@ -244,7 +244,7 @@
 ## Diagram
 
 <img width="598" height="625" alt="userUsecase" src="https://github.com/user-attachments/assets/f1ef43ef-ddc6-4d91-ae3b-ae0432678595" />
-<img width="406" height="436" alt="managerUsecase" src="https://github.com/user-attachments/assets/889e40b9-a3dd-4f34-a4ea-ed18cc2f5d4c" />
+<img width="450" height="461" alt="managerUsecase" src="https://github.com/user-attachments/assets/7d049471-2986-4d32-8bc2-8f522b9ba878" />
 <img width="404" height="383" alt="adminUsecase" src="https://github.com/user-attachments/assets/15271798-1bf2-4d11-896b-c4561fa80d0c" />
 
 ---
