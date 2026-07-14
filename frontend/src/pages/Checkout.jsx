@@ -27,6 +27,18 @@ export default function Checkout() {
     }
   }, [cart, currentUser, navigate, orderCompleted]);
 
+  // Redirect if no shipping address exists
+  useEffect(() => {
+    if (currentUser) {
+      const saved = localStorage.getItem(`shippingAddresses_${currentUser.id}`);
+      const addresses = saved ? JSON.parse(saved) : [];
+      if (addresses.length === 0) {
+        alert("กรุณากรอกข้อมูลที่อยู่สำหรับจัดส่งสินค้าก่อนทำการชำระเงิน");
+        navigate("/profile", { state: { activeTab: "shipping_address" } });
+      }
+    }
+  }, [currentUser, navigate]);
+
   // 2. Shipping calculation logic
   const SHIPPING_THRESHOLD = 1000;
   const STANDARD_SHIPPING_FEE = 100;
@@ -41,6 +53,24 @@ export default function Checkout() {
     }
     return [];
   });
+
+  // 3.5 Credit Card options (load from localStorage)
+  const [savedCards] = useState(() => {
+    if (currentUser) {
+      const saved = localStorage.getItem(`payments_${currentUser.id}`);
+      return saved ? JSON.parse(saved) : [];
+    }
+    return [];
+  });
+  const [selectedCardId, setSelectedCardId] = useState("");
+
+  // Sync selected card
+  useEffect(() => {
+    if (savedCards.length > 0) {
+      const defCard = savedCards.find((c) => c.isDefault) || savedCards[0];
+      setSelectedCardId(String(defCard.id));
+    }
+  }, [savedCards]);
 
   // Billing / Shipping Form state
   const [selectedAddressId, setSelectedAddressId] = useState("");
@@ -126,6 +156,11 @@ export default function Checkout() {
       return;
     }
 
+    if (paymentMethod === "card" && savedCards.length === 0) {
+      alert("กรุณาเพิ่มบัตรเครดิตในหน้าโปรไฟล์ของคุณก่อนทำรายการชำระเงินครับ/ค่ะ");
+      return;
+    }
+
     if (paymentMethod === "promptpay") {
       setIsPromptPayModalOpen(true);
     } else {
@@ -133,10 +168,13 @@ export default function Checkout() {
     }
   };
 
-  const processOrder = () => {
-    // Generate new order
+  const processOrder = async () => {
+    console.log("Process Order")
     const orderId = `IHC-${Math.floor(10000 + Math.random() * 90000)}`;
-    
+
+    const selectedCard = savedCards.find((c) => String(c.id) === String(selectedCardId));
+    const cardDetail = selectedCard ? `${selectedCard.type} ${selectedCard.cardNumber}` : "บัตรเครดิต/เดบิต";
+
     const newOrder = {
       id: orderId,
       date: new Date().toISOString().split("T")[0],
@@ -153,49 +191,50 @@ export default function Checkout() {
       shippingAddress: `${addressForm.details} ต. ${addressForm.subdistrict} อ. ${addressForm.district} จ. ${addressForm.province} ${addressForm.postalCode}`,
       recipientName: addressForm.name,
       recipientPhone: addressForm.phone,
-      paymentMethod: paymentMethod === "transfer" ? "โอนเงินผ่านบัญชีธนาคาร" : 
-                     paymentMethod === "promptpay" ? "พร้อมเพย์ QR" : 
-                     paymentMethod === "card" ? "บัตรเครดิต/เดบิต" : "เก็บเงินปลายทาง",
+      paymentMethod: paymentMethod === "transfer" ? "โอนเงินผ่านบัญชีธนาคาร" :
+        paymentMethod === "promptpay" ? "พร้อมเพย์ QR" :
+          paymentMethod === "card" ? cardDetail : "เก็บเงินปลายทาง",
     };
+    console.log(newOrder)
+    console.log(currentUser);
+    console.log(currentUser.token);
+    try {
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${currentUser.token}`,
+        },
+        body: JSON.stringify(newOrder),
+      });
 
-    // Save order history in localStorage
-    const savedOrdersKey = `orders_${currentUser.id}`;
-    const existingOrders = JSON.parse(localStorage.getItem(savedOrdersKey) || "[]");
-    
-    // Profiles.jsx loads static mock orders first if empty. Let's make sure we prepend or append.
-    // If there were no saved orders yet, let's load default mocks from Profiles.jsx and add this one.
-    let baseOrders = [];
-    if (localStorage.getItem(savedOrdersKey)) {
-      baseOrders = existingOrders;
-    } else {
-      baseOrders = [
-        {
-          id: "IHC-98241",
-          date: "2026-06-15",
-          items: "Intel Core i7-14700K + ASUS Prime Z790-A Wifi",
-          total: 24900,
-          status: "จัดส่งแล้ว",
-        },
-        {
-          id: "IHC-97304",
-          date: "2026-07-02",
-          items: "Razer DeathAdder V3 Pro Wireless",
-          total: 4990,
-          status: "เสร็จสิ้น",
-        },
-      ];
+      if (!response.ok) {
+        const data = await response.json();
+        alert(data.message || "เกิดข้อผิดพลาดในการบันทึกคำสั่งซื้อไปยังเซิร์ฟเวอร์");
+        return;
+      }
+
+      // Save order history in localStorage
+      const savedOrdersKey = `orders_${currentUser.id}`;
+      const existingOrders = JSON.parse(localStorage.getItem(savedOrdersKey) || "[]");
+
+      const updatedOrders = [newOrder, ...existingOrders];
+      localStorage.setItem(savedOrdersKey, JSON.stringify(updatedOrders));
+
+      // Clear cart and redirect
+      setOrderCompleted(true);
+      clearCart();
+      setIsPromptPayModalOpen(false);
+      alert(`🎉 ทำรายการสั่งซื้อสำเร็จ!\nหมายเลขคำสั่งซื้อของคุณคือ ${orderId}`);
+      navigate("/profile", { state: { activeTab: "orders" } }); // Redirect to profile page to let them see order history
+    } catch (err) {
+      console.error(err);
+
+      alert(`เกิดข้อผิดพลาดจากโค้ด: ${err.message}`);
+      alert("ไม่สามารถติดต่อเซิร์ฟเวอร์เพื่อบันทึกการสั่งซื้อได้ กรุณาลองใหม่อีกครั้ง");
     }
-    
-    const updatedOrders = [newOrder, ...baseOrders];
-    localStorage.setItem(savedOrdersKey, JSON.stringify(updatedOrders));
-
-    // Clear cart and redirect
-    setOrderCompleted(true);
-    clearCart();
-    setIsPromptPayModalOpen(false);
-    alert(`🎉 ทำรายการสั่งซื้อสำเร็จ!\nหมายเลขคำสั่งซื้อของคุณคือ ${orderId}`);
-    navigate("/profile", { state: { activeTab: "orders" } }); // Redirect to profile page to let them see order history
   };
+
 
   const handleInputChange = (field, value) => {
     setAddressForm((prev) => ({
@@ -224,8 +263,8 @@ export default function Checkout() {
       <div className="max-w-7xl mx-auto">
         {/* Page Title */}
         <div className="mb-8 flex items-center gap-3">
-          <button 
-            onClick={() => navigate(-1)} 
+          <button
+            onClick={() => navigate(-1)}
             className="p-2 hover:bg-surface-container rounded-full text-on-surface-variant transition-all duration-200 active:scale-90"
           >
             <span className="material-symbols-outlined">arrow_back</span>
@@ -258,7 +297,7 @@ export default function Checkout() {
                   >
                     {savedAddresses.map((addr) => (
                       <option key={addr.id} value={addr.id}>
-                        [{addr.type === "home" ? "บ้าน" : addr.type === "work" ? "ที่ทำงาน" : "อื่นๆ"}] {addr.name} - {addr.details}, {addr.province} {addr.postalCode}
+                        [{addr.isDefault ? "ที่อยู่หลัก" : "ที่อยู่รอง"}] ({addr.type === "home" ? "บ้าน" : addr.type === "work" ? "ที่ทำงาน" : "อื่นๆ"}) {addr.name} - {addr.details}, {addr.province} {addr.postalCode}
                       </option>
                     ))}
                     <option value="new">+ กรอกที่อยู่จัดส่งใหม่</option>
@@ -276,9 +315,8 @@ export default function Checkout() {
                       value={addressForm.name}
                       onChange={(e) => handleInputChange("name", e.target.value)}
                       disabled={selectedAddressId !== "new"}
-                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${
-                        errors.name ? "border-error" : "border-outline-variant"
-                      } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.name ? "border-error" : "border-outline-variant"
+                        } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
                       placeholder="สมชาย ใจดี"
                     />
                     {errors.name && <p className="text-xs text-error font-medium">{errors.name}</p>}
@@ -291,9 +329,8 @@ export default function Checkout() {
                       value={addressForm.phone}
                       onChange={(e) => handleInputChange("phone", e.target.value)}
                       disabled={selectedAddressId !== "new"}
-                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${
-                        errors.phone ? "border-error" : "border-outline-variant"
-                      } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.phone ? "border-error" : "border-outline-variant"
+                        } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
                       placeholder="0812345678"
                     />
                     {errors.phone && <p className="text-xs text-error font-medium">{errors.phone}</p>}
@@ -307,9 +344,8 @@ export default function Checkout() {
                     value={addressForm.details}
                     onChange={(e) => handleInputChange("details", e.target.value)}
                     disabled={selectedAddressId !== "new"}
-                    className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${
-                      errors.details ? "border-error" : "border-outline-variant"
-                    } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                    className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.details ? "border-error" : "border-outline-variant"
+                      } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
                     placeholder="บ้านเลขที่, ถนน, หมู่บ้าน/อาคาร"
                   />
                   {errors.details && <p className="text-xs text-error font-medium">{errors.details}</p>}
@@ -323,9 +359,8 @@ export default function Checkout() {
                       value={addressForm.subdistrict}
                       onChange={(e) => handleInputChange("subdistrict", e.target.value)}
                       disabled={selectedAddressId !== "new"}
-                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${
-                        errors.subdistrict ? "border-error" : "border-outline-variant"
-                      } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.subdistrict ? "border-error" : "border-outline-variant"
+                        } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
                       placeholder="ปทุมวัน"
                     />
                     {errors.subdistrict && <p className="text-xs text-error font-medium">{errors.subdistrict}</p>}
@@ -338,9 +373,8 @@ export default function Checkout() {
                       value={addressForm.district}
                       onChange={(e) => handleInputChange("district", e.target.value)}
                       disabled={selectedAddressId !== "new"}
-                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${
-                        errors.district ? "border-error" : "border-outline-variant"
-                      } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.district ? "border-error" : "border-outline-variant"
+                        } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
                       placeholder="เขตปทุมวัน"
                     />
                     {errors.district && <p className="text-xs text-error font-medium">{errors.district}</p>}
@@ -355,9 +389,8 @@ export default function Checkout() {
                       value={addressForm.province}
                       onChange={(e) => handleInputChange("province", e.target.value)}
                       disabled={selectedAddressId !== "new"}
-                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${
-                        errors.province ? "border-error" : "border-outline-variant"
-                      } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.province ? "border-error" : "border-outline-variant"
+                        } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
                       placeholder="กรุงเทพมหานคร"
                     />
                     {errors.province && <p className="text-xs text-error font-medium">{errors.province}</p>}
@@ -370,9 +403,8 @@ export default function Checkout() {
                       value={addressForm.postalCode}
                       onChange={(e) => handleInputChange("postalCode", e.target.value)}
                       disabled={selectedAddressId !== "new"}
-                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${
-                        errors.postalCode ? "border-error" : "border-outline-variant"
-                      } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.postalCode ? "border-error" : "border-outline-variant"
+                        } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
                       placeholder="10330"
                     />
                     {errors.postalCode && <p className="text-xs text-error font-medium">{errors.postalCode}</p>}
@@ -391,11 +423,10 @@ export default function Checkout() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Bank Transfer */}
                 <label
-                  className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${
-                    paymentMethod === "transfer"
-                      ? "bg-primary/5 border-primary shadow-sm"
-                      : "bg-white border-outline-variant hover:border-primary/50"
-                  }`}
+                  className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${paymentMethod === "transfer"
+                    ? "bg-primary/5 border-primary shadow-sm"
+                    : "bg-white border-outline-variant hover:border-primary/50"
+                    }`}
                 >
                   <input
                     type="radio"
@@ -414,11 +445,10 @@ export default function Checkout() {
 
                 {/* PromptPay QR */}
                 <label
-                  className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${
-                    paymentMethod === "promptpay"
-                      ? "bg-primary/5 border-primary shadow-sm"
-                      : "bg-white border-outline-variant hover:border-primary/50"
-                  }`}
+                  className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${paymentMethod === "promptpay"
+                    ? "bg-primary/5 border-primary shadow-sm"
+                    : "bg-white border-outline-variant hover:border-primary/50"
+                    }`}
                 >
                   <input
                     type="radio"
@@ -437,11 +467,10 @@ export default function Checkout() {
 
                 {/* Credit/Debit Card */}
                 <label
-                  className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${
-                    paymentMethod === "card"
-                      ? "bg-primary/5 border-primary shadow-sm"
-                      : "bg-white border-outline-variant hover:border-primary/50"
-                  }`}
+                  className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${paymentMethod === "card"
+                    ? "bg-primary/5 border-primary shadow-sm"
+                    : "bg-white border-outline-variant hover:border-primary/50"
+                    }`}
                 >
                   <input
                     type="radio"
@@ -460,11 +489,10 @@ export default function Checkout() {
 
                 {/* Cash on Delivery */}
                 <label
-                  className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${
-                    paymentMethod === "cod"
-                      ? "bg-primary/5 border-primary shadow-sm"
-                      : "bg-white border-outline-variant hover:border-primary/50"
-                  }`}
+                  className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${paymentMethod === "cod"
+                    ? "bg-primary/5 border-primary shadow-sm"
+                    : "bg-white border-outline-variant hover:border-primary/50"
+                    }`}
                 >
                   <input
                     type="radio"
@@ -497,13 +525,33 @@ export default function Checkout() {
                 )}
                 {paymentMethod === "card" && (
                   <div className="space-y-2">
-                    <p className="font-semibold text-on-surface">กรอกข้อมูลบัตรเครดิต:</p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
-                      <input type="text" placeholder="หมายเลขบัตร 16 หลัก" className="bg-white border border-outline-variant rounded-lg py-1.5 px-3 text-xs w-full outline-none" />
-                      <input type="text" placeholder="ชื่อบนบัตร" className="bg-white border border-outline-variant rounded-lg py-1.5 px-3 text-xs w-full outline-none" />
-                      <input type="text" placeholder="ดด/ปป" className="bg-white border border-outline-variant rounded-lg py-1.5 px-3 text-xs w-full outline-none" />
-                      <input type="password" placeholder="CVV" className="bg-white border border-outline-variant rounded-lg py-1.5 px-3 text-xs w-full outline-none" />
-                    </div>
+                    {savedCards.length > 0 ? (
+                      <>
+                        <p className="font-semibold text-on-surface text-xs mb-1">เลือกบัตรเครดิตที่ต้องการชำระเงิน:</p>
+                        <select
+                          value={selectedCardId}
+                          onChange={(e) => setSelectedCardId(e.target.value)}
+                          className="w-full bg-white border border-outline-variant rounded-lg py-2 px-3 text-xs font-semibold outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
+                        >
+                          {savedCards.map((card) => (
+                            <option key={card.id} value={card.id}>
+                              [{card.isDefault ? "บัตรเริ่มต้น" : "บัตรเสริม"}] {card.type} - {card.cardNumber} ({card.holder})
+                            </option>
+                          ))}
+                        </select>
+                      </>
+                    ) : (
+                      <div className="bg-error-container/10 border border-error/20 p-3 rounded-lg text-center space-y-2">
+                        <p className="text-error font-semibold text-[11px]">คุณยังไม่ได้บันทึกบัตรเครดิตในระบบ</p>
+                        <button
+                          type="button"
+                          onClick={() => navigate("/profile", { state: { activeTab: "payment_methods" } })}
+                          className="bg-primary text-white hover:brightness-110 px-3 py-1.5 rounded-lg font-bold text-[9px] transition-all cursor-pointer border-none"
+                        >
+                          ไปที่หน้าโปรไฟล์เพื่อเพิ่มบัตรเครดิต
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
                 {paymentMethod === "cod" && (
@@ -555,7 +603,7 @@ export default function Checkout() {
                   <span>ยอดรวมสินค้า (Subtotal)</span>
                   <span className="font-semibold">{cartTotal.toLocaleString()}฿</span>
                 </div>
-                
+
                 <div className="flex justify-between text-sm text-on-surface-variant items-center">
                   <div className="flex items-center gap-1.5">
                     <span>ค่าจัดส่ง (Shipping)</span>
@@ -612,14 +660,14 @@ export default function Checkout() {
           <div className="bg-white rounded-3xl p-6 max-w-sm w-full border border-outline-variant shadow-2xl relative z-10 text-center space-y-4">
             <div className="flex justify-between items-center">
               <span className="font-bold text-on-surface font-headline-sm">พร้อมเพย์ QR Code</span>
-              <button 
+              <button
                 onClick={() => setIsPromptPayModalOpen(false)}
                 className="p-1.5 hover:bg-surface-container rounded-full text-on-surface-variant transition-colors"
               >
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
-            
+
             <div className="space-y-2">
               <div className="bg-surface-container-high rounded-2xl p-4 inline-block">
                 {/* Mock PromptPay Logo */}

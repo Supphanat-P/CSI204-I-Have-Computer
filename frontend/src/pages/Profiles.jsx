@@ -46,8 +46,6 @@ export default function Profiles() {
           email: matched.email || "",
           phone: matched.phone || "-",
           birthDate: matched.birthDate || "-",
-          lineId: matched.lineId || "-",
-          facebook: matched.facebook || "-",
         };
       }
       return {
@@ -56,8 +54,6 @@ export default function Profiles() {
         email: curr.email || "",
         phone: "-",
         birthDate: "-",
-        lineId: "-",
-        facebook: "-",
       };
     }
     return {
@@ -66,8 +62,6 @@ export default function Profiles() {
       email: "",
       phone: "-",
       birthDate: "-",
-      lineId: "-",
-      facebook: "-",
     };
   });
 
@@ -127,36 +121,59 @@ export default function Profiles() {
     isDefault: false,
   });
 
-  // Mock data for other tabs
+  // Load orders state
   const [orders, setOrders] = useState(() => {
     const curr = JSON.parse(localStorage.getItem("currentUser") || "null");
     if (curr) {
       const saved = localStorage.getItem(`orders_${curr.id}`);
       if (saved) return JSON.parse(saved);
     }
-    return [
-      {
-        id: "IHC-98241",
-        date: "2026-06-15",
-        items: "Intel Core i7-14700K + ASUS Prime Z790-A Wifi",
-        total: 24900,
-        status: "จัดส่งแล้ว",
-      },
-      {
-        id: "IHC-97304",
-        date: "2026-07-02",
-        items: "Razer DeathAdder V3 Pro Wireless",
-        total: 4990,
-        status: "เสร็จสิ้น",
-      },
-    ];
+    return [];
   });
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      if (!currentUser) return;
+      try {
+        const response = await fetch("/api/orders", {
+          headers: {
+            "Authorization": `Bearer ${currentUser.token}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setOrders(data);
+          localStorage.setItem(`orders_${currentUser.id}`, JSON.stringify(data));
+          console.log(orders)
+        }
+      } catch (err) {
+        console.error("Error fetching orders:", err);
+      }
+    };
+    fetchOrders();
+  }, [currentUser]);
 
   useEffect(() => {
     if (currentUser) {
       localStorage.setItem(`orders_${currentUser.id}`, JSON.stringify(orders));
     }
   }, [orders, currentUser]);
+
+  const ordersWaiting = orders.filter(
+    (order) => order.status === "รอดำเนินการ"
+  );
+
+  const ordersDelivered = orders.filter(
+    (order) => order.status === "จัดส่งแล้ว"
+  );
+
+  const ordersCompleted = orders.filter(
+    (order) => order.status === "เสร็จสิ้น"
+  );
+
+  const ordersPendingPayment = orders.filter(
+    (order) => order.status === "รอชำระเงิน"
+  );
 
   const handleConfirmDelivery = (orderId) => {
     if (window.confirm("คุณได้รับสินค้าและต้องการยืนยันว่าการจัดส่งเสร็จสิ้นใช่หรือไม่?")) {
@@ -214,16 +231,86 @@ export default function Profiles() {
     window.dispatchEvent(new Event("favoritesUpdated"));
   };
 
-  const [payments, setPayments] = useState([
-    {
-      id: 1,
+  const [payments, setPayments] = useState(() => {
+    const curr = JSON.parse(localStorage.getItem("currentUser") || "null");
+    if (curr) {
+      const saved = localStorage.getItem(`payments_${curr.id}`);
+      if (saved) return JSON.parse(saved);
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    if (currentUser) {
+      localStorage.setItem(`payments_${currentUser.id}`, JSON.stringify(payments));
+    }
+  }, [payments, currentUser]);
+
+  // Card modal states & logic
+  const [isCardModalOpen, setIsCardModalOpen] = useState(false);
+  const [cardForm, setCardForm] = useState({
+    type: "Visa",
+    cardNumber: "",
+    holder: "",
+    expiry: "",
+    cvv: "",
+  });
+
+  const handleSaveCard = (e) => {
+    e.preventDefault();
+    const sanitizedNumber = cardForm.cardNumber.replace(/\s+/g, "");
+    if (!/^\d{16}$/.test(sanitizedNumber)) {
+      alert("กรุณากรอกหมายเลขบัตรเครดิต 16 หลักให้ถูกต้อง");
+      return;
+    }
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardForm.expiry)) {
+      alert("กรุณากรอกวันหมดอายุในรูปแบบ ดด/ปป เช่น 12/28");
+      return;
+    }
+    if (!cardForm.holder.trim()) {
+      alert("กรุณากรอกชื่อผู้ถือบัตร");
+      return;
+    }
+
+    const maskedNumber = `**** **** **** ${sanitizedNumber.slice(-4)}`;
+    const newCard = {
+      id: payments.length > 0 ? Math.max(...payments.map((p) => p.id)) + 1 : 1,
+      type: cardForm.type,
+      cardNumber: maskedNumber,
+      holder: cardForm.holder.toUpperCase(),
+      expiry: cardForm.expiry,
+      isDefault: payments.length === 0,
+    };
+
+    setPayments([...payments, newCard]);
+    setIsCardModalOpen(false);
+    setCardForm({
       type: "Visa",
-      cardNumber: "**** **** **** 4321",
-      holder: "THEEPAKORN R.",
-      expiry: "12/28",
-      isDefault: true,
-    },
-  ]);
+      cardNumber: "",
+      holder: "",
+      expiry: "",
+      cvv: "",
+    });
+    alert("🎉 เพิ่มบัตรเครดิตเรียบร้อยแล้ว");
+  };
+
+  const handleDeleteCard = (id) => {
+    if (window.confirm("คุณแน่ใจหรือไม่ว่าต้องการลบบัตรเครดิตนี้?")) {
+      const remaining = payments.filter((p) => p.id !== id);
+      if (remaining.length > 0 && !remaining.some((p) => p.isDefault)) {
+        remaining[0].isDefault = true;
+      }
+      setPayments(remaining);
+    }
+  };
+
+  const handleSetDefaultCard = (id) => {
+    const updated = payments.map((p) => ({
+      ...p,
+      isDefault: p.id === id,
+    }));
+    setPayments(updated);
+  };
 
   // Profile Edit functions
   const handleSaveProfile = async (e) => {
@@ -755,19 +842,19 @@ export default function Profiles() {
                       {/* Counter badging */}
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full md:w-auto">
                         <div className="bg-white border border-outline-variant p-3.5 rounded-xl text-center shrink-0 min-w-[90px]">
-                          <span className="text-2xl font-bold text-primary block leading-none">0</span>
+                          <span className="text-2xl font-bold text-primary block leading-none">{ordersCompleted.length}</span>
                           <span className="text-xs text-on-surface-variant">เสร็จสิ้น</span>
                         </div>
                         <div className="bg-white border border-outline-variant p-3.5 rounded-xl text-center shrink-0 min-w-[90px]">
-                          <span className="text-2xl font-bold text-primary block leading-none">0</span>
+                          <span className="text-2xl font-bold text-primary block leading-none">{ordersDelivered.length}</span>
                           <span className="text-xs text-on-surface-variant">จัดส่งแล้ว</span>
                         </div>
                         <div className="bg-white border border-outline-variant p-3.5 rounded-xl text-center shrink-0 min-w-[90px]">
-                          <span className="text-2xl font-bold text-primary block leading-none">0</span>
+                          <span className="text-2xl font-bold text-primary block leading-none">{ordersWaiting.length}</span>
                           <span className="text-xs text-on-surface-variant">รอดำเนินการ</span>
                         </div>
                         <div className="bg-white border border-outline-variant p-3.5 rounded-xl text-center shrink-0 min-w-[90px]">
-                          <span className="text-2xl font-bold text-primary block leading-none">0</span>
+                          <span className="text-2xl font-bold text-primary block leading-none">{ordersPendingPayment.length}</span>
                           <span className="text-xs text-on-surface-variant">รอชำระเงิน</span>
                         </div>
                       </div>
@@ -791,14 +878,6 @@ export default function Profiles() {
                         <div>
                           <p className="text-xs text-outline font-medium uppercase mb-1">วัน / เดือน / ปีเกิด</p>
                           <p className="text-on-surface font-medium">{userProfile.birthDate}</p>
-                        </div>
-                        <div>
-                          <p className="text-xs text-outline font-medium uppercase mb-1">ไลน์ไอดี</p>
-                          <p className="text-on-surface font-medium">{userProfile.lineId}</p>
-                        </div>
-                        <div>
-                          <p className="text-xs text-outline font-medium uppercase mb-1">เฟสบุ๊ค</p>
-                          <p className="text-on-surface font-medium">{userProfile.facebook}</p>
                         </div>
                       </div>
                     </div>
@@ -1265,21 +1344,42 @@ export default function Profiles() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {payments.map((pay) => (
-                    <div key={pay.id} className="border border-primary bg-primary/5 rounded-2xl p-5 flex items-start gap-4">
-                      <span className="material-symbols-outlined text-3xl text-primary">credit_card</span>
-                      <div className="space-y-1">
-                        <h4 className="font-bold text-on-surface">{pay.type} {pay.cardNumber}</h4>
-                        <p className="text-xs text-on-surface-variant">ชื่อบนบัตร: {pay.holder}</p>
-                        <p className="text-xs text-on-surface-variant">วันหมดอายุ: {pay.expiry}</p>
-                        {pay.isDefault && (
-                          <span className="inline-block mt-2 bg-primary/20 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">
-                            เริ่มต้น
-                          </span>
+                    <div key={pay.id} className={`border rounded-2xl p-5 flex items-start justify-between gap-4 ${pay.isDefault ? "border-primary bg-primary/5" : "border-outline-variant bg-white"}`}>
+                      <div className="flex items-start gap-4">
+                        <span className="material-symbols-outlined text-3xl text-primary">credit_card</span>
+                        <div className="space-y-1">
+                          <h4 className="font-bold text-on-surface">{pay.type} {pay.cardNumber}</h4>
+                          <p className="text-xs text-on-surface-variant">ชื่อบนบัตร: {pay.holder}</p>
+                          <p className="text-xs text-on-surface-variant">วันหมดอายุ: {pay.expiry}</p>
+                          {pay.isDefault && (
+                            <span className="inline-block mt-2 bg-primary/20 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">
+                              เริ่มต้น
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-2 shrink-0">
+                        {!pay.isDefault && (
+                          <button
+                            onClick={() => handleSetDefaultCard(pay.id)}
+                            className="text-xs text-primary font-semibold hover:underline bg-transparent border-none cursor-pointer text-left"
+                          >
+                            ตั้งเป็นเริ่มต้น
+                          </button>
                         )}
+                        <button
+                          onClick={() => handleDeleteCard(pay.id)}
+                          className="text-xs text-red-500 font-semibold hover:underline bg-transparent border-none cursor-pointer text-left"
+                        >
+                          ลบบัตร
+                        </button>
                       </div>
                     </div>
                   ))}
-                  <button className="border-2 border-dashed border-outline-variant hover:border-primary hover:bg-primary/5 rounded-2xl p-5 text-center flex flex-col items-center justify-center gap-2 text-on-surface-variant hover:text-primary transition-all cursor-pointer">
+                  <button
+                    onClick={() => setIsCardModalOpen(true)}
+                    className="border-2 border-dashed border-outline-variant hover:border-primary hover:bg-primary/5 rounded-2xl p-5 text-center flex flex-col items-center justify-center gap-2 text-on-surface-variant hover:text-primary transition-all cursor-pointer min-h-[140px]"
+                  >
                     <span className="material-symbols-outlined text-3xl">add_circle</span>
                     <span className="text-body-sm font-semibold">เพิ่มบัตรเครดิต/เดบิตใหม่</span>
                   </button>
@@ -1565,6 +1665,118 @@ export default function Profiles() {
                 ปิดหน้าต่าง
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* CREDIT CARD ADDITION MODAL OVERLAY */}
+      {isCardModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="bg-white border border-outline-variant rounded-2xl shadow-xl w-full max-w-md p-6 md:p-8 space-y-6">
+
+            {/* Modal Header */}
+            <div className="flex justify-between items-center border-b border-outline-variant pb-4">
+              <h3 className="text-xl font-bold text-on-surface flex items-center gap-2">
+                <span className="material-symbols-outlined text-primary text-2xl">credit_card</span>
+                <span>เพิ่มบัตรเครดิต/เดบิตใหม่</span>
+              </h3>
+              <button
+                onClick={() => setIsCardModalOpen(false)}
+                className="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant cursor-pointer border-none bg-transparent"
+              >
+                <span className="material-symbols-outlined text-2xl">close</span>
+              </button>
+            </div>
+
+            {/* Modal Form */}
+            <form onSubmit={handleSaveCard} className="space-y-4">
+              {/* Card Type */}
+              <div>
+                <label className="block text-body-sm font-medium text-on-surface-variant mb-1.5">ประเภทบัตร</label>
+                <select
+                  value={cardForm.type}
+                  onChange={(e) => setCardForm({ ...cardForm, type: e.target.value })}
+                  className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2.5 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                >
+                  <option value="Visa">Visa</option>
+                  <option value="Mastercard">Mastercard</option>
+                  <option value="JCB">JCB</option>
+                </select>
+              </div>
+
+              {/* Card Number */}
+              <div>
+                <label className="block text-body-sm font-medium text-on-surface-variant mb-1.5">หมายเลขบัตร (16 หลัก)</label>
+                <input
+                  type="text"
+                  required
+                  maxLength="16"
+                  placeholder="เช่น 1234567812345678"
+                  value={cardForm.cardNumber}
+                  onChange={(e) => setCardForm({ ...cardForm, cardNumber: e.target.value.replace(/\D/g, "") })}
+                  className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                />
+              </div>
+
+              {/* Cardholder Name */}
+              <div>
+                <label className="block text-body-sm font-medium text-on-surface-variant mb-1.5">ชื่อบนบัตร (ภาษาอังกฤษ)</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="เช่น Somchai J."
+                  value={cardForm.holder}
+                  onChange={(e) => setCardForm({ ...cardForm, holder: e.target.value })}
+                  className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                />
+              </div>
+
+              {/* Expiry & CVV */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-body-sm font-medium text-on-surface-variant mb-1.5">วันหมดอายุ (ดด/ปป)</label>
+                  <input
+                    type="text"
+                    required
+                    maxLength="5"
+                    placeholder="เช่น 12/28"
+                    value={cardForm.expiry}
+                    onChange={(e) => setCardForm({ ...cardForm, expiry: e.target.value })}
+                    className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                  />
+                </div>
+                <div>
+                  <label className="block text-body-sm font-medium text-on-surface-variant mb-1.5">CVV (3 หลัก)</label>
+                  <input
+                    type="password"
+                    required
+                    maxLength="3"
+                    placeholder="•••"
+                    value={cardForm.cvv}
+                    onChange={(e) => setCardForm({ ...cardForm, cvv: e.target.value.replace(/\D/g, "") })}
+                    className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                  />
+                </div>
+              </div>
+
+              {/* Submit Buttons */}
+              <div className="flex gap-3 justify-end pt-4 border-t border-outline-variant">
+                <button
+                  type="button"
+                  onClick={() => setIsCardModalOpen(false)}
+                  className="border border-outline px-6 py-2.5 rounded-xl font-medium text-on-surface hover:bg-surface-container transition-all cursor-pointer bg-transparent"
+                >
+                  ยกเลิก
+                </button>
+                <button
+                  type="submit"
+                  className="bg-primary text-white hover:brightness-110 px-6 py-2.5 rounded-xl font-medium transition-all active:scale-95 cursor-pointer border-none"
+                >
+                  บันทึกบัตร
+                </button>
+              </div>
+            </form>
+
           </div>
         </div>
       )}

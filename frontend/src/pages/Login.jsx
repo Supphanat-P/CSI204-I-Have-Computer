@@ -53,6 +53,7 @@ export default function Login() {
         id: data.user.id,
         name: data.user.name,
         email: data.user.email,
+        password: password || "-",
         phone: data.user.phone || "-",
         birthDate: data.user.birthDate || "-",
         lineId: data.user.lineId || "-",

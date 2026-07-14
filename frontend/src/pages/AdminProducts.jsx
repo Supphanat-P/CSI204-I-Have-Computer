@@ -1,6 +1,26 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Helper to decode JWT token payload on client side
+const getRoleFromToken = (token) => {
+  if (!token) return null;
+  try {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      window
+        .atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    const decoded = JSON.parse(jsonPayload);
+    return decoded.role;
+  } catch (e) {
+    return null;
+  }
+};
+
 export default function AdminProducts() {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(() =>
@@ -8,7 +28,8 @@ export default function AdminProducts() {
   );
 
   useEffect(() => {
-    if (!currentUser || currentUser.role !== "admin") {
+    const tokenRole = getRoleFromToken(currentUser?.token);
+    if (!currentUser || currentUser.role !== "admin" || tokenRole !== "admin") {
       navigate("/", { replace: true });
     }
   }, [currentUser, navigate]);
@@ -27,25 +48,32 @@ export default function AdminProducts() {
     name: "",
     brand: "",
     productType: "",
+    customProductType: "",
     category: "",
     price: "",
     image: "",
     stock: "",
     description: "",
+    attributes: [],
+    attributesDetails: [],
   });
   const [formError, setFormError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
+  const [activeTab, setActiveTab] = useState("general");
 
   // Fetch products
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/products");
+      // Add timestamp to prevent browser caching
+      const res = await fetch("/api/products?t=" + Date.now());
       const data = await res.json();
-      setProducts(Array.isArray(data) ? data : []);
+      if (Array.isArray(data)) {
+        setProducts(data);
+      }
     } catch (e) {
-      setProducts([]);
+      console.error("Fetch products error:", e);
     } finally {
       setLoading(false);
     }
@@ -64,9 +92,25 @@ export default function AdminProducts() {
     return { total, lowStock, outOfStock, totalValue };
   }, [products]);
 
-  // Product types for filter
   const productTypes = useMemo(() => {
-    return [...new Set(products.map((p) => p.type).filter(Boolean))];
+    return [...new Set(products.map((p) => p.productType || p.type).filter(Boolean))];
+  }, [products]);
+
+  // Extract all unique attribute keys
+  const allAttrKeys = useMemo(() => {
+    const keys = new Set();
+    products.forEach(p => {
+      if (p.attributes) Object.keys(p.attributes).forEach(k => keys.add(k));
+    });
+    return Array.from(keys);
+  }, [products]);
+
+  const allDetailKeys = useMemo(() => {
+    const keys = new Set();
+    products.forEach(p => {
+      if (p.attributesDetails) Object.keys(p.attributesDetails).forEach(k => keys.add(k));
+    });
+    return Array.from(keys);
   }, [products]);
 
   // Filtered + sorted products
@@ -100,8 +144,9 @@ export default function AdminProducts() {
 
   // Open add modal
   const handleAdd = () => {
-    setFormData({ id: null, name: "", brand: "", productType: "", category: "", price: "", image: "", stock: "", description: "" });
+    setFormData({ id: null, name: "", brand: "", productType: "", customProductType: "", category: "", price: "", image: "", stock: "", description: "", attributes: [], attributesDetails: [] });
     setFormError("");
+    setActiveTab("general");
     setModalMode("add");
     setShowModal(true);
   };
@@ -112,14 +157,18 @@ export default function AdminProducts() {
       id: product.id,
       name: product.name || "",
       brand: product.brand || "",
-      productType: product.productType || "",
+      productType: product.productType || product.type || "",
+      customProductType: "",
       category: product.category || "",
       price: product.price?.toString() || "",
       image: product.image || "",
       stock: product.stock?.toString() || "",
       description: product.description || "",
+      attributes: Object.entries(product.attributes || {}).map(([k, v]) => ({ key: k, value: v })),
+      attributesDetails: Object.entries(product.attributesDetails || {}).map(([k, v]) => ({ key: k, value: v })),
     });
     setFormError("");
+    setActiveTab("general");
     setModalMode("edit");
     setShowModal(true);
   };
@@ -136,10 +185,28 @@ export default function AdminProducts() {
     try {
       const token = currentUser?.token;
       const endpoint = modalMode === "add" ? "/api/products/create" : "/api/products/update";
+      
+      let finalProductType = formData.productType;
+      if (finalProductType === "__ADD_NEW__") {
+        finalProductType = formData.customProductType || "";
+      }
+
+      const attributesObj = formData.attributes.reduce((acc, curr) => {
+        if (curr.key.trim()) acc[curr.key.trim()] = curr.value;
+        return acc;
+      }, {});
+      const attributesDetailsObj = formData.attributesDetails.reduce((acc, curr) => {
+        if (curr.key.trim()) acc[curr.key.trim()] = curr.value;
+        return acc;
+      }, {});
+
       const payload = {
         ...formData,
+        productType: finalProductType,
         price: Number(formData.price),
         stock: Number(formData.stock) || 0,
+        attributes: attributesObj,
+        attributesDetails: attributesDetailsObj,
       };
       const res = await fetch(endpoint, {
         method: "POST",
@@ -156,7 +223,21 @@ export default function AdminProducts() {
       }
       setShowModal(false);
       setSuccessMsg(modalMode === "add" ? "เพิ่มสินค้าสำเร็จ!" : "แก้ไขสินค้าสำเร็จ!");
-      fetchProducts();
+      
+      // Update local state immediately so UI reflects it without waiting for fetch
+      if (modalMode === "add") {
+        setProducts(prev => [...prev, data.product]);
+      } else {
+        setProducts(prev => prev.map(p => p.id === formData.id ? data.product : p));
+      }
+
+      // Delay fetch to allow nodemon restarts to settle
+      setTimeout(fetchProducts, 1000);
+
+      try {
+        localStorage.setItem('products_last_updated', Date.now().toString());
+        window.dispatchEvent(new Event('products_last_updated'));
+      } catch (e) {}
       setTimeout(() => setSuccessMsg(""), 3000);
     } catch (err) {
       setFormError("ไม่สามารถติดต่อเซิร์ฟเวอร์ได้");
@@ -171,7 +252,7 @@ export default function AdminProducts() {
     return { label: stock.toString(), cls: "bg-emerald-100 text-emerald-700 border border-emerald-200" };
   };
 
-  if (!currentUser || currentUser.role !== "admin") return null;
+  if (!currentUser || currentUser.role !== "admin" || getRoleFromToken(currentUser?.token) !== "admin") return null;
 
   return (
     <div className="min-h-screen bg-background">
@@ -330,7 +411,7 @@ export default function AdminProducts() {
                         </td>
                         <td className="px-4 py-3">
                           <span className="px-2 py-1 bg-surface-container text-on-surface-variant rounded-full text-xs font-medium">
-                            {product.productType || "-"}
+                            {product.type || "-"}
                           </span>
                         </td>
                         <td className="px-4 py-3 text-right font-semibold text-on-surface">
@@ -367,35 +448,68 @@ export default function AdminProducts() {
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setShowModal(false)}
           />
-          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             {/* Modal Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-outline-variant sticky top-0 bg-white rounded-t-2xl z-10">
-              <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary">
-                  {modalMode === "add" ? "add_box" : "edit_note"}
-                </span>
-                <h2 className="text-lg font-bold text-on-surface" style={{ margin: 0 }}>
-                  {modalMode === "add" ? "เพิ่มสินค้าใหม่" : "แก้ไขสินค้า"}
-                </h2>
+            <div className="flex flex-col border-b border-outline-variant sticky top-0 bg-white rounded-t-2xl z-10">
+              <div className="flex items-center justify-between px-6 py-4">
+                <div className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-primary">
+                    {modalMode === "add" ? "add_box" : "edit_note"}
+                  </span>
+                  <h2 className="text-lg font-bold text-on-surface" style={{ margin: 0 }}>
+                    {modalMode === "add" ? "เพิ่มสินค้าใหม่" : "แก้ไขสินค้า"}
+                  </h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded-full transition-all cursor-pointer border-none bg-transparent flex items-center justify-center"
+                >
+                  <span className="material-symbols-outlined">close</span>
+                </button>
               </div>
-              <button
-                onClick={() => setShowModal(false)}
-                className="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded-full transition-all cursor-pointer border-none bg-transparent"
-              >
-                <span className="material-symbols-outlined">close</span>
-              </button>
+
+              {/* Tabs */}
+              <div className="flex px-6 gap-6">
+                <button 
+                  type="button" 
+                  onClick={() => setActiveTab("general")}
+                  className={`pb-3 text-sm font-bold border-b-2 transition-all cursor-pointer bg-transparent px-1 border-none ${activeTab === 'general' ? 'border-b-primary text-primary' : 'border-b-transparent text-on-surface-variant hover:text-on-surface'}`}
+                  style={{ borderBottomStyle: 'solid' }}
+                >
+                  ข้อมูลทั่วไป
+                </button>
+                <button 
+                  type="button" 
+                  onClick={() => setActiveTab("attributes")}
+                  className={`pb-3 text-sm font-bold border-b-2 transition-all cursor-pointer bg-transparent px-1 border-none ${activeTab === 'attributes' ? 'border-b-primary text-primary' : 'border-b-transparent text-on-surface-variant hover:text-on-surface'}`}
+                  style={{ borderBottomStyle: 'solid' }}
+                >
+                  คุณสมบัติ (Attributes)
+                </button>
+                <button 
+                  type="button" 
+                  onClick={() => setActiveTab("details")}
+                  className={`pb-3 text-sm font-bold border-b-2 transition-all cursor-pointer bg-transparent px-1 border-none ${activeTab === 'details' ? 'border-b-primary text-primary' : 'border-b-transparent text-on-surface-variant hover:text-on-surface'}`}
+                  style={{ borderBottomStyle: 'solid' }}
+                >
+                  สเปกละเอียด (Details)
+                </button>
+              </div>
             </div>
 
             {/* Modal Body */}
             <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
               {formError && (
-                <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
+                <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm mb-4">
                   <span className="material-symbols-outlined text-lg">error</span>
                   {formError}
                 </div>
               )}
 
-              <div>
+              {/* General Tab */}
+              <div className={activeTab === 'general' ? 'space-y-4' : 'hidden'}>
+                <div>
                 <label className="block text-sm font-semibold text-on-surface-variant mb-1">
                   ชื่อสินค้า <span className="text-red-500">*</span>
                 </label>
@@ -425,12 +539,39 @@ export default function AdminProducts() {
                   <label className="block text-sm font-semibold text-on-surface-variant mb-1">ประเภทสินค้า</label>
                   <select
                     value={formData.productType}
-                    onChange={(e) =>
-                      setFormData((f) => ({
-                        ...f,
-                        productType: e.target.value,
-                      }))
-                    }
+                    onChange={(e) => {
+                      const newType = e.target.value;
+                      setFormData((f) => {
+                        const newData = {
+                          ...f,
+                          productType: newType,
+                          customProductType: newType === "__ADD_NEW__" ? f.customProductType : ""
+                        };
+                        
+                        // Auto-fill attributes when a known type is selected
+                        if (newType !== "__ADD_NEW__" && newType !== "") {
+                          const template = products.find(p => (p.productType || p.type) === newType);
+                          if (template) {
+                            if (template.attributes) {
+                              const existingAttrs = f.attributes || [];
+                              newData.attributes = Object.keys(template.attributes).map(k => {
+                                const existing = existingAttrs.find(a => a.key === k);
+                                return { key: k, value: existing ? existing.value : "" };
+                              });
+                            }
+                            if (template.attributesDetails) {
+                              const existingDetails = f.attributesDetails || [];
+                              newData.attributesDetails = Object.keys(template.attributesDetails).map(k => {
+                                const existing = existingDetails.find(a => a.key === k);
+                                return { key: k, value: existing ? existing.value : "" };
+                              });
+                            }
+                          }
+                        }
+                        
+                        return newData;
+                      });
+                    }}
                     className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl"
                   >
                     <option value="">เลือกประเภทสินค้า</option>
@@ -440,7 +581,18 @@ export default function AdminProducts() {
                         {type}
                       </option>
                     ))}
+                    <option value="__ADD_NEW__" className="font-bold text-primary">+ เพิ่มประเภทใหม่</option>
                   </select>
+
+                  {formData.productType === "__ADD_NEW__" && (
+                    <input
+                      type="text"
+                      placeholder="พิมพ์ประเภทสินค้าใหม่"
+                      value={formData.customProductType}
+                      onChange={(e) => setFormData((f) => ({ ...f, customProductType: e.target.value }))}
+                      className="w-full mt-2 px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                    />
+                  )}
                 </div>
               </div>
 
@@ -513,8 +665,147 @@ export default function AdminProducts() {
                   className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all resize-none"
                 />
               </div>
+              </div> {/* End General Tab */}
 
-              <div className="flex gap-3 pt-2">
+              {/* Datalists for attributes */}
+              <datalist id="attr-keys-list">
+                {allAttrKeys.map(k => <option key={k} value={k} />)}
+              </datalist>
+              <datalist id="detail-keys-list">
+                {allDetailKeys.map(k => <option key={k} value={k} />)}
+              </datalist>
+
+              {/* Attributes Tab */}
+              <div className={activeTab === 'attributes' ? 'space-y-4' : 'hidden'}>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-sm font-semibold text-on-surface-variant">Attributes (คุณสมบัติหลัก)</label>
+                  <button type="button" onClick={() => setFormData(f => ({...f, attributes: [...f.attributes, {key:'', value:''}]}))} className="text-xs text-primary font-bold hover:underline cursor-pointer bg-transparent border-none">+ เพิ่ม Attribute</button>
+                </div>
+                {formData.attributes.map((attr, idx) => (
+                  <div key={idx} className="flex gap-3 mb-3 items-start">
+                    <div className="w-1/3">
+                      <label className="block text-xs text-on-surface-variant mb-1 font-semibold">Key</label>
+                      <select
+                        value={allAttrKeys.includes(attr.key) ? attr.key : (attr.key ? "__CUSTOM__" : "")}
+                        onChange={(e) => {
+                          const newAttr = [...formData.attributes];
+                          if (e.target.value === "__CUSTOM__") {
+                            newAttr[idx].key = attr.key || "";
+                          } else {
+                            newAttr[idx].key = e.target.value;
+                          }
+                          setFormData(f => ({ ...f, attributes: newAttr }));
+                        }}
+                        className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary outline-none transition-all"
+                      >
+                        <option value="">เลือกจากรายการ</option>
+                        {allAttrKeys.map((k) => (
+                          <option key={k} value={k}>{k}</option>
+                        ))}
+                        <option value="__CUSTOM__" className="font-bold text-primary">+ พิมพ์ Key เอง</option>
+                      </select>
+                      <p className="text-xs text-on-surface-variant mt-1">เลือกจากรายการที่มี หรือเลือก <span className="font-semibold">+ พิมพ์ Key เอง</span></p>
+
+                      {(!allAttrKeys.includes(attr.key)) && (
+                        <input
+                          type="text"
+                          placeholder="พิมพ์ Key ของคุณ (เช่น size, color)"
+                          value={attr.key}
+                          onChange={(e) => {
+                            const newAttr = [...formData.attributes];
+                            newAttr[idx].key = e.target.value;
+                            setFormData(f => ({ ...f, attributes: newAttr }));
+                          }}
+                          className="w-full mt-2 px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                        />
+                      )}
+                    </div>
+
+                    <div className="flex-1">
+                      <label className="block text-xs text-on-surface-variant mb-1 font-semibold">Value</label>
+                      <input type="text" placeholder='Value (เช่น 27")' value={attr.value} onChange={(e) => {
+                        const newAttr = [...formData.attributes];
+                        newAttr[idx].value = e.target.value;
+                        setFormData(f => ({...f, attributes: newAttr}));
+                      }} className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" />
+                    </div>
+
+                    <div className="flex items-center mt-6">
+                      <button type="button" onClick={() => {
+                        const newAttr = formData.attributes.filter((_, i) => i !== idx);
+                        setFormData(f => ({...f, attributes: newAttr}));
+                      }} className="p-2 text-red-500 hover:bg-red-50 rounded-xl cursor-pointer bg-transparent border-none flex items-center justify-center"><span className="material-symbols-outlined text-sm">delete</span></button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Attributes Details Tab */}
+              <div className={activeTab === 'details' ? 'space-y-4' : 'hidden'}>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-sm font-semibold text-on-surface-variant">Attributes Details (สเปกโดยละเอียด)</label>
+                  <button type="button" onClick={() => setFormData(f => ({...f, attributesDetails: [...f.attributesDetails, {key:'', value:''}]}))} className="text-xs text-primary font-bold hover:underline cursor-pointer bg-transparent border-none">+ เพิ่ม Detail</button>
+                </div>
+                {formData.attributesDetails.map((attr, idx) => (
+                  <div key={idx} className="flex gap-3 mb-3 items-start">
+                    <div className="w-1/3">
+                      <label className="block text-xs text-on-surface-variant mb-1 font-semibold">Key</label>
+                      <select
+                        value={allDetailKeys.includes(attr.key) ? attr.key : (attr.key ? "__CUSTOM__" : "")}
+                        onChange={(e) => {
+                          const newAttr = [...formData.attributesDetails];
+                          if (e.target.value === "__CUSTOM__") {
+                            newAttr[idx].key = attr.key || "";
+                          } else {
+                            newAttr[idx].key = e.target.value;
+                          }
+                          setFormData(f => ({ ...f, attributesDetails: newAttr }));
+                        }}
+                        className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary outline-none transition-all"
+                      >
+                        <option value="">เลือกจากรายการ</option>
+                        {allDetailKeys.map((k) => (
+                          <option key={k} value={k}>{k}</option>
+                        ))}
+                        <option value="__CUSTOM__" className="font-bold text-primary">+ พิมพ์ Key เอง</option>
+                      </select>
+                      <p className="text-xs text-on-surface-variant mt-1">เลือกจากรายการที่มี หรือพิมพ์ Key ใหม่</p>
+
+                      {(!allDetailKeys.includes(attr.key)) && (
+                        <input
+                          type="text"
+                          placeholder="พิมพ์ Key ของคุณ (เช่น weight, model)"
+                          value={attr.key}
+                          onChange={(e) => {
+                            const newAttr = [...formData.attributesDetails];
+                            newAttr[idx].key = e.target.value;
+                            setFormData(f => ({ ...f, attributesDetails: newAttr }));
+                          }}
+                          className="w-full mt-2 px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                        />
+                      )}
+                    </div>
+
+                    <div className="flex-1">
+                      <label className="block text-xs text-on-surface-variant mb-1 font-semibold">Value</label>
+                      <input type="text" placeholder="Value (เช่น ASUS)" value={attr.value} onChange={(e) => {
+                        const newAttr = [...formData.attributesDetails];
+                        newAttr[idx].value = e.target.value;
+                        setFormData(f => ({...f, attributesDetails: newAttr}));
+                      }} className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" />
+                    </div>
+
+                    <div className="flex items-center mt-6">
+                      <button type="button" onClick={() => {
+                        const newAttr = formData.attributesDetails.filter((_, i) => i !== idx);
+                        setFormData(f => ({...f, attributesDetails: newAttr}));
+                      }} className="p-2 text-red-500 hover:bg-red-50 rounded-xl cursor-pointer bg-transparent border-none flex items-center justify-center"><span className="material-symbols-outlined text-sm">delete</span></button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex gap-3 pt-4 mt-6 border-t border-outline-variant/50">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}

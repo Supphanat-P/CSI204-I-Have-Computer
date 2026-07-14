@@ -117,8 +117,6 @@ async function registerUser(req, res) {
           email: newUser.email,
           phone: newUser.phone,
           birthDate: newUser.birthDate,
-          lineId: newUser.lineId,
-          facebook: newUser.facebook,
           role: newUser.role,
         },
       })
@@ -144,21 +142,20 @@ async function loginUser(req, res) {
     let users = readJsonFile("users.json");
 
     // If users.json is empty, initialize with default user
-    if (users.length === 0) {
-      const hashedPassword = bcrypt.hashSync("password123", 10);
-      const defaultUser = {
-        id: "1",
-        name: "Theepakorn Ruensukhonte",
-        email: "theefordev@gmail.com",
-        password: hashedPassword,
-        phone: "-",
-        birthDate: "-",
-        lineId: "-",
-        facebook: "-",
-      };
-      users = [defaultUser];
-      writeJsonFile("users.json", users);
-    }
+    // if (users.length === 0) {
+    //   const defaultUser = {
+    //     id: "1",
+    //     name: "Theepakorn Ruensukhonte",
+    //     email: "theefordev@gmail.com",
+    //     password: "password123",
+    //     phone: "-",
+    //     birthDate: "-",
+    //     lineId: "-",
+    //     facebook: "-",
+    //   };
+    //   users = [defaultUser];
+    //   writeJsonFile("users.json", users);
+    // }
 
     const matchedUser = users.find(
       (u) => u.email.toLowerCase() === email.toLowerCase()
@@ -189,8 +186,6 @@ async function loginUser(req, res) {
           email: matchedUser.email,
           phone: matchedUser.phone || "-",
           birthDate: matchedUser.birthDate || "-",
-          lineId: matchedUser.lineId || "-",
-          facebook: matchedUser.facebook || "-",
           role: matchedUser.role || "user",
         },
       })
@@ -248,8 +243,6 @@ async function updateProfile(req, res) {
       email: email || users[userIndex].email,
       phone: phone !== undefined ? phone : users[userIndex].phone,
       birthDate: birthDate !== undefined ? birthDate : users[userIndex].birthDate,
-      lineId: lineId !== undefined ? lineId : users[userIndex].lineId,
-      facebook: facebook !== undefined ? facebook : users[userIndex].facebook,
     };
 
     users[userIndex] = updatedUser;
@@ -265,8 +258,6 @@ async function updateProfile(req, res) {
           email: updatedUser.email,
           phone: updatedUser.phone,
           birthDate: updatedUser.birthDate,
-          lineId: updatedUser.lineId,
-          facebook: updatedUser.facebook,
           role: updatedUser.role || "user",
         },
       })

@@ -11,6 +11,8 @@ import Register from "./pages/Register";
 import Profiles from "./pages/Profiles";
 import Checkout from "./pages/Checkout";
 import AdminProducts from "./pages/AdminProducts";
+import ManagerLayout from "./layouts/ManagerLayout";
+import ShippingStatus from "./pages/ShippingStatus";
 import { CartProvider } from "./context/CartContext";
 
 function App() {
@@ -27,11 +29,14 @@ function App() {
             <Route path="/profile" element={<Profiles />} />
             <Route path="/checkout" element={<Checkout />} />
           </Route>
-          
+
           <Route element={<AdminLayout />}>
             <Route path="/admin" element={<AdminProducts />} />
           </Route>
 
+          <Route path="/manager" element={<ManagerLayout />}>
+            <Route path="shipping" element={<ShippingStatus />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </CartProvider>
