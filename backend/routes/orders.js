@@ -20,17 +20,73 @@ function parseBody(req) {
 // Handler to create a new order
 async function createOrder(req, res) {
   try {
-    const orderData = await parseBody(req);
+    const orderData = req.body;
     const orders = readJsonFile("orders.json");
+    const products = readJsonFile("products.json");
+    const userId = req.user ? req.user.id : orderData.userId || "guest";
 
-    // In server.js, authMiddleware will populate req.user
-    const userId = req.user ? req.user.id : (orderData.userId || "guest");
+    const items = Array.isArray(orderData.items) ? orderData.items : [];
+    if (items.length === 0) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(
+        JSON.stringify({
+          message: "คำสั่งซื้อจะต้องมีสินค้าอย่างน้อยหนึ่งรายการ",
+        }),
+      );
+      return;
+    }
+
+    for (const item of items) {
+      const product = products.find((p) => Number(p.id) === Number(item.id));
+      console.log(product);
+      if (!product) {
+        res.writeHead(404, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ message: `ไม่พบสินค้าที่มีรหัส ${item.id}` }));
+        return;
+      }
+
+      const quantity = Number(item.quantity) || 0;
+      if (quantity <= 0) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end(
+          JSON.stringify({
+            message: `จำนวนสินค้าสำหรับ ${product.name} ต้องมากกว่า 0`,
+          }),
+        );
+        return;
+      }
+
+      if (product.stock < quantity) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end(
+          JSON.stringify({
+            message: `สินค้ารายการ "${product.name}" มีสต็อกไม่เพียงพอ (คงเหลือ ${product.stock} ชิ้น)`,
+          }),
+        );
+        return;
+      }
+    }
+
+    // Reduce stock once order is confirmed.
+    const updatedProducts = products.map((product) => {
+      const orderedItem = items.find(
+        (item) => Number(item.id) === Number(product.id),
+      );
+      if (orderedItem) {
+        return {
+          ...product,
+          stock: Number(product.stock) - Number(orderedItem.quantity),
+        };
+      }
+      return product;
+    });
+    writeJsonFile("products.json", updatedProducts);
 
     const newOrder = {
       ...orderData,
       userId,
       id: orderData.id || `IHC-${Math.floor(10000 + Math.random() * 90000)}`,
-      date: orderData.date || new Date().toISOString().split("T")[0]
+      date: orderData.date || new Date().toISOString().split("T")[0],
     };
 
     orders.push(newOrder);
@@ -63,7 +119,9 @@ function getOrders(req, res) {
   } catch (error) {
     console.error("Get orders error:", error);
     res.writeHead(500, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ" }));
+    res.end(
+      JSON.stringify({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อ" }),
+    );
   }
 }
 
@@ -76,14 +134,18 @@ function getAllOrdersForManager(req, res) {
   } catch (error) {
     console.error("Get all orders error:", error);
     res.writeHead(500, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ message: "เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อทั้งหมด" }));
+    res.end(
+      JSON.stringify({
+        message: "เกิดข้อผิดพลาดในการดึงข้อมูลคำสั่งซื้อทั้งหมด",
+      }),
+    );
   }
 }
 
 // Handler to update an order's status
 async function updateOrderStatus(req, res) {
   try {
-    const { orderId, status } = await parseBody(req);
+    const { orderId, status } = req.body;
 
     if (!orderId || !status) {
       res.writeHead(400, { "Content-Type": "application/json" });
@@ -108,8 +170,15 @@ async function updateOrderStatus(req, res) {
   } catch (error) {
     console.error("Update order status error:", error);
     res.writeHead(500, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ message: "เกิดข้อผิดพลาดในการอัปเดตสถานะการจัดส่ง" }));
+    res.end(
+      JSON.stringify({ message: "เกิดข้อผิดพลาดในการอัปเดตสถานะการจัดส่ง" }),
+    );
   }
 }
 
-module.exports = { createOrder, getOrders, getAllOrdersForManager, updateOrderStatus };
+module.exports = {
+  createOrder,
+  getOrders,
+  getAllOrdersForManager,
+  updateOrderStatus,
+};

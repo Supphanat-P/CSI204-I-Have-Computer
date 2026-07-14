@@ -26,7 +26,6 @@ export default function Products() {
 
       try {
         const { data } = await axios.get("/api/products");
-        console.log(data)
 
         if (isMounted) {
           setProducts(data);

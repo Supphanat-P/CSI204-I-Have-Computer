@@ -117,8 +117,6 @@ async function registerUser(req, res) {
           email: newUser.email,
           phone: newUser.phone,
           birthDate: newUser.birthDate,
-          lineId: newUser.lineId,
-          facebook: newUser.facebook,
           role: newUser.role,
         },
       })
@@ -188,8 +186,6 @@ async function loginUser(req, res) {
           email: matchedUser.email,
           phone: matchedUser.phone || "-",
           birthDate: matchedUser.birthDate || "-",
-          lineId: matchedUser.lineId || "-",
-          facebook: matchedUser.facebook || "-",
           role: matchedUser.role || "user",
         },
       })
@@ -247,8 +243,6 @@ async function updateProfile(req, res) {
       email: email || users[userIndex].email,
       phone: phone !== undefined ? phone : users[userIndex].phone,
       birthDate: birthDate !== undefined ? birthDate : users[userIndex].birthDate,
-      lineId: lineId !== undefined ? lineId : users[userIndex].lineId,
-      facebook: facebook !== undefined ? facebook : users[userIndex].facebook,
     };
 
     users[userIndex] = updatedUser;
@@ -264,8 +258,6 @@ async function updateProfile(req, res) {
           email: updatedUser.email,
           phone: updatedUser.phone,
           birthDate: updatedUser.birthDate,
-          lineId: updatedUser.lineId,
-          facebook: updatedUser.facebook,
           role: updatedUser.role || "user",
         },
       })

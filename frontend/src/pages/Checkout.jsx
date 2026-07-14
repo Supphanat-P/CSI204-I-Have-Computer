@@ -169,9 +169,9 @@ export default function Checkout() {
   };
 
   const processOrder = async () => {
-    // Generate new order
+    console.log("Process Order")
     const orderId = `IHC-${Math.floor(10000 + Math.random() * 90000)}`;
-    
+
     const selectedCard = savedCards.find((c) => String(c.id) === String(selectedCardId));
     const cardDetail = selectedCard ? `${selectedCard.type} ${selectedCard.cardNumber}` : "บัตรเครดิต/เดบิต";
 
@@ -191,11 +191,13 @@ export default function Checkout() {
       shippingAddress: `${addressForm.details} ต. ${addressForm.subdistrict} อ. ${addressForm.district} จ. ${addressForm.province} ${addressForm.postalCode}`,
       recipientName: addressForm.name,
       recipientPhone: addressForm.phone,
-      paymentMethod: paymentMethod === "transfer" ? "โอนเงินผ่านบัญชีธนาคาร" : 
-                     paymentMethod === "promptpay" ? "พร้อมเพย์ QR" : 
-                     paymentMethod === "card" ? cardDetail : "เก็บเงินปลายทาง",
+      paymentMethod: paymentMethod === "transfer" ? "โอนเงินผ่านบัญชีธนาคาร" :
+        paymentMethod === "promptpay" ? "พร้อมเพย์ QR" :
+          paymentMethod === "card" ? cardDetail : "เก็บเงินปลายทาง",
     };
-
+    console.log(newOrder)
+    console.log(currentUser);
+    console.log(currentUser.token);
     try {
       const response = await fetch("/api/orders", {
         method: "POST",
@@ -215,30 +217,8 @@ export default function Checkout() {
       // Save order history in localStorage
       const savedOrdersKey = `orders_${currentUser.id}`;
       const existingOrders = JSON.parse(localStorage.getItem(savedOrdersKey) || "[]");
-      
-      let baseOrders = [];
-      if (localStorage.getItem(savedOrdersKey)) {
-        baseOrders = existingOrders;
-      } else {
-        baseOrders = [
-          {
-            id: "IHC-98241",
-            date: "2026-06-15",
-            items: "Intel Core i7-14700K + ASUS Prime Z790-A Wifi",
-            total: 24900,
-            status: "จัดส่งแล้ว",
-          },
-          {
-            id: "IHC-97304",
-            date: "2026-07-02",
-            items: "Razer DeathAdder V3 Pro Wireless",
-            total: 4990,
-            status: "เสร็จสิ้น",
-          },
-        ];
-      }
-      
-      const updatedOrders = [newOrder, ...baseOrders];
+
+      const updatedOrders = [newOrder, ...existingOrders];
       localStorage.setItem(savedOrdersKey, JSON.stringify(updatedOrders));
 
       // Clear cart and redirect
@@ -249,9 +229,12 @@ export default function Checkout() {
       navigate("/profile", { state: { activeTab: "orders" } }); // Redirect to profile page to let them see order history
     } catch (err) {
       console.error(err);
+
+      alert(`เกิดข้อผิดพลาดจากโค้ด: ${err.message}`);
       alert("ไม่สามารถติดต่อเซิร์ฟเวอร์เพื่อบันทึกการสั่งซื้อได้ กรุณาลองใหม่อีกครั้ง");
     }
   };
+
 
   const handleInputChange = (field, value) => {
     setAddressForm((prev) => ({
@@ -280,8 +263,8 @@ export default function Checkout() {
       <div className="max-w-7xl mx-auto">
         {/* Page Title */}
         <div className="mb-8 flex items-center gap-3">
-          <button 
-            onClick={() => navigate(-1)} 
+          <button
+            onClick={() => navigate(-1)}
             className="p-2 hover:bg-surface-container rounded-full text-on-surface-variant transition-all duration-200 active:scale-90"
           >
             <span className="material-symbols-outlined">arrow_back</span>
@@ -332,9 +315,8 @@ export default function Checkout() {
                       value={addressForm.name}
                       onChange={(e) => handleInputChange("name", e.target.value)}
                       disabled={selectedAddressId !== "new"}
-                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${
-                        errors.name ? "border-error" : "border-outline-variant"
-                      } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.name ? "border-error" : "border-outline-variant"
+                        } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
                       placeholder="สมชาย ใจดี"
                     />
                     {errors.name && <p className="text-xs text-error font-medium">{errors.name}</p>}
@@ -347,9 +329,8 @@ export default function Checkout() {
                       value={addressForm.phone}
                       onChange={(e) => handleInputChange("phone", e.target.value)}
                       disabled={selectedAddressId !== "new"}
-                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${
-                        errors.phone ? "border-error" : "border-outline-variant"
-                      } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.phone ? "border-error" : "border-outline-variant"
+                        } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
                       placeholder="0812345678"
                     />
                     {errors.phone && <p className="text-xs text-error font-medium">{errors.phone}</p>}
@@ -363,9 +344,8 @@ export default function Checkout() {
                     value={addressForm.details}
                     onChange={(e) => handleInputChange("details", e.target.value)}
                     disabled={selectedAddressId !== "new"}
-                    className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${
-                      errors.details ? "border-error" : "border-outline-variant"
-                    } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                    className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.details ? "border-error" : "border-outline-variant"
+                      } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
                     placeholder="บ้านเลขที่, ถนน, หมู่บ้าน/อาคาร"
                   />
                   {errors.details && <p className="text-xs text-error font-medium">{errors.details}</p>}
@@ -379,9 +359,8 @@ export default function Checkout() {
                       value={addressForm.subdistrict}
                       onChange={(e) => handleInputChange("subdistrict", e.target.value)}
                       disabled={selectedAddressId !== "new"}
-                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${
-                        errors.subdistrict ? "border-error" : "border-outline-variant"
-                      } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.subdistrict ? "border-error" : "border-outline-variant"
+                        } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
                       placeholder="ปทุมวัน"
                     />
                     {errors.subdistrict && <p className="text-xs text-error font-medium">{errors.subdistrict}</p>}
@@ -394,9 +373,8 @@ export default function Checkout() {
                       value={addressForm.district}
                       onChange={(e) => handleInputChange("district", e.target.value)}
                       disabled={selectedAddressId !== "new"}
-                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${
-                        errors.district ? "border-error" : "border-outline-variant"
-                      } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.district ? "border-error" : "border-outline-variant"
+                        } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
                       placeholder="เขตปทุมวัน"
                     />
                     {errors.district && <p className="text-xs text-error font-medium">{errors.district}</p>}
@@ -411,9 +389,8 @@ export default function Checkout() {
                       value={addressForm.province}
                       onChange={(e) => handleInputChange("province", e.target.value)}
                       disabled={selectedAddressId !== "new"}
-                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${
-                        errors.province ? "border-error" : "border-outline-variant"
-                      } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.province ? "border-error" : "border-outline-variant"
+                        } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
                       placeholder="กรุงเทพมหานคร"
                     />
                     {errors.province && <p className="text-xs text-error font-medium">{errors.province}</p>}
@@ -426,9 +403,8 @@ export default function Checkout() {
                       value={addressForm.postalCode}
                       onChange={(e) => handleInputChange("postalCode", e.target.value)}
                       disabled={selectedAddressId !== "new"}
-                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${
-                        errors.postalCode ? "border-error" : "border-outline-variant"
-                      } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.postalCode ? "border-error" : "border-outline-variant"
+                        } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
                       placeholder="10330"
                     />
                     {errors.postalCode && <p className="text-xs text-error font-medium">{errors.postalCode}</p>}
@@ -447,11 +423,10 @@ export default function Checkout() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Bank Transfer */}
                 <label
-                  className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${
-                    paymentMethod === "transfer"
-                      ? "bg-primary/5 border-primary shadow-sm"
-                      : "bg-white border-outline-variant hover:border-primary/50"
-                  }`}
+                  className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${paymentMethod === "transfer"
+                    ? "bg-primary/5 border-primary shadow-sm"
+                    : "bg-white border-outline-variant hover:border-primary/50"
+                    }`}
                 >
                   <input
                     type="radio"
@@ -470,11 +445,10 @@ export default function Checkout() {
 
                 {/* PromptPay QR */}
                 <label
-                  className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${
-                    paymentMethod === "promptpay"
-                      ? "bg-primary/5 border-primary shadow-sm"
-                      : "bg-white border-outline-variant hover:border-primary/50"
-                  }`}
+                  className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${paymentMethod === "promptpay"
+                    ? "bg-primary/5 border-primary shadow-sm"
+                    : "bg-white border-outline-variant hover:border-primary/50"
+                    }`}
                 >
                   <input
                     type="radio"
@@ -493,11 +467,10 @@ export default function Checkout() {
 
                 {/* Credit/Debit Card */}
                 <label
-                  className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${
-                    paymentMethod === "card"
-                      ? "bg-primary/5 border-primary shadow-sm"
-                      : "bg-white border-outline-variant hover:border-primary/50"
-                  }`}
+                  className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${paymentMethod === "card"
+                    ? "bg-primary/5 border-primary shadow-sm"
+                    : "bg-white border-outline-variant hover:border-primary/50"
+                    }`}
                 >
                   <input
                     type="radio"
@@ -516,11 +489,10 @@ export default function Checkout() {
 
                 {/* Cash on Delivery */}
                 <label
-                  className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${
-                    paymentMethod === "cod"
-                      ? "bg-primary/5 border-primary shadow-sm"
-                      : "bg-white border-outline-variant hover:border-primary/50"
-                  }`}
+                  className={`p-4 rounded-xl border flex items-center gap-3 cursor-pointer transition-all ${paymentMethod === "cod"
+                    ? "bg-primary/5 border-primary shadow-sm"
+                    : "bg-white border-outline-variant hover:border-primary/50"
+                    }`}
                 >
                   <input
                     type="radio"
@@ -631,7 +603,7 @@ export default function Checkout() {
                   <span>ยอดรวมสินค้า (Subtotal)</span>
                   <span className="font-semibold">{cartTotal.toLocaleString()}฿</span>
                 </div>
-                
+
                 <div className="flex justify-between text-sm text-on-surface-variant items-center">
                   <div className="flex items-center gap-1.5">
                     <span>ค่าจัดส่ง (Shipping)</span>
@@ -688,14 +660,14 @@ export default function Checkout() {
           <div className="bg-white rounded-3xl p-6 max-w-sm w-full border border-outline-variant shadow-2xl relative z-10 text-center space-y-4">
             <div className="flex justify-between items-center">
               <span className="font-bold text-on-surface font-headline-sm">พร้อมเพย์ QR Code</span>
-              <button 
+              <button
                 onClick={() => setIsPromptPayModalOpen(false)}
                 className="p-1.5 hover:bg-surface-container rounded-full text-on-surface-variant transition-colors"
               >
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
-            
+
             <div className="space-y-2">
               <div className="bg-surface-container-high rounded-2xl p-4 inline-block">
                 {/* Mock PromptPay Logo */}

@@ -66,7 +66,8 @@ function authMiddleware(req, res, next) {
     return;
   }
 
-  req.user = decoded; // Attach user payload to request
+  req.user = decoded;
+
   if (typeof next === "function") {
     next();
   }
@@ -82,7 +83,9 @@ function adminMiddleware(req, res, next) {
 
   if (req.user.role !== "admin") {
     res.writeHead(403, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ message: "ไม่มีสิทธิ์เข้าถึง (สำหรับ Admin เท่านั้น)" }));
+    res.end(
+      JSON.stringify({ message: "ไม่มีสิทธิ์เข้าถึง (สำหรับ Admin เท่านั้น)" }),
+    );
     return;
   }
 
@@ -101,7 +104,11 @@ function managerMiddleware(req, res, next) {
 
   if (req.user.role !== "manager" && req.user.role !== "admin") {
     res.writeHead(403, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ message: "ไม่มีสิทธิ์เข้าถึง (สำหรับ Manager หรือ Admin เท่านั้น)" }));
+    res.end(
+      JSON.stringify({
+        message: "ไม่มีสิทธิ์เข้าถึง (สำหรับ Manager หรือ Admin เท่านั้น)",
+      }),
+    );
     return;
   }
 
@@ -110,4 +117,10 @@ function managerMiddleware(req, res, next) {
   }
 }
 
-module.exports = { authMiddleware, adminMiddleware, managerMiddleware, signJwt, verifyJwt };
+module.exports = {
+  authMiddleware,
+  adminMiddleware,
+  managerMiddleware,
+  signJwt,
+  verifyJwt,
+};

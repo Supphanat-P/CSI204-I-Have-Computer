@@ -46,8 +46,6 @@ export default function Profiles() {
           email: matched.email || "",
           phone: matched.phone || "-",
           birthDate: matched.birthDate || "-",
-          lineId: matched.lineId || "-",
-          facebook: matched.facebook || "-",
         };
       }
       return {
@@ -56,8 +54,6 @@ export default function Profiles() {
         email: curr.email || "",
         phone: "-",
         birthDate: "-",
-        lineId: "-",
-        facebook: "-",
       };
     }
     return {
@@ -66,8 +62,6 @@ export default function Profiles() {
       email: "",
       phone: "-",
       birthDate: "-",
-      lineId: "-",
-      facebook: "-",
     };
   });
 
@@ -150,6 +144,7 @@ export default function Profiles() {
           const data = await response.json();
           setOrders(data);
           localStorage.setItem(`orders_${currentUser.id}`, JSON.stringify(data));
+          console.log(orders)
         }
       } catch (err) {
         console.error("Error fetching orders:", err);
@@ -163,6 +158,22 @@ export default function Profiles() {
       localStorage.setItem(`orders_${currentUser.id}`, JSON.stringify(orders));
     }
   }, [orders, currentUser]);
+
+  const ordersWaiting = orders.filter(
+    (order) => order.status === "รอดำเนินการ"
+  );
+
+  const ordersDelivered = orders.filter(
+    (order) => order.status === "จัดส่งแล้ว"
+  );
+
+  const ordersCompleted = orders.filter(
+    (order) => order.status === "เสร็จสิ้น"
+  );
+
+  const ordersPendingPayment = orders.filter(
+    (order) => order.status === "รอชำระเงิน"
+  );
 
   const handleConfirmDelivery = (orderId) => {
     if (window.confirm("คุณได้รับสินค้าและต้องการยืนยันว่าการจัดส่งเสร็จสิ้นใช่หรือไม่?")) {
@@ -260,7 +271,7 @@ export default function Profiles() {
       alert("กรุณากรอกชื่อผู้ถือบัตร");
       return;
     }
-    
+
     const maskedNumber = `**** **** **** ${sanitizedNumber.slice(-4)}`;
     const newCard = {
       id: payments.length > 0 ? Math.max(...payments.map((p) => p.id)) + 1 : 1,
@@ -831,19 +842,19 @@ export default function Profiles() {
                       {/* Counter badging */}
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full md:w-auto">
                         <div className="bg-white border border-outline-variant p-3.5 rounded-xl text-center shrink-0 min-w-[90px]">
-                          <span className="text-2xl font-bold text-primary block leading-none">0</span>
+                          <span className="text-2xl font-bold text-primary block leading-none">{ordersCompleted.length}</span>
                           <span className="text-xs text-on-surface-variant">เสร็จสิ้น</span>
                         </div>
                         <div className="bg-white border border-outline-variant p-3.5 rounded-xl text-center shrink-0 min-w-[90px]">
-                          <span className="text-2xl font-bold text-primary block leading-none">0</span>
+                          <span className="text-2xl font-bold text-primary block leading-none">{ordersDelivered.length}</span>
                           <span className="text-xs text-on-surface-variant">จัดส่งแล้ว</span>
                         </div>
                         <div className="bg-white border border-outline-variant p-3.5 rounded-xl text-center shrink-0 min-w-[90px]">
-                          <span className="text-2xl font-bold text-primary block leading-none">0</span>
+                          <span className="text-2xl font-bold text-primary block leading-none">{ordersWaiting.length}</span>
                           <span className="text-xs text-on-surface-variant">รอดำเนินการ</span>
                         </div>
                         <div className="bg-white border border-outline-variant p-3.5 rounded-xl text-center shrink-0 min-w-[90px]">
-                          <span className="text-2xl font-bold text-primary block leading-none">0</span>
+                          <span className="text-2xl font-bold text-primary block leading-none">{ordersPendingPayment.length}</span>
                           <span className="text-xs text-on-surface-variant">รอชำระเงิน</span>
                         </div>
                       </div>
@@ -867,14 +878,6 @@ export default function Profiles() {
                         <div>
                           <p className="text-xs text-outline font-medium uppercase mb-1">วัน / เดือน / ปีเกิด</p>
                           <p className="text-on-surface font-medium">{userProfile.birthDate}</p>
-                        </div>
-                        <div>
-                          <p className="text-xs text-outline font-medium uppercase mb-1">ไลน์ไอดี</p>
-                          <p className="text-on-surface font-medium">{userProfile.lineId}</p>
-                        </div>
-                        <div>
-                          <p className="text-xs text-outline font-medium uppercase mb-1">เฟสบุ๊ค</p>
-                          <p className="text-on-surface font-medium">{userProfile.facebook}</p>
                         </div>
                       </div>
                     </div>
@@ -1670,7 +1673,7 @@ export default function Profiles() {
       {isCardModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
           <div className="bg-white border border-outline-variant rounded-2xl shadow-xl w-full max-w-md p-6 md:p-8 space-y-6">
-            
+
             {/* Modal Header */}
             <div className="flex justify-between items-center border-b border-outline-variant pb-4">
               <h3 className="text-xl font-bold text-on-surface flex items-center gap-2">
