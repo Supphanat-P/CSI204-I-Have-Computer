@@ -86,6 +86,7 @@ export default function Products() {
   useEffect(() => {
     setMaxPrice(priceMaxLimit);
   }, [priceMaxLimit]);
+    console.log(types)
 
   const filters = useMemo(() => {
     const result = {};
@@ -126,7 +127,7 @@ export default function Products() {
       const matchBrand =
         selectedBrands.length === 0 ||
         selectedBrands.includes(product.brand);
-
+      
       const matchAttributes = Object.entries(selectedExtras).every(
         ([key, selected]) => {
           if (!selected.length) return true;

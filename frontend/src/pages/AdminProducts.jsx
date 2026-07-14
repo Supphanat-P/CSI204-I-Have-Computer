@@ -411,7 +411,7 @@ export default function AdminProducts() {
                         </td>
                         <td className="px-4 py-3">
                           <span className="px-2 py-1 bg-surface-container text-on-surface-variant rounded-full text-xs font-medium">
-                            {product.productType || "-"}
+                            {product.type || "-"}
                           </span>
                         </td>
                         <td className="px-4 py-3 text-right font-semibold text-on-surface">
