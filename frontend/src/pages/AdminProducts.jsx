@@ -72,7 +72,7 @@ export default function AdminProducts() {
   }, [products]);
 
   const productTypes = useMemo(() => {
-    return [...new Set(products.map((p) => p.type).filter(Boolean))];
+    return [...new Set(products.map((p) => p.productType || p.type).filter(Boolean))];
   }, [products]);
 
   // Extract all unique attribute keys
@@ -527,15 +527,23 @@ export default function AdminProducts() {
                           customProductType: newType === "__ADD_NEW__" ? f.customProductType : ""
                         };
                         
-                        // Auto-fill attributes if empty and a known type is selected
+                        // Auto-fill attributes when a known type is selected
                         if (newType !== "__ADD_NEW__" && newType !== "") {
-                          const template = products.find(p => p.type === newType);
+                          const template = products.find(p => (p.productType || p.type) === newType);
                           if (template) {
-                            if (newData.attributes.length === 0 && template.attributes) {
-                              newData.attributes = Object.keys(template.attributes).map(k => ({ key: k, value: "" }));
+                            if (template.attributes) {
+                              const existingAttrs = f.attributes || [];
+                              newData.attributes = Object.keys(template.attributes).map(k => {
+                                const existing = existingAttrs.find(a => a.key === k);
+                                return { key: k, value: existing ? existing.value : "" };
+                              });
                             }
-                            if (newData.attributesDetails.length === 0 && template.attributesDetails) {
-                              newData.attributesDetails = Object.keys(template.attributesDetails).map(k => ({ key: k, value: "" }));
+                            if (template.attributesDetails) {
+                              const existingDetails = f.attributesDetails || [];
+                              newData.attributesDetails = Object.keys(template.attributesDetails).map(k => {
+                                const existing = existingDetails.find(a => a.key === k);
+                                return { key: k, value: existing ? existing.value : "" };
+                              });
                             }
                           }
                         }
