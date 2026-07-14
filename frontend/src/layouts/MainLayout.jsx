@@ -1,6 +1,7 @@
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
+import { useAlert } from "../context/AlertContext";
 
 export default function MainLayout() {
   const location = useLocation();
@@ -13,6 +14,7 @@ export default function MainLayout() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isManager, setIsManager] = useState(false);
   const { cart, updateQuantity, removeFromCart, clearCart, cartCount, cartTotal } = useCart();
+  const { showAlert } = useAlert();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [favoriteCount, setFavoriteCount] = useState(0);
 
@@ -49,8 +51,16 @@ export default function MainLayout() {
     };
   }, [isCartOpen]);
 
-  const handleLogout = () => {
-    if (window.confirm("คุณต้องการออกจากระบบใช่หรือไม่?")) {
+  const handleLogout = async () => {
+    const confirmed = await showAlert({
+      title: "ออกจากระบบ",
+      message: "คุณต้องการออกจากระบบใช่หรือไม่?",
+      showCancel: true,
+      confirmText: "ออกจากระบบ",
+      cancelText: "ยกเลิก"
+    });
+    
+    if (confirmed) {
       localStorage.removeItem("currentUser");
       setIsLogin(false);
       navigate("/login");
@@ -429,10 +439,13 @@ export default function MainLayout() {
               </div>
               <div className="grid gap-2">
                 <button
-                  onClick={() => {
+                  onClick={async () => {
                     const currentUser = localStorage.getItem("currentUser");
                     if (!currentUser) {
-                      alert("กรุณาเข้าสู่ระบบก่อนทำการสั่งซื้อสินค้า");
+                      await showAlert({
+                        title: "ต้องเข้าสู่ระบบ",
+                        message: "กรุณาเข้าสู่ระบบก่อนทำการสั่งซื้อสินค้า"
+                      });
                       setIsCartOpen(false);
                       navigate("/login");
                       return;

@@ -15,10 +15,12 @@ import ManagerLayout from "./layouts/ManagerLayout";
 import ShippingStatus from "./pages/manager/ShippingStatus";
 import ManageUser from "./pages/admin/ManageUser";
 import { CartProvider } from "./context/CartContext";
+import { AlertProvider } from "./context/AlertContext";
 
 function App() {
   return (
-    <CartProvider>
+    <AlertProvider>
+      <CartProvider>
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>
@@ -44,6 +46,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </CartProvider>
+    </AlertProvider>
   );
 }
 

@@ -1,11 +1,13 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useAlert } from "../context/AlertContext";
 
 export default function Profiles() {
   const navigate = useNavigate();
   const location = useLocation();
   const { addToCart } = useCart();
+  const { showAlert } = useAlert();
 
   // 1. Session & Authentication check
   const [currentUser, setCurrentUser] = useState(() => {
@@ -14,10 +16,12 @@ export default function Profiles() {
 
   useEffect(() => {
     if (!currentUser) {
-      alert("กรุณาเข้าสู่ระบบเพื่อเข้าสู่หน้าโปรไฟล์");
-      navigate("/login");
+      showAlert({
+        title: "ต้องเข้าสู่ระบบ",
+        message: "กรุณาเข้าสู่ระบบเพื่อเข้าสู่หน้าโปรไฟล์"
+      }).then(() => navigate("/login"));
     }
-  }, [currentUser, navigate]);
+  }, [currentUser, navigate, showAlert]);
 
   // Active Sidebar Tab state
   // Tabs: 'profile', 'shipping_address', 'tax_address', 'orders', 'wishlist', 'shipping_status', 'payment_methods'
@@ -159,30 +163,25 @@ export default function Profiles() {
     }
   }, [orders, currentUser]);
 
-  const ordersWaiting = orders.filter(
-    (order) => order.status === "รอดำเนินการ"
-  );
+  const handleConfirmDelivery = async (orderId) => {
+    const confirmed = await showAlert({
+      title: "ยืนยันการรับสินค้า",
+      message: "คุณได้รับสินค้าและต้องการยืนยันว่าการจัดส่งเสร็จสิ้นใช่หรือไม่?",
+      showCancel: true,
+      confirmText: "ยืนยัน",
+      cancelText: "ยกเลิก"
+    });
 
-  const ordersDelivered = orders.filter(
-    (order) => order.status === "จัดส่งแล้ว"
-  );
-
-  const ordersCompleted = orders.filter(
-    (order) => order.status === "เสร็จสิ้น"
-  );
-
-  const ordersPendingPayment = orders.filter(
-    (order) => order.status === "รอชำระเงิน"
-  );
-
-  const handleConfirmDelivery = (orderId) => {
-    if (window.confirm("คุณได้รับสินค้าและต้องการยืนยันว่าการจัดส่งเสร็จสิ้นใช่หรือไม่?")) {
+    if (confirmed) {
       setOrders((prevOrders) =>
         prevOrders.map((ord) =>
           ord.id === orderId ? { ...ord, status: "เสร็จสิ้น" } : ord
         )
       );
-      alert("🎉 ยืนยันการรับสินค้าสำเร็จ! ข้อมูลคำสั่งซื้อถูกบันทึกในประวัติการสั่งซื้อแล้ว");
+      await showAlert({
+        title: "สำเร็จ",
+        message: "🎉 ยืนยันการรับสินค้าสำเร็จ! ข้อมูลคำสั่งซื้อถูกบันทึกในประวัติการสั่งซื้อแล้ว"
+      });
     }
   };
 
@@ -339,7 +338,10 @@ export default function Profiles() {
       const data = await response.json();
 
       if (!response.ok) {
-        alert(data.message || "ไม่สามารถบันทึกข้อมูลได้");
+        await showAlert({
+          title: "เกิดข้อผิดพลาด",
+          message: data.message || "ไม่สามารถบันทึกข้อมูลได้"
+        });
         return;
       }
 
@@ -389,7 +391,10 @@ export default function Profiles() {
       setIsEditingProfile(false);
     } catch (err) {
       console.error(err);
-      alert("ไม่สามารถติดต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง");
+      await showAlert({
+        title: "เกิดข้อผิดพลาด",
+        message: "ไม่สามารถติดต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง"
+      });
     }
   };
 
@@ -678,8 +683,15 @@ export default function Profiles() {
             {/* Logout Button */}
             <div className="p-4 border-t border-outline-variant bg-surface-container-low">
               <button
-                onClick={() => {
-                  if (window.confirm("คุณต้องการออกจากระบบใช่หรือไม่?")) {
+                onClick={async () => {
+                  const confirmed = await showAlert({
+                    title: "ออกจากระบบ",
+                    message: "คุณต้องการออกจากระบบใช่หรือไม่?",
+                    showCancel: true,
+                    confirmText: "ออกจากระบบ",
+                    cancelText: "ยกเลิก"
+                  });
+                  if (confirmed) {
                     localStorage.removeItem("currentUser");
                     navigate("/login");
                   }

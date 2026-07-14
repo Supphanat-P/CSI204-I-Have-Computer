@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useAlert } from "../context/AlertContext";
 
 export default function Homepage() {
   const { addToCart } = useCart();
+  const { showAlert } = useAlert();
   const [activeNav, setActiveNav] = useState("Electronics");
   const [searchQuery, setSearchQuery] = useState("");
   const [email, setEmail] = useState("");
@@ -79,10 +81,13 @@ export default function Homepage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = async (e) => {
     e.preventDefault();
     if (email) {
-      alert(`Subscribed successfully with: ${email}`);
+      await showAlert({
+        title: "สมัครสมาชิกสำเร็จ",
+        message: `สมัครรับข่าวสารสำเร็จด้วยอีเมล: ${email}`
+      });
       setEmail("");
     }
   };
@@ -184,7 +189,7 @@ export default function Homepage() {
           </div>
         </section>
         {/* Featured Products */}
-        <section className="py-20 px-margin-desktop max-w-container-max mx-auto">
+        {/* <section className="py-20 px-margin-desktop max-w-container-max mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
             <div>
               <h2 className="font-headline-md text-display-lg-mobile text-on-surface mb-2">
@@ -255,7 +260,7 @@ export default function Homepage() {
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* Newsletter / CTA มันจะส่งเมลไปหาเราตามเมลที่กรอก}
         <section className="py-24 bg-primary text-white text-center px-margin-desktop overflow-hidden relative">
