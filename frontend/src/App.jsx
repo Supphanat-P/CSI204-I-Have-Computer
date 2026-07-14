@@ -12,10 +12,12 @@ import Profiles from "./pages/Profiles";
 import Checkout from "./pages/Checkout";
 import AdminProducts from "./pages/AdminProducts";
 import { CartProvider } from "./context/CartContext";
+import { AlertProvider } from "./context/AlertContext";
 
 function App() {
   return (
-    <CartProvider>
+    <AlertProvider>
+      <CartProvider>
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>
@@ -35,6 +37,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </CartProvider>
+    </AlertProvider>
   );
 }
 

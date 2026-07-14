@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useAlert } from "../context/AlertContext";
 
 export default function Checkout() {
   const navigate = useNavigate();
   const { cart, cartTotal, clearCart } = useCart();
+  const { showAlert } = useAlert();
   const [orderCompleted, setOrderCompleted] = useState(false);
 
   // 1. Session & Auth Check
@@ -14,18 +16,22 @@ export default function Checkout() {
 
   useEffect(() => {
     if (!currentUser) {
-      alert("กรุณาเข้าสู่ระบบก่อนทำการสั่งซื้อสินค้า");
-      navigate("/login");
+      showAlert({
+        title: "ต้องเข้าสู่ระบบ",
+        message: "กรุณาเข้าสู่ระบบก่อนทำการสั่งซื้อสินค้า"
+      }).then(() => navigate("/login"));
     }
-  }, [currentUser, navigate]);
+  }, [currentUser, navigate, showAlert]);
 
   // Redirect to homepage if cart is empty
   useEffect(() => {
     if (currentUser && cart.length === 0 && !orderCompleted) {
-      alert("ไม่มีสินค้าในตะกร้าสำหรับชำระเงิน");
-      navigate("/");
+      showAlert({
+        title: "ตะกร้าว่างเปล่า",
+        message: "ไม่มีสินค้าในตะกร้าสำหรับชำระเงิน"
+      }).then(() => navigate("/"));
     }
-  }, [cart, currentUser, navigate, orderCompleted]);
+  }, [cart, currentUser, navigate, orderCompleted, showAlert]);
 
   // 2. Shipping calculation logic
   const SHIPPING_THRESHOLD = 1000;
@@ -119,10 +125,13 @@ export default function Checkout() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleCheckoutSubmit = (e) => {
+  const handleCheckoutSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
-      alert("กรุณากรอกข้อมูลการจัดส่งให้ครบถ้วนและถูกต้อง");
+      await showAlert({
+        title: "ข้อมูลไม่ครบถ้วน",
+        message: "กรุณากรอกข้อมูลการจัดส่งให้ครบถ้วนและถูกต้อง"
+      });
       return;
     }
 
@@ -193,8 +202,13 @@ export default function Checkout() {
     setOrderCompleted(true);
     clearCart();
     setIsPromptPayModalOpen(false);
-    alert(`🎉 ทำรายการสั่งซื้อสำเร็จ!\nหมายเลขคำสั่งซื้อของคุณคือ ${orderId}`);
-    navigate("/profile", { state: { activeTab: "orders" } }); // Redirect to profile page to let them see order history
+    
+    showAlert({
+      title: "สั่งซื้อสำเร็จ",
+      message: `🎉 ทำรายการสั่งซื้อสำเร็จ!\nหมายเลขคำสั่งซื้อของคุณคือ ${orderId}`
+    }).then(() => {
+      navigate("/profile", { state: { activeTab: "orders" } }); // Redirect to profile page to let them see order history
+    });
   };
 
   const handleInputChange = (field, value) => {
