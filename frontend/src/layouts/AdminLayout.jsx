@@ -1,6 +1,26 @@
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
+// Helper to decode JWT token payload on client side
+const getRoleFromToken = (token) => {
+  if (!token) return null;
+  try {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      window
+        .atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    const decoded = JSON.parse(jsonPayload);
+    return decoded.role;
+  } catch (e) {
+    return null;
+  }
+};
+
 export default function AdminLayout() {
   const navigate = useNavigate();
   const [currentUser] = useState(() =>
@@ -9,14 +29,15 @@ export default function AdminLayout() {
 
   // Protect route: redirect non-admin users
   useEffect(() => {
+    const tokenRole = getRoleFromToken(currentUser?.token);
     if (!currentUser) {
       navigate("/login", { replace: true });
-    } else if (currentUser.role !== "admin") {
+    } else if (currentUser.role !== "admin" || tokenRole !== "admin") {
       navigate("/", { replace: true });
     }
   }, [currentUser, navigate]);
 
-  if (!currentUser || currentUser.role !== "admin") return null;
+  if (!currentUser || currentUser.role !== "admin" || getRoleFromToken(currentUser?.token) !== "admin") return null;
 
   return (
     <>

@@ -148,18 +148,31 @@ export default function ProductDetails() {
                                 <span className="material-symbols-outlined">add</span>
                             </button>
                         </div>
-
-                        <button
-                            onClick={handleAddToCart}
-                            className="flex-1 h-[56px] bg-primary text-on-primary rounded-lg font-bold text-body-lg flex items-center justify-center gap-2 hover:bg-primary/90 hover:scale-[1.02] active:scale-95 transition-all shadow-md shadow-primary/20"
-                        >
-                            <span className="material-symbols-outlined">shopping_cart_checkout</span>
-                            เพิ่มลงรถเข็น
-                        </button>
+                        {product.stock > 0 ? (
+                            <button
+                                onClick={handleAddToCart}
+                                className="flex-1 h-[56px] bg-primary text-on-primary rounded-lg font-bold text-body-lg flex items-center justify-center gap-2 hover:bg-primary/90 hover:scale-[1.02] active:scale-95 transition-all shadow-md shadow-primary/20"
+                            >
+                                <span className="material-symbols-outlined">
+                                    shopping_cart_checkout
+                                </span>
+                                เพิ่มลงรถเข็น
+                            </button>
+                        ) : (
+                            <button
+                                disabled
+                                className="flex-1 h-[56px] bg-red-500 text-white rounded-lg font-bold text-body-lg flex items-center justify-center gap-2 cursor-not-allowed"
+                            >
+                                <span className="material-symbols-outlined">
+                                    remove_shopping_cart
+                                </span>
+                                สินค้าหมด
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
- 
+
             {/* Product Full Specifications Section */}
             {productSpecs.length > 0 && (
                 <div className="w-[80%] mx-auto mt-12">

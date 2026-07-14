@@ -90,18 +90,26 @@ export default function ProductCard({ product }) {
             <span className="text-headline-sm font-bold text-primary">
               {product.price.toLocaleString()}$
             </span>
-            <span className="text-label-sm text-on-surface-variant">
-              สต๊อก {product.stock}
-            </span>
+            {product.stock > 0 ? (
+              <span className="text-label-sm text-on-surface-variant">
+                สต๊อก {product.stock}
+              </span>
+            ) : (
+              <span className="text-label-sm text-red-500">สินค้า่หมด</span>
+            )}
           </div>
         </div>
       </Link>
-      <button
-        onClick={() => addToCart(product)}
-        className="absolute bottom-4 right-4 bg-primary text-on-primary w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all active:scale-90 cursor-pointer"
-      >
-        <span className="material-symbols-outlined">add_shopping_cart</span>
-      </button>
+      {product.stock > 0 && (
+        <button
+          onClick={() => addToCart(product)}
+          className="absolute bottom-4 right-4 bg-primary text-on-primary w-10 h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all active:scale-90 cursor-pointer"
+        >
+          <span className="material-symbols-outlined">
+            add_shopping_cart
+          </span>
+        </button>
+      )}
     </div>
   );
 }

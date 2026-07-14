@@ -12,11 +12,20 @@
     "name": "พอล มอนดรีฟ อเธดิส",
     "email": "paul@gm",
     "password": "$2a$10$rFgHpxHnbhoDLy6MwTJPQO5CVBQKIwDR3qSAywBlERauXTvoFfrgm",
-    "phone": "",
-    "role": "user"
+    "phone": "-",
+    "birthDate": "-"
   },
   {
     "id": "3",
+    "name": "T",
+    "email": "t@gm",
+    "password": "$2a$10$7MLxaGCJG5bTpxVcfT7UletbT75OafncPwUFf51gNRGyN8MgYkScy",
+    "phone": "-",
+    "birthDate": "-",
+    "role": "user"
+  },
+  {
+    "id": "4",
     "name": "test 1",
     "email": "test1@gm",
     "password": "$2a$10$Sav9o8h41gNYr.zI3pTEbuRt.o1EsImP4DvSvWepX1NAlemXBD57y",
@@ -24,7 +33,7 @@
     "role": "user"
   },
   {
-    "id": "4",
+    "id": "5",
     "name": "Kira",
     "email": "pondezxb@gmail.com",
     "password": "$2a$10$SRbynvqbCePv3bg.gzOCxe1PGru76qt1nvuZVIM30C.TkXRvIKJ0C",
@@ -32,7 +41,7 @@
     "role": "admin"
   },
   {
-    "id": "5",
+    "id": "6",
     "name": "ศุภณัฐ เดี่ยวไหมครับ",
     "email": "Deawpa@gmail.com",
     "password": "$2a$10$IGPCHO.13fnCDHTLoZvfQeE/fub7bRneqIQTwSZda2J4ZvIfqppuy",

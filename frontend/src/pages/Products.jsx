@@ -11,6 +11,7 @@ export default function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [selectedType, setSelectedType] = useState("");
   const [selectedBrands, setSelectedBrands] = useState([]);
@@ -26,7 +27,6 @@ export default function Products() {
 
       try {
         const { data } = await axios.get("/api/products");
-        console.log(data)
 
         if (isMounted) {
           setProducts(data);
@@ -87,6 +87,7 @@ export default function Products() {
   useEffect(() => {
     setMaxPrice(priceMaxLimit);
   }, [priceMaxLimit]);
+  console.log(types)
 
   const filters = useMemo(() => {
     const result = {};
@@ -123,6 +124,8 @@ export default function Products() {
   }, [availableProducts]);
 
   const filteredProducts = useMemo(() => {
+    const normalizedSearch = searchQuery.trim().toLowerCase();
+
     return availableProducts.filter((product) => {
       const matchBrand =
         selectedBrands.length === 0 ||
@@ -144,13 +147,20 @@ export default function Products() {
 
       const matchPrice = product.price <= maxPrice;
 
-      return matchBrand && matchAttributes && matchPrice;
+      const matchSearch =
+        !normalizedSearch ||
+        [product.name, product.brand, product.category, product.type]
+          .filter(Boolean)
+          .some((field) => field.toString().toLowerCase().includes(normalizedSearch));
+
+      return matchBrand && matchAttributes && matchPrice && matchSearch;
     });
   }, [
     availableProducts,
     selectedBrands,
     selectedExtras,
     maxPrice,
+    searchQuery,
   ]);
 
   const toggleValue = (currentValues, value) =>
@@ -247,6 +257,19 @@ export default function Products() {
                 พบสินค้าทั้งหมด {filteredProducts.length} รายการ
               </p>
             </div>
+            <div className="relative w-[50%] hidden sm:block">
+              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
+                search
+              </span>
+              <input
+                className="w-full bg-surface-container-low border border-outline-variant rounded-full py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                placeholder="Search ..."
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <></>
             {/* <div className="flex items-center gap-stack-md">
               <span className="text-label-md text-on-surface-variant">
                 เรียงตาม:
