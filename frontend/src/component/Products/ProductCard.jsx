@@ -95,7 +95,7 @@ export default function ProductCard({ product }) {
                 สต๊อก {product.stock}
               </span>
             ) : (
-              <span className="text-label-sm text-red-500">สินค้า่หมด</span>
+              <span className="text-label-sm text-red-500">สินค้าหมด</span>
             )}
           </div>
         </div>
