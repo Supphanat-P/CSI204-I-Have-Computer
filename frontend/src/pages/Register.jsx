@@ -57,7 +57,7 @@ export default function Register() {
           id: data.user.id,
           name: data.user.name,
           email: data.user.email,
-          password: password, // Store password locally for compatibility
+          password: password || "-", // Store password locally for compatibility
           phone: "-",
           birthDate: "-",
           lineId: "-",

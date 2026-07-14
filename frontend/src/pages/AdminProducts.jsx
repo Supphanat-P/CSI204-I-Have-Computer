@@ -1,6 +1,26 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Helper to decode JWT token payload on client side
+const getRoleFromToken = (token) => {
+  if (!token) return null;
+  try {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      window
+        .atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    const decoded = JSON.parse(jsonPayload);
+    return decoded.role;
+  } catch (e) {
+    return null;
+  }
+};
+
 export default function AdminProducts() {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(() =>
@@ -8,7 +28,8 @@ export default function AdminProducts() {
   );
 
   useEffect(() => {
-    if (!currentUser || currentUser.role !== "admin") {
+    const tokenRole = getRoleFromToken(currentUser?.token);
+    if (!currentUser || currentUser.role !== "admin" || tokenRole !== "admin") {
       navigate("/", { replace: true });
     }
   }, [currentUser, navigate]);
@@ -171,7 +192,7 @@ export default function AdminProducts() {
     return { label: stock.toString(), cls: "bg-emerald-100 text-emerald-700 border border-emerald-200" };
   };
 
-  if (!currentUser || currentUser.role !== "admin") return null;
+  if (!currentUser || currentUser.role !== "admin" || getRoleFromToken(currentUser?.token) !== "admin") return null;
 
   return (
     <div className="min-h-screen bg-background">

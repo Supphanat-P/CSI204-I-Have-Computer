@@ -144,21 +144,20 @@ async function loginUser(req, res) {
     let users = readJsonFile("users.json");
 
     // If users.json is empty, initialize with default user
-    if (users.length === 0) {
-      const hashedPassword = bcrypt.hashSync("password123", 10);
-      const defaultUser = {
-        id: "1",
-        name: "Theepakorn Ruensukhonte",
-        email: "theefordev@gmail.com",
-        password: hashedPassword,
-        phone: "-",
-        birthDate: "-",
-        lineId: "-",
-        facebook: "-",
-      };
-      users = [defaultUser];
-      writeJsonFile("users.json", users);
-    }
+    // if (users.length === 0) {
+    //   const defaultUser = {
+    //     id: "1",
+    //     name: "Theepakorn Ruensukhonte",
+    //     email: "theefordev@gmail.com",
+    //     password: "password123",
+    //     phone: "-",
+    //     birthDate: "-",
+    //     lineId: "-",
+    //     facebook: "-",
+    //   };
+    //   users = [defaultUser];
+    //   writeJsonFile("users.json", users);
+    // }
 
     const matchedUser = users.find(
       (u) => u.email.toLowerCase() === email.toLowerCase()
