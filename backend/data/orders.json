@@ -42,27 +42,6 @@
     "userId": "1"
   },
   {
-    "id": "IHC-84338",
-    "date": "2026-07-14",
-    "items": [
-      {
-        "id": 46,
-        "name": "Name",
-        "brand": "Brand",
-        "price": 1e+24,
-        "quantity": 1,
-        "image": "1"
-      }
-    ],
-    "total": 1e+24,
-    "status": "รอดำเนินการ",
-    "shippingAddress": "1 ต. 1 อ. 1 จ. 1 12345",
-    "recipientName": "1",
-    "recipientPhone": "1234567890",
-    "paymentMethod": "โอนเงินผ่านบัญชีธนาคาร",
-    "userId": "1"
-  },
-  {
     "id": "IHC-41284",
     "date": "2026-07-14",
     "items": [

@@ -5,7 +5,7 @@
     "email": "thonradee@gmail.com",
     "password": "$2a$10$TYHUaihGQgniRZwHplekdu.SucnCCT/vE4wCWkwjiLcec/itXrCsa",
     "phone": "",
-    "role": "admin"
+    "role": "manager"
   },
   {
     "id": "2",
@@ -64,6 +64,15 @@
     "password": "$2a$10$rMEk1RT59aFNg4vYkTHVdeZDIytTJGLbBYMR2jpmkbSiM5gOWl3Ry",
     "phone": "0000000000",
     "birthDate": "00/00/0000",
-    "role": "admin"
+    "role": "manager"
+  },
+  {
+    "id": "9",
+    "name": "2",
+    "email": "Deawpa2@gmail.com",
+    "password": "$2a$10$xMyBc1GhDPbrcnRq1mUrPObz5UA9YxjqAjcLj93Z813WlCCa.bJvK",
+    "phone": "-",
+    "birthDate": "-",
+    "role": "user"
   }
 ]

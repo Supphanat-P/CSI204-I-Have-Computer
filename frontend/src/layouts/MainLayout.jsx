@@ -156,7 +156,7 @@ export default function MainLayout() {
                     </Link>
                   ) : isManager ? (
                     <Link
-                      to="/manager/shipping"
+                      to="/manager"
                       className="flex items-center gap-1 px-3 py-1.5 bg-secondary text-white text-xs font-bold rounded-full hover:brightness-110 active:scale-95 transition-all"
                     >
                       <span className="material-symbols-outlined text-sm">local_shipping</span>

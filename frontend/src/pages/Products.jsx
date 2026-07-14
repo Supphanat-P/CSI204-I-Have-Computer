@@ -105,7 +105,7 @@ export default function Products() {
         }
       });
     });
-
+    
     return Object.fromEntries(
       Object.entries(result).map(([key, values]) => [
         key,
