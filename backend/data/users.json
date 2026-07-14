@@ -52,5 +52,16 @@
     "lineId": "-",
     "facebook": "-",
     "role": "admin"
+  },
+  {
+    "id": "6",
+    "name": "manager",
+    "email": "manager@gmail.com",
+    "password": "$2a$10$rtA2v.Y5KERL2noBa6nuzu94194L7YMI7QhSonoNmDbD/SB8kVfHu",
+    "phone": "-",
+    "birthDate": "-",
+    "lineId": "-",
+    "facebook": "-",
+    "role": "manager"
   }
 ]
