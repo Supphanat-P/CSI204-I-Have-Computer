@@ -21,18 +21,11 @@ const getRoleFromToken = (token) => {
   }
 };
 
-export default function AdminProducts() {
+export default function ManageProducts() {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(() =>
     JSON.parse(localStorage.getItem("currentUser") || "null")
   );
-
-  useEffect(() => {
-    const tokenRole = getRoleFromToken(currentUser?.token);
-    if (!currentUser || currentUser.role !== "admin" || tokenRole !== "admin") {
-      navigate("/", { replace: true });
-    }
-  }, [currentUser, navigate]);
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -185,7 +178,7 @@ export default function AdminProducts() {
     try {
       const token = currentUser?.token;
       const endpoint = modalMode === "add" ? "/api/products/create" : "/api/products/update";
-      
+
       let finalProductType = formData.productType;
       if (finalProductType === "__ADD_NEW__") {
         finalProductType = formData.customProductType || "";
@@ -223,7 +216,7 @@ export default function AdminProducts() {
       }
       setShowModal(false);
       setSuccessMsg(modalMode === "add" ? "เพิ่มสินค้าสำเร็จ!" : "แก้ไขสินค้าสำเร็จ!");
-      
+
       // Update local state immediately so UI reflects it without waiting for fetch
       if (modalMode === "add") {
         setProducts(prev => [...prev, data.product]);
@@ -237,7 +230,7 @@ export default function AdminProducts() {
       try {
         localStorage.setItem('products_last_updated', Date.now().toString());
         window.dispatchEvent(new Event('products_last_updated'));
-      } catch (e) {}
+      } catch (e) { }
       setTimeout(() => setSuccessMsg(""), 3000);
     } catch (err) {
       setFormError("ไม่สามารถติดต่อเซิร์ฟเวอร์ได้");
@@ -252,7 +245,14 @@ export default function AdminProducts() {
     return { label: stock.toString(), cls: "bg-emerald-100 text-emerald-700 border border-emerald-200" };
   };
 
-  if (!currentUser || currentUser.role !== "admin" || getRoleFromToken(currentUser?.token) !== "admin") return null;
+  const tokenRole = getRoleFromToken(currentUser?.token);
+  const isAuthorized =
+    currentUser &&
+    (currentUser.role === "admin" || currentUser.role === "manager") &&
+    (tokenRole === "admin" || tokenRole === "manager") &&
+    currentUser.role === tokenRole;
+
+  if (!isAuthorized) return null;
 
   return (
     <div className="min-h-screen bg-background">
@@ -264,7 +264,7 @@ export default function AdminProducts() {
               <div className="flex items-center gap-3 mb-1">
                 <span className="material-symbols-outlined text-white text-3xl">admin_panel_settings</span>
                 <h1 className="text-white text-3xl font-bold tracking-tight" style={{ margin: 0 }}>
-                  Admin — จัดการสินค้า
+                  {currentUser.role === "manager" ? "Manager — จัดการสินค้า" : "Admin — จัดการสินค้า"}
                 </h1>
               </div>
               <p className="text-white/70 text-sm mt-1">
@@ -471,24 +471,24 @@ export default function AdminProducts() {
 
               {/* Tabs */}
               <div className="flex px-6 gap-6">
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={() => setActiveTab("general")}
                   className={`pb-3 text-sm font-bold border-b-2 transition-all cursor-pointer bg-transparent px-1 border-none ${activeTab === 'general' ? 'border-b-primary text-primary' : 'border-b-transparent text-on-surface-variant hover:text-on-surface'}`}
                   style={{ borderBottomStyle: 'solid' }}
                 >
                   ข้อมูลทั่วไป
                 </button>
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={() => setActiveTab("attributes")}
                   className={`pb-3 text-sm font-bold border-b-2 transition-all cursor-pointer bg-transparent px-1 border-none ${activeTab === 'attributes' ? 'border-b-primary text-primary' : 'border-b-transparent text-on-surface-variant hover:text-on-surface'}`}
                   style={{ borderBottomStyle: 'solid' }}
                 >
                   คุณสมบัติ (Attributes)
                 </button>
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={() => setActiveTab("details")}
                   className={`pb-3 text-sm font-bold border-b-2 transition-all cursor-pointer bg-transparent px-1 border-none ${activeTab === 'details' ? 'border-b-primary text-primary' : 'border-b-transparent text-on-surface-variant hover:text-on-surface'}`}
                   style={{ borderBottomStyle: 'solid' }}
@@ -510,161 +510,161 @@ export default function AdminProducts() {
               {/* General Tab */}
               <div className={activeTab === 'general' ? 'space-y-4' : 'hidden'}>
                 <div>
-                <label className="block text-sm font-semibold text-on-surface-variant mb-1">
-                  ชื่อสินค้า <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => setFormData((f) => ({ ...f, name: e.target.value }))}
-                  placeholder='เช่น ASUS ROG Swift 27"'
-                  className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
                   <label className="block text-sm font-semibold text-on-surface-variant mb-1">
-                    แบรนด์ <span className="text-red-500">*</span>
+                    ชื่อสินค้า <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
-                    value={formData.brand}
-                    onChange={(e) => setFormData((f) => ({ ...f, brand: e.target.value }))}
-                    placeholder="เช่น ASUS, Intel"
+                    value={formData.name}
+                    onChange={(e) => setFormData((f) => ({ ...f, name: e.target.value }))}
+                    placeholder='เช่น ASUS ROG Swift 27"'
                     className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-semibold text-on-surface-variant mb-1">ประเภทสินค้า</label>
-                  <select
-                    value={formData.productType}
-                    onChange={(e) => {
-                      const newType = e.target.value;
-                      setFormData((f) => {
-                        const newData = {
-                          ...f,
-                          productType: newType,
-                          customProductType: newType === "__ADD_NEW__" ? f.customProductType : ""
-                        };
-                        
-                        // Auto-fill attributes when a known type is selected
-                        if (newType !== "__ADD_NEW__" && newType !== "") {
-                          const template = products.find(p => (p.productType || p.type) === newType);
-                          if (template) {
-                            if (template.attributes) {
-                              const existingAttrs = f.attributes || [];
-                              newData.attributes = Object.keys(template.attributes).map(k => {
-                                const existing = existingAttrs.find(a => a.key === k);
-                                return { key: k, value: existing ? existing.value : "" };
-                              });
-                            }
-                            if (template.attributesDetails) {
-                              const existingDetails = f.attributesDetails || [];
-                              newData.attributesDetails = Object.keys(template.attributesDetails).map(k => {
-                                const existing = existingDetails.find(a => a.key === k);
-                                return { key: k, value: existing ? existing.value : "" };
-                              });
-                            }
-                          }
-                        }
-                        
-                        return newData;
-                      });
-                    }}
-                    className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl"
-                  >
-                    <option value="">เลือกประเภทสินค้า</option>
 
-                    {productTypes.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                    <option value="__ADD_NEW__" className="font-bold text-primary">+ เพิ่มประเภทใหม่</option>
-                  </select>
-
-                  {formData.productType === "__ADD_NEW__" && (
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-sm font-semibold text-on-surface-variant mb-1">
+                      แบรนด์ <span className="text-red-500">*</span>
+                    </label>
                     <input
                       type="text"
-                      placeholder="พิมพ์ประเภทสินค้าใหม่"
-                      value={formData.customProductType}
-                      onChange={(e) => setFormData((f) => ({ ...f, customProductType: e.target.value }))}
-                      className="w-full mt-2 px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                    />
-                  )}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-on-surface-variant mb-1">หมวดหมู่ย่อย</label>
-                <input
-                  type="text"
-                  value={formData.category}
-                  onChange={(e) => setFormData((f) => ({ ...f, category: e.target.value }))}
-                  placeholder="เช่น RTX 4070, Intel Core i7"
-                  className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-sm font-semibold text-on-surface-variant mb-1">
-                    ราคา (฿) <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={formData.price}
-                    onChange={(e) => setFormData((f) => ({ ...f, price: e.target.value }))}
-                    placeholder="0"
-                    className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-on-surface-variant mb-1">จำนวนสต็อก</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={formData.stock}
-                    onChange={(e) => setFormData((f) => ({ ...f, stock: e.target.value }))}
-                    placeholder="0"
-                    className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-on-surface-variant mb-1">URL รูปภาพ</label>
-                <input
-                  type="text"
-                  value={formData.image}
-                  onChange={(e) => setFormData((f) => ({ ...f, image: e.target.value }))}
-                  placeholder="https://..."
-                  className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                />
-                {formData.image && (
-                  <div className="mt-2 w-16 h-16 rounded-xl overflow-hidden border border-outline-variant">
-                    <img
-                      src={formData.image}
-                      alt="preview"
-                      className="w-full h-full object-cover"
-                      onError={(e) => { e.target.style.display = "none"; }}
+                      value={formData.brand}
+                      onChange={(e) => setFormData((f) => ({ ...f, brand: e.target.value }))}
+                      placeholder="เช่น ASUS, Intel"
+                      className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
                     />
                   </div>
-                )}
-              </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-on-surface-variant mb-1">ประเภทสินค้า</label>
+                    <select
+                      value={formData.productType}
+                      onChange={(e) => {
+                        const newType = e.target.value;
+                        setFormData((f) => {
+                          const newData = {
+                            ...f,
+                            productType: newType,
+                            customProductType: newType === "__ADD_NEW__" ? f.customProductType : ""
+                          };
 
-              <div>
-                <label className="block text-sm font-semibold text-on-surface-variant mb-1">รายละเอียดสินค้า</label>
-                <textarea
-                  value={formData.description}
-                  onChange={(e) => setFormData((f) => ({ ...f, description: e.target.value }))}
-                  placeholder="อธิบายคุณสมบัติและจุดเด่นของสินค้า..."
-                  rows={3}
-                  className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all resize-none"
-                />
-              </div>
+                          // Auto-fill attributes when a known type is selected
+                          if (newType !== "__ADD_NEW__" && newType !== "") {
+                            const template = products.find(p => (p.productType || p.type) === newType);
+                            if (template) {
+                              if (template.attributes) {
+                                const existingAttrs = f.attributes || [];
+                                newData.attributes = Object.keys(template.attributes).map(k => {
+                                  const existing = existingAttrs.find(a => a.key === k);
+                                  return { key: k, value: existing ? existing.value : "" };
+                                });
+                              }
+                              if (template.attributesDetails) {
+                                const existingDetails = f.attributesDetails || [];
+                                newData.attributesDetails = Object.keys(template.attributesDetails).map(k => {
+                                  const existing = existingDetails.find(a => a.key === k);
+                                  return { key: k, value: existing ? existing.value : "" };
+                                });
+                              }
+                            }
+                          }
+
+                          return newData;
+                        });
+                      }}
+                      className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl"
+                    >
+                      <option value="">เลือกประเภทสินค้า</option>
+
+                      {productTypes.map((type) => (
+                        <option key={type} value={type}>
+                          {type}
+                        </option>
+                      ))}
+                      <option value="__ADD_NEW__" className="font-bold text-primary">+ เพิ่มประเภทใหม่</option>
+                    </select>
+
+                    {formData.productType === "__ADD_NEW__" && (
+                      <input
+                        type="text"
+                        placeholder="พิมพ์ประเภทสินค้าใหม่"
+                        value={formData.customProductType}
+                        onChange={(e) => setFormData((f) => ({ ...f, customProductType: e.target.value }))}
+                        className="w-full mt-2 px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                      />
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-on-surface-variant mb-1">หมวดหมู่ย่อย</label>
+                  <input
+                    type="text"
+                    value={formData.category}
+                    onChange={(e) => setFormData((f) => ({ ...f, category: e.target.value }))}
+                    placeholder="เช่น RTX 4070, Intel Core i7"
+                    className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-sm font-semibold text-on-surface-variant mb-1">
+                      ราคา (฿) <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      value={formData.price}
+                      onChange={(e) => setFormData((f) => ({ ...f, price: e.target.value }))}
+                      placeholder="0"
+                      className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-on-surface-variant mb-1">จำนวนสต็อก</label>
+                    <input
+                      type="number"
+                      min="0"
+                      value={formData.stock}
+                      onChange={(e) => setFormData((f) => ({ ...f, stock: e.target.value }))}
+                      placeholder="0"
+                      className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-on-surface-variant mb-1">URL รูปภาพ</label>
+                  <input
+                    type="text"
+                    value={formData.image}
+                    onChange={(e) => setFormData((f) => ({ ...f, image: e.target.value }))}
+                    placeholder="https://..."
+                    className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                  />
+                  {formData.image && (
+                    <div className="mt-2 w-16 h-16 rounded-xl overflow-hidden border border-outline-variant">
+                      <img
+                        src={formData.image}
+                        alt="preview"
+                        className="w-full h-full object-cover"
+                        onError={(e) => { e.target.style.display = "none"; }}
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-on-surface-variant mb-1">รายละเอียดสินค้า</label>
+                  <textarea
+                    value={formData.description}
+                    onChange={(e) => setFormData((f) => ({ ...f, description: e.target.value }))}
+                    placeholder="อธิบายคุณสมบัติและจุดเด่นของสินค้า..."
+                    rows={3}
+                    className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all resize-none"
+                  />
+                </div>
               </div> {/* End General Tab */}
 
               {/* Datalists for attributes */}
@@ -679,7 +679,7 @@ export default function AdminProducts() {
               <div className={activeTab === 'attributes' ? 'space-y-4' : 'hidden'}>
                 <div className="flex items-center justify-between mb-2">
                   <label className="block text-sm font-semibold text-on-surface-variant">Attributes (คุณสมบัติหลัก)</label>
-                  <button type="button" onClick={() => setFormData(f => ({...f, attributes: [...f.attributes, {key:'', value:''}]}))} className="text-xs text-primary font-bold hover:underline cursor-pointer bg-transparent border-none">+ เพิ่ม Attribute</button>
+                  <button type="button" onClick={() => setFormData(f => ({ ...f, attributes: [...f.attributes, { key: '', value: '' }] }))} className="text-xs text-primary font-bold hover:underline cursor-pointer bg-transparent border-none">+ เพิ่ม Attribute</button>
                 </div>
                 {formData.attributes.map((attr, idx) => (
                   <div key={idx} className="flex gap-3 mb-3 items-start">
@@ -726,14 +726,14 @@ export default function AdminProducts() {
                       <input type="text" placeholder='Value (เช่น 27")' value={attr.value} onChange={(e) => {
                         const newAttr = [...formData.attributes];
                         newAttr[idx].value = e.target.value;
-                        setFormData(f => ({...f, attributes: newAttr}));
+                        setFormData(f => ({ ...f, attributes: newAttr }));
                       }} className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" />
                     </div>
 
                     <div className="flex items-center mt-6">
                       <button type="button" onClick={() => {
                         const newAttr = formData.attributes.filter((_, i) => i !== idx);
-                        setFormData(f => ({...f, attributes: newAttr}));
+                        setFormData(f => ({ ...f, attributes: newAttr }));
                       }} className="p-2 text-red-500 hover:bg-red-50 rounded-xl cursor-pointer bg-transparent border-none flex items-center justify-center"><span className="material-symbols-outlined text-sm">delete</span></button>
                     </div>
                   </div>
@@ -744,7 +744,7 @@ export default function AdminProducts() {
               <div className={activeTab === 'details' ? 'space-y-4' : 'hidden'}>
                 <div className="flex items-center justify-between mb-2">
                   <label className="block text-sm font-semibold text-on-surface-variant">Attributes Details (สเปกโดยละเอียด)</label>
-                  <button type="button" onClick={() => setFormData(f => ({...f, attributesDetails: [...f.attributesDetails, {key:'', value:''}]}))} className="text-xs text-primary font-bold hover:underline cursor-pointer bg-transparent border-none">+ เพิ่ม Detail</button>
+                  <button type="button" onClick={() => setFormData(f => ({ ...f, attributesDetails: [...f.attributesDetails, { key: '', value: '' }] }))} className="text-xs text-primary font-bold hover:underline cursor-pointer bg-transparent border-none">+ เพิ่ม Detail</button>
                 </div>
                 {formData.attributesDetails.map((attr, idx) => (
                   <div key={idx} className="flex gap-3 mb-3 items-start">
@@ -791,14 +791,14 @@ export default function AdminProducts() {
                       <input type="text" placeholder="Value (เช่น ASUS)" value={attr.value} onChange={(e) => {
                         const newAttr = [...formData.attributesDetails];
                         newAttr[idx].value = e.target.value;
-                        setFormData(f => ({...f, attributesDetails: newAttr}));
+                        setFormData(f => ({ ...f, attributesDetails: newAttr }));
                       }} className="w-full px-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" />
                     </div>
 
                     <div className="flex items-center mt-6">
                       <button type="button" onClick={() => {
                         const newAttr = formData.attributesDetails.filter((_, i) => i !== idx);
-                        setFormData(f => ({...f, attributesDetails: newAttr}));
+                        setFormData(f => ({ ...f, attributesDetails: newAttr }));
                       }} className="p-2 text-red-500 hover:bg-red-50 rounded-xl cursor-pointer bg-transparent border-none flex items-center justify-center"><span className="material-symbols-outlined text-sm">delete</span></button>
                     </div>
                   </div>

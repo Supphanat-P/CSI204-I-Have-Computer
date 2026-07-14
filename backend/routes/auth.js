@@ -198,6 +198,75 @@ async function loginUser(req, res) {
 }
 
 // Handler for user profile update
+async function getUsers(req, res) {
+  try {
+    const users = readJsonFile("users.json");
+    const safeUsers = users.map((user) => ({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone || "-",
+      birthDate: user.birthDate || "-",
+      role: user.role || "user",
+    }));
+
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(safeUsers));
+  } catch (error) {
+    console.error("Get users error:", error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "เกิดข้อผิดพลาดภายในเซิร์ฟเวอร์" }));
+  }
+}
+
+async function updateUserRole(req, res) {
+  try {
+    const { id, role } = await parseBody(req);
+
+    if (!id || !role) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "ข้อมูลไม่ครบถ้วน" }));
+      return;
+    }
+
+    const allowedRoles = ["user", "manager", "admin"];
+    if (!allowedRoles.includes(role)) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "role ไม่ถูกต้อง" }));
+      return;
+    }
+
+    const users = readJsonFile("users.json");
+    const userIndex = users.findIndex((u) => u.id === id);
+
+    if (userIndex === -1) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "ไม่พบผู้ใช้ในระบบ" }));
+      return;
+    }
+
+    users[userIndex] = { ...users[userIndex], role };
+    writeJsonFile("users.json", users);
+
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({
+        success: true,
+        user: {
+          id: users[userIndex].id,
+          name: users[userIndex].name,
+          email: users[userIndex].email,
+          role: users[userIndex].role,
+        },
+      })
+    );
+  } catch (error) {
+    console.error("Update user role error:", error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "เกิดข้อผิดพลาดภายในเซิร์ฟเวอร์" }));
+  }
+}
+
 async function updateProfile(req, res) {
   try {
     const { id, name, email, phone, birthDate, lineId, facebook } = await parseBody(req);
@@ -269,4 +338,4 @@ async function updateProfile(req, res) {
   }
 }
 
-module.exports = { registerUser, loginUser, updateProfile };
+module.exports = { registerUser, loginUser, getUsers, updateUserRole, updateProfile };

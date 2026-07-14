@@ -242,6 +242,21 @@ export default function Checkout() {
       alert(`เกิดข้อผิดพลาดจากโค้ด: ${err.message}`);
       alert("ไม่สามารถติดต่อเซิร์ฟเวอร์เพื่อบันทึกการสั่งซื้อได้ กรุณาลองใหม่อีกครั้ง");
     }
+    
+    const updatedOrders = [newOrder, ...baseOrders];
+    localStorage.setItem(savedOrdersKey, JSON.stringify(updatedOrders));
+
+    // Clear cart and redirect
+    setOrderCompleted(true);
+    clearCart();
+    setIsPromptPayModalOpen(false);
+    
+    showAlert({
+      title: "สั่งซื้อสำเร็จ",
+      message: `🎉 ทำรายการสั่งซื้อสำเร็จ!\nหมายเลขคำสั่งซื้อของคุณคือ ${orderId}`
+    }).then(() => {
+      navigate("/profile", { state: { activeTab: "orders" } }); // Redirect to profile page to let them see order history
+    });
   };
 
 

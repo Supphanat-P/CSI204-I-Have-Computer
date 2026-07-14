@@ -244,7 +244,7 @@
 ## Diagram
 
 <img width="598" height="625" alt="userUsecase" src="https://github.com/user-attachments/assets/f1ef43ef-ddc6-4d91-ae3b-ae0432678595" />
-<img width="406" height="436" alt="managerUsecase" src="https://github.com/user-attachments/assets/889e40b9-a3dd-4f34-a4ea-ed18cc2f5d4c" />
+<img width="450" height="461" alt="managerUsecase" src="https://github.com/user-attachments/assets/7d049471-2986-4d32-8bc2-8f522b9ba878" />
 <img width="404" height="383" alt="adminUsecase" src="https://github.com/user-attachments/assets/15271798-1bf2-4d11-896b-c4561fa80d0c" />
 
 ---
@@ -263,7 +263,7 @@
 
 <img width="317" height="632" alt="userSe" src="https://github.com/user-attachments/assets/a257c78c-c130-498d-8bdf-311669483b01" />
 <img width="259" height="761" alt="managerSe" src="https://github.com/user-attachments/assets/04d03b72-395f-4b16-9879-f682b1b35ee4" />
-<img width="259" height="695" alt="adminSe" src="https://github.com/user-attachments/assets/aab3ee9f-d89c-4cf9-adc3-d52fed5c77bd" />
+<img width="697" height="458" alt="adminSe" src="https://github.com/user-attachments/assets/e1d59cc6-690a-46d8-88f3-35687e7be3ef" />
 
 ---
 
