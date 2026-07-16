@@ -42,11 +42,12 @@
   },
   {
     "id": "6",
-    "name": "ศุภณัฐ เดี่ยวไหมครับ",
+    "name": "ศุภณัฐ เดี่ยวไหมครับ2",
     "email": "Deawpa@gmail.com",
     "password": "$2a$10$IGPCHO.13fnCDHTLoZvfQeE/fub7bRneqIQTwSZda2J4ZvIfqppuy",
-    "phone": "",
-    "role": "admin"
+    "phone": "1111111111",
+    "role": "admin",
+    "birthDate": "11/11/1111"
   },
   {
     "id": "7",
@@ -68,11 +69,11 @@
   },
   {
     "id": "9",
-    "name": "2",
+    "name": "23 2",
     "email": "Deawpa2@gmail.com",
     "password": "$2a$10$xMyBc1GhDPbrcnRq1mUrPObz5UA9YxjqAjcLj93Z813WlCCa.bJvK",
-    "phone": "-",
-    "birthDate": "-",
-    "role": "user"
+    "phone": "1111111111",
+    "birthDate": "11/11/1111",
+    "role": "manager"
   }
 ]

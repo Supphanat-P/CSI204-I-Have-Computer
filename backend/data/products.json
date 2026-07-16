@@ -1428,5 +1428,33 @@
       "connectionType": "Type-C to Type-A Cable Included",
       "warranty": "2 Years"
     }
+  },
+  {
+    "id": 44,
+    "name": "s",
+    "brand": "s",
+    "price": 100,
+    "stock": 1,
+    "productType": "SSD",
+    "category": "s",
+    "image": "s",
+    "description": "s",
+    "type": "SSD",
+    "attributes": {
+      "capacity": "h",
+      "interface": "h",
+      "formFactor": "h",
+      "speed": "h"
+    },
+    "attributesDetails": {
+      "brand": "h",
+      "heatsinkDesign": "h",
+      "headsetType": "h",
+      "sequentialWrite": "h",
+      "randomRead": "h",
+      "randomWrite": "h",
+      "tbw": "h",
+      "warranty": "h"
+    }
   }
 ]

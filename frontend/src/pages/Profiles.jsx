@@ -563,7 +563,7 @@ export default function Profiles() {
   };
 
   if (!currentUser) {
-    return null; // Don't render anything if redirecting
+    return null;
   }
 
   return (

@@ -59,7 +59,7 @@ export default function MainLayout() {
       confirmText: "ออกจากระบบ",
       cancelText: "ยกเลิก"
     });
-    
+
     if (confirmed) {
       localStorage.removeItem("currentUser");
       setIsLogin(false);
@@ -369,12 +369,14 @@ export default function MainLayout() {
                   shopping_cart_off
                 </span>
                 <p className="text-body-lg font-medium">ไม่มีสินค้าในตะกร้าของคุณ</p>
-                <button
-                  onClick={() => setIsCartOpen(false)}
-                  className="bg-primary text-white px-6 py-2 rounded-full font-medium hover:brightness-110 active:scale-95 transition-all cursor-pointer"
-                >
-                  เลือกสินค้าต่อ
-                </button>
+                <Link to={`/products`}>
+                  <button
+                    onClick={() => setIsCartOpen(false)}
+                    className="bg-primary text-white px-6 py-2 rounded-full font-medium hover:brightness-110 active:scale-95 transition-all cursor-pointer"
+                  >
+                    เลือกสินค้าต่อ
+                  </button>
+                </Link>
               </div>
             ) : (
               cart.map((item) => (

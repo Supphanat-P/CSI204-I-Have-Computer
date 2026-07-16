@@ -166,6 +166,10 @@ export default function ManageProducts() {
     setShowModal(true);
   };
 
+  const handleDelete = (products) => {
+    
+  }
+
   // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
