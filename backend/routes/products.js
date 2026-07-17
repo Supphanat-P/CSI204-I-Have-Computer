@@ -87,9 +87,26 @@ function updateProduct(req, res) {
   res.json({ message: "แก้ไขสินค้าสำเร็จ", product: updatedProduct });
 }
 
+function deleteProduct(req, res) {
+  const products = readJsonFile("products.json");
+
+  const id = Number(req.params.id);
+  const index = products.findIndex(p => p.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({ message: "ไม่พบสินค้าที่ต้องการลบ" });
+  }
+
+  const deleted = products.splice(index, 1)[0];
+  writeJsonFile("products.json", products);
+
+  res.json({ message: "ลบสินค้าสำเร็จ", product: deleted });
+}
+
 module.exports = {
   getProducts,
   getProductById,
   createProduct,
   updateProduct,
+  deleteProduct,
 };

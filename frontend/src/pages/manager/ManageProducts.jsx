@@ -55,6 +55,10 @@ export default function ManageProducts() {
   const [successMsg, setSuccessMsg] = useState("");
   const [activeTab, setActiveTab] = useState("general");
 
+  // Delete confirm modal
+  const [deleteTarget, setDeleteTarget] = useState(null); // product to delete
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
   // Fetch products
   const fetchProducts = async () => {
     setLoading(true);
@@ -166,9 +170,38 @@ export default function ManageProducts() {
     setShowModal(true);
   };
 
-  const handleDelete = (products) => {
-    
-  }
+  const handleDelete = async (product) => {
+    setDeleteTarget(product);
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteTarget) return;
+    setDeleteLoading(true);
+    try {
+      const token = currentUser?.token;
+      const res = await fetch(`/api/products/${deleteTarget.id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        alert(data.message || "เกิดข้อผิดพลาด");
+        return;
+      }
+      setProducts(prev => prev.filter(p => p.id !== deleteTarget.id));
+      setSuccessMsg(`ลบสินค้า "${deleteTarget.name}" สำเร็จ!`);
+      setTimeout(() => setSuccessMsg(""), 3000);
+      try {
+        localStorage.setItem('products_last_updated', Date.now().toString());
+        window.dispatchEvent(new Event('products_last_updated'));
+      } catch (e) { }
+    } catch (err) {
+      alert("ไม่สามารถติดต่อเซิร์ฟเวอร์ได้");
+    } finally {
+      setDeleteLoading(false);
+      setDeleteTarget(null);
+    }
+  };
 
   // Submit form
   const handleSubmit = async (e) => {
@@ -422,18 +455,25 @@ export default function ManageProducts() {
                           {product.price?.toLocaleString()} ฿
                         </td>
                         <td className="px-4 py-3 text-center">
-                          <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${badge.cls}`}>
-                            {badge.label}
-                          </span>
+                          <span className={`px-2.5 py-1 rounded-full text-xs font-bold whitespace-nowrap ${badge.cls}`}>{badge.label}</span>
                         </td>
                         <td className="px-4 py-3 text-center">
-                          <button
-                            onClick={() => handleEdit(product)}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-xs font-semibold hover:bg-primary/20 active:scale-95 transition-all cursor-pointer border-none"
-                          >
-                            <span className="material-symbols-outlined text-sm">edit</span>
-                            แก้ไข
-                          </button>
+                          <div className="flex items-center justify-center gap-2">
+                            <button
+                              onClick={() => handleEdit(product)}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-xs font-semibold hover:bg-primary/20 active:scale-95 transition-all cursor-pointer border-none"
+                            >
+                              <span className="material-symbols-outlined text-sm">edit</span>
+                              แก้ไข
+                            </button>
+                            <button
+                              onClick={() => handleDelete(product)}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg text-xs font-semibold hover:bg-red-100 active:scale-95 transition-all cursor-pointer border-none"
+                            >
+                              <span className="material-symbols-outlined text-sm">delete</span>
+                              ลบ
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );
@@ -839,6 +879,62 @@ export default function ManageProducts() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirm Modal */}
+      {deleteTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => !deleteLoading && setDeleteTarget(null)}
+          />
+          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 flex flex-col items-center gap-4">
+            <div className="w-14 h-14 rounded-full bg-red-50 flex items-center justify-center">
+              <span className="material-symbols-outlined text-red-500 text-3xl">delete_forever</span>
+            </div>
+            <div className="text-center">
+              <h2 className="text-lg font-bold text-on-surface mb-1" style={{ margin: 0 }}>ยืนยันการลบสินค้า</h2>
+              <p className="text-sm text-on-surface-variant mt-2">
+                คุณแน่ใจหรือไม่ที่ต้องการลบสินค้า
+                <br />
+                <span className="font-bold text-on-surface">&ldquo;{deleteTarget.name}&rdquo;</span> ?
+                <br />
+                <span className="text-red-500 font-medium">การลบนี้ไม่สามารถย้อนกลับได้</span>
+              </p>
+            </div>
+            <div className="flex gap-3 w-full mt-2">
+              <button
+                type="button"
+                onClick={() => setDeleteTarget(null)}
+                disabled={deleteLoading}
+                className="flex-1 py-2.5 border border-outline-variant text-on-surface rounded-xl font-medium hover:bg-surface-container active:scale-95 transition-all cursor-pointer bg-transparent disabled:opacity-50"
+              >
+                ยกเลิก
+              </button>
+              <button
+                type="button"
+                onClick={confirmDelete}
+                disabled={deleteLoading}
+                className="flex-1 py-2.5 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 active:scale-95 transition-all cursor-pointer border-none disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                {deleteLoading ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    กำลังลบ...
+                  </>
+                ) : (
+                  <>
+                    <span className="material-symbols-outlined text-sm">delete</span>
+                    ยืนยันลบ
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       )}
