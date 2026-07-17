@@ -3,11 +3,48 @@ import { useAlert } from "./AlertContext";
 
 const CartContext = createContext();
 
+function getMaxQuantity(item) {
+  if (item?.stock === undefined || item?.stock === null || item?.stock === "") {
+    return Infinity;
+  }
+
+  const stock = Number(item.stock);
+  if (!Number.isFinite(stock)) {
+    return Infinity;
+  }
+
+  return stock > 0 ? stock : 0;
+}
+
+function clampQuantity(quantity, maxQuantity) {
+  const safeQuantity = Math.max(1, Number(quantity) || 1);
+  if (!Number.isFinite(maxQuantity)) {
+    return safeQuantity;
+  }
+  return Math.min(safeQuantity, maxQuantity);
+}
+
+function normalizeCartItems(items) {
+  return items.flatMap((item) => {
+    const maxQuantity = getMaxQuantity(item);
+    if (Number.isFinite(maxQuantity) && maxQuantity <= 0) {
+      return [];
+    }
+
+    return [
+      {
+        ...item,
+        quantity: clampQuantity(item.quantity, maxQuantity),
+      },
+    ];
+  });
+}
+
 export function CartProvider({ children }) {
   const [cart, setCart] = useState(() => {
     try {
       const savedCart = localStorage.getItem("cart");
-      return savedCart ? JSON.parse(savedCart) : [];
+      return savedCart ? normalizeCartItems(JSON.parse(savedCart)) : [];
     } catch (error) {
       console.error("Failed to parse cart from localStorage:", error);
       return [];
@@ -30,12 +67,30 @@ export function CartProvider({ children }) {
       window.location.href = "/login";
       return;
     }
+
+    const maxQuantity = getMaxQuantity(product);
+    if (Number.isFinite(maxQuantity) && maxQuantity <= 0) {
+      await showAlert({
+        title: "สินค้าหมด",
+        message: "สินค้านี้ไม่มีสต็อกให้เพิ่มในตะกร้าแล้ว"
+      });
+      return;
+    }
+
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.id === product.id);
       if (existingItem) {
+        if (maxQuantity <= 0) {
+          return prevCart.filter((item) => item.id !== product.id);
+        }
         return prevCart.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === product.id
+            ? { ...item, quantity: clampQuantity(item.quantity + 1, getMaxQuantity(item)) }
+            : item
         );
+      }
+      if (maxQuantity <= 0) {
+        return prevCart;
       }
       return [...prevCart, { ...product, quantity: 1 }];
     });
@@ -51,9 +106,23 @@ export function CartProvider({ children }) {
       return;
     }
     setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === productId ? { ...item, quantity } : item
-      )
+      prevCart.flatMap((item) => {
+        if (item.id !== productId) {
+          return [item];
+        }
+
+        const maxQuantity = getMaxQuantity(item);
+        if (maxQuantity <= 0) {
+          return [];
+        }
+
+        return [
+          {
+            ...item,
+            quantity: clampQuantity(quantity, maxQuantity),
+          },
+        ];
+      })
     );
   };
 

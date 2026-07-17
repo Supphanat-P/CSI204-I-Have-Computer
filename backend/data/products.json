@@ -44,7 +44,7 @@
     "brand": "GIGABYTE",
     "type": "GPU",
     "price": 8990,
-    "stock": 2,
+    "stock": 0,
     "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/products118747_800.jpg",
     "description": "การ์ดจอซีรีส์ใหม่ล่าสุดสถาปัตยกรรม Blackwell ขุมพลังระดับเริ่มต้นที่มาพร้อมแรม 8GB GDDR6 และการรองรับ PCIe 5.0",
     "highlights": [
@@ -1331,7 +1331,7 @@
     "brand": "Finalmouse",
     "type": "Mouse",
     "price": 9900,
-    "stock": 3,
+    "stock": 2,
     "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQml1JeTDxk9h3lpvadW6EDQcji0Ydub9mhLMd0ycRERuNDOLb0r30dJKUSGLrgGRT125aydkz0tQIaSouobDMCLPQPcgfRmgE05_4rY9WRMh-rtKzpHdBh",
     "description": "เมาส์ไร้สายโครงสร้างคาร์บอนไฟเบอร์คอมโพสิต เบาที่สุดในโลก",
     "highlights": [

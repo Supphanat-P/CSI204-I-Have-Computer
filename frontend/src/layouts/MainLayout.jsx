@@ -413,13 +413,28 @@ export default function MainLayout() {
                           {item.quantity}
                         </span>
                         <button
-                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          className="w-6 h-6 flex items-center justify-center hover:bg-surface-container rounded-full text-on-surface-variant cursor-pointer text-sm font-bold border-none bg-transparent"
+                          onClick={() => {
+                            if (item.stock && item.quantity >= item.stock) {
+                              return;
+                            }
+                            updateQuantity(item.id, item.quantity + 1);
+                          }}
+                          disabled={item.stock > 0 && item.quantity >= item.stock}
+                          className={`w-6 h-6 flex items-center justify-center rounded-full text-sm font-bold border-none bg-transparent ${
+                            item.stock > 0 && item.quantity >= item.stock
+                              ? "text-outline cursor-not-allowed"
+                              : "text-on-surface-variant hover:bg-surface-container cursor-pointer"
+                          }`}
                         >
                           +
                         </button>
                       </div>
                     </div>
+                    {item.stock > 0 && item.quantity >= item.stock && (
+                      <span className="mt-1 text-[11px] text-outline">
+                        ถึงจำนวนสต็อกสูงสุดแล้ว
+                      </span>
+                    )}
                   </div>
                   <button
                     onClick={() => removeFromCart(item.id)}

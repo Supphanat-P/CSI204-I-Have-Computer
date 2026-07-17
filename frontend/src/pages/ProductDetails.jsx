@@ -45,6 +45,12 @@ export default function ProductDetails() {
         loadProduct();
     }, [id]);
 
+    useEffect(() => {
+        if (product && quantity > product.stock) {
+            setQuantity(Math.max(1, product.stock));
+        }
+    }, [product, quantity]);
+
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
@@ -113,7 +119,7 @@ export default function ProductDetails() {
                         {product.name}
                     </h1>
                     <p className="text-body-lg text-on-surface-variant mb-6">
-                        หมวดหมู่: <span className="font-medium text-on-surface">{product.category}</span>
+                        หมวดหมู่: <span className="font-medium text-on-surface">{product.type}</span>
                     </p>
 
                     <div className="bg-surface-container rounded-xl p-6 mb-8 border border-outline-variant/50">
@@ -131,27 +137,47 @@ export default function ProductDetails() {
 
 
                     <div className="flex flex-col sm:flex-row gap-4 mt-auto pt-6 border-t border-outline-variant/50">
-                        <div className="flex items-center border border-outline-variant rounded-lg bg-surface-container-lowest overflow-hidden h-[56px] w-full sm:w-[140px] shrink-0">
-                            <button
-                                className="w-12 h-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors"
-                                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                            >
-                                <span className="material-symbols-outlined">remove</span>
-                            </button>
-                            <div className="flex-1 h-full flex items-center justify-center font-bold text-body-lg text-on-surface">
-                                {quantity}
+                        <div className="flex flex-col">
+                            <span className="text-center">
+                                สต็อก {product.stock}
+                            </span>
+                            <div className="flex flex-row items-center border border-outline-variant rounded-lg bg-surface-container-lowest overflow-hidden h-[56px] w-full sm:w-[140px] shrink-0">
+                                <button
+                                    className="w-12 h-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors"
+                                    onClick={() =>
+                                        setQuantity(Math.max(1, quantity - 1))}
+                                >
+                                    <span className="material-symbols-outlined">remove</span>
+                                </button>
+                                <div className="flex-1 h-full flex items-center justify-center font-bold text-body-lg text-on-surface">
+                                    {quantity}
+                                </div>
+                                <button
+                                    className={`w-12 h-full flex items-center justify-center transition-colors ${quantity >= product.stock
+                                            ? "text-outline cursor-not-allowed"
+                                            : "text-on-surface-variant hover:bg-surface-container hover:text-primary"
+                                        }`}
+                                    onClick={() => {
+                                        if (quantity < product.stock) {
+                                            setQuantity(quantity + 1);
+                                        }
+                                    }}
+                                    disabled={quantity >= product.stock}
+                                >
+                                    <span className="material-symbols-outlined">add</span>
+                                </button>
                             </div>
-                            <button
-                                className="w-12 h-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors"
-                                onClick={() => setQuantity(quantity + 1)}
-                            >
-                                <span className="material-symbols-outlined">add</span>
-                            </button>
+                            {quantity >= product.stock && product.stock > 0 && (
+                                <span className="mt-2 text-xs text-outline">
+                                    ถึงจำนวนสต็อกสูงสุดแล้ว
+                                </span>
+                            )}
                         </div>
+
                         {product.stock > 0 ? (
                             <button
                                 onClick={handleAddToCart}
-                                className="flex-1 h-[56px] bg-primary text-on-primary rounded-lg font-bold text-body-lg flex items-center justify-center gap-2 hover:bg-primary/90 hover:scale-[1.02] active:scale-95 transition-all shadow-md shadow-primary/20"
+                                className="flex-1 mt-6 h-[56px] bg-primary text-on-primary rounded-lg font-bold text-body-lg flex items-center justify-center gap-2 hover:bg-primary/90 hover:scale-[1.02] active:scale-95 transition-all shadow-md shadow-primary/20"
                             >
                                 <span className="material-symbols-outlined">
                                     shopping_cart_checkout
@@ -161,7 +187,7 @@ export default function ProductDetails() {
                         ) : (
                             <button
                                 disabled
-                                className="flex-1 h-[56px] bg-red-500 text-white rounded-lg font-bold text-body-lg flex items-center justify-center gap-2 cursor-not-allowed"
+                                className="flex-1 mt-6 h-[56px] bg-red-500 text-white rounded-lg font-bold text-body-lg flex items-center justify-center gap-2 cursor-not-allowed"
                             >
                                 <span className="material-symbols-outlined">
                                     remove_shopping_cart

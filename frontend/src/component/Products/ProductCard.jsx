@@ -53,15 +53,22 @@ export default function ProductCard({ product }) {
 
   return (
     <div className="group bg-surface-container-lowest rounded-lg border border-outline-variant overflow-hidden hover:shadow-xl hover:border-primary transition-all duration-300 flex flex-col relative mt-5 p-4 max-w-2xs max-w-[320px] max-h-[500px]">
+      <div className="absolute top-5 left-2 z-10">
+        {product.stock <= 0 && (
+          <span className="bg-red-500 text-white px-3 py-1 rounded-full text-label-sm font-bold">
+            สินค้าหมด
+          </span>
+        )}
+      </div>
       <button
         onClick={handleToggleLike}
-        className={`absolute top-6 right-6 z-10 p-2 bg-surface-container-lowest/90 hover:bg-surface-container-low text-on-surface-variant hover:text-error rounded-full shadow-md backdrop-blur-sm transition-all duration-300 cursor-pointer active:scale-90 flex items-center justify-center border border-outline-variant/30 ${isLiked
+        className={`absolute top-4 right-6 z-10 py-0.5 px-2 bg-surface-container-lowest/90 hover:bg-surface-container-low text-on-surface-variant hover:text-error rounded-full shadow-md backdrop-blur-sm transition-all duration-300 cursor-pointer active:scale-90 flex items-center justify-center border border-outline-variant/30 ${isLiked
           ? "opacity-100 scale-100"
           : "opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100"
           }`}
       >
         <span
-          className="material-symbols-outlined text-lg transition-colors duration-200"
+          className="mt-0.5 material-symbols-outlined text-lg transition-colors duration-200"
           style={isLiked ? { fontVariationSettings: "'FILL' 1", color: "var(--color-error, #ba1a1a)" } : {}}
         >
           favorite
@@ -70,6 +77,7 @@ export default function ProductCard({ product }) {
 
       <Link to={`/productsDetails/${product.id}`} className="flex flex-col flex-1">
         <div className="aspect-square bg-surface overflow-hidden">
+
           <img
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 rounded-sm"
             alt={product.name}
@@ -80,23 +88,22 @@ export default function ProductCard({ product }) {
           <span className="text-label-sm text-outline font-bold uppercase tracking-wider">
             {product.brand}
           </span>
-          <h3 className="text-body-md font-bold text-on-surface line-clamp-2 mt-1 mb-2">
+
+          <h3 className="text-body-md font-bold text-on-surface line-clamp-1 mt-1 mb-2">
             {product.name}
           </h3>
-          <span className="text-sm text-on-surface-variant line-clamp-2">
+          <span className="text-sm text-on-surface-variant line-clamp-1">
             {product.description || "สินค้าที่พร้อมส่งและให้บริการหลังการขาย"}
           </span>
           <div className="mt-auto pt-3 flex flex-col gap-1">
-            <span className="text-headline-sm font-bold text-primary">
-              {product.price.toLocaleString()}$
-            </span>
             {product.stock > 0 ? (
-              <span className="text-label-sm text-on-surface-variant">
-                สต๊อก {product.stock}
+              <span className="text-headline-sm font-bold text-primary">
+                {product.price.toLocaleString()}$
               </span>
             ) : (
-              <span className="text-label-sm text-red-500">สินค้า่หมด</span>
-            )}
+              <span className="text-headline-sm font-bold text-gray-500 line-through">
+                {product.price.toLocaleString()}$
+              </span>)}
           </div>
         </div>
       </Link>

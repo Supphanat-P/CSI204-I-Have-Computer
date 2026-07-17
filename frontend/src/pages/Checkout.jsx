@@ -239,7 +239,7 @@ export default function Checkout() {
       showAlert({
         title: "ทำรายการสั่งซื้อสำเร็จ",
         message: `หมายเลขคำสั่งซื้อของคุณคือ ${orderId}`
-      }).then(() => navigate("/profile", { state: { activeTab: "ordeDrs" } }));
+      }).then(() => navigate("/profile", { state: { activeTab: "shipping_status" } }));
     } catch (err) {
       console.error(err);
 
@@ -252,8 +252,10 @@ export default function Checkout() {
         message: "ไม่สามารถติดต่อเซิร์ฟเวอร์เพื่อบันทึกการสั่งซื้อได้ กรุณาลองใหม่อีกครั้ง",
       });
     }
+    const savedOrdersKey = `orders_${currentUser.id}`;
+    const existingOrders = JSON.parse(localStorage.getItem(savedOrdersKey) || "[]");
 
-    const updatedOrders = [newOrder, ...baseOrders];
+    const updatedOrders = [newOrder, ...existingOrders];
     localStorage.setItem(savedOrdersKey, JSON.stringify(updatedOrders));
 
     // Clear cart and redirect
@@ -264,7 +266,7 @@ export default function Checkout() {
     showAlert({
       title: "ทำรายการสั่งซื้อสำเร็จ",
       message: `หมายเลขคำสั่งซื้อของคุณคือ ${orderId}`
-    }).then(() => navigate("/profile", { state: { activeTab: "ordeDrs" } }));
+    }).then(() => navigate("/profile", { state: { activeTab: "shipping_status" } }));
   };
 
 
