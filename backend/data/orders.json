@@ -166,5 +166,26 @@
     "recipientPhone": "0284592387",
     "paymentMethod": "โอนเงินผ่านบัญชีธนาคาร",
     "userId": "1"
+  },
+  {
+    "id": "IHC-86508",
+    "date": "2026-07-17",
+    "items": [
+      {
+        "id": 7,
+        "name": "WD Blue 2TB",
+        "brand": "Western Digital",
+        "price": 1990,
+        "quantity": 1,
+        "image": "https://img.advice.co.th/cdn-cgi/image/format=auto,width=700,quality=82,fit=contain/images_nas/pic_product4/A0136256/A0136256OK_BIG_1.jpg"
+      }
+    ],
+    "total": 1990,
+    "status": "รอดำเนินการ",
+    "shippingAddress": "21451 ต. วังบูรพาภิรมย์ อ. เขตพระนคร จ. กรุงเทพมหานคร 10200",
+    "recipientName": "โจโบกกึม",
+    "recipientPhone": "0386947294",
+    "paymentMethod": "โอนเงินผ่านบัญชีธนาคาร",
+    "userId": "1"
   }
 ]

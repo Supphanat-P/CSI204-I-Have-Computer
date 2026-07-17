@@ -322,6 +322,27 @@ export default function Checkout() {
       const updatedOrders = [newOrder, ...existingOrders];
       localStorage.setItem(savedOrdersKey, JSON.stringify(updatedOrders));
 
+      // Save new shipping address if selectedAddressId is "new"
+      if (selectedAddressId === "new") {
+        const shippingKey = `shippingAddresses_${currentUser.id}`;
+        const currentSaved = JSON.parse(localStorage.getItem(shippingKey) || "[]");
+        const nextId = currentSaved.length > 0 ? Math.max(...currentSaved.map((a) => a.id)) + 1 : 1;
+        const newAddressObj = {
+          id: nextId,
+          name: addressForm.name,
+          phone: addressForm.phone,
+          details: addressForm.details,
+          subdistrict: addressForm.subdistrict,
+          district: addressForm.district,
+          province: addressForm.province,
+          postalCode: addressForm.postalCode,
+          type: "home",
+          isDefault: currentSaved.length === 0,
+        };
+        const updatedSaved = [...currentSaved, newAddressObj];
+        localStorage.setItem(shippingKey, JSON.stringify(updatedSaved));
+      }
+
       // Clear cart and redirect
       setOrderCompleted(true);
       clearCart();
