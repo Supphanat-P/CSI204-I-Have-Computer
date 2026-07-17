@@ -1251,7 +1251,7 @@ export default function Profiles() {
 
             {/* VIEW 5: สินค้าที่ถูกใจ (Wishlist) */}
             {activeTab === "wishlist" && (
-              <ProfileWhistlists wishlist={wishlist} />
+              <ProfileWhistlists wishlist={wishlist} handleUnlike={handleUnlike} addToCart={addToCart} />
             )}
 
             {/* VIEW 6: เช็คสถานะการจัดส่ง (Shipping Status) */}

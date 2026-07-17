@@ -1,7 +1,7 @@
 
 import { useNavigate, useLocation, Link } from "react-router-dom";
 export default function ProfileWhistlists(
-    { wishlist }
+    { wishlist, handleUnlike, addToCart }
 ) {
     const navigate = useNavigate();
 
@@ -10,7 +10,7 @@ export default function ProfileWhistlists(
             <div className="space-y-6">
                 <div className="flex items-center gap-2.5 pb-4 border-b border-outline-variant">
                     <span className="material-symbols-outlined text-primary text-3xl">favorite</span>
-                    <h2 className="text-2xl font-bold text-on-surface">สินค้าที่ชอบ</h2>
+                    <h2 className="text-2xl font-bold text-on-surface">สินค้าที่ถูกใจ</h2>
                 </div>
 
                 {wishlist.length === 0 ? (
