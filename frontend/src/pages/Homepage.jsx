@@ -178,12 +178,13 @@ export default function Homepage() {
 
             <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24">
               {brands.map((brand, index) => (
-                <img
-                  key={index}
-                  src={brand.url}
-                  alt={`${brand.name} Logo`}
-                  className="h-8 md:h-20 object-contain rounded-2xl shadow hover:scale-105 transition-all duration-300"
-                />
+                <Link key={index} to={`/products?brand=${brand.name}`}>
+                  <img
+                    src={brand.url}
+                    alt={`${brand.name} Logo`}
+                    className="h-8 md:h-20 object-contain rounded-2xl shadow hover:scale-105 transition-all duration-300 cursor-pointer"
+                  />
+                </Link>
               ))}
             </div>
           </div>

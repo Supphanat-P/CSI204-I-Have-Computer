@@ -19,6 +19,23 @@ export default function Products() {
 
   const [selectedType, setSelectedType] = useState("");
   const [selectedBrands, setSelectedBrands] = useState([]);
+
+  useEffect(() => {
+    const brandParam = searchParams.get("brand");
+    if (brandParam && products.length > 0) {
+      const matchedBrand = [...new Set(products.map((p) => p.brand))].find(
+        (b) => b && b.toLowerCase() === brandParam.toLowerCase()
+      );
+      if (matchedBrand) {
+        setSelectedBrands([matchedBrand]);
+      } else {
+        setSelectedBrands([brandParam]);
+      }
+    } else if (!brandParam) {
+      setSelectedBrands([]);
+    }
+  }, [searchParams, products]);
+
   const [selectedExtras, setSelectedExtras] = useState({});
   const [maxPrice, setMaxPrice] = useState(Number.MAX_SAFE_INTEGER);
 
