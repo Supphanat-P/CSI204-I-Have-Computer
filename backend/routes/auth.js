@@ -95,8 +95,6 @@ async function registerUser(req, res) {
       password: hashedPassword,
       phone: "-",
       birthDate: "-",
-      lineId: "-",
-      facebook: "-",
       role: "user",
     };
 

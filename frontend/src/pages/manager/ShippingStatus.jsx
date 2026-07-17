@@ -266,11 +266,10 @@ export default function ShippingStatus() {
                                 key={btn.key}
                                 disabled={updatingOrderId === order.id || order.status === btn.key}
                                 onClick={() => handleUpdateStatus(order.id, btn.key)}
-                                className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold border-none cursor-pointer bg-transparent transition-all active:scale-95 disabled:opacity-40 disabled:pointer-events-none ${
-                                  order.status === btn.key
-                                    ? "text-secondary font-bold underline"
-                                    : `text-on-surface-variant ${btn.color}`
-                                }`}
+                                className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold border-none cursor-pointer bg-transparent transition-all active:scale-95 disabled:opacity-40 disabled:pointer-events-none ${order.status === btn.key
+                                  ? "text-secondary font-bold underline"
+                                  : `text-on-surface-variant ${btn.color}`
+                                  }`}
                                 title={`เปลี่ยนเป็น ${btn.key}`}
                               >
                                 <span className="material-symbols-outlined text-sm">{btn.icon}</span>

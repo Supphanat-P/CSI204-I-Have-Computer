@@ -44,7 +44,7 @@
     "brand": "GIGABYTE",
     "type": "GPU",
     "price": 8990,
-    "stock": 5,
+    "stock": 4,
     "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/products118747_800.jpg",
     "description": "การ์ดจอซีรีส์ใหม่ล่าสุดสถาปัตยกรรม Blackwell ขุมพลังระดับเริ่มต้นที่มาพร้อมแรม 8GB GDDR6 และการรองรับ PCIe 5.0",
     "highlights": [
@@ -503,7 +503,7 @@
     "brand": "Intel",
     "type": "CPU",
     "price": 16900,
-    "stock": 12,
+    "stock": 11,
     "image": "https://www.jib.co.th/img_master/product/original/2023101615255663038_1.png",
     "description": "ซีพียูประสิทธิภาพสูงสำหรับการเล่นเกมและการทำงานสร้างสรรค์",
     "highlights": [
@@ -1427,6 +1427,34 @@
       "features": "Multi-function Tap-to-Mute Sensor, Built-in Shock Absorber, High-pass Filter, 3.5mm Headphone Monitoring Port",
       "connectionType": "Type-C to Type-A Cable Included",
       "warranty": "2 Years"
+    }
+  },
+  {
+    "id": 44,
+    "name": "s",
+    "brand": "s",
+    "price": 100,
+    "stock": 1,
+    "productType": "SSD",
+    "category": "s",
+    "image": "s",
+    "description": "s",
+    "type": "SSD",
+    "attributes": {
+      "capacity": "h",
+      "interface": "h",
+      "formFactor": "h",
+      "speed": "h"
+    },
+    "attributesDetails": {
+      "brand": "h",
+      "heatsinkDesign": "h",
+      "headsetType": "h",
+      "sequentialWrite": "h",
+      "randomRead": "h",
+      "randomWrite": "h",
+      "tbw": "h",
+      "warranty": "h"
     }
   }
 ]

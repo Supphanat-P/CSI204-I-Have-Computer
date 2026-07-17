@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAlert } from "../../context/AlertContext";
 
 const getRoleFromToken = (token) => {
   if (!token) return null;
@@ -27,6 +28,7 @@ export default function ManageUser() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
+  const { showAlert } = useAlert();
 
   useEffect(() => {
     const tokenRole = getRoleFromToken(currentUser?.token);
@@ -67,40 +69,57 @@ export default function ManageUser() {
   }, [users, search]);
 
   const updateRole = async (userId, role) => {
-    try {
-      const res = await fetch("/api/users/role", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${currentUser.token}`,
-        },
-        body: JSON.stringify({ id: userId, role }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "เปลี่ยน role ไม่สำเร็จ");
-      setUsers((prev) => prev.map((user) => (user.id === userId ? { ...user, role } : user)));
-    } catch (err) {
-      setError(err.message || "เกิดข้อผิดพลาด");
+    const confirmed = await showAlert({
+      title: "เปลียนสิทธิ์ผู้ใช้",
+      message: "คุณต้องการเปลียนสิทธิ์ผู้ใช้นี้ใช่หรือไม่",
+      showCancel: true,
+      confirmText: "ใช่",
+      cancelText: "ยกเลิก",
+    });
+
+    if (confirmed) {
+      try {
+        const res = await fetch("/api/users/role", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${currentUser.token}`,
+          },
+          body: JSON.stringify({ id: userId, role }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "เปลี่ยน role ไม่สำเร็จ");
+        setUsers((prev) => prev.map((user) => (user.id === userId ? { ...user, role } : user)));
+      } catch (err) {
+        setError(err.message || "เกิดข้อผิดพลาด");
+      }
     }
   };
 
   if (!currentUser || currentUser.role !== "admin") return null;
 
   return (
-    <div className="min-h-screen bg-background px-margin-desktop py-8">
-      <div className="max-w-container-max mx-auto space-y-6">
-        <div className="flex items-center justify-between gap-4 flex-wrap">
-          <div>
-            <h1 className="text-3xl font-bold text-primary">จัดการผู้ใช้</h1>
-            <p className="text-on-surface-variant mt-1">
-              เข้าสู่ระบบในฐานะ <span className="font-semibold text-on-surface">{currentUser.name}</span>
-            </p>
-          </div>
-          <Link to="/admin/manageProduct" className="text-sm font-medium text-primary hover:underline">
-            ← กลับหน้าจัดการสินค้า
-          </Link>
-        </div>
+    <div className="min-h-screen bg-background">
 
+      <div className="bg-gradient-to-r from-secondary to-primary px-margin-desktop py-10 shadow-sm">
+        <div className="max-w-container-max mx-auto">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div>
+              <div className="flex items-center gap-3 mb-1">
+                <span className="material-symbols-outlined text-white text-3xl">admin_panel_settings</span>
+                <h1 className="text-white text-3xl font-bold tracking-tight" style={{ margin: 0 }}>
+                  ระบบจัดการผู้ใช้ (User Management)
+                </h1>
+              </div>
+              <p className="text-white/70 text-sm mt-1">
+                เข้าสู่ระบบในฐานะ <span className="text-white font-semibold">{currentUser?.name}</span> ({currentUser?.role})
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div className="max-w-container-max mx-auto space-y-6 mt-5">
         <div className="bg-white rounded-2xl border border-outline-variant p-4 shadow-sm">
           <input
             type="text"
@@ -126,7 +145,7 @@ export default function ManageUser() {
             <div className="overflow-x-auto">
               <table className="min-w-full text-sm">
                 <thead className="bg-surface-container-low">
-                  <tr>
+                  <tr className="bg-surface-container-low border-b border-outline-variant">
                     <th className="px-4 py-3 text-left font-semibold">ชื่อ</th>
                     <th className="px-4 py-3 text-left font-semibold">อีเมล</th>
                     <th className="px-4 py-3 text-left font-semibold">Role</th>
@@ -143,11 +162,10 @@ export default function ManageUser() {
                         <select
                           value={user.role}
                           onChange={(e) => updateRole(user.id, e.target.value)}
-                          className="rounded-lg border border-outline-variant px-3 py-2"
+                          className="rounded-lg border border-outline-variant px-3 py-2 w-full"
                         >
                           <option value="user">User</option>
                           <option value="manager">Manager</option>
-                          <option value="admin">Admin</option>
                         </select>
                       </td>
                     </tr>

@@ -1,7 +1,6 @@
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-// Helper to decode JWT token payload on client side
 const getRoleFromToken = (token) => {
   if (!token) return null;
   try {
@@ -27,7 +26,6 @@ export default function AdminLayout() {
     JSON.parse(localStorage.getItem("currentUser") || "null")
   );
 
-  // Protect route: redirect non-admin users
   useEffect(() => {
     const tokenRole = getRoleFromToken(currentUser?.token);
     if (!currentUser) {
@@ -43,7 +41,6 @@ export default function AdminLayout() {
     <>
       <nav className="flex w-full sticky top-0 z-50 px-8 py-4 bg-white/90 border-b border-outline-variant backdrop-blur-md shadow-sm">
         <div className="max-w-container-max mx-auto w-full flex items-center justify-between gap-6">
-          {/* Brand */}
           <Link
             to="/"
             className="font-bold text-xl text-primary tracking-tighter shrink-0"
@@ -51,16 +48,14 @@ export default function AdminLayout() {
             IhaveComputer
           </Link>
 
-          {/* Admin label */}
           <span className="flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-wider">
             <span className="material-symbols-outlined text-sm">admin_panel_settings</span>
             Admin Panel
           </span>
 
-          {/* Nav Links */}
           <div className="flex items-center gap-4 ml-auto">
             <Link
-              to="/manager/shipping"
+              to="/admin/shipping"
               className="flex items-center gap-1.5 text-sm font-medium text-on-surface-variant hover:text-secondary transition-colors"
             >
               <span className="material-symbols-outlined text-sm">local_shipping</span>
@@ -77,7 +72,7 @@ export default function AdminLayout() {
               to="/admin/manageUser"
               className="flex items-center gap-1.5 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors"
             >
-              <span className="material-symbols-outlined text-sm">inventory_2</span>
+              <span className="material-symbols-outlined text-sm">user_attributes</span>
               จัดการผู้ใช้
             </Link>
             <Link

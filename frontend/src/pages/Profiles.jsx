@@ -3,6 +3,8 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAlert } from "../context/AlertContext";
 
+import ProfileOrders from "../component/profiles/ProfileOrders";
+
 export default function Profiles() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -148,7 +150,6 @@ export default function Profiles() {
           const data = await response.json();
           setOrders(data);
           localStorage.setItem(`orders_${currentUser.id}`, JSON.stringify(data));
-          console.log(orders)
         }
       } catch (err) {
         console.error("Error fetching orders:", err);
@@ -562,7 +563,7 @@ export default function Profiles() {
   };
 
   if (!currentUser) {
-    return null; // Don't render anything if redirecting
+    return null;
   }
 
   return (
@@ -1074,75 +1075,76 @@ export default function Profiles() {
 
             {/* VIEW 4: คำสั่งซื้อ (Orders) */}
             {activeTab === "orders" && (
-              <div className="space-y-6">
-                <div className="flex items-center gap-2.5 pb-4 border-b border-outline-variant">
-                  <span className="material-symbols-outlined text-primary text-3xl">shopping_bag</span>
-                  <h2 className="text-2xl font-bold text-on-surface">คำสั่งซื้อของฉัน</h2>
-                </div>
+              // <div className="space-y-6">
+              //   <div className="flex items-center gap-2.5 pb-4 border-b border-outline-variant">
+              //     <span className="material-symbols-outlined text-primary text-3xl">shopping_bag</span>
+              //     <h2 className="text-2xl font-bold text-on-surface">คำสั่งซื้อของฉัน</h2>
+              //   </div>
 
-                <div className="space-y-4">
-                  {orders.length > 0 ? (
-                    orders.map((ord) => (
-                      <div
-                        key={ord.id}
-                        className="border border-outline-variant rounded-2xl p-5 bg-white flex flex-col md:flex-row md:items-center justify-between gap-4"
-                      >
-                        <div className="space-y-2 flex-1">
-                          <div className="flex items-center gap-3 flex-wrap">
-                            <span className="font-bold text-on-surface text-body-lg">
-                              หมายเลขสั่งซื้อ: {ord.id}
-                            </span>
+              //   <div className="space-y-4">
+              //     {orders.length > 0 ? (
+              //       orders.map((ord) => (
+              //         <div
+              //           key={ord.id}
+              //           className="border border-outline-variant rounded-2xl p-5 bg-white flex flex-col md:flex-row md:items-center justify-between gap-4"
+              //         >
+              //           <div className="space-y-2 flex-1">
+              //             <div className="flex items-center gap-3 flex-wrap">
+              //               <span className="font-bold text-on-surface text-body-lg">
+              //                 หมายเลขสั่งซื้อ: {ord.id}
+              //               </span>
 
-                            <span
-                              className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${ord.status === "เสร็จสิ้น"
-                                ? "bg-green-100 text-green-700"
-                                : ord.status === "จัดส่งแล้ว"
-                                  ? "bg-blue-100 text-blue-700"
-                                  : "bg-amber-100 text-amber-700"
-                                }`}
-                            >
-                              {ord.status}
-                            </span>
-                          </div>
+              //               <span
+              //                 className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${ord.status === "เสร็จสิ้น"
+              //                   ? "bg-green-100 text-green-700"
+              //                   : ord.status === "จัดส่งแล้ว"
+              //                     ? "bg-blue-100 text-blue-700"
+              //                     : "bg-amber-100 text-amber-700"
+              //                   }`}
+              //               >
+              //                 {ord.status}
+              //               </span>
+              //             </div>
 
-                          {renderItemsList(ord.items)}
+              //             {renderItemsList(ord.items)}
 
-                          <p className="text-xs text-outline pt-1">
-                            วันที่ทำรายการ: {ord.date}
-                          </p>
-                        </div>
+              //             <p className="text-xs text-outline pt-1">
+              //               วันที่ทำรายการ: {ord.date}
+              //             </p>
+              //           </div>
 
-                        <div className="text-right shrink-0">
-                          <p className="text-xs text-on-surface-variant">
-                            ยอดรวมสุทธิ
-                          </p>
+              //           <div className="text-right shrink-0">
+              //             <p className="text-xs text-on-surface-variant">
+              //               ยอดรวมสุทธิ
+              //             </p>
 
-                          <p className="text-xl font-bold text-primary">
-                            {ord.total.toLocaleString()}฿
-                          </p>
+              //             <p className="text-xl font-bold text-primary">
+              //               {ord.total.toLocaleString()}฿
+              //             </p>
 
-                          <div className="flex flex-col sm:flex-row items-end sm:items-center gap-3 mt-2 justify-end">
-                            <button
-                              onClick={() => setSelectedOrder(ord)}
-                              className="text-xs font-semibold text-primary hover:underline cursor-pointer bg-transparent border-none"
-                            >
-                              ดูรายละเอียดคำสั่งซื้อ
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="bg-surface-container-low border border-outline-variant rounded-2xl p-12 text-center flex flex-col items-center">
-                      <span className="material-symbols-outlined text-6xl text-outline mb-4">shopping_bag</span>
-                      <h3 className="font-bold text-lg text-on-surface mb-1">ไม่มีข้อมูลคำสั่งซื้อ</h3>
-                      <p className="text-body-sm text-on-surface-variant max-w-sm">
-                        คุณยังไม่มีคำสั่งซื้อใดๆ ในบัญชีนี้เพื่อใช้ตรวจสอบการจัดส่ง
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
+              //             <div className="flex flex-col sm:flex-row items-end sm:items-center gap-3 mt-2 justify-end">
+              //               <button
+              //                 onClick={() => setSelectedOrder(ord)}
+              //                 className="text-xs font-semibold text-primary hover:underline cursor-pointer bg-transparent border-none"
+              //               >
+              //                 ดูรายละเอียดคำสั่งซื้อ
+              //               </button>
+              //             </div>
+              //           </div>
+              //         </div>
+              //       ))
+              //     ) : (
+              //       <div className="bg-surface-container-low border border-outline-variant rounded-2xl p-12 text-center flex flex-col items-center">
+              //         <span className="material-symbols-outlined text-6xl text-outline mb-4">shopping_bag</span>
+              //         <h3 className="font-bold text-lg text-on-surface mb-1">ไม่มีข้อมูลคำสั่งซื้อ</h3>
+              //         <p className="text-body-sm text-on-surface-variant max-w-sm">
+              //           คุณยังไม่มีคำสั่งซื้อใดๆ ในบัญชีนี้เพื่อใช้ตรวจสอบการจัดส่ง
+              //         </p>
+              //       </div>
+              //     )}
+              //   </div>
+              // </div>
+              <ProfileOrders orders={orders} />
             )}
 
             {/* VIEW 5: สินค้าที่ถูกใจ (Wishlist) */}
