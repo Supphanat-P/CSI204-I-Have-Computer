@@ -17,8 +17,9 @@
 - [11. User Personas](#11-user-personas)
 - [12. Use Case Diagram](#12-use-case-diagram)
 - [13. Class Diagram](#13-class-diagram)
-- [14. Sequence Diagrams](#14-sequence-diagrams)
-- [15. Wireframe](#15-wireframe)
+- [14. Data Schema](#14-data-schema)
+- [15. Sequence Diagrams](#15-sequence-diagrams)
+- [16. Wireframe](#16-wireframe)
 
 ---
 
@@ -257,7 +258,80 @@
 
 ---
 
-# 14. Sequence Diagrams
+# 14. Data Schema
+
+## Data Storage
+
+- Backend source of truth: `backend/data/users.json`, `backend/data/products.json`, and `backend/data/orders.json`
+- Frontend session and user-specific state are also mirrored in `localStorage` for cart, favorites, shipping addresses, payment methods, and cached orders
+
+## Entities
+
+### User
+
+| Field | Type | Required | Notes |
+|---|---|---:|---|
+| `id` | string | Yes | Unique user identifier |
+| `name` | string | Yes | Full name |
+| `email` | string | Yes | Used for login and must be unique |
+| `password` | string | Yes | Stored as a bcrypt hash |
+| `phone` | string | No | Default value is `-` or empty |
+| `birthDate` | string | No | Optional profile field |
+| `role` | string | Yes | `user`, `manager`, or `admin` |
+
+### Product
+
+| Field | Type | Required | Notes |
+|---|---|---:|---|
+| `id` | number | Yes | Unique product identifier |
+| `name` | string | Yes | Product name |
+| `brand` | string | Yes | Product brand |
+| `price` | number | Yes | Product price |
+| `stock` | number | Yes | Available inventory |
+| `image` | string | No | Image URL |
+| `description` | string | No | Short product description |
+| `type` / `productType` | string | No | Product category label used by the UI |
+| `category` | string | No | More specific category grouping |
+| `highlights` | string[] | No | Key selling points |
+| `attributes` | object | No | Compact spec summary for cards and filters |
+| `attributesDetails` | object | No | Full technical specification block |
+
+### Order
+
+| Field | Type | Required | Notes |
+|---|---|---:|---|
+| `id` | string | Yes | Example: `IHC-58188` |
+| `date` | string | Yes | ISO date format (`YYYY-MM-DD`) |
+| `items` | array | Yes | List of `Order Item` objects |
+| `total` | number | Yes | Grand total |
+| `status` | string | Yes | Example: `รอดำเนินการ`, `จัดส่งแล้ว`, `เสร็จสิ้น`, `รอชำระเงิน` |
+| `shippingAddress` | string | Yes | Delivery address |
+| `recipientName` | string | Yes | Receiver name |
+| `recipientPhone` | string | Yes | Receiver phone number |
+| `paymentMethod` | string | Yes | Selected payment method |
+| `userId` | string | Yes | Links the order to a user |
+
+### Order Item
+
+| Field | Type | Required | Notes |
+|---|---|---:|---|
+| `id` | number | Yes | Product ID reference |
+| `name` | string | Yes | Snapshot of product name at purchase time |
+| `brand` | string | Yes | Snapshot of product brand |
+| `price` | number | Yes | Snapshot of unit price |
+| `quantity` | number | Yes | Quantity purchased |
+| `image` | string | No | Snapshot of product image |
+
+## Relationships
+
+- One `User` can have many `Order` records.
+- One `Order` contains many `Order Item` records.
+- One `Product` can appear in many `Order Item` records.
+- Creating an order reduces product `stock` in `products.json`.
+
+---
+
+# 15. Sequence Diagrams
 
 ## Sequence Diagrams
 
@@ -267,7 +341,7 @@
 
 ---
 
-# 15. Wireframe
+# 16. Wireframe
 
 ## Wireframe
 

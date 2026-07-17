@@ -9,7 +9,6 @@ export default function Checkout() {
   const { showAlert } = useAlert();
   const [orderCompleted, setOrderCompleted] = useState(false);
 
-  // 1. Session & Auth Check
   const [currentUser] = useState(() => {
     return JSON.parse(localStorage.getItem("currentUser") || "null");
   });
@@ -23,7 +22,6 @@ export default function Checkout() {
     }
   }, [currentUser, navigate, showAlert]);
 
-  // Redirect to homepage if cart is empty
   useEffect(() => {
     if (currentUser && cart.length === 0 && !orderCompleted) {
       showAlert({
@@ -33,14 +31,12 @@ export default function Checkout() {
     }
   }, [cart, currentUser, navigate, orderCompleted, showAlert]);
 
-  // Redirect if no shipping address exists
   useEffect(() => {
     if (currentUser) {
       const saved = localStorage.getItem(`shippingAddresses_${currentUser.id}`);
       const addresses = saved ? JSON.parse(saved) : [];
       if (addresses.length === 0) {
-        alert("กรุณากรอกข้อมูลที่อยู่สำหรับจัดส่งสินค้าก่อนทำการชำระเงิน");
-        navigate("/profile", { state: { activeTab: "shipping_address" } });
+        // no-op: address validation is handled by the checkout form
       }
     }
   }, [currentUser, navigate]);
@@ -81,8 +77,8 @@ export default function Checkout() {
   // Billing / Shipping Form state
   const [selectedAddressId, setSelectedAddressId] = useState("");
   const [addressForm, setAddressForm] = useState({
-    name: "",
-    phone: "",
+    name: currentUser?.name || "",
+    phone: currentUser?.phone || "",
     details: "",
     subdistrict: "",
     district: "",
@@ -94,8 +90,8 @@ export default function Checkout() {
   useEffect(() => {
     if (selectedAddressId === "new" || selectedAddressId === "") {
       setAddressForm({
-        name: "",
-        phone: "",
+        name: currentUser?.name || "",
+        phone: currentUser?.phone || "",
         details: "",
         subdistrict: "",
         district: "",
@@ -166,7 +162,10 @@ export default function Checkout() {
     }
 
     if (paymentMethod === "card" && savedCards.length === 0) {
-      alert("กรุณาเพิ่มบัตรเครดิตในหน้าโปรไฟล์ของคุณก่อนทำรายการชำระเงินครับ/ค่ะ");
+      showAlert({
+        title: "ข้อมูลไม่ครบถ้วน",
+        message: "กรุณากรอกข้อมูลบัตรให้ครบถ้วนและถูกต้อง"
+      })
       return;
     }
 
@@ -219,7 +218,10 @@ export default function Checkout() {
 
       if (!response.ok) {
         const data = await response.json();
-        alert(data.message || "เกิดข้อผิดพลาดในการบันทึกคำสั่งซื้อไปยังเซิร์ฟเวอร์");
+        await showAlert({
+          title: "เกิดข้อผิดพลาด",
+          message: data.message || "เกิดข้อผิดพลาดในการบันทึกคำสั่งซื้อไปยังเซิร์ฟเวอร์",
+        });
         return;
       }
 
@@ -234,15 +236,23 @@ export default function Checkout() {
       setOrderCompleted(true);
       clearCart();
       setIsPromptPayModalOpen(false);
-      alert(`🎉 ทำรายการสั่งซื้อสำเร็จ!\nหมายเลขคำสั่งซื้อของคุณคือ ${orderId}`);
-      navigate("/profile", { state: { activeTab: "orders" } }); // Redirect to profile page to let them see order history
+      showAlert({
+        title: "ทำรายการสั่งซื้อสำเร็จ",
+        message: `หมายเลขคำสั่งซื้อของคุณคือ ${orderId}`
+      }).then(() => navigate("/profile", { state: { activeTab: "ordeDrs" } }));
     } catch (err) {
       console.error(err);
 
-      alert(`เกิดข้อผิดพลาดจากโค้ด: ${err.message}`);
-      alert("ไม่สามารถติดต่อเซิร์ฟเวอร์เพื่อบันทึกการสั่งซื้อได้ กรุณาลองใหม่อีกครั้ง");
+      await showAlert({
+        title: "เกิดข้อผิดพลาด",
+        message: `เกิดข้อผิดพลาดจากโค้ด: ${err.message}`,
+      });
+      await showAlert({
+        title: "เกิดข้อผิดพลาด",
+        message: "ไม่สามารถติดต่อเซิร์ฟเวอร์เพื่อบันทึกการสั่งซื้อได้ กรุณาลองใหม่อีกครั้ง",
+      });
     }
-    
+
     const updatedOrders = [newOrder, ...baseOrders];
     localStorage.setItem(savedOrdersKey, JSON.stringify(updatedOrders));
 
@@ -250,13 +260,11 @@ export default function Checkout() {
     setOrderCompleted(true);
     clearCart();
     setIsPromptPayModalOpen(false);
-    
+
     showAlert({
-      title: "สั่งซื้อสำเร็จ",
-      message: `🎉 ทำรายการสั่งซื้อสำเร็จ!\nหมายเลขคำสั่งซื้อของคุณคือ ${orderId}`
-    }).then(() => {
-      navigate("/profile", { state: { activeTab: "orders" } }); // Redirect to profile page to let them see order history
-    });
+      title: "ทำรายการสั่งซื้อสำเร็จ",
+      message: `หมายเลขคำสั่งซื้อของคุณคือ ${orderId}`
+    }).then(() => navigate("/profile", { state: { activeTab: "ordeDrs" } }));
   };
 
 
@@ -351,7 +359,12 @@ export default function Checkout() {
                     <input
                       type="text"
                       value={addressForm.phone}
-                      onChange={(e) => handleInputChange("phone", e.target.value)}
+                      minLength={10}
+                      maxLength={10}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, "");
+                        handleInputChange("phone", value)
+                      }}
                       disabled={selectedAddressId !== "new"}
                       className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.phone ? "border-error" : "border-outline-variant"
                         } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
@@ -425,7 +438,12 @@ export default function Checkout() {
                     <input
                       type="text"
                       value={addressForm.postalCode}
-                      onChange={(e) => handleInputChange("postalCode", e.target.value)}
+                      minLength={5}
+                      maxLength={5}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, "");
+                        handleInputChange("postalCode", value)
+                      }}
                       disabled={selectedAddressId !== "new"}
                       className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.postalCode ? "border-error" : "border-outline-variant"
                         } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
