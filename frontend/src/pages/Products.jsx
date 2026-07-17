@@ -11,7 +11,11 @@ export default function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
+
+  useEffect(() => {
+    setSearchQuery(searchParams.get("search") || "");
+  }, [searchParams]);
 
   const [selectedType, setSelectedType] = useState("");
   const [selectedBrands, setSelectedBrands] = useState([]);

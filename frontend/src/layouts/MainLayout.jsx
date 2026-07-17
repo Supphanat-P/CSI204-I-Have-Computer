@@ -1,7 +1,8 @@
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useCart } from "../context/CartContext";
 import { useAlert } from "../context/AlertContext";
+import axios from "axios";
 
 export default function MainLayout() {
   const location = useLocation();
@@ -10,6 +11,9 @@ export default function MainLayout() {
   const [activeNav, setActiveNav] = useState("");
   const navItems = [];
   const [searchQuery, setSearchQuery] = useState("");
+  const [allProducts, setAllProducts] = useState([]);
+  const [isFocused, setIsFocused] = useState(false);
+  const searchRef = useRef(null);
   const [isLogin, setIsLogin] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isManager, setIsManager] = useState(false);
@@ -32,6 +36,47 @@ export default function MainLayout() {
       window.removeEventListener("favoritesUpdated", updateFavoriteCount);
     };
   }, [location]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    setSearchQuery(params.get("search") || "");
+  }, [location.search]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const { data } = await axios.get("/api/products");
+        setAllProducts(data);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setIsFocused(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const suggestions = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return [];
+    return allProducts
+      .filter((product) =>
+        [product.name, product.brand, product.category, product.type]
+          .filter(Boolean)
+          .some((field) => field.toString().toLowerCase().includes(query))
+      )
+      .slice(0, 8);
+  }, [searchQuery, allProducts]);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("currentUser") || "null");
@@ -101,7 +146,7 @@ export default function MainLayout() {
 
           {/* Search & Actions */}
           <div className="flex items-center gap-4 flex-1 justify-end max-w-xl">
-            <div className="relative w-full hidden sm:block">
+            <div ref={searchRef} className="relative w-full hidden sm:block">
               <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
                 search
               </span>
@@ -111,7 +156,53 @@ export default function MainLayout() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    setIsFocused(false);
+                    navigate(`/products?search=${encodeURIComponent(searchQuery)}`);
+                  }
+                }}
               />
+              {isFocused && searchQuery.trim().length > 0 && (
+                <div className="absolute left-0 right-0 top-full mt-2 bg-white border border-outline-variant rounded-2xl shadow-xl z-50 max-h-80 overflow-y-auto py-2 backdrop-blur-md bg-white/95">
+                  {suggestions.length === 0 ? (
+                    <div className="px-4 py-3 text-sm text-on-surface-variant">
+                      ไม่พบสินค้าที่คุณกำลังมองหา
+                    </div>
+                  ) : (
+                    suggestions.map((product) => (
+                      <button
+                        key={product.id}
+                        onClick={() => {
+                          setIsFocused(false);
+                          navigate(`/productsDetails/${product.id}`);
+                        }}
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-primary/10 transition-colors duration-150 border-none bg-transparent cursor-pointer"
+                      >
+                        {product.image && (
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-8 h-8 object-cover rounded bg-surface-container"
+                          />
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <span className="text-[10px] text-primary font-bold uppercase tracking-wider block">
+                            {product.brand}
+                          </span>
+                          <div className="text-body-md font-bold text-on-surface truncate">
+                            {product.name}
+                          </div>
+                          <div className="text-body-sm text-primary font-semibold">
+                            {product.price?.toLocaleString()}฿
+                          </div>
+                        </div>
+                      </button>
+                    ))
+                  )}
+                </div>
+              )}
             </div>
             <div className="flex items-center gap-2">
               <Link
