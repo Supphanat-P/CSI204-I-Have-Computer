@@ -198,7 +198,7 @@ export default function Profiles() {
       );
       await showAlert({
         title: "สำเร็จ",
-        message: "🎉 ยืนยันการรับสินค้าสำเร็จ! ข้อมูลคำสั่งซื้อถูกบันทึกในประวัติการสั่งซื้อแล้ว"
+        message: "ยืนยันการรับสินค้าสำเร็จ! ข้อมูลคำสั่งซื้อถูกบันทึกในประวัติการสั่งซื้อแล้ว"
       });
     }
   };
@@ -301,19 +301,28 @@ export default function Profiles() {
     return month >= 1 && month <= 12;
   };
 
-  const handleSaveCard = (e) => {
+  const handleSaveCard = async (e) => {
     e.preventDefault();
     const sanitizedNumber = cardForm.cardNumber.replace(/\s+/g, "");
     if (!/^\d{16}$/.test(sanitizedNumber)) {
-      alert("กรุณากรอกหมายเลขบัตรเครดิต 16 หลักให้ถูกต้อง");
+      await showAlert({
+        title: "ข้อมูลไม่ถูกต้อง",
+        message: "กรุณากรอกหมายเลขบัตรเครดิต 16 หลักให้ถูกต้อง",
+      });
       return;
     }
     if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardForm.expiry)) {
-      alert("กรุณากรอกวันหมดอายุในรูปแบบ ดด/ปป เช่น 12/28");
+      await showAlert({
+        title: "ข้อมูลไม่ถูกต้อง",
+        message: "กรุณากรอกวันหมดอายุในรูปแบบ ดด/ปป เช่น 12/28",
+      });
       return;
     }
     if (!cardForm.holder.trim()) {
-      alert("กรุณากรอกชื่อผู้ถือบัตร");
+      await showAlert({
+        title: "ข้อมูลไม่ถูกต้อง",
+        message: "กรุณากรอกชื่อผู้ถือบัตร",
+      });
       return;
     }
 
@@ -321,7 +330,10 @@ export default function Profiles() {
     const expiryError = validateExpiry(cardForm.expiry);
 
     if (expiryError) {
-      alert(expiryError);
+      await showAlert({
+        title: "ข้อมูลไม่ถูกต้อง",
+        message: expiryError,
+      });
       return;
     }
     const newCard = {
@@ -342,11 +354,22 @@ export default function Profiles() {
       expiry: "",
       cvv: "",
     });
-    alert("🎉 เพิ่มบัตรเครดิตเรียบร้อยแล้ว");
+    await showAlert({
+      title: "สำเร็จ",
+      message: "เพิ่มบัตรเครดิตเรียบร้อยแล้ว",
+    });
   };
 
-  const handleDeleteCard = (id) => {
-    if (window.confirm("คุณแน่ใจหรือไม่ว่าต้องการลบบัตรเครดิตนี้?")) {
+  const handleDeleteCard = async (id) => {
+    const confirmed = await showAlert({
+      title: "ยืนยันการลบบัตร",
+      message: "คุณแน่ใจหรือไม่ว่าต้องการลบบัตรเครดิตนี้?",
+      showCancel: true,
+      confirmText: "ลบ",
+      cancelText: "ยกเลิก",
+    });
+
+    if (confirmed) {
       const remaining = payments.filter((p) => p.id !== id);
       if (remaining.length > 0 && !remaining.some((p) => p.isDefault)) {
         remaining[0].isDefault = true;
@@ -531,12 +554,20 @@ export default function Profiles() {
     setEditingAddress(null);
   };
 
-  const deleteAddress = (type, id) => {
+  const deleteAddress = async (type, id) => {
     const isShipping = type === "shipping";
     const addressList = isShipping ? shippingAddresses : taxAddresses;
     const setAddressList = isShipping ? setShippingAddresses : setTaxAddresses;
 
-    if (window.confirm("คุณแน่ใจหรือไม่ว่าต้องการลบที่อยู่นี้?")) {
+    const confirmed = await showAlert({
+      title: "ยืนยันการลบที่อยู่",
+      message: "คุณแน่ใจหรือไม่ว่าต้องการลบที่อยู่นี้?",
+      showCancel: true,
+      confirmText: "ลบ",
+      cancelText: "ยกเลิก",
+    });
+
+    if (confirmed) {
       const remaining = addressList.filter((addr) => addr.id !== id);
       if (remaining.length > 0 && !remaining.some((addr) => addr.isDefault)) {
         remaining[0].isDefault = true;
