@@ -75,5 +75,14 @@
     "phone": "1111111111",
     "birthDate": "11/11/1111",
     "role": "manager"
+  },
+  {
+    "id": "10",
+    "name": "Test User",
+    "email": "testuser_addr@example.com",
+    "password": "$2a$10$L4L7eS4QHxdn6u9m7OMzHOoICAKR9NshhikcU/IzbibF9WfmAxi.a",
+    "phone": "-",
+    "birthDate": "-",
+    "role": "user"
   }
 ]
