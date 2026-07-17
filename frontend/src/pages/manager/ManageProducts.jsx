@@ -166,6 +166,10 @@ export default function ManageProducts() {
     setShowModal(true);
   };
 
+  const handleDelete = (products) => {
+    
+  }
+
   // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -257,18 +261,18 @@ export default function ManageProducts() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-secondary px-margin-desktop py-10">
+      <div className="bg-gradient-to-r from-secondary to-primary px-margin-desktop py-10 shadow-sm">
         <div className="max-w-container-max mx-auto">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
               <div className="flex items-center gap-3 mb-1">
                 <span className="material-symbols-outlined text-white text-3xl">admin_panel_settings</span>
                 <h1 className="text-white text-3xl font-bold tracking-tight" style={{ margin: 0 }}>
-                  {currentUser.role === "manager" ? "Manager — จัดการสินค้า" : "Admin — จัดการสินค้า"}
+                  ระบบจัดการสินค้า (Products Management)
                 </h1>
               </div>
               <p className="text-white/70 text-sm mt-1">
-                เข้าสู่ระบบในฐานะ <span className="text-white font-semibold">{currentUser.name}</span>
+                เข้าสู่ระบบในฐานะ <span className="text-white font-semibold">{currentUser?.name}</span> ({currentUser?.role})
               </p>
             </div>
             <button

@@ -1,7 +1,80 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAlert } from "../context/AlertContext";
+
+const SearchableSelect = ({ placeholder, value, onChange, options, disabled, className, required }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    setSearchTerm(value || "");
+  }, [value]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (containerRef.current && !containerRef.current.contains(event.target)) {
+        setIsOpen(false);
+        setSearchTerm(value || "");
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [value]);
+
+  const filteredOptions = options.filter(opt =>
+    opt.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <div ref={containerRef} className="relative w-full">
+      <input
+        type="text"
+        placeholder={placeholder}
+        value={searchTerm}
+        disabled={disabled}
+        required={required}
+        onFocus={() => setIsOpen(true)}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+          setIsOpen(true);
+          if (e.target.value === "") {
+            onChange("");
+          }
+        }}
+        className={`${className} pr-10`}
+      />
+      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant/70 flex items-center">
+        <span className="material-symbols-outlined text-lg">expand_more</span>
+      </div>
+      {isOpen && !disabled && (
+        <ul className="absolute z-[100] mt-1 max-h-60 w-full overflow-auto rounded-xl border border-outline-variant bg-white py-1.5 shadow-lg outline-none text-sm text-on-surface">
+          {filteredOptions.length > 0 ? (
+            filteredOptions.map((opt, i) => (
+              <li
+                key={i}
+                onClick={() => {
+                  onChange(opt);
+                  setSearchTerm(opt);
+                  setIsOpen(false);
+                }}
+                className="cursor-pointer px-4 py-2 hover:bg-primary/5 hover:text-primary transition-colors text-left"
+              >
+                {opt}
+              </li>
+            ))
+          ) : (
+            <li className="px-4 py-2 text-on-surface-variant/50 text-xs italic text-left">
+              ไม่พบข้อมูล
+            </li>
+          )}
+        </ul>
+      )}
+    </div>
+  );
+};
+
 
 export default function Checkout() {
   const navigate = useNavigate();
@@ -9,7 +82,6 @@ export default function Checkout() {
   const { showAlert } = useAlert();
   const [orderCompleted, setOrderCompleted] = useState(false);
 
-  // 1. Session & Auth Check
   const [currentUser] = useState(() => {
     return JSON.parse(localStorage.getItem("currentUser") || "null");
   });
@@ -23,7 +95,6 @@ export default function Checkout() {
     }
   }, [currentUser, navigate, showAlert]);
 
-  // Redirect to homepage if cart is empty
   useEffect(() => {
     if (currentUser && cart.length === 0 && !orderCompleted) {
       showAlert({
@@ -33,14 +104,12 @@ export default function Checkout() {
     }
   }, [cart, currentUser, navigate, orderCompleted, showAlert]);
 
-  // Redirect if no shipping address exists
   useEffect(() => {
     if (currentUser) {
       const saved = localStorage.getItem(`shippingAddresses_${currentUser.id}`);
       const addresses = saved ? JSON.parse(saved) : [];
       if (addresses.length === 0) {
-        alert("กรุณากรอกข้อมูลที่อยู่สำหรับจัดส่งสินค้าก่อนทำการชำระเงิน");
-        navigate("/profile", { state: { activeTab: "shipping_address" } });
+        // no-op: address validation is handled by the checkout form
       }
     }
   }, [currentUser, navigate]);
@@ -80,9 +149,26 @@ export default function Checkout() {
 
   // Billing / Shipping Form state
   const [selectedAddressId, setSelectedAddressId] = useState("");
+
+  // Thailand administrative divisions API state and fetch
+  const [thaiProvinces, setThaiProvinces] = useState([]);
+  useEffect(() => {
+    const fetchThaiAddresses = async () => {
+      try {
+        const response = await fetch("https://raw.githubusercontent.com/kongvut/thai-province-data/refs/heads/master/api/latest/province_with_district_and_sub_district.json");
+        if (response.ok) {
+          const data = await response.json();
+          setThaiProvinces(data);
+        }
+      } catch (error) {
+        console.error("Error fetching Thai address data:", error);
+      }
+    };
+    fetchThaiAddresses();
+  }, []);
   const [addressForm, setAddressForm] = useState({
-    name: "",
-    phone: "",
+    name: currentUser?.name || "",
+    phone: currentUser?.phone || "",
     details: "",
     subdistrict: "",
     district: "",
@@ -94,8 +180,8 @@ export default function Checkout() {
   useEffect(() => {
     if (selectedAddressId === "new" || selectedAddressId === "") {
       setAddressForm({
-        name: "",
-        phone: "",
+        name: currentUser?.name || "",
+        phone: currentUser?.phone || "",
         details: "",
         subdistrict: "",
         district: "",
@@ -166,7 +252,10 @@ export default function Checkout() {
     }
 
     if (paymentMethod === "card" && savedCards.length === 0) {
-      alert("กรุณาเพิ่มบัตรเครดิตในหน้าโปรไฟล์ของคุณก่อนทำรายการชำระเงินครับ/ค่ะ");
+      showAlert({
+        title: "ข้อมูลไม่ครบถ้วน",
+        message: "กรุณากรอกข้อมูลบัตรให้ครบถ้วนและถูกต้อง"
+      })
       return;
     }
 
@@ -219,7 +308,10 @@ export default function Checkout() {
 
       if (!response.ok) {
         const data = await response.json();
-        alert(data.message || "เกิดข้อผิดพลาดในการบันทึกคำสั่งซื้อไปยังเซิร์ฟเวอร์");
+        await showAlert({
+          title: "เกิดข้อผิดพลาด",
+          message: data.message || "เกิดข้อผิดพลาดในการบันทึกคำสั่งซื้อไปยังเซิร์ฟเวอร์",
+        });
         return;
       }
 
@@ -230,33 +322,62 @@ export default function Checkout() {
       const updatedOrders = [newOrder, ...existingOrders];
       localStorage.setItem(savedOrdersKey, JSON.stringify(updatedOrders));
 
+      // Save new shipping address if selectedAddressId is "new"
+      if (selectedAddressId === "new") {
+        const shippingKey = `shippingAddresses_${currentUser.id}`;
+        const currentSaved = JSON.parse(localStorage.getItem(shippingKey) || "[]");
+        const nextId = currentSaved.length > 0 ? Math.max(...currentSaved.map((a) => a.id)) + 1 : 1;
+        const newAddressObj = {
+          id: nextId,
+          name: addressForm.name,
+          phone: addressForm.phone,
+          details: addressForm.details,
+          subdistrict: addressForm.subdistrict,
+          district: addressForm.district,
+          province: addressForm.province,
+          postalCode: addressForm.postalCode,
+          type: "home",
+          isDefault: currentSaved.length === 0,
+        };
+        const updatedSaved = [...currentSaved, newAddressObj];
+        localStorage.setItem(shippingKey, JSON.stringify(updatedSaved));
+      }
+
       // Clear cart and redirect
       setOrderCompleted(true);
       clearCart();
       setIsPromptPayModalOpen(false);
-      alert(`🎉 ทำรายการสั่งซื้อสำเร็จ!\nหมายเลขคำสั่งซื้อของคุณคือ ${orderId}`);
-      navigate("/profile", { state: { activeTab: "orders" } }); // Redirect to profile page to let them see order history
+      showAlert({
+        title: "ทำรายการสั่งซื้อสำเร็จ",
+        message: `หมายเลขคำสั่งซื้อของคุณคือ ${orderId}`
+      }).then(() => navigate("/profile", { state: { activeTab: "shipping_status" } }));
     } catch (err) {
       console.error(err);
 
-      alert(`เกิดข้อผิดพลาดจากโค้ด: ${err.message}`);
-      alert("ไม่สามารถติดต่อเซิร์ฟเวอร์เพื่อบันทึกการสั่งซื้อได้ กรุณาลองใหม่อีกครั้ง");
+      await showAlert({
+        title: "เกิดข้อผิดพลาด",
+        message: `เกิดข้อผิดพลาดจากโค้ด: ${err.message}`,
+      });
+      await showAlert({
+        title: "เกิดข้อผิดพลาด",
+        message: "ไม่สามารถติดต่อเซิร์ฟเวอร์เพื่อบันทึกการสั่งซื้อได้ กรุณาลองใหม่อีกครั้ง",
+      });
     }
-    
-    const updatedOrders = [newOrder, ...baseOrders];
+    const savedOrdersKey = `orders_${currentUser.id}`;
+    const existingOrders = JSON.parse(localStorage.getItem(savedOrdersKey) || "[]");
+
+    const updatedOrders = [newOrder, ...existingOrders];
     localStorage.setItem(savedOrdersKey, JSON.stringify(updatedOrders));
 
     // Clear cart and redirect
     setOrderCompleted(true);
     clearCart();
     setIsPromptPayModalOpen(false);
-    
+
     showAlert({
-      title: "สั่งซื้อสำเร็จ",
-      message: `🎉 ทำรายการสั่งซื้อสำเร็จ!\nหมายเลขคำสั่งซื้อของคุณคือ ${orderId}`
-    }).then(() => {
-      navigate("/profile", { state: { activeTab: "orders" } }); // Redirect to profile page to let them see order history
-    });
+      title: "ทำรายการสั่งซื้อสำเร็จ",
+      message: `หมายเลขคำสั่งซื้อของคุณคือ ${orderId}`
+    }).then(() => navigate("/profile", { state: { activeTab: "shipping_status" } }));
   };
 
 
@@ -351,7 +472,12 @@ export default function Checkout() {
                     <input
                       type="text"
                       value={addressForm.phone}
-                      onChange={(e) => handleInputChange("phone", e.target.value)}
+                      minLength={10}
+                      maxLength={10}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, "");
+                        handleInputChange("phone", value)
+                      }}
                       disabled={selectedAddressId !== "new"}
                       className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.phone ? "border-error" : "border-outline-variant"
                         } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
@@ -376,56 +502,61 @@ export default function Checkout() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-on-surface-variant">ตำบล / แขวง *</label>
-                    <input
-                      type="text"
-                      value={addressForm.subdistrict}
-                      onChange={(e) => handleInputChange("subdistrict", e.target.value)}
-                      disabled={selectedAddressId !== "new"}
-                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.subdistrict ? "border-error" : "border-outline-variant"
-                        } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
-                      placeholder="ปทุมวัน"
-                    />
-                    {errors.subdistrict && <p className="text-xs text-error font-medium">{errors.subdistrict}</p>}
-                  </div>
-
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-on-surface-variant">อำเภอ / เขต *</label>
-                    <input
-                      type="text"
-                      value={addressForm.district}
-                      onChange={(e) => handleInputChange("district", e.target.value)}
-                      disabled={selectedAddressId !== "new"}
-                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.district ? "border-error" : "border-outline-variant"
-                        } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
-                      placeholder="เขตปทุมวัน"
-                    />
-                    {errors.district && <p className="text-xs text-error font-medium">{errors.district}</p>}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Province */}
                   <div className="space-y-1">
                     <label className="text-xs font-semibold text-on-surface-variant">จังหวัด *</label>
-                    <input
-                      type="text"
-                      value={addressForm.province}
-                      onChange={(e) => handleInputChange("province", e.target.value)}
-                      disabled={selectedAddressId !== "new"}
-                      className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.province ? "border-error" : "border-outline-variant"
-                        } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
-                      placeholder="กรุงเทพมหานคร"
-                    />
+                    {thaiProvinces.length > 0 ? (
+                      <SearchableSelect
+                        placeholder="-- พิมพ์ค้นหา / เลือกจังหวัด --"
+                        required
+                        value={addressForm.province}
+                        onChange={(val) => {
+                          setAddressForm((prev) => ({
+                            ...prev,
+                            province: val,
+                            district: "",
+                            subdistrict: "",
+                            postalCode: ""
+                          }));
+                          setErrors((prev) => ({
+                            ...prev,
+                            province: null,
+                            district: null,
+                            subdistrict: null,
+                            postalCode: null
+                          }));
+                        }}
+                        options={thaiProvinces.map((p) => p.name_th)}
+                        disabled={selectedAddressId !== "new"}
+                        className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm h-[42px] ${errors.province ? "border-error" : "border-outline-variant"
+                          } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        value={addressForm.province}
+                        onChange={(e) => handleInputChange("province", e.target.value)}
+                        disabled={selectedAddressId !== "new"}
+                        className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.province ? "border-error" : "border-outline-variant"
+                          } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                        placeholder="กรุงเทพมหานคร"
+                      />
+                    )}
                     {errors.province && <p className="text-xs text-error font-medium">{errors.province}</p>}
                   </div>
 
+                  {/* Postal Code */}
                   <div className="space-y-1">
                     <label className="text-xs font-semibold text-on-surface-variant">รหัสไปรษณีย์ *</label>
                     <input
                       type="text"
                       value={addressForm.postalCode}
-                      onChange={(e) => handleInputChange("postalCode", e.target.value)}
+                      minLength={5}
+                      maxLength={5}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, "");
+                        handleInputChange("postalCode", value)
+                      }}
                       disabled={selectedAddressId !== "new"}
                       className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.postalCode ? "border-error" : "border-outline-variant"
                         } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
@@ -434,6 +565,106 @@ export default function Checkout() {
                     {errors.postalCode && <p className="text-xs text-error font-medium">{errors.postalCode}</p>}
                   </div>
                 </div>
+
+                {/* District and Subdistrict Grid */}
+                {(addressForm.province || addressForm.district) && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* District */}
+                    {addressForm.province && (
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold text-on-surface-variant">อำเภอ / เขต *</label>
+                        {thaiProvinces.length > 0 ? (
+                          <SearchableSelect
+                            placeholder="-- พิมพ์ค้นหา / เลือกอำเภอ / เขต --"
+                            required
+                            value={addressForm.district}
+                            onChange={(val) => {
+                              setAddressForm((prev) => ({
+                                ...prev,
+                                district: val,
+                                subdistrict: "",
+                                postalCode: ""
+                              }));
+                              setErrors((prev) => ({
+                                ...prev,
+                                district: null,
+                                subdistrict: null,
+                                postalCode: null
+                              }));
+                            }}
+                            options={(() => {
+                              const provData = thaiProvinces.find(p => p.name_th === addressForm.province);
+                              return provData ? provData.districts.map((d) => d.name_th) : [];
+                            })()}
+                            disabled={selectedAddressId !== "new"}
+                            className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm h-[42px] ${errors.district ? "border-error" : "border-outline-variant"
+                              } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                          />
+                        ) : (
+                          <input
+                            type="text"
+                            value={addressForm.district}
+                            onChange={(e) => handleInputChange("district", e.target.value)}
+                            disabled={selectedAddressId !== "new"}
+                            className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.district ? "border-error" : "border-outline-variant"
+                              } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                            placeholder="เขตปทุมวัน"
+                          />
+                        )}
+                        {errors.district && <p className="text-xs text-error font-medium">{errors.district}</p>}
+                      </div>
+                    )}
+
+                    {/* Subdistrict */}
+                    {addressForm.province && addressForm.district && (
+                      <div className="space-y-1">
+                        <label className="text-xs font-semibold text-on-surface-variant">ตำบล / แขวง *</label>
+                        {thaiProvinces.length > 0 ? (
+                          <SearchableSelect
+                            placeholder="-- พิมพ์ค้นหา / เลือกตำบล / แขวง --"
+                            required
+                            value={addressForm.subdistrict}
+                            onChange={(val) => {
+                              const provData = thaiProvinces.find(p => p.name_th === addressForm.province);
+                              const distData = provData ? provData.districts.find(d => d.name_th === addressForm.district) : null;
+                              const subdistObj = distData ? distData.sub_districts.find(sd => sd.name_th === val) : null;
+                              const zipCode = subdistObj ? String(subdistObj.zip_code) : "";
+                              setAddressForm((prev) => ({
+                                ...prev,
+                                subdistrict: val,
+                                postalCode: zipCode
+                              }));
+                              setErrors((prev) => ({
+                                ...prev,
+                                subdistrict: null,
+                                postalCode: null
+                              }));
+                            }}
+                            options={(() => {
+                              const provData = thaiProvinces.find(p => p.name_th === addressForm.province);
+                              const distData = provData ? provData.districts.find(d => d.name_th === addressForm.district) : null;
+                              return distData ? distData.sub_districts.map((sd) => sd.name_th) : [];
+                            })()}
+                            disabled={selectedAddressId !== "new"}
+                            className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm h-[42px] ${errors.subdistrict ? "border-error" : "border-outline-variant"
+                              } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                          />
+                        ) : (
+                          <input
+                            type="text"
+                            value={addressForm.subdistrict}
+                            onChange={(e) => handleInputChange("subdistrict", e.target.value)}
+                            disabled={selectedAddressId !== "new"}
+                            className={`w-full bg-white border rounded-xl py-2.5 px-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm ${errors.subdistrict ? "border-error" : "border-outline-variant"
+                              } disabled:bg-surface-container/30 disabled:text-on-surface-variant/70`}
+                            placeholder="ปทุมวัน"
+                          />
+                        )}
+                        {errors.subdistrict && <p className="text-xs text-error font-medium">{errors.subdistrict}</p>}
+                      </div>
+                    )}
+                  </div>
+                )}
               </form>
             </div>
 

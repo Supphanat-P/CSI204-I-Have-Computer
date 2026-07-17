@@ -1,7 +1,84 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAlert } from "../context/AlertContext";
+
+import ProfileOrders from "../component/profiles/ProfileOrders";
+import ProfileWhistlists from "../component/profiles/ProfileWhislists";
+import ProfileProductStatus from "../component/profiles/ProfileProductStatus";
+
+
+const SearchableSelect = ({ placeholder, value, onChange, options, disabled, className }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    setSearchTerm(value || "");
+  }, [value]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (containerRef.current && !containerRef.current.contains(event.target)) {
+        setIsOpen(false);
+        setSearchTerm(value || "");
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [value]);
+
+  const filteredOptions = options.filter(opt =>
+    opt.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <div ref={containerRef} className="relative w-full">
+      <input
+        type="text"
+        placeholder={placeholder}
+        value={searchTerm}
+        disabled={disabled}
+        onFocus={() => setIsOpen(true)}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+          setIsOpen(true);
+          if (e.target.value === "") {
+            onChange("");
+          }
+        }}
+        className={`${className} pr-10`}
+      />
+      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant/70 flex items-center">
+        <span className="material-symbols-outlined text-lg">expand_more</span>
+      </div>
+      {isOpen && !disabled && (
+        <ul className="absolute z-[100] mt-1 max-h-60 w-full overflow-auto rounded-xl border border-outline-variant bg-white py-1.5 shadow-lg outline-none text-sm text-on-surface">
+          {filteredOptions.length > 0 ? (
+            filteredOptions.map((opt, i) => (
+              <li
+                key={i}
+                onClick={() => {
+                  onChange(opt);
+                  setSearchTerm(opt);
+                  setIsOpen(false);
+                }}
+                className="cursor-pointer px-4 py-2 hover:bg-primary/5 hover:text-primary transition-colors text-left"
+              >
+                {opt}
+              </li>
+            ))
+          ) : (
+            <li className="px-4 py-2 text-on-surface-variant/50 text-xs italic text-left">
+              ไม่พบข้อมูล
+            </li>
+          )}
+        </ul>
+      )}
+    </div>
+  );
+};
+
 
 export default function Profiles() {
   const navigate = useNavigate();
@@ -112,6 +189,23 @@ export default function Profiles() {
   const [editingAddress, setEditingAddress] = useState(null); // null if adding new address
   const [addressModalType, setAddressModalType] = useState("shipping"); // 'shipping' | 'tax'
 
+  // Thailand administrative divisions API state and fetch
+  const [thaiProvinces, setThaiProvinces] = useState([]);
+  useEffect(() => {
+    const fetchThaiAddresses = async () => {
+      try {
+        const response = await fetch("https://raw.githubusercontent.com/kongvut/thai-province-data/refs/heads/master/api/latest/province_with_district_and_sub_district.json");
+        if (response.ok) {
+          const data = await response.json();
+          setThaiProvinces(data);
+        }
+      } catch (error) {
+        console.error("Error fetching Thai address data:", error);
+      }
+    };
+    fetchThaiAddresses();
+  }, []);
+
   // Temporary state for the address being added/edited inside modal
   const [addressForm, setAddressForm] = useState({
     name: "",
@@ -148,7 +242,6 @@ export default function Profiles() {
           const data = await response.json();
           setOrders(data);
           localStorage.setItem(`orders_${currentUser.id}`, JSON.stringify(data));
-          console.log(orders)
         }
       } catch (err) {
         console.error("Error fetching orders:", err);
@@ -194,7 +287,7 @@ export default function Profiles() {
       );
       await showAlert({
         title: "สำเร็จ",
-        message: "🎉 ยืนยันการรับสินค้าสำเร็จ! ข้อมูลคำสั่งซื้อถูกบันทึกในประวัติการสั่งซื้อแล้ว"
+        message: "ยืนยันการรับสินค้าสำเร็จ! ข้อมูลคำสั่งซื้อถูกบันทึกในประวัติการสั่งซื้อแล้ว"
       });
     }
   };
@@ -268,24 +361,70 @@ export default function Profiles() {
     expiry: "",
     cvv: "",
   });
+  const validateExpiry = (expiry) => {
+    if (!/^\d{2}\/\d{2}$/.test(expiry)) {
+      return "รูปแบบวันหมดอายุไม่ถูกต้อง";
+    }
 
-  const handleSaveCard = (e) => {
+    const [month, year] = expiry.split("/").map(Number);
+
+    if (!isValidMonth(month)) {
+      return "เดือนต้องอยู่ระหว่าง 01 - 12";
+    }
+
+    const now = new Date();
+
+    const currentMonth = now.getMonth() + 1;
+    const currentYear = now.getFullYear() % 100; // เช่น 2026 -> 26
+
+    if (
+      year < currentYear ||
+      (year === currentYear && month < currentMonth)
+    ) {
+      return "บัตรหมดอายุแล้ว";
+    }
+
+    return "";
+  };
+  const isValidMonth = (month) => {
+    return month >= 1 && month <= 12;
+  };
+
+  const handleSaveCard = async (e) => {
     e.preventDefault();
     const sanitizedNumber = cardForm.cardNumber.replace(/\s+/g, "");
     if (!/^\d{16}$/.test(sanitizedNumber)) {
-      alert("กรุณากรอกหมายเลขบัตรเครดิต 16 หลักให้ถูกต้อง");
+      await showAlert({
+        title: "ข้อมูลไม่ถูกต้อง",
+        message: "กรุณากรอกหมายเลขบัตรเครดิต 16 หลักให้ถูกต้อง",
+      });
       return;
     }
     if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardForm.expiry)) {
-      alert("กรุณากรอกวันหมดอายุในรูปแบบ ดด/ปป เช่น 12/28");
+      await showAlert({
+        title: "ข้อมูลไม่ถูกต้อง",
+        message: "กรุณากรอกวันหมดอายุในรูปแบบ ดด/ปป เช่น 12/28",
+      });
       return;
     }
     if (!cardForm.holder.trim()) {
-      alert("กรุณากรอกชื่อผู้ถือบัตร");
+      await showAlert({
+        title: "ข้อมูลไม่ถูกต้อง",
+        message: "กรุณากรอกชื่อผู้ถือบัตร",
+      });
       return;
     }
 
     const maskedNumber = `**** **** **** ${sanitizedNumber.slice(-4)}`;
+    const expiryError = validateExpiry(cardForm.expiry);
+
+    if (expiryError) {
+      await showAlert({
+        title: "ข้อมูลไม่ถูกต้อง",
+        message: expiryError,
+      });
+      return;
+    }
     const newCard = {
       id: payments.length > 0 ? Math.max(...payments.map((p) => p.id)) + 1 : 1,
       type: cardForm.type,
@@ -304,11 +443,22 @@ export default function Profiles() {
       expiry: "",
       cvv: "",
     });
-    alert("🎉 เพิ่มบัตรเครดิตเรียบร้อยแล้ว");
+    await showAlert({
+      title: "สำเร็จ",
+      message: "เพิ่มบัตรเครดิตเรียบร้อยแล้ว",
+    });
   };
 
-  const handleDeleteCard = (id) => {
-    if (window.confirm("คุณแน่ใจหรือไม่ว่าต้องการลบบัตรเครดิตนี้?")) {
+  const handleDeleteCard = async (id) => {
+    const confirmed = await showAlert({
+      title: "ยืนยันการลบบัตร",
+      message: "คุณแน่ใจหรือไม่ว่าต้องการลบบัตรเครดิตนี้?",
+      showCancel: true,
+      confirmText: "ลบ",
+      cancelText: "ยกเลิก",
+    });
+
+    if (confirmed) {
       const remaining = payments.filter((p) => p.id !== id);
       if (remaining.length > 0 && !remaining.some((p) => p.isDefault)) {
         remaining[0].isDefault = true;
@@ -323,6 +473,20 @@ export default function Profiles() {
       isDefault: p.id === id,
     }));
     setPayments(updated);
+  };
+  const handleExpiryChange = (e) => {
+    let value = e.target.value.replace(/\D/g, "");
+
+    value = value.slice(0, 4);
+
+    if (value.length >= 3) {
+      value = `${value.slice(0, 2)}/${value.slice(2)}`;
+    }
+
+    setCardForm({
+      ...cardForm,
+      expiry: value,
+    });
   };
 
   // Profile Edit functions
@@ -479,12 +643,20 @@ export default function Profiles() {
     setEditingAddress(null);
   };
 
-  const deleteAddress = (type, id) => {
+  const deleteAddress = async (type, id) => {
     const isShipping = type === "shipping";
     const addressList = isShipping ? shippingAddresses : taxAddresses;
     const setAddressList = isShipping ? setShippingAddresses : setTaxAddresses;
 
-    if (window.confirm("คุณแน่ใจหรือไม่ว่าต้องการลบที่อยู่นี้?")) {
+    const confirmed = await showAlert({
+      title: "ยืนยันการลบที่อยู่",
+      message: "คุณแน่ใจหรือไม่ว่าต้องการลบที่อยู่นี้?",
+      showCancel: true,
+      confirmText: "ลบ",
+      cancelText: "ยกเลิก",
+    });
+
+    if (confirmed) {
       const remaining = addressList.filter((addr) => addr.id !== id);
       if (remaining.length > 0 && !remaining.some((addr) => addr.isDefault)) {
         remaining[0].isDefault = true;
@@ -562,7 +734,7 @@ export default function Profiles() {
   };
 
   if (!currentUser) {
-    return null; // Don't render anything if redirecting
+    return null;
   }
 
   return (
@@ -1074,287 +1246,17 @@ export default function Profiles() {
 
             {/* VIEW 4: คำสั่งซื้อ (Orders) */}
             {activeTab === "orders" && (
-              <div className="space-y-6">
-                <div className="flex items-center gap-2.5 pb-4 border-b border-outline-variant">
-                  <span className="material-symbols-outlined text-primary text-3xl">shopping_bag</span>
-                  <h2 className="text-2xl font-bold text-on-surface">คำสั่งซื้อของฉัน</h2>
-                </div>
-
-                <div className="space-y-4">
-                  {orders.length > 0 ? (
-                    orders.map((ord) => (
-                      <div
-                        key={ord.id}
-                        className="border border-outline-variant rounded-2xl p-5 bg-white flex flex-col md:flex-row md:items-center justify-between gap-4"
-                      >
-                        <div className="space-y-2 flex-1">
-                          <div className="flex items-center gap-3 flex-wrap">
-                            <span className="font-bold text-on-surface text-body-lg">
-                              หมายเลขสั่งซื้อ: {ord.id}
-                            </span>
-
-                            <span
-                              className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${ord.status === "เสร็จสิ้น"
-                                ? "bg-green-100 text-green-700"
-                                : ord.status === "จัดส่งแล้ว"
-                                  ? "bg-blue-100 text-blue-700"
-                                  : "bg-amber-100 text-amber-700"
-                                }`}
-                            >
-                              {ord.status}
-                            </span>
-                          </div>
-
-                          {renderItemsList(ord.items)}
-
-                          <p className="text-xs text-outline pt-1">
-                            วันที่ทำรายการ: {ord.date}
-                          </p>
-                        </div>
-
-                        <div className="text-right shrink-0">
-                          <p className="text-xs text-on-surface-variant">
-                            ยอดรวมสุทธิ
-                          </p>
-
-                          <p className="text-xl font-bold text-primary">
-                            {ord.total.toLocaleString()}฿
-                          </p>
-
-                          <div className="flex flex-col sm:flex-row items-end sm:items-center gap-3 mt-2 justify-end">
-                            <button
-                              onClick={() => setSelectedOrder(ord)}
-                              className="text-xs font-semibold text-primary hover:underline cursor-pointer bg-transparent border-none"
-                            >
-                              ดูรายละเอียดคำสั่งซื้อ
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="bg-surface-container-low border border-outline-variant rounded-2xl p-12 text-center flex flex-col items-center">
-                      <span className="material-symbols-outlined text-6xl text-outline mb-4">shopping_bag</span>
-                      <h3 className="font-bold text-lg text-on-surface mb-1">ไม่มีข้อมูลคำสั่งซื้อ</h3>
-                      <p className="text-body-sm text-on-surface-variant max-w-sm">
-                        คุณยังไม่มีคำสั่งซื้อใดๆ ในบัญชีนี้เพื่อใช้ตรวจสอบการจัดส่ง
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
+              <ProfileOrders orders={orders} />
             )}
 
             {/* VIEW 5: สินค้าที่ถูกใจ (Wishlist) */}
             {activeTab === "wishlist" && (
-              <div className="space-y-6">
-                <div className="flex items-center gap-2.5 pb-4 border-b border-outline-variant">
-                  <span className="material-symbols-outlined text-primary text-3xl">favorite</span>
-                  <h2 className="text-2xl font-bold text-on-surface">สินค้าที่ชอบ</h2>
-                </div>
-
-                {wishlist.length === 0 ? (
-                  <div className="py-16 text-center text-on-surface-variant flex flex-col items-center">
-                    <div className="w-16 h-16 bg-error/5 rounded-full flex items-center justify-center text-error mb-4 shadow-inner">
-                      <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 0" }}>
-                        favorite
-                      </span>
-                    </div>
-                    <h3 className="font-bold text-lg text-on-surface mb-1">ยังไม่มีสินค้าที่ถูกใจ</h3>
-                    <p className="text-sm text-on-surface-variant max-w-xs mb-6">คุณสามารถกดปุ่มรูปหัวใจบนหน้าสินค้าที่คุณชื่นชอบเพื่อเก็บไว้ดูได้ที่นี่</p>
-                    <button
-                      onClick={() => navigate("/products")}
-                      className="bg-primary text-white px-6 py-2.5 rounded-xl text-body-sm font-semibold hover:bg-primary-fixed-dim hover:text-primary-fixed transition-all duration-200 active:scale-95 cursor-pointer shadow-md"
-                    >
-                      ไปเลือกช็อปสินค้า
-                    </button>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {wishlist.map((item) => (
-                      <div key={item.id} className="border border-outline-variant rounded-2xl p-4 bg-white flex flex-col justify-between hover:shadow-md transition-shadow relative">
-                        <div>
-                          <div className="aspect-square w-full bg-surface-container rounded-xl overflow-hidden mb-3 relative flex items-center justify-center">
-                            <img src={item.image} alt={item.name} className="max-h-full max-w-full object-contain p-2" />
-                            <button
-                              onClick={() => handleUnlike(item.id)}
-                              className="absolute top-2 right-2 p-1.5 bg-white/80 backdrop-blur-sm rounded-full text-red-500 hover:bg-white transition-colors cursor-pointer flex items-center justify-center"
-                            >
-                              <span className="material-symbols-outlined text-lg leading-none" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
-                            </button>
-                          </div>
-                          <h4 className="font-bold text-on-surface text-body-md line-clamp-1">{item.name}</h4>
-                          <p className="text-xs text-on-surface-variant mb-2">{item.brand} | {item.category || item.productType}</p>
-                        </div>
-                        <div className="flex justify-between items-center mt-3 pt-2 border-t border-outline-variant">
-                          <span className="font-bold text-primary">{item.price.toLocaleString()}฿</span>
-                          <button
-                            onClick={() => addToCart(item)}
-                            className="bg-primary text-white text-xs px-3.5 py-1.5 rounded-lg hover:bg-primary-container hover:text-on-primary-container font-semibold transition-all cursor-pointer"
-                          >
-                            ใส่รถเข็น
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <ProfileWhistlists wishlist={wishlist} handleUnlike={handleUnlike} addToCart={addToCart} />
             )}
 
             {/* VIEW 6: เช็คสถานะการจัดส่ง (Shipping Status) */}
             {activeTab === "shipping_status" && (
-              <div className="space-y-6">
-                <div className="flex items-center gap-2.5 pb-4 border-b border-outline-variant">
-                  <span className="material-symbols-outlined text-primary text-3xl">local_shipping</span>
-                  <h2 className="text-2xl font-bold text-on-surface">ตรวจสอบการจัดส่ง</h2>
-                </div>
-
-                {orders.length > 0 ? (
-                  orders.map((ord) => (
-                    <div key={ord.id} className="border border-outline-variant rounded-2xl p-5 bg-white space-y-4 mb-4">
-                      <div className="flex items-center justify-between border-b border-outline-variant pb-3 flex-wrap gap-2">
-                        <div>
-                          <span className="text-xs text-outline block">พัสดุสำหรับสั่งซื้อ</span>
-                          <span className="font-bold text-on-surface">#{ord.id}</span>
-                        </div>
-                        <div className="text-right">
-                          <span className="text-xs text-outline block">ผู้ให้บริการจัดส่ง</span>
-                        </div>
-                      </div>
-                      <div className="py-2">
-                        <div className="text-body-sm text-on-surface-variant block mb-2">
-                          <b>รายการสินค้า:</b>
-                          {renderItemsList(ord.items)}
-                        </div>
-                        {ord.shippingAddress && (
-                          <span className="text-body-sm text-on-surface-variant block mb-1"><b>ที่อยู่จัดส่ง:</b> {ord.shippingAddress}</span>
-                        )}
-                        <div className="flex items-center gap-2 text-body-sm mt-2 font-semibold">
-                          <span className="material-symbols-outlined text-lg">local_shipping</span>
-                          <span className={ord.status === "เสร็จสิ้น" ? "text-green-600" : "text-primary"}>
-                            {ord.status === "เสร็จสิ้น" ? "จัดส่งสินค้าสำเร็จเรียบร้อยแล้ว" :
-                              ord.status === "รอดำเนินการ" ? "กำลังจัดเตรียมสินค้าเพื่อจัดส่ง" :
-                                "อยู่ระหว่างนำส่งพัสดุ (พัสดุจะถึงภายในวันนี้)"}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Timeline tracker */}
-                      <div className="border-t border-outline-variant pt-4 space-y-3.5">
-                        {ord.status === "เสร็จสิ้น" ? (
-                          <>
-                            <div className="flex gap-3">
-                              <div className="flex flex-col items-center">
-                                <div className="w-3 h-3 rounded-full bg-green-500 z-10"></div>
-                                <div className="w-0.5 h-12 bg-green-300"></div>
-                              </div>
-                              <div>
-                                <span className="text-xs text-green-600 font-bold block">คลังสินค้าเตรียมและจัดส่งพัสดุ</span>
-                                <span className="text-xs text-on-surface-variant">จัดส่งพัสดุออกจากคลังสินค้าเข้าระบบ</span>
-                              </div>
-                            </div>
-                            <div className="flex gap-3">
-                              <div className="flex flex-col items-center">
-                                <div className="w-3 h-3 rounded-full bg-green-500 z-10"></div>
-                                <div className="w-0.5 h-12 bg-green-300"></div>
-                              </div>
-                              <div>
-                                <span className="text-xs text-green-600 font-bold block">นำส่งพัสดุไปยังผู้รับ</span>
-                                <span className="text-xs text-on-surface-variant">พนักงานส่งพัสดุกำลังนำส่งพัสดุไปยังปลายทาง</span>
-                              </div>
-                            </div>
-                            <div className="flex gap-3">
-                              <div className="flex flex-col items-center">
-                                <div className="w-3 h-3 rounded-full bg-green-500 z-10"></div>
-                              </div>
-                              <div>
-                                <span className="text-xs text-green-600 font-bold block">จัดส่งสำเร็จ</span>
-                                <span className="text-xs text-on-surface-variant">พัสดุได้รับการเซ็นรับและตรวจสอบความเรียบร้อยเสร็จสิ้น</span>
-                              </div>
-                            </div>
-                          </>
-                        ) : ord.status === "รอดำเนินการ" ? (
-                          <>
-                            <div className="flex gap-3">
-                              <div className="flex flex-col items-center">
-                                <div className="w-3 h-3 rounded-full bg-green-500 z-10"></div>
-                                <div className="w-0.5 h-12 bg-outline-variant"></div>
-                              </div>
-                              <div>
-                                <span className="text-xs text-green-600 font-bold block">อยู่ระหว่างเตรียมจัดส่ง</span>
-                                <span className="text-xs text-on-surface-variant">คลังสินค้าได้รับการชำระเงินและกำลังจัดเตรียมบรรจุสินค้าลงกล่อง</span>
-                              </div>
-                            </div>
-                            <div className="flex gap-3 opacity-60">
-                              <div className="flex flex-col items-center">
-                                <div className="w-3 h-3 rounded-full bg-outline-variant z-10"></div>
-                              </div>
-                              <div>
-                                <span className="text-xs text-outline font-bold block">รอส่งมอบบริษัทขนส่ง</span>
-                                <span className="text-xs text-on-surface-variant">เตรียมส่งมอบพัสดุให้กับเจ้าหน้าที่ขนส่ง  </span>
-                              </div>
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <div className="flex gap-3">
-                              <div className="flex flex-col items-center">
-                                <div className="w-3 h-3 rounded-full bg-green-500 z-10"></div>
-                                <div className="w-0.5 h-12 bg-green-300"></div>
-                              </div>
-                              <div>
-                                <span className="text-xs text-green-600 font-bold block">วานนี้ - ส่งพัสดุออกจากคลัง</span>
-                                <span className="text-xs text-on-surface-variant">คลังสินค้าได้จัดเตรียมสินค้าและส่งมอบพัสดุเข้าระบบ</span>
-                              </div>
-                            </div>
-                            <div className="flex gap-3">
-                              <div className="flex flex-col items-center">
-                                <div className="w-3 h-3 rounded-full bg-green-500 z-10"></div>
-                                <div className="w-0.5 h-12 bg-green-300"></div>
-                              </div>
-                              <div>
-                                <span className="text-xs text-green-600 font-bold block">09:15 น. - ถึงสาขาปลายทาง</span>
-                                <span className="text-xs text-on-surface-variant">พัสดุถึงศูนย์คัดแยกสาขาจตุจักร</span>
-                              </div>
-                            </div>
-                            <div className="flex gap-3">
-                              <div className="flex flex-col items-center">
-                                <div className="w-3 h-3 rounded-full bg-green-500 z-10"></div>
-                              </div>
-                              <div>
-                                <span className="text-xs text-green-600 font-bold block">12:30 น. - นำส่งพัสดุ</span>
-                                <span className="text-xs text-on-surface-variant">พนักงานส่งพัสดุกำลังนำส่งพัสดุไปยังปลายทาง</span>
-                              </div>
-                            </div>
-                          </>
-                        )}
-                      </div>
-
-                      {/* Complete order receipt action button */}
-                      {ord.status !== "เสร็จสิ้น" && (
-                        <div className="border-t border-outline-variant pt-4 flex justify-end">
-                          <button
-                            onClick={() => handleConfirmDelivery(ord.id)}
-                            className="bg-green-600 hover:bg-green-700 text-white text-xs px-4 py-2.5 rounded-xl font-bold transition-all active:scale-95 cursor-pointer flex items-center gap-1.5 border-none"
-                          >
-                            <span className="material-symbols-outlined text-sm font-bold">check_circle</span>
-                            <span>ยืนยันได้รับสินค้าเรียบร้อย</span>
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  ))
-                ) : (
-                  <div className="bg-surface-container-low border border-outline-variant rounded-2xl p-12 text-center flex flex-col items-center">
-                    <span className="material-symbols-outlined text-6xl text-outline mb-4">local_shipping</span>
-                    <h3 className="font-bold text-lg text-on-surface mb-1">ไม่มีข้อมูลคำสั่งซื้อ</h3>
-                    <p className="text-body-sm text-on-surface-variant max-w-sm">
-                      คุณยังไม่มีคำสั่งซื้อใดๆ ในบัญชีนี้เพื่อใช้ตรวจสอบการจัดส่ง
-                    </p>
-                  </div>
-                )}
-              </div>
+              <ProfileProductStatus orders={orders} />
             )}
 
             {/* VIEW 7: ช่องทางการชำระเงิน (Payment Methods) */}
@@ -1465,7 +1367,12 @@ export default function Profiles() {
                     type="tel"
                     required
                     value={addressForm.phone}
-                    onChange={(e) => setAddressForm({ ...addressForm, phone: e.target.value })}
+                    minLength={10}
+                    maxLength={10}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, "");
+                      setAddressForm({ ...addressForm, phone: value });
+                    }}
                     placeholder="เช่น 0812345678"
                     className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
                   />
@@ -1502,46 +1409,37 @@ export default function Profiles() {
                   ></textarea>
                 </div>
 
-                {/* Subdistrict */}
-                <div>
-                  <label className="block text-body-sm font-medium text-on-surface-variant mb-1.5">
-                    ตำบล / แขวง
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={addressForm.subdistrict}
-                    onChange={(e) => setAddressForm({ ...addressForm, subdistrict: e.target.value })}
-                    className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                  />
-                </div>
-
-                {/* District */}
-                <div>
-                  <label className="block text-body-sm font-medium text-on-surface-variant mb-1.5">
-                    อำเภอ / เขต
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={addressForm.district}
-                    onChange={(e) => setAddressForm({ ...addressForm, district: e.target.value })}
-                    className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                  />
-                </div>
-
                 {/* Province */}
                 <div>
                   <label className="block text-body-sm font-medium text-on-surface-variant mb-1.5">
                     จังหวัด
                   </label>
-                  <input
-                    type="text"
-                    required
-                    value={addressForm.province}
-                    onChange={(e) => setAddressForm({ ...addressForm, province: e.target.value })}
-                    className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                  />
+                  {thaiProvinces.length > 0 ? (
+                    <SearchableSelect
+                      placeholder="-- พิมพ์ค้นหา / เลือกจังหวัด --"
+                      required
+                      value={addressForm.province}
+                      onChange={(val) => {
+                        setAddressForm({
+                          ...addressForm,
+                          province: val,
+                          district: "",
+                          subdistrict: "",
+                          postalCode: ""
+                        });
+                      }}
+                      options={thaiProvinces.map((p) => p.name_th)}
+                      className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm h-[42px]"
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      required
+                      value={addressForm.province}
+                      onChange={(e) => setAddressForm({ ...addressForm, province: e.target.value })}
+                      className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                    />
+                  )}
                 </div>
 
                 {/* Postal Code */}
@@ -1552,11 +1450,94 @@ export default function Profiles() {
                   <input
                     type="text"
                     required
+                    minLength={5}
+                    maxLength={5}
                     value={addressForm.postalCode}
-                    onChange={(e) => setAddressForm({ ...addressForm, postalCode: e.target.value })}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, "");
+                      setAddressForm({ ...addressForm, postalCode: value });
+                    }}
                     className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
                   />
                 </div>
+
+                {/* District */}
+                {addressForm.province && (
+                  <div>
+                    <label className="block text-body-sm font-medium text-on-surface-variant mb-1.5">
+                      อำเภอ / เขต
+                    </label>
+                    {thaiProvinces.length > 0 ? (
+                      <SearchableSelect
+                        placeholder="-- พิมพ์ค้นหา / เลือกอำเภอ / เขต --"
+                        required
+                        value={addressForm.district}
+                        onChange={(val) => {
+                          setAddressForm({
+                            ...addressForm,
+                            district: val,
+                            subdistrict: "",
+                            postalCode: ""
+                          });
+                        }}
+                        options={(() => {
+                          const provData = thaiProvinces.find(p => p.name_th === addressForm.province);
+                          return provData ? provData.districts.map((d) => d.name_th) : [];
+                        })()}
+                        className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm h-[42px]"
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        required
+                        value={addressForm.district}
+                        onChange={(e) => setAddressForm({ ...addressForm, district: e.target.value })}
+                        className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                      />
+                    )}
+                  </div>
+                )}
+
+                {/* Subdistrict */}
+                {addressForm.province && addressForm.district && (
+                  <div>
+                    <label className="block text-body-sm font-medium text-on-surface-variant mb-1.5">
+                      ตำบล / แขวง
+                    </label>
+                    {thaiProvinces.length > 0 ? (
+                      <SearchableSelect
+                        placeholder="-- พิมพ์ค้นหา / เลือกตำบล / แขวง --"
+                        required
+                        value={addressForm.subdistrict}
+                        onChange={(val) => {
+                          const provData = thaiProvinces.find(p => p.name_th === addressForm.province);
+                          const distData = provData ? provData.districts.find(d => d.name_th === addressForm.district) : null;
+                          const subdistObj = distData ? distData.sub_districts.find(sd => sd.name_th === val) : null;
+                          const zipCode = subdistObj ? String(subdistObj.zip_code) : "";
+                          setAddressForm({
+                            ...addressForm,
+                            subdistrict: val,
+                            postalCode: zipCode
+                          });
+                        }}
+                        options={(() => {
+                          const provData = thaiProvinces.find(p => p.name_th === addressForm.province);
+                          const distData = provData ? provData.districts.find(d => d.name_th === addressForm.district) : null;
+                          return distData ? distData.sub_districts.map((sd) => sd.name_th) : [];
+                        })()}
+                        className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm h-[42px]"
+                      />
+                    ) : (
+                      <input
+                        type="text"
+                        required
+                        value={addressForm.subdistrict}
+                        onChange={(e) => setAddressForm({ ...addressForm, subdistrict: e.target.value })}
+                        className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                      />
+                    )}
+                  </div>
+                )}
 
                 {/* Default Address Checkbox */}
                 <div className="md:col-span-2 flex items-center gap-2 py-2">
@@ -1761,10 +1742,10 @@ export default function Profiles() {
                   <input
                     type="text"
                     required
-                    maxLength="5"
-                    placeholder="เช่น 12/28"
+                    maxLength={5}
+                    placeholder="12/28"
                     value={cardForm.expiry}
-                    onChange={(e) => setCardForm({ ...cardForm, expiry: e.target.value })}
+                    onChange={handleExpiryChange}
                     className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
                   />
                 </div>
@@ -1776,7 +1757,11 @@ export default function Profiles() {
                     maxLength="3"
                     placeholder="•••"
                     value={cardForm.cvv}
-                    onChange={(e) => setCardForm({ ...cardForm, cvv: e.target.value.replace(/\D/g, "") })}
+                    onChange={(e) =>
+                      setCardForm({
+                        ...cardForm, cvv: e.target.value.replace(/\D/g, "")
+
+                      })}
                     className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
                   />
                 </div>

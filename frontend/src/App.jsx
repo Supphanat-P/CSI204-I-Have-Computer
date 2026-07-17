@@ -13,6 +13,9 @@ import Checkout from "./pages/Checkout";
 import ManageProducts from "./pages/manager/ManageProducts";
 import ManagerLayout from "./layouts/ManagerLayout";
 import ShippingStatus from "./pages/manager/ShippingStatus";
+
+import TempProfileOrder from "./component/profiles/ProfileOrders"
+
 import ManageUser from "./pages/admin/ManageUser";
 import { CartProvider } from "./context/CartContext";
 import { AlertProvider } from "./context/AlertContext";
@@ -21,31 +24,32 @@ function App() {
   return (
     <AlertProvider>
       <CartProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<MainLayout />}>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/productsDetails/:id" element={<ProductDetails />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={<Profiles />} />
-            <Route path="/checkout" element={<Checkout />} />
-          </Route>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<Homepage />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/productsDetails/:id" element={<ProductDetails />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/profile" element={<Profiles />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/tempProfileOrder" element={<TempProfileOrder />} />
+            </Route>
 
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="manageProduct" element={<ManageProducts />} />
-            <Route path="manageUser" element={<ManageUser />} />
-            <Route path="shipping" element={<ShippingStatus />} />
-          </Route>
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route path="manageProduct" element={<ManageProducts />} />
+              <Route path="manageUser" element={<ManageUser />} />
+              <Route path="shipping" element={<ShippingStatus />} />
+            </Route>
 
-          <Route path="/manager" element={<ManagerLayout />}>
-            <Route path="manageProduct" element={<ManageProducts />} />
-            <Route path="shipping" element={<ShippingStatus />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </CartProvider>
+            <Route path="/manager" element={<ManagerLayout />}>
+              <Route path="manageProduct" element={<ManageProducts />} />
+              <Route path="shipping" element={<ShippingStatus />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
     </AlertProvider>
   );
 }

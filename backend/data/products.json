@@ -44,7 +44,7 @@
     "brand": "GIGABYTE",
     "type": "GPU",
     "price": 8990,
-    "stock": 5,
+    "stock": 0,
     "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/products118747_800.jpg",
     "description": "การ์ดจอซีรีส์ใหม่ล่าสุดสถาปัตยกรรม Blackwell ขุมพลังระดับเริ่มต้นที่มาพร้อมแรม 8GB GDDR6 และการรองรับ PCIe 5.0",
     "highlights": [
@@ -84,7 +84,7 @@
     "brand": "AMD",
     "type": "CPU",
     "price": 18900,
-    "stock": 10,
+    "stock": 5,
     "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/product16311_800.jpg",
     "description": "ซีพียูเกมมิ่งประสิทธิภาพสูง",
     "highlights": [
@@ -231,7 +231,7 @@
     "brand": "Western Digital",
     "type": "HDD",
     "price": 1990,
-    "stock": 15,
+    "stock": 14,
     "image": "https://img.advice.co.th/cdn-cgi/image/format=auto,width=700,quality=82,fit=contain/images_nas/pic_product4/A0136256/A0136256OK_BIG_1.jpg",
     "description": "ฮาร์ดดิสก์สำหรับเก็บข้อมูล",
     "highlights": [
@@ -832,7 +832,7 @@
     "brand": "BenQ",
     "type": "Monitor",
     "price": 19900,
-    "stock": 11,
+    "stock": 10,
     "image": "https://image.benq.com/is/image/benqco/XL%20Series%20Prosetting?$ResponsivePreset$&fmt=png-alpha",
     "description": "จอเกมมิ่งยอดนิยมสำหรับการแข่งขัน Esports",
     "highlights": [
@@ -1331,7 +1331,7 @@
     "brand": "Finalmouse",
     "type": "Mouse",
     "price": 9900,
-    "stock": 3,
+    "stock": 2,
     "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQml1JeTDxk9h3lpvadW6EDQcji0Ydub9mhLMd0ycRERuNDOLb0r30dJKUSGLrgGRT125aydkz0tQIaSouobDMCLPQPcgfRmgE05_4rY9WRMh-rtKzpHdBh",
     "description": "เมาส์ไร้สายโครงสร้างคาร์บอนไฟเบอร์คอมโพสิต เบาที่สุดในโลก",
     "highlights": [
@@ -1427,6 +1427,34 @@
       "features": "Multi-function Tap-to-Mute Sensor, Built-in Shock Absorber, High-pass Filter, 3.5mm Headphone Monitoring Port",
       "connectionType": "Type-C to Type-A Cable Included",
       "warranty": "2 Years"
+    }
+  },
+  {
+    "id": 44,
+    "name": "s",
+    "brand": "s",
+    "price": 100,
+    "stock": 1,
+    "productType": "SSD",
+    "category": "s",
+    "image": "s",
+    "description": "s",
+    "type": "SSD",
+    "attributes": {
+      "capacity": "h",
+      "interface": "h",
+      "formFactor": "h",
+      "speed": "h"
+    },
+    "attributesDetails": {
+      "brand": "h",
+      "heatsinkDesign": "h",
+      "headsetType": "h",
+      "sequentialWrite": "h",
+      "randomRead": "h",
+      "randomWrite": "h",
+      "tbw": "h",
+      "warranty": "h"
     }
   }
 ]
