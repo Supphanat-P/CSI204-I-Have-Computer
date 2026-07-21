@@ -20,12 +20,14 @@ import ManageUser from "./pages/admin/ManageUser";
 import SummaryReport from "./pages/admin/SummaryReport";
 import { CartProvider } from "./context/CartContext";
 import { AlertProvider } from "./context/AlertContext";
+import ScrollToTop from "./component/ScrollToTop";
 
 function App() {
   return (
     <AlertProvider>
       <CartProvider>
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route element={<MainLayout />}>
               <Route path="/" element={<Homepage />} />
