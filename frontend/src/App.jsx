@@ -17,6 +17,7 @@ import ShippingStatus from "./pages/manager/ShippingStatus";
 import TempProfileOrder from "./component/profiles/ProfileOrders"
 
 import ManageUser from "./pages/admin/ManageUser";
+import SummaryReport from "./pages/admin/SummaryReport";
 import { CartProvider } from "./context/CartContext";
 import { AlertProvider } from "./context/AlertContext";
 
@@ -38,6 +39,8 @@ function App() {
             </Route>
 
             <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<SummaryReport />} />
+              <Route path="report" element={<SummaryReport />} />
               <Route path="manageProduct" element={<ManageProducts />} />
               <Route path="manageUser" element={<ManageUser />} />
               <Route path="shipping" element={<ShippingStatus />} />

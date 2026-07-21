@@ -13,7 +13,7 @@
       }
     ],
     "total": 9900,
-    "status": "รอดำเนินการ",
+    "status": "จัดส่งแล้ว",
     "shippingAddress": "2 ต. 2 อ. 2 จ. 2 22222",
     "recipientName": "ศุภณัฐ เดี่ยวไหมครับ2",
     "recipientPhone": "1111111111",
@@ -34,7 +34,7 @@
       }
     ],
     "total": 8990,
-    "status": "รอดำเนินการ",
+    "status": "จัดส่งแล้ว",
     "shippingAddress": "222222222 ต. 222222222222222222 อ. 22222222222 จ. 2222222222222 22222",
     "recipientName": "ศุภณัฐ เดี่ยวไหมครับ2",
     "recipientPhone": "1111111111",
@@ -55,7 +55,7 @@
       }
     ],
     "total": 8990,
-    "status": "รอดำเนินการ",
+    "status": "เสร็จสิ้น",
     "shippingAddress": "2222222222 ต. 22222222222 อ. 22222222222 จ. 22222222222 22222",
     "recipientName": "ศุภณัฐ เดี่ยวไหมครับ2",
     "recipientPhone": "1111111111",
@@ -97,11 +97,40 @@
       }
     ],
     "total": 1990,
-    "status": "รอดำเนินการ",
+    "status": "เสร็จสิ้น",
     "shippingAddress": "21451 ต. วังบูรพาภิรมย์ อ. เขตพระนคร จ. กรุงเทพมหานคร 10200",
     "recipientName": "โจโบกกึม",
     "recipientPhone": "0386947294",
     "paymentMethod": "โอนเงินผ่านบัญชีธนาคาร",
     "userId": "1"
+  },
+  {
+    "id": "IHC-35075",
+    "date": "2026-07-21",
+    "items": [
+      {
+        "id": 25,
+        "name": "BenQ ZOWIE XL2546K",
+        "brand": "BenQ",
+        "price": 19900,
+        "quantity": 9,
+        "image": "https://image.benq.com/is/image/benqco/XL%20Series%20Prosetting?$ResponsivePreset$&fmt=png-alpha"
+      },
+      {
+        "id": 2,
+        "name": "GIGABYTE GeForce RTX 5050 WINDFORCE OC 8G GDDR6",
+        "brand": "GIGABYTE",
+        "price": 8990000,
+        "quantity": 1,
+        "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/products118747_800.jpg"
+      }
+    ],
+    "total": 9169100,
+    "status": "รอดำเนินการ",
+    "shippingAddress": "111111 ต. วังบูรพาภิรมย์ อ. เขตพระนคร จ. กรุงเทพมหานคร 10200",
+    "recipientName": "ศุภณัฐ เดี่ยวไหมครับ2",
+    "recipientPhone": "1111111111",
+    "paymentMethod": "โอนเงินผ่านบัญชีธนาคาร",
+    "userId": "6"
   }
 ]

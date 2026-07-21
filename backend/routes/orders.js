@@ -76,6 +76,7 @@ async function createOrder(req, res) {
         return {
           ...product,
           stock: Number(product.stock) - Number(orderedItem.quantity),
+          sold: Number(product.stock) + Number(orderedItem.quantity),
         };
       }
       return product;

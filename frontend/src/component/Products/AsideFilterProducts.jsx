@@ -37,6 +37,12 @@ const filterLabel = {
   boostClock: "Boost Clock"
 };
 
+const formatFilterKey = (key) =>
+  key
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/[_-]/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+
 export default function AsideFilterProducts({
   productType,
   brands,
@@ -121,7 +127,7 @@ export default function AsideFilterProducts({
       {Object.entries(filters).map(([key, values]) =>
         renderSection(
           key,
-          filterLabel[key] || key,
+          filterLabel[key] || formatFilterKey(key),
           values,
           selectedExtras[key] || [],
           (value) => onExtraChange(key, value),

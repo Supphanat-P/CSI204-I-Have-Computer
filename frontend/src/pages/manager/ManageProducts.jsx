@@ -383,7 +383,7 @@ export default function ManageProducts() {
                     <th className="text-left px-4 py-3 text-on-surface-variant font-semibold uppercase tracking-wider text-xs">สินค้า</th>
                     <th className="text-left px-4 py-3 text-on-surface-variant font-semibold uppercase tracking-wider text-xs">ประเภท</th>
                     <th className="text-right px-4 py-3 text-on-surface-variant font-semibold uppercase tracking-wider text-xs">ราคา</th>
-                    <th className="text-center px-4 py-3 text-on-surface-variant font-semibold uppercase tracking-wider text-xs">สต็อก</th>
+                    <th className="text-center px-4 py-3 text-on-surface-variant font-semibold uppercase tracking-wider text-xs w-[125px]">สต็อก</th>
                     <th className="text-center px-4 py-3 text-on-surface-variant font-semibold uppercase tracking-wider text-xs">จัดการ</th>
                   </tr>
                 </thead>
