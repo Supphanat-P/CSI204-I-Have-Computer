@@ -41,7 +41,7 @@
     "name": "GIGABYTE GeForce RTX 5050 WINDFORCE OC 8G GDDR6",
     "brand": "GIGABYTE",
     "type": "GPU",
-    "price": 8990,
+    "price": 8990000,
     "stock": 0,
     "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/products118747_800.jpg",
     "description": "การ์ดจอซีรีส์ใหม่ล่าสุดสถาปัตยกรรม Blackwell ขุมพลังระดับเริ่มต้นที่มาพร้อมแรม 8GB GDDR6 และการรองรับ PCIe 5.0",
@@ -74,7 +74,10 @@
       "powerRequirement": "550 Watt",
       "dimension": "199 x 116 x 40 mm",
       "warranty": "3 Years"
-    }
+    },
+    "productType": "GPU",
+    "category": "",
+    "sold": 2
   },
   {
     "id": 3,
@@ -830,7 +833,7 @@
     "brand": "BenQ",
     "type": "Monitor",
     "price": 19900,
-    "stock": 10,
+    "stock": 1,
     "image": "https://image.benq.com/is/image/benqco/XL%20Series%20Prosetting?$ResponsivePreset$&fmt=png-alpha",
     "description": "จอเกมมิ่งยอดนิยมสำหรับการแข่งขัน Esports",
     "highlights": [
@@ -858,7 +861,8 @@
       "specialFeatures": "DyAc⁺™ Technology, XL Setting to Share™, S Switch, Shield (แผงกั้นข้างจอ)",
       "connectivity": "3 x HDMI 2.0, 1 x DisplayPort 1.2, Headphone Jack",
       "warranty": "3 Years"
-    }
+    },
+    "sold": 19
   },
   {
     "id": 26,
