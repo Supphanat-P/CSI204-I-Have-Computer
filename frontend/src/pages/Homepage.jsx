@@ -228,14 +228,18 @@ export default function Homepage() {
               >
                 <div className="flex items-center gap-12 md:gap-24 px-4 w-max">
                   {duplicatedBrands.map((brand, index) => (
-                    <div key={index} className="flex-shrink-0 snap-center">
+                    <Link
+                      key={index}
+                      to={`/Products?brand=${encodeURIComponent(brand.name)}`}
+                      className="flex-shrink-0 snap-center"
+                    >
                       <img
                         src={brand.url}
                         alt={`${brand.name} Logo`}
                         className="h-8 md:h-20 object-contain rounded-2xl shadow hover:scale-105 transition-all duration-300"
                         draggable="false"
                       />
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>
