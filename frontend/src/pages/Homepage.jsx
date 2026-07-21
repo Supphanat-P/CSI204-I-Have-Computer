@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAlert } from "../context/AlertContext";
@@ -28,7 +28,43 @@ export default function Homepage() {
     { name: "Corsair", url: "/img/Corsair.jpg" },
     { name: "HyperX", url: "/img/hyperX.jpg" },
     { name: "Steelseries", url: "/img/steelseries.jpg" },
+    { name: "ASUS", url: "/img/ASUS.png" },
+    { name: "MSI", url: "/img/MSI.png" },
+    { name: "Gigabyte", url: "/img/Gigabyte.png" },
+    { name: "Intel", url: "/img/Intel.png" },
+    { name: "AMD", url: "/img/AMD.jpg" },
   ];
+
+  const duplicatedBrands = [...brands, ...brands, ...brands];
+  const brandScrollRef = useRef(null);
+
+  useEffect(() => {
+    if (brandScrollRef.current) {
+      const container = brandScrollRef.current;
+      container.scrollLeft = container.scrollWidth / 3;
+    }
+  }, []);
+
+  const handleBrandScroll = () => {
+    const container = brandScrollRef.current;
+    if (!container) return;
+    const segmentWidth = container.scrollWidth / 3;
+    if (container.scrollLeft < segmentWidth / 2) {
+      container.scrollLeft += segmentWidth;
+    } else if (container.scrollLeft > segmentWidth * 2) {
+      container.scrollLeft -= segmentWidth;
+    }
+  };
+
+  const scrollBrands = (direction) => {
+    if (brandScrollRef.current) {
+      const scrollAmount = 300;
+      brandScrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
 
   const products = [
     {
@@ -173,18 +209,44 @@ export default function Homepage() {
         <section className="bg-surface-container-low py-12 border-y border-outline-variant">
           <div className="max-w-container-max mx-auto px-margin-desktop overflow-hidden">
             <p className="text-center font-label-caps text-label-caps text-on-surface-variant uppercase tracking-[0.2em] mb-8">
-              Authorized Global Retailer
+              แบรนด์แนะนำ
             </p>
 
-            <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24">
-              {brands.map((brand, index) => (
-                <img
-                  key={index}
-                  src={brand.url}
-                  alt={`${brand.name} Logo`}
-                  className="h-8 md:h-20 object-contain rounded-2xl shadow hover:scale-105 transition-all duration-300"
-                />
-              ))}
+            <div className="relative group">
+              <button
+                onClick={() => scrollBrands("left")}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-surface p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hidden md:flex items-center justify-center border border-outline-variant"
+                aria-label="Scroll left"
+              >
+                <span className="material-symbols-outlined text-black">chevron_left</span>
+              </button>
+
+              <div
+                ref={brandScrollRef}
+                onScroll={handleBrandScroll}
+                className="w-full overflow-x-auto pb-6 pt-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory cursor-grab active:cursor-grabbing"
+              >
+                <div className="flex items-center gap-12 md:gap-24 px-4 w-max">
+                  {duplicatedBrands.map((brand, index) => (
+                    <div key={index} className="flex-shrink-0 snap-center">
+                      <img
+                        src={brand.url}
+                        alt={`${brand.name} Logo`}
+                        className="h-8 md:h-20 object-contain rounded-2xl shadow hover:scale-105 transition-all duration-300"
+                        draggable="false"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                onClick={() => scrollBrands("right")}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-surface p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hidden md:flex items-center justify-center border border-outline-variant"
+                aria-label="Scroll right"
+              >
+                <span className="material-symbols-outlined text-black">chevron_right</span>
+              </button>
             </div>
           </div>
         </section>
