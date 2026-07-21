@@ -6,6 +6,7 @@ const {
   getProductById,
   createProduct,
   updateProduct,
+  deleteProduct,
 } = require("./routes/products");
 const { registerUser, loginUser, getUsers, updateUserRole, updateProfile } = require("./routes/auth");
 const {
@@ -30,6 +31,7 @@ app.get("/api/products", getProducts);
 app.get("/api/products/:id", getProductById);
 app.post("/api/products/create", authMiddleware, createProduct);
 app.post("/api/products/update", authMiddleware, updateProduct);
+app.delete("/api/products/:id", authMiddleware, deleteProduct);
 
 app.post("/api/register", registerUser);
 app.post("/api/login", loginUser);
