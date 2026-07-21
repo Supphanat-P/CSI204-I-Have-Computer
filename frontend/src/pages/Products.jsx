@@ -6,7 +6,7 @@ import AsideFilterProducts from "../component/Products/AsideFilterProducts";
 
 export default function Products() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const productType = searchParams.get("productType") || "ALL";
+  const [productType, setProductType] = useState("ALL")
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -130,6 +130,7 @@ export default function Products() {
       ])
     );
   }, [availableProducts]);
+  console.log("product", productType)
 
   const filteredProducts = useMemo(() => {
     const normalizedSearch = searchQuery.trim().toLowerCase();
@@ -163,6 +164,7 @@ export default function Products() {
       return matchBrand && matchAttributes && matchPrice && matchStock && matchSearch;
     });
 
+    // การจัดเรียง (Sort)
     if (sortBy === "price_asc") {
       return result.sort((a, b) => Number(a.price || 0) - Number(b.price || 0));
     }
@@ -171,12 +173,6 @@ export default function Products() {
     }
     if (sortBy === "name") {
       return result.sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
-    }
-    if (sortBy === "stock_asc") {
-      return result.sort((a, b) => Number(a.stock || 0) - Number(b.stock || 0));
-    }
-    if (sortBy === "stock_desc") {
-      return result.sort((a, b) => Number(b.stock || 0) - Number(a.stock || 0));
     }
 
     return result.sort((a, b) => Number(b.stock || 0) - Number(a.stock || 0));
@@ -213,22 +209,12 @@ export default function Products() {
     });
   };
 
-  const resetBasicFilters = () => {
-    setSearchQuery("");
-    setSelectedBrands([]);
-    setSelectedExtras({});
-    setMaxPrice(priceMaxLimit);
-    setOnlyInStock(false);
-    setSortBy("featured");
-    setSelectedType("");
-    setSearchParams({ productType: "ALL" });
-  };
-
   const displayedType = productType === "ALL" ? selectedType || "ทั้งหมด" : productType;
 
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-container-max mx-auto px-margin-desktop pt-6">
+        {/* Breadcrumbs Nav */}
         <nav className="flex flex-wrap items-center gap-2 text-label-md text-on-surface-variant">
           <Link to="/" className="hover:text-primary transition-colors">
             หน้าหลัก
@@ -241,129 +227,27 @@ export default function Products() {
           <span className="text-on-surface">{displayedType}</span>
         </nav>
 
-        <main className={`mt-6 pb-10 ${productType === "ALL" ? "" : "flex gap-gutter"}`}>
-          {productType !== "ALL" && (
-            <AsideFilterProducts
-              productType={productType}
-              brands={brands}
-              filters={filters}
-              selectedBrands={selectedBrands}
-              onBrandChange={handleBrandChange}
-              selectedExtras={selectedExtras}
-              onExtraChange={handleExtraChange}
-              maxPrice={maxPrice}
-              priceMaxLimit={priceMaxLimit}
-              onPriceChange={setMaxPrice}
-            />
-          )}
+        <main className="mt-6 pb-10 flex gap-gutter">
+          <AsideFilterProducts
+            productType={productType}
+            brands={brands}
+            filters={filters}
+            selectedBrands={selectedBrands}
+            onBrandChange={handleBrandChange}
+            selectedExtras={selectedExtras}
+            onExtraChange={handleExtraChange}
+            maxPrice={maxPrice}
+            priceMaxLimit={priceMaxLimit}
+            onPriceChange={setMaxPrice}
+          />
 
-          {productType === "ALL" && (
-            <div className="mb-5 rounded-3xl border border-outline-variant bg-white p-4 shadow-sm">
-              <div className="flex flex-col gap-4 border-b border-outline-variant pb-4 lg:flex-row lg:items-end lg:justify-between">
-                <div>
-                  <h2 className="text-headline-lg font-headline-lg text-on-surface">
-                    ค้นหาสินค้า
-                  </h2>
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    onClick={resetBasicFilters}
-                    className="rounded-full border border-outline-variant bg-surface-container-low px-4 py-2 text-sm font-medium transition hover:bg-surface-container"
-                  >
-                    รีเซ็ตฟิลเตอร์
-                  </button>
-
-                </div>
-              </div>
-
-              <div className="mt-4 grid gap-4 lg:grid-cols-12">
-                <div className="lg:col-span-5">
-                  <label className="mb-2 block text-sm font-medium text-on-surface">ค้นหาสินค้า</label>
-                  <div className="relative">
-                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
-                      search
-                    </span>
-                    <input
-                      className="w-full rounded-2xl border border-outline-variant bg-surface-container-low py-3 pl-10 pr-4 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
-                      placeholder="พิมพ์ชื่อสินค้า, แบรนด์, หมวดหมู่..."
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                  </div>
-                </div>
-
-                <div className="lg:col-span-3">
-                  <label className="mb-2 block text-sm font-medium text-on-surface">แบรนด์</label>
-                  <select
-                    value={selectedBrands[0] || ""}
-                    onChange={(e) => setSelectedBrands(e.target.value ? [e.target.value] : [])}
-                    className="w-full rounded-2xl border border-outline-variant bg-surface-container-low px-4 py-3 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
-                  >
-                    <option value="">ทุกแบรนด์</option>
-                    {brands.map((brand) => (
-                      <option key={brand} value={brand}>
-                        {brand}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="lg:col-span-2">
-                  <label className="mb-2 block text-sm font-medium text-on-surface">เรียงลำดับ</label>
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
-                    className="w-full rounded-2xl border border-outline-variant bg-surface-container-low px-4 py-3 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
-                  >
-                    <option value="featured">แนะนำ</option>
-                    <option value="name">ชื่อ A-Z</option>
-                    <option value="price_asc">ราคาต่ำ - สูง</option>
-                    <option value="price_desc">ราคาสูง - ต่ำ</option>
-                    <option value="stock_desc">สต็อกมาก - น้อย</option>
-                    <option value="stock_asc">สต็อกน้อย - มาก</option>
-                  </select>
-                </div>
-
-                {/* <div className="lg:col-span-2 flex items-end">
-                  <label className="flex h-full w-full items-center gap-3 rounded-2xl border border-outline-variant bg-surface-container-low px-4 py-3 text-sm font-medium text-on-surface">
-                    <input
-                      type="checkbox"
-                      checked={onlyInStock}
-                      onChange={(e) => setOnlyInStock(e.target.checked)}
-                      className="h-4 w-4 accent-[var(--color-primary)]"
-                    />
-                    เฉพาะสินค้าที่มีสต็อก
-                  </label>
-                </div> */}
-              </div>
-
-              <div className="mt-4">
-                <div className="mb-2 flex items-center justify-between text-sm">
-                  <span className="font-medium text-on-surface">ช่วงราคา</span>
-                  <span className="text-on-surface-variant">
-                    สูงสุด ฿{Number.isFinite(maxPrice) ? maxPrice.toLocaleString() : 0}
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max={priceMaxLimit || 0}
-                  value={Number.isFinite(maxPrice) ? maxPrice : priceMaxLimit}
-                  onChange={(e) => setMaxPrice(Number(e.target.value))}
-                  className="w-full accent-[var(--color-primary)]"
-                />
-                <div className="mt-1 flex items-center justify-between text-xs text-on-surface-variant">
-                  <span>฿0</span>
-                  <span>฿{priceMaxLimit.toLocaleString()}</span>
-                </div>
-              </div>
-
-              <div className="mt-4 flex flex-wrap gap-2">
+          <section className="flex-1 min-w-0">
+            <div className="mb-5 rounded-xl border border-outline-variant bg-white p-4 shadow-sm">
+              <span className="font-semibold text-sm text-on-surface">ประเภทสินค้า</span>
+              <div className="mt-3 flex flex-wrap gap-2">
                 <button
-                  onClick={() => setSelectedType("")}
-                  className={`rounded-full border px-4 py-2 text-sm font-medium transition ${selectedType === ""
+                  onClick={() => setProductType("ALL")}
+                  className={`rounded-full border px-4 py-1.5 text-xs font-medium transition ${productType === "ALL"
                     ? "border-primary bg-primary text-white"
                     : "border-outline-variant bg-white hover:bg-surface-container-low"
                     }`}
@@ -373,9 +257,11 @@ export default function Products() {
                 {types.map((type) => (
                   <button
                     key={type}
-                    onClick={() =>
-                      setSearchParams({ productType: type })
-                    } className={`rounded-full border px-4 py-2 text-sm font-medium transition ${selectedType === type
+                    onClick={() => {
+                      setProductType(type);
+                      setSelectedType(type);
+                    }}
+                    className={`rounded-full border px-4 py-1.5 text-xs font-medium transition ${(productType === type || selectedType === type)
                       ? "border-primary bg-primary text-white"
                       : "border-outline-variant bg-white hover:bg-surface-container-low"
                       }`}
@@ -383,68 +269,67 @@ export default function Products() {
                     {type}
                   </button>
                 ))}
-
               </div>
             </div>
-          )}
 
-          <section className="flex-1 bg-white rounded-lg p-4 h-fit shadow-md mb-5">
-            <div className="flex flex-col md:flex-row justify-between items-baseline border-b border-outline-variant pb-4 gap-5">
-              <div>
-                <h2 className="text-headline-lg font-headline-lg text-on-surface">
-                  {productType === "ALL"
-                    ? "แสดงสินค้าทั้งหมด"
-                    : `${productType}`}
+
+            <div className="bg-white rounded-lg p-4 shadow-md">
+              <div className="flex flex-col lg:flex-row justify-between items-stretch lg:items-center border-b border-outline-variant pb-4 gap-4">
+                <h2 className="text-headline-sm lg:text-headline-md font-bold text-on-surface shrink-0">
+                  {productType === "ALL" ? "สินค้าทั้งหมด" : `ผลการค้นหา ${productType}`}
                 </h2>
 
+                <div className="flex flex-col sm:flex-row items-center gap-3 flex-1 justify-end">
+                  <div className="relative w-full sm:w-64">
+                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">
+                      search
+                    </span>
+                    <input
+                      className="w-full bg-surface-container-low border border-outline-variant rounded-full py-1.5 pl-9 pr-4 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                      placeholder="ค้นหาสินค้า..."
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-2 w-full sm:w-auto shrink-0">
+                    <div className="relative w-full sm:w-auto">
+                      <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm pointer-events-none">
+                        sort
+                      </span>
+                      <select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                        className="w-full sm:w-auto bg-surface-container-low border border-outline-variant rounded-lg pl-8 pr-8 py-1.5 text-xs outline-none focus:ring-2 focus:ring-primary cursor-pointer appearance-none"
+                      >
+                        <option value="price_asc">ราคา: น้อย ไป มาก</option>
+                        <option value="price_desc">ราคา: มาก ไป น้อย</option>
+                        <option value="name">ชื่อสินค้า (A - Z)</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div className="relative w-full md:w-[50%]">
-                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
-                  search
-                </span>
-                <input
-                  className="w-full bg-surface-container-low border border-outline-variant rounded-full py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                  placeholder="Search ..."
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-
-              {productType !== "ALL" && (
-                <button
-                  className="px-4 py-2 rounded-full shadow border transition hover:bg-primary hover:text-white hover:shadow-md"
-                  onClick={() => setSearchParams({ productType: "ALL" })}
-                >
-                  กลับไปดูทั้งหมด
-                </button>
+              {loading ? (
+                <div className="py-16 text-center text-on-surface-variant">
+                  กำลังโหลดสินค้า...
+                </div>
+              ) : error ? (
+                <div className="py-16 text-center text-red-600">{error}</div>
+              ) : filteredProducts.length === 0 ? (
+                <div className="py-16 text-center text-on-surface-variant">
+                  ไม่พบสินค้าที่ตรงกับตัวกรองที่เลือก
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter mb-6 mt-6">
+                  {filteredProducts.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
               )}
             </div>
-
-            {loading ? (
-              <div className="py-16 text-center text-on-surface-variant">
-                กำลังโหลดสินค้า...
-              </div>
-            ) : error ? (
-              <div className="py-16 text-center text-red-600">{error}</div>
-            ) : filteredProducts.length === 0 ? (
-              <div className="py-16 text-center text-on-surface-variant">
-                ไม่พบสินค้าที่ตรงกับตัวกรองที่เลือก
-              </div>
-            ) : productType === "ALL" ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter mb-16 mt-6">
-                {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter mb-16 mt-6">
-                {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            )}
           </section>
         </main>
       </div>
