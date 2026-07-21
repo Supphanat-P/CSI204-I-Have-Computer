@@ -55,6 +55,13 @@ export default function AdminLayout() {
 
           <div className="flex items-center gap-4 ml-auto">
             <Link
+              to="/admin"
+              className="flex items-center gap-1.5 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors"
+            >
+              <span className="material-symbols-outlined text-sm">analytics</span>
+              รายงานภาพรวม
+            </Link>
+            <Link
               to="/admin/shipping"
               className="flex items-center gap-1.5 text-sm font-medium text-on-surface-variant hover:text-secondary transition-colors"
             >

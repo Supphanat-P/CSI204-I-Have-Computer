@@ -34,9 +34,7 @@
       "hdrSupport": "HDR10",
       "connectivity": "2 x HDMI 2.0, 1 x DisplayPort 1.4, 2 x USB 3.2 Gen 1 Type-A",
       "warranty": "3 Years"
-    },
-    "productType": "Monitor",
-    "category": ""
+    }
   },
   {
     "id": 2,
@@ -1229,6 +1227,7 @@
     "type": "Case",
     "price": 7590,
     "stock": 4,
+    "sold": 0,
     "image": "https://www.jib.co.th/img_master/product/original/2024011614354264880_1.jpg",
     "description": "เคสตู้ปลาดีไซน์กระจกโค้ง 3 ชิ้นรอบตัว โชว์การ์ดจอแนวตั้งแบบโดดเด่น",
     "highlights": [
@@ -1265,6 +1264,7 @@
     "type": "CPU Cooler",
     "price": 3490,
     "stock": 10,
+    "sold": 0,
     "image": "https://www.antec.com/product/cooling/images/symphony-360-argb-pdt01.png",
     "description": "ชุดน้ำสามตอนราคามิตรภาพ ระบายความร้อนดีเยี่ยมพร้อมไฟวิบวับ",
     "highlights": [
@@ -1301,6 +1301,7 @@
     "type": "Keyboard",
     "price": 3177,
     "stock": 5,
+    "sold": 0,
     "image": "https://scontent.fbkk12-2.fna.fbcdn.net/v/t39.30808-6/671234628_10162388394260740_8489461301492968214_n.jpg?stp=dst-jpg_tt6&cstp=mx800x800&ctp=p526x296&_nc_cat=104&ccb=1-7&_nc_sid=aa7b47&_nc_ohc=xlObWgXSkj8Q7kNvwHbucX4&_nc_oc=AdqNhlOH11ggI1xWYMRDzK2d3S-PkInUu4pdvbbAXL7i8pkvmLh_YqUfbW-eWJvaods&_nc_zt=23&_nc_ht=scontent.fbkk12-2.fna&_nc_gid=r57US7AP2x9Iy9XNuED5pQ&_nc_ss=7a289&oh=00_AQAy2lqqIMLakCDV0ykGNgB5hXa1cHkSAQ4mzsFFtdS3pg&oe=6A5B1941",
     "description": "คีย์บอร์ดเกมมิ่งสวิตช์แม่เหล็ก (Magnetic Switch) ตอบสนองความเร็วสูง รองรับฟังก์ชัน Hot-swappable และไฟ RGB เต็มรูปแบบ",
     "highlights": [
@@ -1332,6 +1333,7 @@
     "type": "Mouse",
     "price": 9900,
     "stock": 2,
+    "sold": 0,
     "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQml1JeTDxk9h3lpvadW6EDQcji0Ydub9mhLMd0ycRERuNDOLb0r30dJKUSGLrgGRT125aydkz0tQIaSouobDMCLPQPcgfRmgE05_4rY9WRMh-rtKzpHdBh",
     "description": "เมาส์ไร้สายโครงสร้างคาร์บอนไฟเบอร์คอมโพสิต เบาที่สุดในโลก",
     "highlights": [
@@ -1366,6 +1368,7 @@
     "type": "Headphones",
     "price": 8990,
     "stock": 6,
+    "sold": 0,
     "image": "https://www.sony.co.th/image/ae6f02a9e1a5abdb2f723eca247209c4?fmt=png-alpha&wid=1578&hei=1050&bgcolor=F6F9FF",
     "description": "หูฟังเกมมิ่งไร้สายจาก Sony พร้อมระบบตัดเสียงรบกวนและมิติเสียง 360 องศา",
     "highlights": [
@@ -1402,6 +1405,7 @@
     "type": "Microphone",
     "price": 4990,
     "stock": 9,
+    "sold": 0,
     "image": "https://www.jib.co.th/img_master/product/original/2024030613494565897_1.jpg",
     "description": "ไมโครโฟน USB สตรีมมิ่งที่สามารถแสดงแสงไฟ RGB ตอบสนองตามเหตุการณ์ในเกมได้",
     "highlights": [
@@ -1427,34 +1431,6 @@
       "features": "Multi-function Tap-to-Mute Sensor, Built-in Shock Absorber, High-pass Filter, 3.5mm Headphone Monitoring Port",
       "connectionType": "Type-C to Type-A Cable Included",
       "warranty": "2 Years"
-    }
-  },
-  {
-    "id": 44,
-    "name": "s",
-    "brand": "s",
-    "price": 100,
-    "stock": 1,
-    "productType": "SSD",
-    "category": "s",
-    "image": "s",
-    "description": "s",
-    "type": "SSD",
-    "attributes": {
-      "capacity": "h",
-      "interface": "h",
-      "formFactor": "h",
-      "speed": "h"
-    },
-    "attributesDetails": {
-      "brand": "h",
-      "heatsinkDesign": "h",
-      "headsetType": "h",
-      "sequentialWrite": "h",
-      "randomRead": "h",
-      "randomWrite": "h",
-      "tbw": "h",
-      "warranty": "h"
     }
   }
 ]
