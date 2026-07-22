@@ -135,6 +135,7 @@
 ## Database
 
 - Local Storage
+- json file Storage
 
 ## DevOps
 
