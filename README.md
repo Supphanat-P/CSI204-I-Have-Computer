@@ -510,7 +510,12 @@ sequenceDiagram
     participant DB_P as Products DB
     participant DB_O as Orders DB
 
-    %% --- Use Case: ระบบเข้าสู่ระบบ (Authentication) ---
+    %% ==========================================
+    %% Use Case: เข้าสู่ระบบ (Authentication)
+    %% ==========================================
+    rect rgb(240, 248, 255)
+    Note over C, DB_O: Use Case: ระบบเข้าสู่ระบบ (Authentication)
+    
     alt ลูกค้าเข้าสู่ระบบ
         C->>S: กรอกข้อมูล Login / Register
     else พนักงานเข้าสู่ระบบ
@@ -529,8 +534,14 @@ sequenceDiagram
     else Role = Manager
         S-->>M: แสดงหน้าแดชบอร์ด (Dashboard)
     end
+    end
 
-    %% --- Use Case: ค้นหาสินค้า (Browse/Search) ---
+    %% ==========================================
+    %% Use Case: ค้นหาสินค้า (Browse/Search)
+    %% ==========================================
+    rect rgb(255, 250, 240)
+    Note over C, DB_O: Use Case: ค้นหาสินค้า (Browse/Search)
+    
     C->>S: ค้นหาสินค้า / เลือกหมวดหมู่ (Browse/Search)
     S->>DB_P: เรียกดูข้อมูลสินค้า (Get products)
     
@@ -545,8 +556,14 @@ sequenceDiagram
     S->>DB_P: เรียกดูรายละเอียด, สเปก (Get details)
     DB_P-->>S: ส่งคืนข้อมูลสินค้า (Return product info)
     S-->>C: แสดงรายละเอียดสินค้า (Show details)
+    end
 
-    %% --- Use Case: จัดการตะกร้า / สั่งซื้อ (Checkout) ---
+    %% ==========================================
+    %% Use Case: จัดการตะกร้าและสั่งซื้อ (Checkout)
+    %% ==========================================
+    rect rgb(240, 255, 240)
+    Note over C, DB_O: Use Case: จัดการตะกร้า / สั่งซื้อ (Checkout)
+    
     C->>S: เพิ่มลงตะกร้า / ยืนยันการสั่งซื้อ (Add to Cart / Checkout)
     S->>DB_O: สร้างคำสั่งซื้อสถานะ Pending (Create pending order)
     S->>DB_P: ตรวจสอบและจองสต็อก (Check and reserve stock)
@@ -565,8 +582,14 @@ sequenceDiagram
         DB_O-->>S: ยืนยันการสร้างออเดอร์ (Confirm order placed)
         S-->>C: แจ้งเตือนการสั่งซื้อสำเร็จ (Success message)
     end
+    end
 
-    %% --- Use Case: ติดตามสถานะและประวัติ (Track Orders) ---
+    %% ==========================================
+    %% Use Case: ติดตามสถานะ (Track & History)
+    %% ==========================================
+    rect rgb(255, 240, 245)
+    Note over C, DB_O: Use Case: ติดตามสถานะและประวัติ (Track Orders)
+    
     C->>S: ติดตามสถานะคำสั่งซื้อ (Track Order)
     S->>DB_O: ดึงข้อมูลสถานะและ Tracking Number
     DB_O-->>S: ส่งข้อมูลคำสั่งซื้อ (Return order info)
@@ -576,14 +599,26 @@ sequenceDiagram
     S->>DB_O: ดึงประวัติคำสั่งซื้อของลูกค้า
     DB_O-->>S: ส่งคืนรายการคำสั่งซื้อทั้งหมด
     S-->>C: แสดงประวัติคำสั่งซื้อ
+    end
 
-    %% --- Use Case: จัดการโปรไฟล์ (Manage Profile) ---
+    %% ==========================================
+    %% Use Case: จัดการโปรไฟล์ (Manage Profile)
+    %% ==========================================
+    rect rgb(255, 255, 224)
+    Note over C, DB_O: Use Case: จัดการโปรไฟล์ (Manage Profile)
+    
     C->>S: แก้ไขข้อมูลส่วนตัว / ที่อยู่ (Manage Profile)
     S->>DB_U: อัปเดตข้อมูลติดต่อ (Update address/contact)
     DB_U-->>S: ยืนยันการบันทึก (Confirm changes)
     S-->>C: แจ้งเตือนแก้ไขสำเร็จ
+    end
 
-    %% --- Use Case: ตรวจสอบสต็อกและอัปเดตสถานะ (Employee) ---
+    %% ==========================================
+    %% Use Case: จัดการสต็อกและออเดอร์ (Employee)
+    %% ==========================================
+    rect rgb(230, 230, 250)
+    Note over E, DB_O: Use Case: ตรวจสอบสต็อกและอัปเดตสถานะ (Employee)
+    
     E->>S: ตรวจสอบสต็อกสินค้า (Check Stock)
     S->>DB_P: เรียกดูจำนวนสต็อกคงเหลือ
     DB_P-->>S: ส่งข้อมูลสต็อก (Return stock data)
@@ -595,8 +630,14 @@ sequenceDiagram
     S->>DB_O: ตั้งค่าสถานะ (เตรียมส่ง / จัดส่งแล้ว / เสร็จสิ้น)
     DB_O-->>S: ยืนยันการอัปเดต (Confirm update)
     S-->>E: แจ้งเตือนอัปเดตสถานะสำเร็จ
+    end
 
-    %% --- Use Case: สรุปภาพรวมและจัดการระบบทั้งหมด (Manager/Admin) ---
+    %% ==========================================
+    %% Use Case: สรุปภาพรวมและจัดการระบบ (Manager/Admin)
+    %% ==========================================
+    rect rgb(240, 255, 255)
+    Note over M, DB_O: Use Case: สรุปภาพรวมและจัดการระบบทั้งหมด (Manager as Admin)
+    
     M->>S: ดูสรุปยอดขาย (Sales Dashboard)
     S->>DB_O: ดึงข้อมูลและคำนวณยอดขาย (Aggregate sales data)
     DB_O-->>S: ส่งคืนตารางและสถิติ (Return tables and statistics)
@@ -617,7 +658,9 @@ sequenceDiagram
     end
     DB_P-->>S: ยืนยันการเปลี่ยนแปลง (Confirm action)
     S-->>M: แจ้งเตือนอัปเดตแคตตาล็อกสำเร็จ
+    end
 ```
+
 
 # 16. Wireframe
 
