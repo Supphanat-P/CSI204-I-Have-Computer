@@ -704,8 +704,7 @@ Profile
 
 # 17. Prototype
 
-## Image
-![Prototype](/image/Prototype.gif)  
+(https://www.figma.com/design/jpIH9sre5hIUKetODCj5vq/Untitled?node-id=0-1&t=I6PmMZlWkXxkbaSc-1) 
 
 ---
 # 18. System Architecture
