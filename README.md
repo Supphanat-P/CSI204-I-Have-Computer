@@ -475,7 +475,6 @@ classDiagram
 | `stock` | `number` | Yes | `min: 0` | จำนวนสินค้าคงเหลือในสต็อก |
 | `image` | `string` | No | URL / Path | พาธหรือ URL รูปภาพสินค้า |
 | `description` | `string` | No | - | คำอธิบายรายละเอียดสินค้าแบบย่อ |
-| `highlights` | `string[]` | No | - | รายการจุดเด่นของสินค้า |
 | `attributes` | `object` | No | Key-Value pairs | สเปคย่อสำหรับใช้กรองข้อมูล (Filters) |
 | `attributesDetails` | `object` | No | Key-Value pairs | รายละเอียดสเปคเชิงลึกทั้งหมด |
 
