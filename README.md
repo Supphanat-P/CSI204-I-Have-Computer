@@ -355,7 +355,6 @@ classDiagram
         +string paymentMethod
         +string userId
         +calculateTotal() number
-        +getSummary() Object
     }
 
     class OrderItem {
