@@ -203,107 +203,191 @@ export default function Homepage() {
             ))}
           </div>
         </section>
-         
-                 {/* Marquee Text Banner */}
-        <div
-          style={{
-            overflow: "hidden",
-            background: "var(--color-primary, #6750A4)",
-            padding: "30px 0",
-            borderTop: "2px solid rgba(255,255,255,0.15)",
-            borderBottom: "2px solid rgba(255,255,255,0.15)",
-          }}
-        >
+
+        
+
+        {/* Brand Section — Auto-scroll, pause on hover */}
+        <section className="relative py-20 overflow-hidden" style={{ background: "linear-gradient(180deg,#faf8ff 0%,#f0ebff 100%)" }}>
           <style>{`
-            @keyframes marquee-scroll {
-              0%   { transform: translateX(0); }
-              100% { transform: translateX(-50%); }
+            /* ── keyframes ── */
+            @keyframes bs-run {
+              from { transform: translateX(0); }
+              to   { transform: translateX(-50%); }
             }
-            .marquee-track {
+
+            /* ── outer wrapper ── */
+            .bs-root { position: relative; }
+
+            /* gradient edges */
+            .bs-root::before,
+            .bs-root::after {
+              content: '';
+              position: absolute;
+              top: 0; bottom: 0;
+              width: 140px;
+              z-index: 10;
+              pointer-events: none;
+            }
+            .bs-root::before {
+              left: 0;
+              background: linear-gradient(to right, #faf8ff 0%, transparent 100%);
+            }
+            .bs-root::after {
+              right: 0;
+              background: linear-gradient(to left, #f0ebff 0%, transparent 100%);
+            }
+
+            /* ── track ── */
+            .bs-track {
               display: flex;
               width: max-content;
-              animation: marquee-scroll 30s linear infinite;
+              animation: bs-run 30s linear infinite;
+              gap: 16px;
+              padding: 12px 0;
             }
-            .marquee-item {
+            /* pause the whole track when ANY card is hovered */
+            .bs-track:has(.bs-card:hover) {
+              animation-play-state: paused;
+            }
+
+            /* ── single card ── */
+            .bs-card {
+              position: relative;
+              flex-shrink: 0;
+              width: 168px;
+              height: 110px;
+              border-radius: 22px;
+              background: #fff;
+              border: 1.5px solid rgba(124,58,237,0.12);
+              box-shadow: 0 2px 12px rgba(103,80,164,0.07);
               display: flex;
+              flex-direction: column;
               align-items: center;
-              gap: 12px;
-              padding: 0 32px;
-              white-space: nowrap;
-              font-family: 'Inter', 'Outfit', sans-serif;
+              justify-content: center;
+              gap: 10px;
+              text-decoration: none;
+              cursor: pointer;
+              overflow: hidden;
+              transition:
+                transform   0.32s cubic-bezier(.34,1.56,.64,1),
+                box-shadow  0.28s ease,
+                border-color 0.22s ease;
+            }
+            .bs-card:hover {
+              transform: translateY(-8px) scale(1.05);
+              border-color: var(--bs-accent, #7c3aed);
+              box-shadow:
+                0 20px 48px rgba(103,80,164,0.18),
+                0 0 0 3px rgba(124,58,237,0.10);
+            }
+
+            /* shimmer sweep on hover */
+            .bs-card::after {
+              content: '';
+              position: absolute;
+              inset: 0;
+              background: linear-gradient(
+                110deg,
+                transparent 30%,
+                rgba(255,255,255,0.55) 50%,
+                transparent 70%
+              );
+              transform: translateX(-100%);
+              transition: transform 0s;
+            }
+            .bs-card:hover::after {
+              transform: translateX(200%);
+              transition: transform 0.55s ease;
+            }
+
+            /* accent strip at top */
+            .bs-card-strip {
+              position: absolute;
+              top: 0; left: 0; right: 0;
+              height: 3px;
+              background: var(--bs-accent, #7c3aed);
+              transform: scaleX(0);
+              transform-origin: left;
+              border-radius: 2px 2px 0 0;
+              transition: transform 0.3s ease;
+            }
+            .bs-card:hover .bs-card-strip { transform: scaleX(1); }
+
+            /* logo */
+            .bs-card img {
+              max-height: 46px;
+              max-width: 80%;
+              object-fit: contain;
+              filter: grayscale(35%) opacity(.72);
+              transition: filter 0.3s ease, transform 0.3s ease;
+              position: relative;
+              z-index: 1;
+              user-select: none;
+              -webkit-user-drag: none;
+            }
+            .bs-card:hover img {
+              filter: grayscale(0%) opacity(1);
+              transform: scale(1.08);
+            }
+
+            /* name label */
+            .bs-card-name {
+              position: relative;
+              z-index: 1;
+              font-size: 0.65rem;
               font-weight: 800;
-              font-size: 1.15rem;
               letter-spacing: 0.18em;
               text-transform: uppercase;
-              color: #fff;
-              opacity: 0.92;
-              user-select: none;
+              color: #6f5b98;
+              font-family: 'Inter','Outfit',sans-serif;
+              margin-top: 8px;
+              transition: color 0.25s ease;
+              opacity: 1;
+              transform: translateY(0);
             }
-            .marquee-dot {
-              display: inline-block;
-              width: 7px;
-              height: 7px;
-              border-radius: 50%;
-              background: rgba(255,255,255,0.55);
-              flex-shrink: 0;
+            .bs-card:hover .bs-card-name {
+              color: var(--bs-accent, #7c3aed);
             }
           `}</style>
-          <div className="marquee-track">
-            {Array.from({ length: 15 }).map((_, i) => (
-              <span className="marquee-item" key={i}>
-                ihavecomputer but nai computer wa
-                <span className="marquee-dot" />
-              </span>
-            ))}
-          </div>
-        </div>
 
-        {/* Brand Section */}
-        <section className="bg-surface-container-low py-12 border-y border-outline-variant">
-          <div className="max-w-container-max mx-auto px-margin-desktop overflow-hidden">
-            <p className="text-center font-label-caps text-label-caps text-on-surface-variant uppercase tracking-[0.2em] mb-8">
-              แบรนด์แนะนำ
+          {/* ── Header ── */}
+          <div className="text-center mb-12 px-4">
+            <p style={{
+              fontSize: "0.68rem", fontWeight: 800, letterSpacing: "0.3em",
+              textTransform: "uppercase", color: "#7c3aed",
+              fontFamily: "'Inter','Outfit',sans-serif", marginBottom: 8
+            }}>
+              Trusted Partners
             </p>
+            <h2 style={{
+              fontSize: "clamp(1.8rem,3.5vw,2.8rem)", fontWeight: 900,
+              color: "#130d2e", letterSpacing: "-0.03em",
+              fontFamily: "'Inter','Outfit',sans-serif", margin: "0 0 6px"
+            }}>
+              แบรนด์แนะนำ
+            </h2>
+          </div>
 
-            <div className="relative group">
-              <button
-                onClick={() => scrollBrands("left")}
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-surface p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hidden md:flex items-center justify-center border border-outline-variant"
-                aria-label="Scroll left"
-              >
-                <span className="material-symbols-outlined text-black">chevron_left</span>
-              </button>
-
-              <div
-                ref={brandScrollRef}
-                onScroll={handleBrandScroll}
-                className="w-full overflow-x-auto pb-6 pt-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory cursor-grab active:cursor-grabbing"
-              >
-                <div className="flex items-center gap-12 md:gap-24 px-4 w-max">
-                  {duplicatedBrands.map((brand, index) => (
-                    <Link
-                      key={index}
-                      to={`/Products?brand=${encodeURIComponent(brand.name)}`}
-                      className="flex-shrink-0 snap-center"
-                    >
-                      <img
-                        src={brand.url}
-                        alt={`${brand.name} Logo`}
-                        className="h-8 md:h-20 object-contain rounded-2xl shadow hover:scale-105 transition-all duration-300"
-                        draggable="false"
-                      />
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <button
-                onClick={() => scrollBrands("right")}
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-surface p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hidden md:flex items-center justify-center border border-outline-variant"
-                aria-label="Scroll right"
-              >
-                <span className="material-symbols-outlined text-black">chevron_right</span>
-              </button>
+          {/* ── Scrolling Track ── */}
+          <div className="bs-root" style={{ overflow: "hidden" }}>
+            <div className="bs-track">
+              {[
+                ...brands.map((b, i) => ({ ...b, accent: ["#00c853","#0057d9","#f5c400","#c8001e","#e65100","#0077c8","#b71c1c","#1565c0","#0071c5","#e20023"][i] })),
+                ...brands.map((b, i) => ({ ...b, accent: ["#00c853","#0057d9","#f5c400","#c8001e","#e65100","#0077c8","#b71c1c","#1565c0","#0071c5","#e20023"][i] })),
+                ...brands.map((b, i) => ({ ...b, accent: ["#00c853","#0057d9","#f5c400","#c8001e","#e65100","#0077c8","#b71c1c","#1565c0","#0071c5","#e20023"][i] })),
+                ...brands.map((b, i) => ({ ...b, accent: ["#00c853","#0057d9","#f5c400","#c8001e","#e65100","#0077c8","#b71c1c","#1565c0","#0071c5","#e20023"][i] })),
+              ].map((brand, idx) => (
+                <Link
+                  key={idx}
+                  to={`/Products?brand=${encodeURIComponent(brand.name)}`}
+                  className="bs-card"
+                  style={{ "--bs-accent": brand.accent }}
+                >
+                  <div className="bs-card-strip" />
+                  <img src={brand.url} alt={`${brand.name} Logo`} draggable="false" />
+                  <span className="bs-card-name">{brand.name}</span>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
