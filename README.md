@@ -696,7 +696,7 @@ frontend/
 │   ├── assets/             # Images, SVGs, and global static assets
 │   ├── component/          # Reusable UI Components
 │   │   ├── Products/       # Product-specific components
-│   │   │   ├── AsideFilterProducts.jsx # Product category/price filter sidebar
+│   │   │   ├── AsideFilterProducts.jsx  # Product category/price filter sidebar
 │   │   │   └── ProductCard.jsx          # Product card display component
 │   │   ├── profiles/       # User profile tab components
 │   │   │   ├── ProfileOrders.jsx        # Order history tab view
@@ -706,8 +706,6 @@ frontend/
 │   ├── context/            # Global React Context State Management
 │   │   ├── AlertContext.jsx# Custom Alert / Notification toast context
 │   │   └── CartContext.jsx # Cart state management (items, quantity, total)
-│   ├── data/               # Mock data fallback
-│   │   └── products.json   # Local product catalog data
 │   ├── layouts/            # Base Layout components for routing
 │   │   ├── AdminLayout.jsx   # Header & navigation layout for Admin pages
 │   │   ├── MainLayout.jsx    # Header, navbar & footer layout for Customers
