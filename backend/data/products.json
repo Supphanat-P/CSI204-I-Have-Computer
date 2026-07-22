@@ -160,7 +160,7 @@
     "brand": "Kingston",
     "type": "RAM",
     "price": 5900,
-    "stock": 20,
+    "stock": 19,
     "image": "https://www.jib.co.th/img_master/product/original/2022060413310953593_1.jpg",
     "description": "แรม DDR5 ความเร็วสูง",
     "highlights": [
@@ -187,7 +187,8 @@
       "lighting": "RGB (Kingston FURY Infrared Sync Technology™)",
       "profileSupport": "Intel XMP 3.0 / AMD EXPO",
       "warranty": "Limited Lifetime"
-    }
+    },
+    "sold": 21
   },
   {
     "id": 6,

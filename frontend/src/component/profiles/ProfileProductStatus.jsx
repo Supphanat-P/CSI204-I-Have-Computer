@@ -1,5 +1,4 @@
-export default function ProfileProductStatus(
-    { orders }) {
+export default function ProfileProductStatus({ orders, handleConfirmDelivery }) {
     const renderItemsList = (items) => {
         if (Array.isArray(items)) {
             return (
