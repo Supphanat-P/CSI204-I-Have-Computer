@@ -1234,7 +1234,7 @@ export default function Profiles() {
 
             {/* VIEW 6: เช็คสถานะการจัดส่ง (Shipping Status) */}
             {activeTab === "shipping_status" && (
-              <ProfileProductStatus orders={orders} />
+              <ProfileProductStatus orders={orders} handleConfirmDelivery={handleConfirmDelivery} />
             )}
 
             {/* VIEW 7: ช่องทางการชำระเงิน (Payment Methods) */}
