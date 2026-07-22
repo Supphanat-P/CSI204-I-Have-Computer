@@ -352,18 +352,18 @@ async function deleteUser(req, res) {
       return;
     }
 
-    if (req.user && req.user.id === id) {
-      res.writeHead(400, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ message: "ไม่สามารถลบบัญชีของตัวเองได้" }));
-      return;
-    }
-
     const users = readJsonFile("users.json");
     const userIndex = users.findIndex((u) => u.id === id);
 
     if (userIndex === -1) {
       res.writeHead(404, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ message: "ไม่พบผู้ใช้ในระบบ" }));
+      return;
+    }
+
+    if (users[userIndex].role === "admin" || (req.user && req.user.id === id)) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "ไม่สามารถลบบัญชีผู้ดูแลระบบ (Admin) ได้" }));
       return;
     }
 

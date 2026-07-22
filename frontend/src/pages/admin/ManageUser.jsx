@@ -101,8 +101,9 @@ export default function ManageUser() {
   };
 
   const deleteUser = async (userId, userName) => {
-    if (userId === currentUser?.id) {
-      setError("ไม่สามารถลบบัญชีของตัวเองได้");
+    const targetUser = users.find((u) => u.id === userId);
+    if (targetUser?.role === "admin" || userId === currentUser?.id) {
+      setError("ไม่สามารถลบบัญชีผู้ดูแลระบบ (Admin) ได้");
       return;
     }
 
@@ -273,9 +274,9 @@ export default function ManageUser() {
                             <button
                               type="button"
                               onClick={() => deleteUser(user.id, user.name)}
-                              disabled={isSelf}
+                              disabled={isSelf || isAdmin}
                               className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-50 text-red-600 rounded-xl text-xs font-semibold hover:bg-red-100 active:scale-95 transition-all cursor-pointer border-none disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-                              title={isSelf ? "ไม่สามารถลบบัญชีตัวเองได้" : "ลบผู้ใช้งาน"}
+                              title={isAdmin ? "ไม่สามารถลบบัญชีผู้ดูแลระบบ (Admin) ได้" : isSelf ? "ไม่สามารถลบบัญชีตัวเองได้" : "ลบผู้ใช้งาน"}
                             >
                               <span className="material-symbols-outlined text-sm">delete</span>
                               ลบ
