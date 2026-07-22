@@ -589,9 +589,7 @@ sequenceDiagram
     
     C->>S: เพิ่มลงตะกร้า / ยืนยันการสั่งซื้อ (Add to Cart / Checkout)
     S->>DB_O: สร้างคำสั่งซื้อสถานะ Pending (Create pending order)
-    S->>DB_P: ตรวจสอบและจองสต็อก (Check and reserve stock)
-    
-    loop จองสต็อกสินค้าแต่ละชิ้น
+
         DB_P->>DB_P: หักจำนวนสต็อก (Deduct stock)
     end
     
