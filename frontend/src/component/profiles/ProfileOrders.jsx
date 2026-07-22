@@ -100,8 +100,8 @@ export default function ProfileOrders({
                     <div className="bg-surface-container-low border border-outline-variant rounded-2xl p-12 text-center flex flex-col items-center">
                         <span className="material-symbols-outlined text-6xl text-outline mb-4">shopping_bag</span>
                         <h3 className="font-bold text-lg text-on-surface mb-1">ไม่มีข้อมูลคำสั่งซื้อ</h3>
-                        <p className="text-body-sm text-on-surface-variant max-w-sm">
-                            คุณยังไม่มีคำสั่งซื้อใดๆ ในบัญชีนี้
+                        <p className="text-body-sm text-on-surface-variant">
+                            คุณยังไม่มีคำสั่งซื้อใดๆ ในบัญชีนี้เพื่อใช้ตรวจสอบคำสั่งซื้อ
                         </p>
                     </div>
                 )}
