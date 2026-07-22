@@ -120,6 +120,8 @@
 
 - REACT VITE
 - TAILSWIND CSS
+- Chart js
+- 
 - Library etc.
 
 ## Backend
