@@ -98,11 +98,11 @@ export default function ProductCard({ product }) {
           <div className="mt-auto pt-3 flex flex-col gap-1">
             {product.stock > 0 ? (
               <span className="text-headline-sm font-bold text-primary">
-                {product.price.toLocaleString()}$
+                {product.price.toLocaleString()}฿
               </span>
             ) : (
               <span className="text-headline-sm font-bold text-gray-500 line-through">
-                {product.price.toLocaleString()}$
+                {product.price.toLocaleString()}฿
               </span>)}
           </div>
         </div>
