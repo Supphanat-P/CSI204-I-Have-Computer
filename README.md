@@ -334,9 +334,13 @@
 # 15. Sequence Diagrams
 
 ## Sequence Diagrams
-
+## User Sequence Diagrams
 <img width="317" height="632" alt="userSe" src="https://github.com/user-attachments/assets/a257c78c-c130-498d-8bdf-311669483b01" />
+
+## User Sequence Diagrams
 <img width="259" height="761" alt="managerSe" src="https://github.com/user-attachments/assets/04d03b72-395f-4b16-9879-f682b1b35ee4" />
+
+## User Sequence Diagrams
 <img width="697" height="458" alt="adminSe" src="https://github.com/user-attachments/assets/e1d59cc6-690a-46d8-88f3-35687e7be3ef" />
 
 ---
