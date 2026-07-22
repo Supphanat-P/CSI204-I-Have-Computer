@@ -443,7 +443,7 @@ classDiagram
 # 14. Data Schema
 
 ## Data Storage
-- **Backend Source of Truth**: `backend/data/users.json`, `backend/data/products.json`, และ `backend/data/orders.json`
+- **Backend**: `backend/data/users.json`, `backend/data/products.json`, และ `backend/data/orders.json`
 - **Frontend Session & Storage**: `localStorage` (ตะกร้าสินค้า `cart`, เซสชันผู้ใช้ `user`, สินค้าโปรด `favorites`, ที่อยู่จัดส่ง และแคชการตั้งค่า)
 
 ## Entities & Tables
