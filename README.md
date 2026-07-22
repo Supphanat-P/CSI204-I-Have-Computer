@@ -286,7 +286,9 @@ classDiagram
     class Manager {
         +getAllOrders() Array~Order~
         +updateOrderStatus(orderId, status) boolean
-        +viewSalesReport() Object
+        +createProduct(productData) Product
+        +updateProduct(productId, productData) boolean
+        +deleteProduct(productId) boolean
     }
 
     class Admin {
@@ -294,6 +296,7 @@ classDiagram
         +updateProduct(productId, productData) boolean
         +deleteProduct(productId) boolean
         +manageUserRole(userId, newRole) boolean
+        +viewSalesReport() Object
     }
 
     class Product {
