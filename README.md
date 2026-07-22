@@ -434,7 +434,6 @@ classDiagram
 
 3. **Order & OrderItem Entities (`Order`, `OrderItem`)**
    - `calculateTotal()`: คำนวณราคารวมทั้งหมดของคำสั่งซื้อ
-   - `updateStatus(newStatus)`: เปลี่ยนสถานะคำสั่งซื้อ
    - `getSubtotal()` *(OrderItem)*: คำนวณราคารวมย่อยของรายการสินค้าแต่ละรายการ (`price * quantity`)
 
 4. **Cart & CartItem Entities (`Cart`, `CartItem`)**
