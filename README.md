@@ -488,7 +488,7 @@ classDiagram
     'textColor': '#000000',
     'labelTextColor': '#000000',
     'actorLineColor': '#222222',
-    'actorTextColor': '#000000',
+    'actorTextColor': '#ffffff',
     'actorBkg': '#ffffff',
     'actorBorder': '#222222',
     'signalColor': '#222222',
