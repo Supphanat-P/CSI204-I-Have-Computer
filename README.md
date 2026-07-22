@@ -355,7 +355,6 @@ classDiagram
         +string paymentMethod
         +string userId
         +calculateTotal() number
-        +updateStatus(newStatus) void
         +getSummary() Object
     }
 
