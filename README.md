@@ -121,7 +121,7 @@
 - REACT VITE
 - TAILSWIND CSS
 - Chart js
-- 
+- axios
 - Library etc.
 
 ## Backend
