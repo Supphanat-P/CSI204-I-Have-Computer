@@ -20,6 +20,8 @@
 - [14. Data Schema](#14-data-schema)
 - [15. Sequence Diagrams](#15-sequence-diagrams)
 - [16. Wireframe](#16-wireframe)
+- [17. Prototypr](#17-prototype)
+- [18. System Architecture](#18-system-architecture)
 
 ---
 
@@ -242,104 +244,423 @@
 
 # 12. Use Case Diagram
 
-## Diagram
-
+## User Diagram
 <img width="598" height="625" alt="userUsecase" src="https://github.com/user-attachments/assets/f1ef43ef-ddc6-4d91-ae3b-ae0432678595" />
+
+## Manager Diagram
 <img width="450" height="461" alt="managerUsecase" src="https://github.com/user-attachments/assets/7d049471-2986-4d32-8bc2-8f522b9ba878" />
+
+## Admin Diagram
 <img width="404" height="383" alt="adminUsecase" src="https://github.com/user-attachments/assets/15271798-1bf2-4d11-896b-c4561fa80d0c" />
 
 ---
 
 # 13. Class Diagram
 
-## Diagram
+<!-- ## Diagram Image
+<img width="689" height="657" alt="classDiagram" src="https://github.com/user-attachments/assets/4f603698-5c1f-4fa2-8fd9-4ea00214352f" /> -->
 
-<img width="689" height="657" alt="classDiagram" src="https://github.com/user-attachments/assets/4f603698-5c1f-4fa2-8fd9-4ea00214352f" />
+```mermaid
+classDiagram
+    class User {
+        +string id
+        +string name
+        +string email
+        +string password
+        +string phone
+        +string birthDate
+        +string role
+        +register(userData) User
+        +login(email, password) Token
+        +updateProfile(profileData) boolean
+        +changeRole(newRole) boolean
+    }
+
+    class Customer {
+        +Array~Address~ addresses
+        +Array~OrderItem~ cart
+        +addToCart(product, quantity) void
+        +removeFromCart(productId) void
+        +checkout(orderDetails) Order
+        +viewOrderHistory() Array~Order~
+    }
+
+    class Manager {
+        +getAllOrders() Array~Order~
+        +updateOrderStatus(orderId, status) boolean
+        +createProduct(productData) Product
+        +updateProduct(productId, productData) boolean
+        +deleteProduct(productId) boolean
+    }
+
+    class Admin {
+        +createProduct(productData) Product
+        +updateProduct(productId, productData) boolean
+        +deleteProduct(productId) boolean
+        +manageUserRole(userId, newRole) boolean
+        +viewSalesReport() Object
+    }
+
+    class Product {
+        +number id
+        +string name
+        +string brand
+        +number price
+        +number stock
+        +string image
+        +string description
+        +string category
+        +Array~string~ highlights
+        +Object attributes
+        +Object attributesDetails
+        +checkStock(quantity) boolean
+        +deductStock(quantity) boolean
+        +updateInfo(data) void
+    }
+
+    class Order {
+        +string id
+        +string date
+        +Array~OrderItem~ items
+        +number total
+        +string status
+        +string shippingAddress
+        +string recipientName
+        +string recipientPhone
+        +string paymentMethod
+        +string userId
+        +calculateTotal() number
+        +updateStatus(newStatus) void
+        +getSummary() Object
+    }
+
+    class OrderItem {
+        +number id
+        +string name
+        +string brand
+        +number price
+        +number quantity
+        +string image
+        +getSubtotal() number
+    }
+
+    class Cart {
+        +Array~CartItem~ items
+        +addItem(product, qty) void
+        +removeItem(productId) void
+        +updateQuantity(productId, qty) void
+        +clearCart() void
+        +getTotalPrice() number
+    }
+
+    class CartItem {
+        +number productId
+        +string name
+        +number price
+        +number quantity
+        +string image
+        +calculateSubtotal() number
+    }
+
+    User <|-- Customer
+    User <|-- Manager
+    User <|-- Admin
+
+    Customer "1" -- "0..*" Order : places >
+    Customer "1" -- "1" Cart : owns >
+    Order "1" *-- "1..*" OrderItem : contains >
+    Cart "1" *-- "0..*" CartItem : contains >
+    OrderItem "0..*" -- "1" Product : references >
+```
+
+### Entity Functions & Methods Detail
+
+1. **User & Role Entities (`User`, `Customer`, `Manager`, `Admin`)**
+   - `register(userData)`: ตรวจสอบอีเมลซ้ำ เข้ารหัสรหัสผ่านด้วย bcrypt และบันทึกข้อมูลผู้ใช้ใหม่
+   - `login(email, password)`: ตรวจสอบข้อมูลประจำตัวและออก JWT Access Token สำหรับเข้าสู่ระบบ
+   - `updateProfile(profileData)`: อัปเดตข้อมูลส่วนตัว เช่น ชื่อ เบอร์โทรศัพท์ วันเดือนปีเกิด
+   - `addToCart(product, quantity)`: เพิ่มสินค้าเข้าตะกร้าสินค้า
+   - `checkout(orderDetails)`: สร้างคำสั่งซื้อใหม่และตัดสต็อกสินค้าในระบบ
+   - `updateOrderStatus(orderId, status)` *(Manager)*: ปรับเปลี่ยนสถานะคำสั่งซื้อ (เช่น รอดำเนินการ, จัดส่งแล้ว, เสร็จสิ้น)
+   - `createProduct / updateProduct / deleteProduct` *(Admin)*: เพิ่ม แก้ไข และลบข้อมูลสินค้าในคลัง
+
+2. **Product Entity (`Product`)**
+   - `checkStock(quantity)`: ตรวจสอบจำนวนสินค้าคงเหลือในคลังว่าเพียงพอหรือไม่
+   - `deductStock(quantity)`: ตัดจำนวนสต็อกสินค้าเมื่อคำสั่งซื้อสำเร็จ
+   - `updateInfo(data)`: อัปเดตข้อมูลและรายละเอียดสเปคคอมพิวเตอร์
+
+3. **Order & OrderItem Entities (`Order`, `OrderItem`)**
+   - `calculateTotal()`: คำนวณราคารวมทั้งหมดของคำสั่งซื้อ
+   - `updateStatus(newStatus)`: เปลี่ยนสถานะคำสั่งซื้อ
+   - `getSubtotal()` *(OrderItem)*: คำนวณราคารวมย่อยของรายการสินค้าแต่ละรายการ (`price * quantity`)
+
+4. **Cart & CartItem Entities (`Cart`, `CartItem`)**
+   - `addItem(product, qty)` / `removeItem(productId)`: เพิ่มหรือลบรายการสินค้าในตะกร้า
+   - `updateQuantity(productId, qty)`: ปรับเปลี่ยนจำนวนสินค้าในตะกร้า
+   - `getTotalPrice()`: คำนวณราคารวมทั้งหมดของสินค้าที่อยู่ในตะกร้า
 
 ---
 
 # 14. Data Schema
 
 ## Data Storage
+- **Backend Source of Truth**: `backend/data/users.json`, `backend/data/products.json`, และ `backend/data/orders.json`
+- **Frontend Session & Storage**: `localStorage` (ตะกร้าสินค้า `cart`, เซสชันผู้ใช้ `user`, สินค้าโปรด `favorites`, ที่อยู่จัดส่ง และแคชการตั้งค่า)
 
-- Backend source of truth: `backend/data/users.json`, `backend/data/products.json`, and `backend/data/orders.json`
-- Frontend session and user-specific state are also mirrored in `localStorage` for cart, favorites, shipping addresses, payment methods, and cached orders
+## Entities & Tables
 
-## Entities
+### 1. User (`users.json`)
 
-### User
+| Field | Type | Required | Key / Constraints | Description |
+|---|---|:---:|---|---|
+| `id` | `string` | Yes | Primary Key (UUID/String) | รหัสอ้างอิงผู้ใช้งาน (ต้องไม่ซ้ำกัน) |
+| `name` | `string` | Yes | - | ชื่อ-นามสกุลของผู้ใช้งาน |
+| `email` | `string` | Yes | Unique | อีเมลสำหรับใช้เข้าสู่ระบบ |
+| `password` | `string` | Yes | Hashed (bcrypt) | รหัสผ่านที่ผ่านการเข้ารหัสแล้ว |
+| `phone` | `string` | No | Default: `"-"` | เบอร์โทรศัพท์ติดต่อ |
+| `birthDate` | `string` | No | Format: `YYYY-MM-DD` | วันเดือนปีเกิด |
+| `role` | `string` | Yes | Enum: `user`, `manager`, `admin` | สิทธิ์และบทบาทการใช้งานในระบบ |
 
-| Field | Type | Required | Notes |
-|---|---|---:|---|
-| `id` | string | Yes | Unique user identifier |
-| `name` | string | Yes | Full name |
-| `email` | string | Yes | Used for login and must be unique |
-| `password` | string | Yes | Stored as a bcrypt hash |
-| `phone` | string | No | Default value is `-` or empty |
-| `birthDate` | string | No | Optional profile field |
-| `role` | string | Yes | `user`, `manager`, or `admin` |
+### 2. Product (`products.json`)
 
-### Product
+| Field | Type | Required | Key / Constraints | Description |
+|---|---|:---:|---|---|
+| `id` | `number` | Yes | Primary Key (Unique Int) | รหัสสินค้า |
+| `name` | `string` | Yes | - | ชื่อสินค้า |
+| `brand` | `string` | Yes | - | แบรนด์สินค้า |
+| `price` | `number` | Yes | `min: 0` | ราคาจำหน่าย (บาท) |
+| `stock` | `number` | Yes | `min: 0` | จำนวนสินค้าคงเหลือในสต็อก |
+| `image` | `string` | No | URL / Path | พาธหรือ URL รูปภาพสินค้า |
+| `description` | `string` | No | - | คำอธิบายรายละเอียดสินค้าแบบย่อ |
+| `type` / `productType` | `string` | Yes | Category Label | ประเภทสินค้า (เช่น `CPU`, `GPU`, `RAM`) |
+| `category` | `string` | No | Sub-category | หมวดหมู่ย่อยของสินค้า |
+| `highlights` | `string[]` | No | - | รายการจุดเด่นของสินค้า |
+| `attributes` | `object` | No | Key-Value pairs | สเปคย่อสำหรับใช้กรองข้อมูล (Filters) |
+| `attributesDetails` | `object` | No | Key-Value pairs | รายละเอียดสเปคเชิงลึกทั้งหมด |
 
-| Field | Type | Required | Notes |
-|---|---|---:|---|
-| `id` | number | Yes | Unique product identifier |
-| `name` | string | Yes | Product name |
-| `brand` | string | Yes | Product brand |
-| `price` | number | Yes | Product price |
-| `stock` | number | Yes | Available inventory |
-| `image` | string | No | Image URL |
-| `description` | string | No | Short product description |
-| `type` / `productType` | string | No | Product category label used by the UI |
-| `category` | string | No | More specific category grouping |
-| `highlights` | string[] | No | Key selling points |
-| `attributes` | object | No | Compact spec summary for cards and filters |
-| `attributesDetails` | object | No | Full technical specification block |
+### 3. Order (`orders.json`)
 
-### Order
+| Field | Type | Required | Key / Constraints | Description |
+|---|---|:---:|---|---|
+| `id` | `string` | Yes | Primary Key | รหัสคำสั่งซื้อ (เช่น `IHC-58188`) |
+| `userId` | `string` | Yes | Foreign Key -> `User.id` | รหัสอ้างอิงผู้สั่งซื้อ |
+| `date` | `string` | Yes | Format: `YYYY-MM-DD HH:mm` | วันและเวลาที่ทำรายการสั่งซื้อ |
+| `items` | `array` | Yes | Non-empty Array | อาร์เรย์ของรายการสินค้า (`OrderItem`) |
+| `total` | `number` | Yes | `min: 0` | ยอดชำระเงินรวมสุทธิ (บาท) |
+| `status` | `string` | Yes | Enum: `รอชำระเงิน`, `รอดำเนินการ`, `จัดส่งแล้ว`, `เสร็จสิ้น` | สถานะคำสั่งซื้อ |
+| `shippingAddress` | `string` | Yes | - | ที่อยู่สำหรับจัดส่งสินค้า |
+| `recipientName` | `string` | Yes | - | ชื่อ-นามสกุลของผู้รับสินค้า |
+| `recipientPhone` | `string` | Yes | - | เบอร์โทรศัพท์ติดต่อผู้รับ |
+| `paymentMethod` | `string` | Yes | Enum: `PromptPay`, `CreditCard`, `BankTransfer` | ช่องทางการชำระเงิน |
 
-| Field | Type | Required | Notes |
-|---|---|---:|---|
-| `id` | string | Yes | Example: `IHC-58188` |
-| `date` | string | Yes | ISO date format (`YYYY-MM-DD`) |
-| `items` | array | Yes | List of `Order Item` objects |
-| `total` | number | Yes | Grand total |
-| `status` | string | Yes | Example: `รอดำเนินการ`, `จัดส่งแล้ว`, `เสร็จสิ้น`, `รอชำระเงิน` |
-| `shippingAddress` | string | Yes | Delivery address |
-| `recipientName` | string | Yes | Receiver name |
-| `recipientPhone` | string | Yes | Receiver phone number |
-| `paymentMethod` | string | Yes | Selected payment method |
-| `userId` | string | Yes | Links the order to a user |
+### 4. Order Item
 
-### Order Item
-
-| Field | Type | Required | Notes |
-|---|---|---:|---|
-| `id` | number | Yes | Product ID reference |
-| `name` | string | Yes | Snapshot of product name at purchase time |
-| `brand` | string | Yes | Snapshot of product brand |
-| `price` | number | Yes | Snapshot of unit price |
-| `quantity` | number | Yes | Quantity purchased |
-| `image` | string | No | Snapshot of product image |
+| Field | Type | Required | Key / Constraints | Description |
+|---|---|:---:|---|---|
+| `id` | `number` | Yes | Foreign Key -> `Product.id` | รหัสอ้างอิงสินค้า |
+| `name` | `string` | Yes | Snapshot | ชื่อสินค้า ณ เวลาที่สั่งซื้อ |
+| `brand` | `string` | Yes | Snapshot | แบรนด์สินค้า ณ เวลาที่สั่งซื้อ |
+| `price` | `number` | Yes | Snapshot | ราคาต่อชิ้น ณ เวลาที่สั่งซื้อ |
+| `quantity` | `number` | Yes | `min: 1` | จำนวนที่สั่งซื้อ |
+| `image` | `string` | No | Snapshot | รูปภาพสินค้า ณ เวลาที่สั่งซื้อ |
 
 ## Relationships
 
-- One `User` can have many `Order` records.
-- One `Order` contains many `Order Item` records.
-- One `Product` can appear in many `Order Item` records.
-- Creating an order reduces product `stock` in `products.json`.
+- ผู้ใช้งาน 1 คน สามารถสร้างคำสั่งซื้อได้หลายรายการ (`1 : N`)
+- คำสั่งซื้อ 1 รายการ ประกอบด้วยรายการสินค้าได้หลายรายการ (`1 : N`)
+- สินค้า 1 ชนิด สามารถปรากฏอยู่ในรายการสั่งซื้อหลายรายการ (`N : 1`)
+- เมื่อสร้างคำสั่งซื้อสำเร็จ ระบบจะทำการตัดสต็อกสินค้า (`stock`) ใน `products.json` โดยอัตโนมัติ
 
 ---
 
 # 15. Sequence Diagrams
 
-## Sequence Diagrams
+```mermaid
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#ffffff',
+    'primaryTextColor': '#000000',
+    'primaryBorderColor': '#111111',
+    'lineColor': '#222222',
+    'secondaryColor': '#f8f9fa',
+    'tertiaryColor': '#ffffff',
+    'textColor': '#000000',
+    'labelTextColor': '#000000',
+    'actorLineColor': '#222222',
+    'actorTextColor': '#000000',
+    'actorBkg': '#ffffff',
+    'actorBorder': '#222222',
+    'signalColor': '#222222',
+    'signalTextColor': '#000000',
+    'labelBoxBkgColor': '#ffffff',
+    'labelBoxBorderColor': '#222222',
+    'loopTextColor': '#000000',
+    'noteBkgColor': '#fff5ad',
+    'noteTextColor': '#000000'
+  }
+}}%%
+sequenceDiagram
+    autonumber
+    actor C as ลูกค้า (Customer)
+    actor E as พนักงาน (Employee)
+    actor M as ผู้จัดการ (Manager)
+    participant S as การแสดงผล (System)
+    participant DB_U as Users DB
+    participant DB_P as Products DB
+    participant DB_O as Orders DB
 
-<img width="317" height="632" alt="userSe" src="https://github.com/user-attachments/assets/a257c78c-c130-498d-8bdf-311669483b01" />
-<img width="259" height="761" alt="managerSe" src="https://github.com/user-attachments/assets/04d03b72-395f-4b16-9879-f682b1b35ee4" />
-<img width="697" height="458" alt="adminSe" src="https://github.com/user-attachments/assets/e1d59cc6-690a-46d8-88f3-35687e7be3ef" />
+    %% ==========================================
+    %% Use Case: เข้าสู่ระบบ (Authentication)
+    %% ==========================================
+    rect rgb(240, 248, 255)
+    Note over C, DB_O: Use Case: ระบบเข้าสู่ระบบ (Authentication)
+    
+    alt ลูกค้าเข้าสู่ระบบ
+        C->>S: กรอกข้อมูล Login / Register
+    else พนักงานเข้าสู่ระบบ
+        E->>S: กรอกข้อมูล Login
+    else ผู้จัดการเข้าสู่ระบบ
+        M->>S: กรอกข้อมูล Login
+    end
+    
+    S->>DB_U: ตรวจสอบข้อมูลผู้ใช้และ Role (Validate credentials)
+    DB_U-->>S: ส่งคืนข้อมูลและสิทธิ์ผู้ใช้งาน (Return access info)
+    
+    alt Role = Customer
+        S-->>C: แสดงหน้าแรกของลูกค้า (Customer Home)
+    else Role = Employee
+        S-->>E: แสดงหน้าระบบจัดการคำสั่งซื้อ (Order Management)
+    else Role = Manager
+        S-->>M: แสดงหน้าแดชบอร์ด (Dashboard)
+    end
+    end
 
----
+    %% ==========================================
+    %% Use Case: ค้นหาสินค้า (Browse/Search)
+    %% ==========================================
+    rect rgb(255, 250, 240)
+    Note over C, DB_O: Use Case: ค้นหาสินค้า (Browse/Search)
+    
+    C->>S: ค้นหาสินค้า / เลือกหมวดหมู่ (Browse/Search)
+    S->>DB_P: เรียกดูข้อมูลสินค้า (Get products)
+    
+    opt มีการกรองข้อมูล (Filter)
+        S->>DB_P: กรองตามหมวดหมู่, ราคา, ฯลฯ
+    end
+    
+    DB_P-->>S: ส่งคืนรายการสินค้าที่ตรงกัน (Return matching items)
+    S-->>C: แสดงรายการสินค้า (Show items)
+    
+    C->>S: คลิกดูรายละเอียดสินค้า (View Details)
+    S->>DB_P: เรียกดูรายละเอียด, สเปก (Get details)
+    DB_P-->>S: ส่งคืนข้อมูลสินค้า (Return product info)
+    S-->>C: แสดงรายละเอียดสินค้า (Show details)
+    end
+
+    %% ==========================================
+    %% Use Case: จัดการตะกร้าและสั่งซื้อ (Checkout)
+    %% ==========================================
+    rect rgb(240, 255, 240)
+    Note over C, DB_O: Use Case: จัดการตะกร้า / สั่งซื้อ (Checkout)
+    
+    C->>S: เพิ่มลงตะกร้า / ยืนยันการสั่งซื้อ (Add to Cart / Checkout)
+    S->>DB_O: สร้างคำสั่งซื้อสถานะ Pending (Create pending order)
+    S->>DB_P: ตรวจสอบและจองสต็อก (Check and reserve stock)
+    
+    loop จองสต็อกสินค้าแต่ละชิ้น
+        DB_P->>DB_P: หักจำนวนสต็อก (Deduct stock)
+    end
+    
+    DB_P-->>S: ยืนยันสต็อกคงเหลือ (Return stock status)
+    S-->>C: แสดงยอดรวมและให้ชำระเงิน (Show total)
+    
+    C->>S: ดำเนินการชำระเงิน (Payment)
+    
+    alt ชำระเงินสำเร็จ
+        S->>DB_O: อัปเดตสถานะเป็น "ชำระเงินแล้ว/เตรียมส่ง" (Update status)
+        DB_O-->>S: ยืนยันการสร้างออเดอร์ (Confirm order placed)
+        S-->>C: แจ้งเตือนการสั่งซื้อสำเร็จ (Success message)
+    end
+    end
+
+    %% ==========================================
+    %% Use Case: ติดตามสถานะ (Track & History)
+    %% ==========================================
+    rect rgb(255, 240, 245)
+    Note over C, DB_O: Use Case: ติดตามสถานะและประวัติ (Track Orders)
+    
+    C->>S: ติดตามสถานะคำสั่งซื้อ (Track Order)
+    S->>DB_O: ดึงข้อมูลสถานะและ Tracking Number
+    DB_O-->>S: ส่งข้อมูลคำสั่งซื้อ (Return order info)
+    S-->>C: แสดงสถานะการจัดส่ง
+    
+    C->>S: ดูประวัติการสั่งซื้อทั้งหมด (View Order History)
+    S->>DB_O: ดึงประวัติคำสั่งซื้อของลูกค้า
+    DB_O-->>S: ส่งคืนรายการคำสั่งซื้อทั้งหมด
+    S-->>C: แสดงประวัติคำสั่งซื้อ
+    end
+
+    %% ==========================================
+    %% Use Case: จัดการโปรไฟล์ (Manage Profile)
+    %% ==========================================
+    rect rgb(255, 255, 224)
+    Note over C, DB_O: Use Case: จัดการโปรไฟล์ (Manage Profile)
+    
+    C->>S: แก้ไขข้อมูลส่วนตัว / ที่อยู่ (Manage Profile)
+    S->>DB_U: อัปเดตข้อมูลติดต่อ (Update address/contact)
+    DB_U-->>S: ยืนยันการบันทึก (Confirm changes)
+    S-->>C: แจ้งเตือนแก้ไขสำเร็จ
+    end
+
+    %% ==========================================
+    %% Use Case: จัดการสต็อกและออเดอร์ (Employee)
+    %% ==========================================
+    rect rgb(230, 230, 250)
+    Note over E, DB_O: Use Case: ตรวจสอบสต็อกและอัปเดตสถานะ (Employee)
+    
+    E->>S: ตรวจสอบสต็อกสินค้า (Check Stock)
+    S->>DB_P: เรียกดูจำนวนสต็อกคงเหลือ
+    DB_P-->>S: ส่งข้อมูลสต็อก (Return stock data)
+    S-->>E: แสดงจำนวนสต็อก
+    
+    E->>S: อัปเดตสถานะการขนส่ง (Update Tracking Status)
+    S->>DB_O: เรียกดูข้อมูลคำสั่งซื้อ
+    DB_O-->>S: ส่งคืนข้อมูลคำสั่งซื้อ
+    S->>DB_O: ตั้งค่าสถานะ (เตรียมส่ง / จัดส่งแล้ว / เสร็จสิ้น)
+    DB_O-->>S: ยืนยันการอัปเดต (Confirm update)
+    S-->>E: แจ้งเตือนอัปเดตสถานะสำเร็จ
+    end
+
+    %% ==========================================
+    %% Use Case: สรุปภาพรวมและจัดการระบบ (Manager/Admin)
+    %% ==========================================
+    rect rgb(240, 255, 255)
+    Note over M, DB_O: Use Case: สรุปภาพรวมและจัดการระบบทั้งหมด (Manager as Admin)
+    
+    M->>S: ดูสรุปยอดขาย (Sales Dashboard)
+    S->>DB_O: ดึงข้อมูลและคำนวณยอดขาย (Aggregate sales data)
+    DB_O-->>S: ส่งคืนตารางและสถิติ (Return tables and statistics)
+    S-->>M: แสดงกราฟภาพรวม
+    
+    M->>S: จัดการสิทธิ์ผู้ใช้งาน (Manage Users / Change Role / Delete)
+    S->>DB_U: ระงับสิทธิ์ หรือ อัปเดตบัญชี (Suspend/Update account)
+    DB_U-->>S: ยืนยันการแก้ไข (Confirm change)
+    S-->>M: แจ้งเตือนแก้ไขผู้ใช้สำเร็จ
+    
+    M->>S: จัดการข้อมูลสินค้า (Manage Products)
+    alt เพิ่มสินค้าใหม่ (Add)
+        S->>DB_P: Create new product
+    else แก้ไขสินค้า (Update)
+        S->>DB_P: Update product details
+    else ลบสินค้า (Delete)
+        S->>DB_P: Remove product
+    end
+    DB_P-->>S: ยืนยันการเปลี่ยนแปลง (Confirm action)
+    S-->>M: แจ้งเตือนอัปเดตแคตตาล็อกสำเร็จ
+    end
+```
+
 
 # 16. Wireframe
 
@@ -357,3 +678,153 @@ Profile
 <img width="1920" height="1080" alt="5 Profile" src="https://github.com/user-attachments/assets/17848815-3243-4d1b-9049-0c5c51554d72" />
 
 ---
+
+# 17. Prototype
+
+## Image
+![Prototype](/image/Prototype.gif)  
+
+---
+# 18. System Architecture
+
+## Frontend Folder Structure
+
+```text
+frontend/
+├── public/                 # Static assets (images, favicon, icons)
+├── src/                    # Main source code directory
+│   ├── assets/             # Images, SVGs, and global static assets
+│   ├── component/          # Reusable UI Components
+│   │   ├── Products/       # Product-specific components
+│   │   │   ├── AsideFilterProducts.jsx  # Product category/price filter sidebar
+│   │   │   └── ProductCard.jsx          # Product card display component
+│   │   ├── profiles/       # User profile tab components
+│   │   │   ├── ProfileOrders.jsx        # Order history tab view
+│   │   │   ├── ProfileProductStatus.jsx # Order status tracking tab
+│   │   │   └── ProfileWhislists.jsx     # Favorite products wishlist tab
+│   │   └── ScrollToTop.jsx # Page navigation auto scroll-to-top utility
+│   ├── context/            # Global React Context State Management
+│   │   ├── AlertContext.jsx# Custom Alert / Notification toast context
+│   │   └── CartContext.jsx # Cart state management (items, quantity, total)
+│   ├── layouts/            # Base Layout components for routing
+│   │   ├── AdminLayout.jsx   # Header & navigation layout for Admin pages
+│   │   ├── MainLayout.jsx    # Header, navbar & footer layout for Customers
+│   │   └── ManagerLayout.jsx # Navigation layout for Manager pages
+│   ├── pages/              # Page View Components (Routes)
+│   │   ├── admin/          # Admin-only page views
+│   │   │   ├── ManageUser.jsx     # User role management & account control
+│   │   │   └── SummaryReport.jsx  # Sales dashboard & report analytics
+│   │   ├── manager/        # Manager-only page views
+│   │   │   ├── ManageProducts.jsx # Product CRUD & inventory stock control
+│   │   │   └── ShippingStatus.jsx # Order tracking & shipping status update
+│   │   ├── Checkout.jsx    # Checkout & Payment page
+│   │   ├── Homepage.jsx    # Main landing page view
+│   │   ├── Login.jsx       # User authentication login view
+│   │   ├── ManageUsers.jsx # General user management page
+│   │   ├── ProductDetails.jsx # Detailed product specification view
+│   │   ├── Products.jsx    # Product catalog page with search & filter
+│   │   ├── Profiles.jsx    # Customer profile dashboard view
+│   │   └── Register.jsx    # User registration page
+│   ├── App.css             # Component-level styles
+│   ├── App.jsx             # Main Router configuration & Context Provider wrappers
+│   ├── index.css           # Tailwind CSS directives & global resets
+│   └── main.jsx            # Application entry point (ReactDOM render)
+├── index.html              # HTML shell entry point
+├── package.json            # NPM dependencies & build scripts
+└── vite.config.js          # Vite configuration & dev server setup
+```
+
+### Component & Folder Breakdown
+
+| Folder / File | Type | Description |
+|---|---|---|
+| `src/component/` | Components | คอมโพเนนต์ UI ที่นำกลับมาใช้ซ้ำได้ เช่น การ์ดสินค้า, ตัวกรองข้อมูล, แท็บในหน้าโปรไฟล์ |
+| `src/context/` | State | ระบบจัดการสถานะส่วนกลาง (React Context) สำหรับตะกร้าสินค้า (`CartContext`) และการแจ้งเตือน (`AlertContext`) |
+| `src/layouts/` | Layouts | โครงสร้างหน้าจอหลักแบ่งตามบทบาทผู้ใช้ (`MainLayout`, `AdminLayout`, `ManagerLayout`) |
+| `src/pages/` | Views | หน้าจอหลักของแอปพลิเคชัน (Page Views) ที่ผูกกับเส้นทาง URL Routes |
+| `src/pages/admin/` | Views | หน้าสำหรับผู้ดูแลระบบ ได้แก่ การจัดการสิทธิ์ผู้ใช้งาน (`ManageUser.jsx`) และแดชบอร์ดสรุปยอดขาย (`SummaryReport.jsx`) |
+| `src/pages/manager/` | Views | หน้าสำหรับผู้จัดการ ได้แก่ การจัดการคลังสินค้าสต็อก (`ManageProducts.jsx`) และการอัปเดตสถานะจัดส่ง (`ShippingStatus.jsx`) |
+
+## Overview Architecture Diagram
+
+```mermaid
+graph TD
+    subgraph Client_Layer ["1. Client Layer (Frontend - React + Vite)"]
+        UI["React Web App (UI Components)"]
+        State["React Context / State Management"]
+        ClientStorage["Browser LocalStorage (Cart, Auth Token, Cache)"]
+    end
+
+    subgraph API_Gateway_Layer ["2. API & Service Layer (Backend - Node.js & Express)"]
+        Router["Express Router (/api/*)"]
+        
+        subgraph Middlewares ["Middlewares"]
+            AuthMW["authMiddleware (JWT Verification)"]
+            AdminMW["adminMiddleware (Role: Admin)"]
+            ManagerMW["managerMiddleware (Role: Manager)"]
+        end
+        
+        subgraph Controllers ["Controllers / Business Logic"]
+            AuthController["Auth & User Controller"]
+            ProductController["Product & Stock Controller"]
+            OrderController["Order Processing Controller"]
+        end
+    end
+
+    subgraph Data_Layer ["3. Data Persistence Layer"]
+        UserDB[("users.json")]
+        ProductDB[("products.json")]
+        OrderDB[("orders.json")]
+    end
+
+    UI -->|HTTP Requests / REST API| Router
+    UI <--> State
+    State <--> ClientStorage
+    
+    Router --> AuthMW
+    Router --> AdminMW
+    Router --> ManagerMW
+    
+    AuthMW --> AuthController
+    AdminMW --> ProductController
+    ManagerMW --> OrderController
+    
+    AuthController <--> UserDB
+    ProductController <--> ProductDB
+    OrderController <--> OrderDB
+    OrderController -. Update Stock .-> ProductDB
+```
+
+## Layer Description
+
+1. **Client Layer (React + Vite + Tailwind CSS)**:
+   - รับผิดชอบหน้าจอ UI และการตอบสนองต่อผู้ใช้งาน (User Interface & User Experience)
+   - จัดการ State ของระบบฝั่งผู้ใช้ เช่น ตะกร้าสินค้า (`cart`), สถานะการเข้าสู่ระบบ (`user`), และรายการสินค้าโปรด (`favorites`) ใน `localStorage`
+
+2. **API & Service Layer (Node.js + Express)**:
+   - ตรวจสอบความถูกต้องและสิทธิ์ผู้ใช้ด้วย **JWT (JSON Web Token)** ผ่าน Middleware (`authMiddleware`, `adminMiddleware`, `managerMiddleware`)
+   - ควบคุม Business Logic การสั่งซื้อ การจัดการสินค้า และการเปลี่ยนสถานะคำสั่งซื้อ
+
+3. **Data Layer (JSON File Storage)**:
+   - เก็บข้อมูลหลักของระบบอย่างถาวรในรูปแบบไฟล์ JSON (`users.json`, `products.json`, `orders.json`)
+   - มีระบบตัดสต็อกสินค้าใน `products.json` โดยอัตโนมัติเมื่อเกิดคำสั่งซื้อใหม่
+
+---
+
+# 18. UAT (User Acceptance Testing)
+
+Persona : Customer
+| รหัสทดสอบ	 | รายการทดสอบ | สถานะการทดสอบ	 | ปัญหา/ข้อผิดพลาด	 | รายละเอียดของปัญหา |
+|---|---|---|---|---|   
+| UAT-C01 | สมัครสมาชิก | ผ่าน | - | - |
+| UAT-C02 | เข้าสู่ระบบ | ผ่าน | - | - |
+| UAT-C03 | ค้นหาสินค้า | ผ่าน | - | - |
+| UAT-C04 | ฟิลเตอร์สินค้า | ผ่าน | - | - |
+| UAT-C05 | สินค้าที่ชื่นชอบ | ผ่าน | - | - |
+| UAT-C06 | เพิ่มสินค้าลงตะกร้า | ผ่า่น | - | - |
+| UAT-C07 | คำนวณราคาตะกร้า | ผ่าน | - | - |
+| UAT-C08 | การเพิ่มที่อยู่จัดส่ง | ผ่าน | - | - |
+| UAT-C09 | การชำระเงิน | ผ่าน | - | - |
+| UAT-C10 | แก้ข้อมูลส่วนตัว | ผ่าน | - | - |
+| UAT-C11 | การดูสถานะคำสั่งซื้อ | ผ่าน | - | - |
+| UAT-C12 | เพิ่มข้อมูลบัตร | ผ่าน | - | - |
