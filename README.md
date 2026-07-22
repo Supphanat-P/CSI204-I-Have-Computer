@@ -31,10 +31,10 @@
 | Name | Student ID | Role | GitHub |
 |------|------------|------|--------|
 | Name | 67162090   | Project Manager | @Supphanat-P |
-| Name | 67081836 | Frontend Developer | @Theepakorn-T |
-| Name | 67160778 | Frontend Developer  | @Theeradon-map |
-| Name | 67178272 | UI/UX Designer | @Chinnaphat-ppsadzy |
-| Name | 67158596 | UI/UX Designer | @Peeraphong-Taz |
+| Name | 67081836 | Frontend / Backend | @Theepakorn-T |
+| Name | 67160778 | Frontend / Backend | @Theeradon-map |
+| Name | 67178272 | Frontend | @Chinnaphat-ppsadzy |
+| Name | 67158596 | Frontend | @Peeraphong-Taz |
 
 ---
 
