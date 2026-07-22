@@ -300,11 +300,11 @@ classDiagram
         +updateProduct(productId, productData) boolean
         +deleteProduct(productId) boolean
         +manageUserRole(userId, newRole) boolean
-        +viewSalesReport() Object
+        +viewsReport() Object
     }
 
     class Product {
-        +number id
+        +number productId
         +string name
         +string brand
         +number price
@@ -321,7 +321,7 @@ classDiagram
     }
 
     class Order {
-        +string id
+        +string orderId
         +string date
         +Array~OrderItem~ items
         +number total
@@ -337,7 +337,7 @@ classDiagram
     }
 
     class OrderItem {
-        +number id
+        +number productId
         +string name
         +string brand
         +number price
@@ -347,6 +347,7 @@ classDiagram
     }
 
     class Cart {
+		+string cartId
         +Array~CartItem~ items
         +addItem(product, qty) void
         +removeItem(productId) void
@@ -369,11 +370,12 @@ classDiagram
     User <|-- Manager
     User <|-- Admin
 
-    Customer "1" -- "0..*" Order : places >
-    Customer "1" -- "1" Cart : owns >
-    Order "1" *-- "1..*" OrderItem : contains >
-    Cart "1" *-- "0..*" CartItem : contains >
-    OrderItem "0..*" -- "1" Product : references >
+    Customer "1" -- "0..*" Order : 
+    Customer "1" -- "1" Cart : 
+    Order "1" *-- "1..*" OrderItem : 
+    Cart "1" *-- "0..*" CartItem : 
+    OrderItem "0..*" -- "1" Product :  
+    CartItem "0..*" -- "1" Product :  
 ```
 
 ### Entity Functions & Methods Detail
