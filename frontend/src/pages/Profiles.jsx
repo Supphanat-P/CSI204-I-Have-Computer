@@ -101,7 +101,7 @@ export default function Profiles() {
   }, [currentUser, navigate, showAlert]);
 
   // Active Sidebar Tab state
-  // Tabs: 'profile', 'shipping_address', 'tax_address', 'orders', 'wishlist', 'shipping_status', 'payment_methods'
+  // Tabs: 'profile', 'shipping_address', 'orders', 'wishlist', 'shipping_status', 'payment_methods'
   const [activeTab, setActiveTab] = useState(() => {
     return location.state?.activeTab || "profile";
   });
@@ -159,16 +159,6 @@ export default function Profiles() {
     return [];
   });
 
-  // 4. Multiple Tax Invoice Addresses state (load from localStorage)
-  const [taxAddresses, setTaxAddresses] = useState(() => {
-    const curr = JSON.parse(localStorage.getItem("currentUser") || "null");
-    if (curr) {
-      const saved = localStorage.getItem(`taxAddresses_${curr.id}`);
-      if (saved) return JSON.parse(saved);
-    }
-    return [];
-  });
-
   // Sync address changes to localStorage
   useEffect(() => {
     if (currentUser) {
@@ -176,18 +166,12 @@ export default function Profiles() {
     }
   }, [shippingAddresses, currentUser]);
 
-  useEffect(() => {
-    if (currentUser) {
-      localStorage.setItem(`taxAddresses_${currentUser.id}`, JSON.stringify(taxAddresses));
-    }
-  }, [taxAddresses, currentUser]);
-
   // Address Modal, Search and Filter states
   const [addressSearch, setAddressSearch] = useState("");
   const [addressTagFilter, setAddressTagFilter] = useState("all"); // 'all' | 'home' | 'work' | 'other'
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [editingAddress, setEditingAddress] = useState(null); // null if adding new address
-  const [addressModalType, setAddressModalType] = useState("shipping"); // 'shipping' | 'tax'
+  const [addressModalType, setAddressModalType] = useState("shipping");
 
   // Thailand administrative divisions API state and fetch
   const [thaiProvinces, setThaiProvinces] = useState([]);
@@ -582,8 +566,12 @@ export default function Profiles() {
   };
 
   // Address Actions Handler
-  const openAddressModal = (type, address = null) => {
-    setAddressModalType(type);
+  const openAddressModal = (type = "shipping", address = null) => {
+    if (typeof type === "object" && type !== null && !address) {
+      address = type;
+      type = "shipping";
+    }
+    setAddressModalType("shipping");
     setEditingAddress(address);
     if (address) {
       setAddressForm({ ...address });
@@ -605,9 +593,8 @@ export default function Profiles() {
 
   const saveAddress = (e) => {
     e.preventDefault();
-    const isShipping = addressModalType === "shipping";
-    const addressList = isShipping ? shippingAddresses : taxAddresses;
-    const setAddressList = isShipping ? setShippingAddresses : setTaxAddresses;
+    const addressList = shippingAddresses;
+    const setAddressList = setShippingAddresses;
 
     let updatedAddresses = [];
     const isNewDefault = addressForm.isDefault;
@@ -644,9 +631,9 @@ export default function Profiles() {
   };
 
   const deleteAddress = async (type, id) => {
-    const isShipping = type === "shipping";
-    const addressList = isShipping ? shippingAddresses : taxAddresses;
-    const setAddressList = isShipping ? setShippingAddresses : setTaxAddresses;
+    const addressId = typeof type === "number" ? type : id;
+    const addressList = shippingAddresses;
+    const setAddressList = setShippingAddresses;
 
     const confirmed = await showAlert({
       title: "ยืนยันการลบที่อยู่",
@@ -657,7 +644,7 @@ export default function Profiles() {
     });
 
     if (confirmed) {
-      const remaining = addressList.filter((addr) => addr.id !== id);
+      const remaining = addressList.filter((addr) => addr.id !== addressId);
       if (remaining.length > 0 && !remaining.some((addr) => addr.isDefault)) {
         remaining[0].isDefault = true;
       }
@@ -666,19 +653,19 @@ export default function Profiles() {
   };
 
   const setAsDefault = (type, id) => {
-    const isShipping = type === "shipping";
-    const addressList = isShipping ? shippingAddresses : taxAddresses;
-    const setAddressList = isShipping ? setShippingAddresses : setTaxAddresses;
+    const addressId = typeof type === "number" ? type : id;
+    const addressList = shippingAddresses;
+    const setAddressList = setShippingAddresses;
 
     const updated = addressList.map((addr) => ({
       ...addr,
-      isDefault: addr.id === id,
+      isDefault: addr.id === addressId,
     }));
     setAddressList(updated);
   };
 
   // Get active list of addresses based on selection
-  const currentAddresses = activeTab === "shipping_address" ? shippingAddresses : taxAddresses;
+  const currentAddresses = shippingAddresses;
 
   // Filtered Addresses
   const filteredAddresses = currentAddresses.filter((addr) => {
@@ -825,16 +812,7 @@ export default function Profiles() {
                   <span className="material-symbols-outlined">location_on</span>
                   <span className="text-body-md">ที่อยู่สำหรับจัดส่ง</span>
                 </button>
-                <button
-                  onClick={() => setActiveTab("tax_address")}
-                  className={`w-full text-left rounded-xl transition-all cursor-pointer ${activeTab === "tax_address"
-                    ? "flex items-center gap-3 px-4 py-3 text-primary border-l-4 border-primary bg-primary/5 font-semibold"
-                    : "flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-primary hover:bg-surface-container-low"
-                    }`}
-                >
-                  <span className="material-symbols-outlined">receipt_long</span>
-                  <span className="text-body-md">ที่อยู่สำหรับออกใบกำกับภาษี</span>
-                </button>
+
                 <button
                   onClick={() => setActiveTab("payment_methods")}
                   className={`w-full text-left rounded-xl transition-all cursor-pointer ${activeTab === "payment_methods"
@@ -1081,22 +1059,22 @@ export default function Profiles() {
               </div>
             )}
 
-            {/* VIEW 2 & 3: ที่อยู่สำหรับจัดส่ง & ที่อยู่สำหรับออกใบกำกับภาษี (Address Lists) */}
-            {(activeTab === "shipping_address" || activeTab === "tax_address") && (
+            {/* VIEW 2: ที่อยู่สำหรับจัดส่ง (Address List) */}
+            {activeTab === "shipping_address" && (
               <div className="space-y-6">
 
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-outline-variant">
                   <div className="flex items-center gap-2.5">
                     <span className="material-symbols-outlined text-primary text-3xl">
-                      {activeTab === "shipping_address" ? "location_on" : "receipt_long"}
+                      location_on
                     </span>
                     <h2 className="text-2xl font-bold text-on-surface">
-                      {activeTab === "shipping_address" ? "ที่อยู่สำหรับจัดส่ง" : "ที่อยู่สำหรับออกใบกำกับภาษี"}
+                      ที่อยู่สำหรับจัดส่ง
                     </h2>
                   </div>
                   <button
-                    onClick={() => openAddressModal(activeTab === "shipping_address" ? "shipping" : "tax")}
+                    onClick={() => openAddressModal("shipping")}
                     className="bg-primary text-white hover:bg-primary-container hover:text-on-primary-container px-5 py-2.5 rounded-xl text-body-sm font-semibold transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer"
                   >
                     <span className="material-symbols-outlined text-lg">add_location</span>
@@ -1199,7 +1177,7 @@ export default function Profiles() {
                         <div className="flex justify-between items-center border-t border-outline-variant pt-3 mt-2">
                           {!addr.isDefault ? (
                             <button
-                              onClick={() => setAsDefault(activeTab === "shipping_address" ? "shipping" : "tax", addr.id)}
+                              onClick={() => setAsDefault("shipping", addr.id)}
                               className="text-primary hover:text-primary-container text-body-sm font-semibold transition-all active:scale-95 cursor-pointer"
                             >
                               ตั้งเป็นที่อยู่เริ่มต้น
@@ -1213,14 +1191,14 @@ export default function Profiles() {
 
                           <div className="flex items-center gap-2">
                             <button
-                              onClick={() => openAddressModal(activeTab === "shipping_address" ? "shipping" : "tax", addr)}
+                              onClick={() => openAddressModal("shipping", addr)}
                               className="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded-lg transition-all cursor-pointer"
                               title="แก้ไขที่อยู่"
                             >
                               <span className="material-symbols-outlined text-lg">edit</span>
                             </button>
                             <button
-                              onClick={() => deleteAddress(activeTab === "shipping_address" ? "shipping" : "tax", addr.id)}
+                              onClick={() => deleteAddress("shipping", addr.id)}
                               className="p-2 text-on-surface-variant hover:text-red-500 hover:bg-red-50 rounded-lg transition-all cursor-pointer"
                               title="ลบที่อยู่"
                             >
@@ -1346,14 +1324,14 @@ export default function Profiles() {
                 {/* Recipient Name */}
                 <div className="md:col-span-2">
                   <label className="block text-body-sm font-medium text-on-surface-variant mb-1.5">
-                    {addressModalType === "shipping" ? "ชื่อ - นามสกุล ผู้รับ" : "ชื่อบริษัท / ชื่อผู้เสียภาษี"}
+                    ชื่อ - นามสกุล ผู้รับ
                   </label>
                   <input
                     type="text"
                     required
                     value={addressForm.name}
                     onChange={(e) => setAddressForm({ ...addressForm, name: e.target.value })}
-                    placeholder={addressModalType === "shipping" ? "ระบุชื่อจริงและนามสกุลผู้รับ" : "ระบุชื่อบริษัทเต็ม หรือชื่อ-นามสกุล"}
+                    placeholder="ระบุชื่อจริงและนามสกุลผู้รับ"
                     className="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-on-surface focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
                   />
                 </div>

@@ -8,7 +8,7 @@ const {
   updateProduct,
   deleteProduct,
 } = require("./routes/products");
-const { registerUser, loginUser, getUsers, updateUserRole, updateProfile } = require("./routes/auth");
+const { registerUser, loginUser, getUsers, updateUserRole, updateProfile, deleteUser } = require("./routes/auth");
 const {
   createOrder,
   getOrders,
@@ -37,6 +37,7 @@ app.post("/api/register", registerUser);
 app.post("/api/login", loginUser);
 app.get("/api/users", authMiddleware, adminMiddleware, getUsers);
 app.post("/api/users/role", authMiddleware, adminMiddleware, updateUserRole);
+app.delete("/api/users/:id", authMiddleware, adminMiddleware, deleteUser);
 app.post("/api/profile/update", authMiddleware, updateProfile);
 
 app.post("/api/orders", authMiddleware, createOrder);
