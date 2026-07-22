@@ -204,6 +204,60 @@ export default function Homepage() {
             ))}
           </div>
         </section>
+         
+                 {/* Marquee Text Banner */}
+        <div
+          style={{
+            overflow: "hidden",
+            background: "var(--color-primary, #6750A4)",
+            padding: "30px 0",
+            borderTop: "2px solid rgba(255,255,255,0.15)",
+            borderBottom: "2px solid rgba(255,255,255,0.15)",
+          }}
+        >
+          <style>{`
+            @keyframes marquee-scroll {
+              0%   { transform: translateX(0); }
+              100% { transform: translateX(-50%); }
+            }
+            .marquee-track {
+              display: flex;
+              width: max-content;
+              animation: marquee-scroll 30s linear infinite;
+            }
+            .marquee-item {
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              padding: 0 32px;
+              white-space: nowrap;
+              font-family: 'Inter', 'Outfit', sans-serif;
+              font-weight: 800;
+              font-size: 1.15rem;
+              letter-spacing: 0.18em;
+              text-transform: uppercase;
+              color: #fff;
+              opacity: 0.92;
+              user-select: none;
+            }
+            .marquee-dot {
+              display: inline-block;
+              width: 7px;
+              height: 7px;
+              border-radius: 50%;
+              background: rgba(255,255,255,0.55);
+              flex-shrink: 0;
+            }
+          `}</style>
+          <div className="marquee-track">
+            {Array.from({ length: 15 }).map((_, i) => (
+              <span className="marquee-item" key={i}>
+                ihavecomputer but nai computer wa
+                <span className="marquee-dot" />
+              </span>
+            ))}
+          </div>
+        </div>
 
         {/* Brand Section */}
         <section className="bg-surface-container-low py-12 border-y border-outline-variant">
@@ -325,61 +379,6 @@ export default function Homepage() {
                 </div>
               </div>
             ))}
-          </div>
-        </section> */}
-
-        {/* Newsletter / CTA มันจะส่งเมลไปหาเราตามเมลที่กรอก}
-        <section className="py-24 bg-primary text-white text-center px-margin-desktop overflow-hidden relative">
-          <div className="absolute inset-0 opacity-5">
-            <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern
-                  height="60"
-                  id="grid"
-                  patternUnits="userSpaceOnUse"
-                  width="60"
-                >
-                  <path
-                    d="M 60 0 L 0 0 0 60"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="0.5"
-                  ></path>
-                </pattern>
-              </defs>
-              <rect fill="url(#grid)" height="100%" width="100%"></rect>
-            </svg>
-          </div>
-          <div className="max-w-xl mx-auto relative z-10 space-y-6">
-            <h2 className="font-display-lg text-display-lg">
-              Stay Ahead of the Curve
-            </h2>
-            <p className="font-body-lg text-primary-fixed-dim">
-              Subscribe to get exclusive early access to drops, tech reviews,
-              and members-only pricing.
-            </p>
-            <form
-              onSubmit={handleSubscribe}
-              className="flex flex-col sm:flex-row gap-3 pt-4"
-            >
-              <input
-                className="flex-1 rounded-full px-8 py-4 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary border-none"
-                placeholder="Enter your email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <button
-                type="submit"
-                className="bg-secondary text-white px-10 py-4 rounded-full font-label-caps text-label-caps hover:brightness-110 transition-all uppercase tracking-wider"
-              >
-                Subscribe
-              </button>
-            </form>
-            <p className="font-label-caps text-[10px] text-primary-fixed-dim/60 uppercase tracking-widest">
-              By subscribing, you agree to our Terms and Privacy Policy.
-            </p>
           </div>
         </section> */}
       </main>
