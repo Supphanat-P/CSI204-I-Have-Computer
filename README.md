@@ -474,7 +474,7 @@ classDiagram
 ---
 
 # 15. Sequence Diagrams
-
+```mermaid
 sequenceDiagram
     actor C as ลูกค้า (Customer)
     actor E as พนักงาน (Employee)
@@ -634,7 +634,7 @@ sequenceDiagram
     DB_P-->>S: ยืนยันการเปลี่ยนแปลง (Confirm action)
     S-->>M: แจ้งเตือนอัปเดตแคตตาล็อกสำเร็จ
     end
-
+```
 # 16. Wireframe
 
 ## Wireframe
