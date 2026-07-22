@@ -253,10 +253,10 @@
 
 # 13. Class Diagram
 
-## แผนภาพคลาส (Diagram Image)
+## Diagram Image
 <img width="689" height="657" alt="classDiagram" src="https://github.com/user-attachments/assets/4f603698-5c1f-4fa2-8fd9-4ea00214352f" />
 
-## โครงสร้างคลาสและเมธอด (Class Specifications & Methods)
+## Class Specifications & Methods
 
 ```mermaid
 classDiagram
@@ -368,9 +368,9 @@ classDiagram
     OrderItem "0..*" -- "1" Product : references >
 ```
 
-### รายละเอียดฟังก์ชันและเมธอดของแต่ละคลาส (Entity Functions & Methods Detail)
+### Entity Functions & Methods Detail
 
-1. **คลาสผู้ใช้งานและสิทธิ์ต่าง ๆ (`User`, `Customer`, `Manager`, `Admin`)**
+1. **User & Role Entities (`User`, `Customer`, `Manager`, `Admin`)**
    - `register(userData)`: ตรวจสอบอีเมลซ้ำ เข้ารหัสรหัสผ่านด้วย bcrypt และบันทึกข้อมูลผู้ใช้ใหม่
    - `login(email, password)`: ตรวจสอบข้อมูลประจำตัวและออก JWT Access Token สำหรับเข้าสู่ระบบ
    - `updateProfile(profileData)`: อัปเดตข้อมูลส่วนตัว เช่น ชื่อ เบอร์โทรศัพท์ วันเดือนปีเกิด
@@ -379,17 +379,17 @@ classDiagram
    - `updateOrderStatus(orderId, status)` *(Manager)*: ปรับเปลี่ยนสถานะคำสั่งซื้อ (เช่น รอดำเนินการ, จัดส่งแล้ว, เสร็จสิ้น)
    - `createProduct / updateProduct / deleteProduct` *(Admin)*: เพิ่ม แก้ไข และลบข้อมูลสินค้าในคลัง
 
-2. **คลาสสินค้า (`Product`)**
+2. **Product Entity (`Product`)**
    - `checkStock(quantity)`: ตรวจสอบจำนวนสินค้าคงเหลือในคลังว่าเพียงพอหรือไม่
    - `deductStock(quantity)`: ตัดจำนวนสต็อกสินค้าเมื่อคำสั่งซื้อสำเร็จ
    - `updateInfo(data)`: อัปเดตข้อมูลและรายละเอียดสเปคคอมพิวเตอร์
 
-3. **คลาสคำสั่งซื้อและรายการสินค้า (`Order`, `OrderItem`)**
+3. **Order & OrderItem Entities (`Order`, `OrderItem`)**
    - `calculateTotal()`: คำนวณราคารวมทั้งหมดของคำสั่งซื้อ
    - `updateStatus(newStatus)`: เปลี่ยนสถานะคำสั่งซื้อ
    - `getSubtotal()` *(OrderItem)*: คำนวณราคารวมย่อยของรายการสินค้าแต่ละรายการ (`price * quantity`)
 
-4. **คลาสตะกร้าสินค้า (`Cart`, `CartItem`)**
+4. **Cart & CartItem Entities (`Cart`, `CartItem`)**
    - `addItem(product, qty)` / `removeItem(productId)`: เพิ่มหรือลบรายการสินค้าในตะกร้า
    - `updateQuantity(productId, qty)`: ปรับเปลี่ยนจำนวนสินค้าในตะกร้า
    - `getTotalPrice()`: คำนวณราคารวมทั้งหมดของสินค้าที่อยู่ในตะกร้า
@@ -398,68 +398,68 @@ classDiagram
 
 # 14. Data Schema
 
-## แหล่งจัดเก็บข้อมูล (Data Storage)
-- **ฝั่งหลังบ้าน (Backend Source of Truth)**: `backend/data/users.json`, `backend/data/products.json`, และ `backend/data/orders.json`
-- **ฝั่งหน้าบ้าน (Frontend Session & LocalStorage)**: `localStorage` (ตะกร้าสินค้า `cart`, เซสชันผู้ใช้ `user`, สินค้าโปรด `favorites`, ที่อยู่จัดส่ง และแคชการตั้งค่า)
+## Data Storage
+- **Backend Source of Truth**: `backend/data/users.json`, `backend/data/products.json`, และ `backend/data/orders.json`
+- **Frontend Session & Storage**: `localStorage` (ตะกร้าสินค้า `cart`, เซสชันผู้ใช้ `user`, สินค้าโปรด `favorites`, ที่อยู่จัดส่ง และแคชการตั้งค่า)
 
-## เอนทิตีและตารางข้อมูล (Entities & Tables)
+## Entities & Tables
 
-### 1. ผู้ใช้งาน User (`users.json`)
+### 1. User (`users.json`)
 
-| ฟิลด์ (Field) | ประเภทข้อมูล (Type) | จำเป็น (Required) | เงื่อนไข / คีย์ (Key / Constraints) | คำอธิบาย (Description) |
+| Field | Type | Required | Key / Constraints | Description |
 |---|---|:---:|---|---|
-| `id` | `string` | ใช่ | Primary Key (UUID/String) | รหัสอ้างอิงผู้ใช้งาน (ต้องไม่ซ้ำกัน) |
-| `name` | `string` | ใช่ | - | ชื่อ-นามสกุลของผู้ใช้งาน |
-| `email` | `string` | ใช่ | Unique | อีเมลสำหรับใช้เข้าสู่ระบบ |
-| `password` | `string` | ใช่ | Hashed (bcrypt) | รหัสผ่านที่ผ่านการเข้ารหัสแล้ว |
-| `phone` | `string` | ไม่ | Default: `"-"` | เบอร์โทรศัพท์ติดต่อ |
-| `birthDate` | `string` | ไม่ | รูปแบบ: `YYYY-MM-DD` | วันเดือนปีเกิด |
-| `role` | `string` | ใช่ | Enum: `user`, `manager`, `admin` | สิทธิ์และบทบาทการใช้งานในระบบ |
+| `id` | `string` | Yes | Primary Key (UUID/String) | รหัสอ้างอิงผู้ใช้งาน (ต้องไม่ซ้ำกัน) |
+| `name` | `string` | Yes | - | ชื่อ-นามสกุลของผู้ใช้งาน |
+| `email` | `string` | Yes | Unique | อีเมลสำหรับใช้เข้าสู่ระบบ |
+| `password` | `string` | Yes | Hashed (bcrypt) | รหัสผ่านที่ผ่านการเข้ารหัสแล้ว |
+| `phone` | `string` | No | Default: `"-"` | เบอร์โทรศัพท์ติดต่อ |
+| `birthDate` | `string` | No | Format: `YYYY-MM-DD` | วันเดือนปีเกิด |
+| `role` | `string` | Yes | Enum: `user`, `manager`, `admin` | สิทธิ์และบทบาทการใช้งานในระบบ |
 
-### 2. สินค้า Product (`products.json`)
+### 2. Product (`products.json`)
 
-| ฟิลด์ (Field) | ประเภทข้อมูล (Type) | จำเป็น (Required) | เงื่อนไข / คีย์ (Key / Constraints) | คำอธิบาย (Description) |
+| Field | Type | Required | Key / Constraints | Description |
 |---|---|:---:|---|---|
-| `id` | `number` | ใช่ | Primary Key (Unique Int) | รหัสสินค้า |
-| `name` | `string` | ใช่ | - | ชื่อสินค้า |
-| `brand` | `string` | ใช่ | - | แบรนด์สินค้า |
-| `price` | `number` | ใช่ | `min: 0` | ราคาจำหน่าย (บาท) |
-| `stock` | `number` | ใช่ | `min: 0` | จำนวนสินค้าคงเหลือในสต็อก |
-| `image` | `string` | ไม่ | URL / Path | พาธหรือ URL รูปภาพสินค้า |
-| `description` | `string` | ไม่ | - | คำอธิบายรายละเอียดสินค้าแบบย่อ |
-| `type` / `productType` | `string` | ใช่ | Category Label | ประเภทสินค้า (เช่น `CPU`, `GPU`, `RAM`) |
-| `category` | `string` | ไม่ | Sub-category | หมวดหมู่ย่อยของสินค้า |
-| `highlights` | `string[]` | ไม่ | - | รายการจุดเด่นของสินค้า |
-| `attributes` | `object` | ไม่ | Key-Value pairs | สเปคย่อสำหรับใช้กรองข้อมูล (Filters) |
-| `attributesDetails` | `object` | ไม่ | Key-Value pairs | รายละเอียดสเปคเชิงลึกทั้งหมด |
+| `id` | `number` | Yes | Primary Key (Unique Int) | รหัสสินค้า |
+| `name` | `string` | Yes | - | ชื่อสินค้า |
+| `brand` | `string` | Yes | - | แบรนด์สินค้า |
+| `price` | `number` | Yes | `min: 0` | ราคาจำหน่าย (บาท) |
+| `stock` | `number` | Yes | `min: 0` | จำนวนสินค้าคงเหลือในสต็อก |
+| `image` | `string` | No | URL / Path | พาธหรือ URL รูปภาพสินค้า |
+| `description` | `string` | No | - | คำอธิบายรายละเอียดสินค้าแบบย่อ |
+| `type` / `productType` | `string` | Yes | Category Label | ประเภทสินค้า (เช่น `CPU`, `GPU`, `RAM`) |
+| `category` | `string` | No | Sub-category | หมวดหมู่ย่อยของสินค้า |
+| `highlights` | `string[]` | No | - | รายการจุดเด่นของสินค้า |
+| `attributes` | `object` | No | Key-Value pairs | สเปคย่อสำหรับใช้กรองข้อมูล (Filters) |
+| `attributesDetails` | `object` | No | Key-Value pairs | รายละเอียดสเปคเชิงลึกทั้งหมด |
 
-### 3. คำสั่งซื้อ Order (`orders.json`)
+### 3. Order (`orders.json`)
 
-| ฟิลด์ (Field) | ประเภทข้อมูล (Type) | จำเป็น (Required) | เงื่อนไข / คีย์ (Key / Constraints) | คำอธิบาย (Description) |
+| Field | Type | Required | Key / Constraints | Description |
 |---|---|:---:|---|---|
-| `id` | `string` | ใช่ | Primary Key | รหัสคำสั่งซื้อ (เช่น `IHC-58188`) |
-| `userId` | `string` | ใช่ | Foreign Key -> `User.id` | รหัสอ้างอิงผู้สั่งซื้อ |
-| `date` | `string` | ใช่ | รูปแบบ: `YYYY-MM-DD HH:mm` | วันและเวลาที่ทำรายการสั่งซื้อ |
-| `items` | `array` | ใช่ | Non-empty Array | อาร์เรย์ของรายการสินค้า (`OrderItem`) |
-| `total` | `number` | ใช่ | `min: 0` | ยอดชำระเงินรวมสุทธิ (บาท) |
-| `status` | `string` | ใช่ | Enum: `รอชำระเงิน`, `รอดำเนินการ`, `จัดส่งแล้ว`, `เสร็จสิ้น` | สถานะคำสั่งซื้อ |
-| `shippingAddress` | `string` | ใช่ | - | ที่อยู่สำหรับจัดส่งสินค้า |
-| `recipientName` | `string` | ใช่ | - | ชื่อ-นามสกุลของผู้รับสินค้า |
-| `recipientPhone` | `string` | ใช่ | - | เบอร์โทรศัพท์ติดต่อผู้รับ |
-| `paymentMethod` | `string` | ใช่ | Enum: `PromptPay`, `CreditCard`, `BankTransfer` | ช่องทางการชำระเงิน |
+| `id` | `string` | Yes | Primary Key | รหัสคำสั่งซื้อ (เช่น `IHC-58188`) |
+| `userId` | `string` | Yes | Foreign Key -> `User.id` | รหัสอ้างอิงผู้สั่งซื้อ |
+| `date` | `string` | Yes | Format: `YYYY-MM-DD HH:mm` | วันและเวลาที่ทำรายการสั่งซื้อ |
+| `items` | `array` | Yes | Non-empty Array | อาร์เรย์ของรายการสินค้า (`OrderItem`) |
+| `total` | `number` | Yes | `min: 0` | ยอดชำระเงินรวมสุทธิ (บาท) |
+| `status` | `string` | Yes | Enum: `รอชำระเงิน`, `รอดำเนินการ`, `จัดส่งแล้ว`, `เสร็จสิ้น` | สถานะคำสั่งซื้อ |
+| `shippingAddress` | `string` | Yes | - | ที่อยู่สำหรับจัดส่งสินค้า |
+| `recipientName` | `string` | Yes | - | ชื่อ-นามสกุลของผู้รับสินค้า |
+| `recipientPhone` | `string` | Yes | - | เบอร์โทรศัพท์ติดต่อผู้รับ |
+| `paymentMethod` | `string` | Yes | Enum: `PromptPay`, `CreditCard`, `BankTransfer` | ช่องทางการชำระเงิน |
 
-### 4. รายการสินค้าในคำสั่งซื้อ Order Item
+### 4. Order Item
 
-| ฟิลด์ (Field) | ประเภทข้อมูล (Type) | จำเป็น (Required) | เงื่อนไข / คีย์ (Key / Constraints) | คำอธิบาย (Description) |
+| Field | Type | Required | Key / Constraints | Description |
 |---|---|:---:|---|---|
-| `id` | `number` | ใช่ | Foreign Key -> `Product.id` | รหัสอ้างอิงสินค้า |
-| `name` | `string` | ใช่ | Snapshot | ชื่อสินค้า ณ เวลาที่สั่งซื้อ |
-| `brand` | `string` | ใช่ | Snapshot | แบรนด์สินค้า ณ เวลาที่สั่งซื้อ |
-| `price` | `number` | ใช่ | Snapshot | ราคาต่อชิ้น ณ เวลาที่สั่งซื้อ |
-| `quantity` | `number` | ใช่ | `min: 1` | จำนวนที่สั่งซื้อ |
-| `image` | `string` | ไม่ | Snapshot | รูปภาพสินค้า ณ เวลาที่สั่งซื้อ |
+| `id` | `number` | Yes | Foreign Key -> `Product.id` | รหัสอ้างอิงสินค้า |
+| `name` | `string` | Yes | Snapshot | ชื่อสินค้า ณ เวลาที่สั่งซื้อ |
+| `brand` | `string` | Yes | Snapshot | แบรนด์สินค้า ณ เวลาที่สั่งซื้อ |
+| `price` | `number` | Yes | Snapshot | ราคาต่อชิ้น ณ เวลาที่สั่งซื้อ |
+| `quantity` | `number` | Yes | `min: 1` | จำนวนที่สั่งซื้อ |
+| `image` | `string` | No | Snapshot | รูปภาพสินค้า ณ เวลาที่สั่งซื้อ |
 
-## ความสัมพันธ์ระหว่างข้อมูล (Relationships)
+## Relationships
 
 - ผู้ใช้งาน 1 คน สามารถสร้างคำสั่งซื้อได้หลายรายการ (`1 : N`)
 - คำสั่งซื้อ 1 รายการ ประกอบด้วยรายการสินค้าได้หลายรายการ (`1 : N`)
@@ -500,7 +500,7 @@ Profile
 
 # 17. System Architecture
 
-## แผนภาพสถาปัตยกรรมระบบ (Overview Architecture Diagram)
+## Overview Architecture Diagram
 
 ```mermaid
 graph TD
@@ -550,17 +550,17 @@ graph TD
     OrderController -. Update Stock .-> ProductDB
 ```
 
-## คำอธิบายสถาปัตยกรรมในแต่ละ Layer (Layer Description)
+## Layer Description
 
-1. **Client Layer (ส่วนผู้ใช้งาน - React + Vite + Tailwind CSS)**:
+1. **Client Layer (React + Vite + Tailwind CSS)**:
    - รับผิดชอบหน้าจอ UI และการตอบสนองต่อผู้ใช้งาน (User Interface & User Experience)
    - จัดการ State ของระบบฝั่งผู้ใช้ เช่น ตะกร้าสินค้า (`cart`), สถานะการเข้าสู่ระบบ (`user`), และรายการสินค้าโปรด (`favorites`) ใน `localStorage`
 
-2. **API & Service Layer (ส่วนประมวลผลหลังบ้าน - Node.js + Express)**:
+2. **API & Service Layer (Node.js + Express)**:
    - ตรวจสอบความถูกต้องและสิทธิ์ผู้ใช้ด้วย **JWT (JSON Web Token)** ผ่าน Middleware (`authMiddleware`, `adminMiddleware`, `managerMiddleware`)
    - ควบคุม Business Logic การสั่งซื้อ การจัดการสินค้า และการเปลี่ยนสถานะคำสั่งซื้อ
 
-3. **Data Layer (ส่วนจัดเก็บข้อมูล - JSON File Storage)**:
+3. **Data Layer (JSON File Storage)**:
    - เก็บข้อมูลหลักของระบบอย่างถาวรในรูปแบบไฟล์ JSON (`users.json`, `products.json`, `orders.json`)
    - มีระบบตัดสต็อกสินค้าใน `products.json` โดยอัตโนมัติเมื่อเกิดคำสั่งซื้อใหม่
 
