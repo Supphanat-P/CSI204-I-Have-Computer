@@ -472,12 +472,11 @@ classDiagram
 | `id` | `number` | Yes | Primary Key (Unique Int) | รหัสสินค้า |
 | `name` | `string` | Yes | - | ชื่อสินค้า |
 | `brand` | `string` | Yes | - | แบรนด์สินค้า |
+| `type` | `string` | Yes | Category Label | ประเภทสินค้า (เช่น `CPU`, `GPU`, `RAM`) |
 | `price` | `number` | Yes | `min: 0` | ราคาจำหน่าย (บาท) |
 | `stock` | `number` | Yes | `min: 0` | จำนวนสินค้าคงเหลือในสต็อก |
 | `image` | `string` | No | URL / Path | พาธหรือ URL รูปภาพสินค้า |
 | `description` | `string` | No | - | คำอธิบายรายละเอียดสินค้าแบบย่อ |
-| `type` / `productType` | `string` | Yes | Category Label | ประเภทสินค้า (เช่น `CPU`, `GPU`, `RAM`) |
-| `category` | `string` | No | Sub-category | หมวดหมู่ย่อยของสินค้า |
 | `highlights` | `string[]` | No | - | รายการจุดเด่นของสินค้า |
 | `attributes` | `object` | No | Key-Value pairs | สเปคย่อสำหรับใช้กรองข้อมูล (Filters) |
 | `attributesDetails` | `object` | No | Key-Value pairs | รายละเอียดสเปคเชิงลึกทั้งหมด |
