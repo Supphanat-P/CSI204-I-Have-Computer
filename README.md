@@ -703,8 +703,6 @@ sequenceDiagram
 
 # 16. Wireframe
 
-## Wireframe
-
 Home
 <img width="1920" height="1080" alt="1 Home" src="https://github.com/user-attachments/assets/543be1fa-ca68-48e0-8a9c-2eacda6c4ddc" />
 Browser
