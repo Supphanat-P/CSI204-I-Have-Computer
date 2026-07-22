@@ -190,6 +190,7 @@ export default function ManageProducts() {
       }
       setProducts(prev => prev.filter(p => p.id !== deleteTarget.id));
       setSuccessMsg(`ลบสินค้า "${deleteTarget.name}" สำเร็จ!`);
+      window.scrollTo({ top: 0, behavior: "smooth" });
       setTimeout(() => setSuccessMsg(""), 3000);
       try {
         localStorage.setItem('products_last_updated', Date.now().toString());
