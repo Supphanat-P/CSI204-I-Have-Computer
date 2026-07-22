@@ -260,77 +260,85 @@
 
 # 14. Data Schema
 
-## Data Storage
+## 🗂️ Data Entities & Attributes
 
-- Backend source of truth: `backend/data/users.json`, `backend/data/products.json`, and `backend/data/orders.json`
-- Frontend session and user-specific state are also mirrored in `localStorage` for cart, favorites, shipping addresses, payment methods, and cached orders
+### 1. User (`users`)
+จัดเก็บข้อมูลของผู้ใช้งานในระบบ ทั้งผู้ซื้อ (Customer), ผู้จัดการ (Manager) และผู้ดูแลระบบ (Admin)
 
-## Entities
-
-### User
-
-| Field | Type | Required | Notes |
-|---|---|---:|---|
-| `id` | string | Yes | Unique user identifier |
-| `name` | string | Yes | Full name |
-| `email` | string | Yes | Used for login and must be unique |
-| `password` | string | Yes | Stored as a bcrypt hash |
-| `phone` | string | No | Default value is `-` or empty |
-| `birthDate` | string | No | Optional profile field |
-| `role` | string | Yes | `user`, `manager`, or `admin` |
-
-### Product
-
-| Field | Type | Required | Notes |
-|---|---|---:|---|
-| `id` | number | Yes | Unique product identifier |
-| `name` | string | Yes | Product name |
-| `brand` | string | Yes | Product brand |
-| `price` | number | Yes | Product price |
-| `stock` | number | Yes | Available inventory |
-| `image` | string | No | Image URL |
-| `description` | string | No | Short product description |
-| `type` / `productType` | string | No | Product category label used by the UI |
-| `category` | string | No | More specific category grouping |
-| `highlights` | string[] | No | Key selling points |
-| `attributes` | object | No | Compact spec summary for cards and filters |
-| `attributesDetails` | object | No | Full technical specification block |
-
-### Order
-
-| Field | Type | Required | Notes |
-|---|---|---:|---|
-| `id` | string | Yes | Example: `IHC-58188` |
-| `date` | string | Yes | ISO date format (`YYYY-MM-DD`) |
-| `items` | array | Yes | List of `Order Item` objects |
-| `total` | number | Yes | Grand total |
-| `status` | string | Yes | Example: `รอดำเนินการ`, `จัดส่งแล้ว`, `เสร็จสิ้น`, `รอชำระเงิน` |
-| `shippingAddress` | string | Yes | Delivery address |
-| `recipientName` | string | Yes | Receiver name |
-| `recipientPhone` | string | Yes | Receiver phone number |
-| `paymentMethod` | string | Yes | Selected payment method |
-| `userId` | string | Yes | Links the order to a user |
-
-### Order Item
-
-| Field | Type | Required | Notes |
-|---|---|---:|---|
-| `id` | number | Yes | Product ID reference |
-| `name` | string | Yes | Snapshot of product name at purchase time |
-| `brand` | string | Yes | Snapshot of product brand |
-| `price` | number | Yes | Snapshot of unit price |
-| `quantity` | number | Yes | Quantity purchased |
-| `image` | string | No | Snapshot of product image |
-
-## Relationships
-
-- One `User` can have many `Order` records.
-- One `Order` contains many `Order Item` records.
-- One `Product` can appear in many `Order Item` records.
-- Creating an order reduces product `stock` in `products.json`.
+| Field Name | Type | Required | Constraints / Options | Description |
+| :--- | :--- | :---: | :--- | :--- |
+| `id` | `string` | Yes | Unique | รหัสผู้ใช้งาน (เช่น `"usr_1001"`, `"1"`) |
+| `name` | `string` | Yes | - | ชื่อ-นามสกุลของผู้ใช้งาน |
+| `email` | `string` | Yes | Unique, Email Format | อีเมลสำหรับเข้าสู่ระบบ |
+| `password` | `string` | Yes | Hashed / String | รหัสผ่านผู้ใช้ |
+| `phone` | `string` | No | - | เบอร์โทรศัพท์ติดต่อ |
+| `birthDate` | `string` | No | Format: `YYYY-MM-DD` | วันเดือนปีเกิด |
+| `role` | `string` | Yes | `"user"` \| `"manager"` \| `"admin"` | สิทธิ์การใช้งานในระบบ |
 
 ---
 
+### 2. Product (`products`)
+จัดเก็บข้อมูลรายการสินค้าที่วางจำหน่ายในระบบพร้อมรายละเอียดและสถานะสินค้า
+
+| Field Name | Type | Required | Description |
+| :--- | :--- | :---: | :--- |
+| `id` | `number` | Yes | รหัสสินค้า (Primary Key) |
+| `name` | `string` | Yes | ชื่อสินค้า |
+| `brand` | `string` | Yes | ยี่ห้อ/แบรนด์สินค้า |
+| `type` | `string` | No | ประเภทของสินค้าย่อย |
+| `productType` | `string` | No | ชนิดสินค้าหลัก |
+| `price` | `number` | Yes | ราคาขายปัจจุบันต่อหน่วย |
+| `stock` | `number` | Yes | จำนวนสินค้าคงเหลือในคลัง |
+| `sold` | `number` | No | จำนวนสินค้าที่ขายไปแล้ว |
+| `image` | `string` | No | URL ของรูปภาพสินค้าหลัก |
+| `description` | `string` | No | คำอธิบายรายละเอียดสินค้า |
+| `category` | `string` | No | หมวดหมู่สินค้า |
+| `highlights` | `Array<string>` | No | จุดเด่นของสินค้า |
+| `attributes` | `Object` | No | คุณลักษณะย่อยของสินค้า |
+| `attributesDetails`| `Object` | No | รายละเอียดคุณลักษณะเชิงลึก |
+
+---
+
+### 3. Order (`orders`)
+จัดเก็บข้อมูลคำสั่งซื้อที่เกิดขึ้นในระบบ พร้อมที่อยู่จัดส่งและสถานะการชำระเงิน
+
+| Field Name | Type | Required | Description |
+| :--- | :--- | :---: | :--- |
+| `id` | `string` | Yes | รหัสคำสั่งซื้อ (เช่น `"IHC-37279"`) |
+| `date` | `string` | Yes | วันที่สั่งซื้อ (Format: `YYYY-MM-DD`) |
+| `items` | `Array<OrderItem>`| Yes | รายการสินค้าที่สั่งซื้อใน Order นี้ |
+| `total` | `number` | Yes | ราคารวมสุทธิของคำสั่งซื้อ |
+| `status` | `string` | Yes | สถานะ Order (เช่น `"Completed"`, `"Pending"`) |
+| `shippingAddress` | `string` | Yes | ที่อยู่สำหรับจัดส่งสินค้า |
+| `recipientName` | `string` | Yes | ชื่อผู้รับสินค้า |
+| `recipientPhone` | `string` | Yes | เบอร์โทรศัพท์ผู้รับ |
+| `paymentMethod` | `string` | Yes | วิธีการชำระเงิน (เช่น `"Credit Card"`, `"QR PromptPay"`) |
+| `userId` | `string` | Yes | รหัสผู้ใช้งานที่สั่งซื้อ (Foreign Key -> `User.id`) |
+
+---
+
+### 4. OrderItem (Embedded Snapshot in Order)
+โครงสร้าง Snapshot ข้อมูลสินค้า ณ วันที่ทำรายการสั่งซื้อ เพื่อป้องกันผลกระทบเมื่อสินค้าเปลี่ยนชื่อหรือราคาในอนาคต
+
+| Field Name | Type | Required | Description |
+| :--- | :--- | :---: | :--- |
+| `id` | `number` | Yes | รหัสสินค้าอ้างอิง (Foreign Key -> `Product.id`) |
+| `name` | `string` | Yes | ชื่อสินค้า ณ เวลาที่ซื้อ |
+| `brand` | `string` | Yes | แบรนด์สินค้า |
+| `price` | `number` | Yes | ราคาต่อหน่วย ณ เวลาที่ซื้อ |
+| `quantity` | `number` | Yes | จำนวนชิ้นที่สั่งซื้อ |
+| `image` | `string` | No | URL รูปภาพสินค้า |
+
+---
+
+## 🔗 Relationships Summary
+
+1. **User - Order (`1` to `0..*`)**
+   * ผู้ใช้งาน 1 คน สามารถมีคำสั่งซื้อได้ 0 ถึงหลายรายการ (`User.id == Order.userId`)
+2. **Order - OrderItem (`1` to `1..*`)**
+   * คำสั่งซื้อ 1 รายการ ต้องประกอบด้วยสินค้าอย่างน้อย 1 รายการขึ้นไป (Composition Relationship ผ่าน Array `Order.items`)
+3. **OrderItem - Product (`0..*` to `1`)**
+   * `OrderItem` ดึง Attribute สำคัญมาจาก `Product` (`OrderItem.id == Product.id`) ในลักษณะ **Snapshot Dependency** เพื่อบันทึกข้อมูลย้อนหลังคงที่
 # 15. Sequence Diagrams
 
 ## Sequence Diagrams
