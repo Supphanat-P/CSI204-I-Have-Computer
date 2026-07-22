@@ -32,24 +32,24 @@
 |------|------------|------|--------|
 | Name | 67162090   | Project Manager | @Supphanat-P |
 | Name | 67081836 | Frontend / Backend | @Theepakorn-T |
-| Name | 67160778 | Frontend / Backend | @Theeradon-map |
-| Name | 67178272 | Frontend | @Chinnaphat-ppsadzy |
-| Name | 67158596 | Frontend | @Peeraphong-Taz |
+| Name | 67160778 | Frontend / Backend  | @Theeradon-map |
+| Name | 67178272 | Frontend / Backend | @Chinnaphat-ppsadzy |
+| Name | 67158596 | Frontend / Backend | @Peeraphong-Taz |
 
 ---
 
 # 2. หลักการและเหตุผล (Rationale)
 
-- โครงงานนี้จัดทำขค้นเพื่อพัฒนาแพลตฟอร์ม e-Commerce จำหน่ายอุปกรณ์คอมพิวเตอร์ออนไลน์ที่ช่วยให้ผู้ซื้อสามารถ สืบค้น เปรียบเทียบเสปค และสั่งซื้อสินค้าได้ตลอด 24 ชั่วโมง
-  โดยตัวระบบ มุ่งเน้นการบูรณการเทคโนโลยี React , Node.js และ Local Storage เพื่ออำนวยความสะดวกแก่ผู้ใช้งานในทุกสถานที่พร้อมทั้งมีระบบหลังบ้านที่ช่วยให้ผู้บริหารจัดการข้อมูลสินค้าและควบคุมคลังสต็อกได้อย่างถูกต้อง แม่นยำ และมีประสิทธิภาพ
+- โครงงานนี้จัดทำขึ้นเพื่อพัฒนาแพลตฟอร์ม e-Commerce ร้านจำหน่ายอุปกรณ์คอมพิวเตอร์ออนไลน์ที่ช่วยให้ผู้ซื้อสามารถ ค้นหาสินค้าที่ต้องการ และสั่งซื้อสินค้าได้ตลอด 24 ชั่วโมง
+  โดยตัวระบบ มุ่งเน้นการบูรณการเทคโนโลยี React , Node.js และ Local Storage เพื่ออำนวยความสะดวกแก่ผู้ใช้งาน พร้อมทั้งมีระบบหลังบ้านที่ช่วยให้ผู้บริหารจัดการข้อมูลสินค้าและควบคุมคลังสต็อกได้อย่างถูกต้อง แม่นยำ และมีประสิทธิภาพ
 
 ---
 
 # 3. วัตถุประสงค์ของโครงงาน (Objectives)
 
-1. เพื่อศึกษาและประยุกต์ใช้กรอบแนวคิดดิจิตัลแพลตฟอร์ม เว็บแอปพลิเคชั่นเฟรมเวิร์ก และ้ครื่องมือสมัยใหม่ในการพัฒนา "ระบบร้านจำหน่ายอุปกรณ์คอมพิวเตอร์" ได้อย่างมีประสิทะฺภาพ
+1. เพื่อศึกษาและประยุกต์ใช้กรอบแนวคิดดิจิตัลแพลตฟอร์ม เว็บแอปพลิเคชั่นเฟรมเวิร์ก และเครื่องมือสมัยใหม่ในการพัฒนาระบบร้านจำหน่ายอุปกรณ์คอมพิวเตอร์ ได้อย่างมีประสิทธิภาพ
 
-2. เพื่อออกแบบ ออกคำสั่งและพัฒนาระบบจัดการฟังก์ชันหลักของe-Commerce เช่น ระบบตะกร้าสินค้า ระบบค้นหา และระบบแบ่งสิทธิ์การใช้งานตามบทบาทผู้ใช้ ได้อย่างถูกต้อง
+2. เพื่อพัฒนาระบบจัดการฟังก์ชันหลักของ e-Commerce เช่น ระบบตะกร้าสินค้า ระบบค้นหา และระบบแบ่งสิทธิ์การใช้งานตามบทบาทผู้ใช้ ได้อย่างถูกต้อง
 
 3. เพื่อศึกษาและฝึกฝนการทำงานร่วมกันเป็นทีม 
 
@@ -65,14 +65,18 @@
 - ระบบชำระเงิน
 - ระบบจัดการข้อมูลสินค้า
 - ดูประวัติการสั่งซื้อ
+- จัดการสถานะการขนส่ง
+- จัดการสินค้า
+- จัดการผู้ใช้
+- รายงานภาพรวม
 
 ## User Roles
 
 | Role |
 |------|
-| Admin | 
-| Customers |
+| Customer | 
 | Manager |
+| Admin |
 
 ---
 
@@ -178,9 +182,21 @@
 
 ## Functional Requirements
 
-- Cart
-- Login / Register
-- Products Brownser
+- **ลูกค้า (Customers)**
+    - **สมัครสมาชิก/เข้าสู่ระบบ (Register/Login)** — ผู้ใช้สามารถสร้างบัญชีใหม่หรือเข้าสู่ระบบด้วยบัญชีที่มีอยู่แล้ว เพื่อเข้าถึงฟีเจอร์ต่าง ๆ ของระบบ
+    - **เรียกดูสินค้า (Browse Products)** — ผู้ใช้สามารถดูรายการสินค้าทั้งหมดที่มีในระบบ พร้อมรายละเอียดและราคา
+    - **เพิ่มสินค้าลงตะกร้า (Add to Cart)** — ผู้ใช้สามารถเลือกสินค้าที่ต้องการและเพิ่มลงในตะกร้าสินค้าเพื่อเตรียมสั่งซื้อ
+    - **ชำระเงิน (Checkout)** — ผู้ใช้สามารถดำเนินการสั่งซื้อและชำระเงินสำหรับสินค้าที่อยู่ในตะกร้า
+    - **ดูประวัติการสั่งซื้อ (View Order History)** — ผู้ใช้สามารถตรวจสอบรายการสั่งซื้อที่ผ่านมาทั้งหมด พร้อมสถานะของแต่ละคำสั่งซื้อ
+    - **ค้นหาสินค้า (Search Products)** — ผู้ใช้สามารถค้นหาสินค้าด้วยคำค้นหา เพื่อหาสินค้าที่ต้องการได้อย่างรวดเร็ว
+    - **ดูรายละเอียดสินค้า (View Product Details)** — ผู้ใช้สามารถดูข้อมูลรายละเอียดของสินค้าแต่ละชิ้น เช่น คำอธิบาย ราคา และรูปภาพ
+- **ผู้จัดการ (Manager)**
+    - **จัดการสินค้า (Manage Products)** — ผู้จัดการสามารถเพิ่ม แก้ไข หรือลบสินค้าในระบบ รวมถึงอัปเดตข้อมูลสินค้าต่าง ๆ
+    - **จัดการคำสั่งซื้อ (Manage Orders)** — ผู้จัดการสามารถดูรายการคำสั่งซื้อทั้งหมดและอัปเดตสถานะคำสั่งซื้อ (เช่น กำลังจัดส่ง, จัดส่งแล้ว)
+- **ผู้ดูแลระบบ (Admin)**
+    - **จัดการผู้ใช้ (Manage Users)** — ผู้ดูแลระบบสามารถดู แก้ไข หรือลบบัญชีผู้ใช้ในระบบ
+    - **จัดการบทบาท (Manage Roles)** — ผู้ดูแลระบบสามารถกำหนดหรือเปลี่ยนแปลงบทบาทของผู้ใช้ (เช่น ลูกค้า, ผู้จัดการ, ผู้ดูแลระบบ)
+
 
 ## Non-functional Requirements
 
@@ -394,7 +410,7 @@ classDiagram
 2. **Product Entity (`Product`)**
    - `checkStock(quantity)`: ตรวจสอบจำนวนสินค้าคงเหลือในคลังว่าเพียงพอหรือไม่
    - `deductStock(quantity)`: ตัดจำนวนสต็อกสินค้าเมื่อคำสั่งซื้อสำเร็จ
-   - `updateInfo(data)`: อัปเดตข้อมูลและรายละเอียด
+   - `updateInfo(data)`: อัปเดตข้อมูลและรายละเอียดสเปคคอมพิวเตอร์
 
 3. **Order & OrderItem Entities (`Order`, `OrderItem`)**
    - `calculateTotal()`: คำนวณราคารวมทั้งหมดของคำสั่งซื้อ
@@ -509,162 +525,162 @@ classDiagram
 }}%%
 sequenceDiagram
     autonumber
-    actor C as ลูกค้า (Customer)
-    actor E as พนักงาน (Employee)
+    actor C as ลูกค้า (User)
     actor M as ผู้จัดการ (Manager)
-    participant S as การแสดงผล (System)
-    participant DB_U as Users DB
-    participant DB_P as Products DB
-    participant DB_O as Orders DB
+    actor A as ผู้ดูแลระบบ (Admin)
+    participant FE as React Frontend
+    participant BE as Express Backend (API & Middleware)
+    participant DB_U as Users DB (users.json)
+    participant DB_P as Products DB (products.json)
+    participant DB_O as Orders DB (orders.json)
 
     %% ==========================================
-    %% Use Case: เข้าสู่ระบบ (Authentication)
+    %% Use Case: ระบบเข้าสู่ระบบและสมัครสมาชิก (Authentication & JWT)
     %% ==========================================
     rect rgb(240, 248, 255)
-    Note over C, DB_O: Use Case: ระบบเข้าสู่ระบบ (Authentication)
+    Note over C, DB_O: Use Case: เข้าสู่ระบบและสิทธิ์การใช้งาน (Authentication & Authorization)
     
-    alt ลูกค้าเข้าสู่ระบบ
-        C->>S: กรอกข้อมูล Login / Register
-    else พนักงานเข้าสู่ระบบ
-        E->>S: กรอกข้อมูล Login
-    else ผู้จัดการเข้าสู่ระบบ
-        M->>S: กรอกข้อมูล Login
+    alt เข้าสู่ระบบ (Login) / สมัครสมาชิก (Register)
+        C->>FE: กรอกข้อมูล Email/Password
+        FE->>BE: POST /api/login หรือ /api/register
+        BE->>DB_U: ตรวจสอบข้อมูลผู้ใช้และสร้าง JWT Token
+        DB_U-->>BE: คืนข้อมูลผู้ใช้และ Role (user/manager/admin)
+        BE-->>FE: ส่งคืน JWT Token & User Profile
+        FE->>FE: บันทึก Token ลง LocalStorage
     end
     
-    S->>DB_U: ตรวจสอบข้อมูลผู้ใช้และ Role (Validate credentials)
-    DB_U-->>S: ส่งคืนข้อมูลและสิทธิ์ผู้ใช้งาน (Return access info)
-    
-    alt Role = Customer
-        S-->>C: แสดงหน้าแรกของลูกค้า (Customer Home)
-    else Role = Employee
-        S-->>E: แสดงหน้าระบบจัดการคำสั่งซื้อ (Order Management)
-    else Role = Manager
-        S-->>M: แสดงหน้าแดชบอร์ด (Dashboard)
+    alt Role = user
+        FE-->>C: แสดงหน้าแรก / หน้ารายการสินค้า (Customer Storefront)
+    else Role = manager
+        FE-->>M: แสดงหน้าจัดการสินค้าและติดตามพัสดุ (Manager Portal)
+    else Role = admin
+        FE-->>A: แสดงหน้าผู้ดูแลระบบและสรุปรายงาน (Admin Portal)
     end
     end
 
     %% ==========================================
-    %% Use Case: ค้นหาสินค้า (Browse/Search)
+    %% Use Case: ค้นหาและดูรายละเอียดสินค้า (Browse/Search Products)
     %% ==========================================
     rect rgb(255, 250, 240)
-    Note over C, DB_O: Use Case: ค้นหาสินค้า (Browse/Search)
+    Note over C, DB_O: Use Case: ค้นหาและดูสินค้า (Browse & Search Products)
     
-    C->>S: ค้นหาสินค้า / เลือกหมวดหมู่ (Browse/Search)
-    S->>DB_P: เรียกดูข้อมูลสินค้า (Get products)
+    C->>FE: ค้นหาสินค้า / กรองตามหมวดหมู่และราคา
+    FE->>BE: GET /api/products
+    BE->>DB_P: เรียกดูรายการสินค้าทั้งหมด
+    DB_P-->>BE: คืนข้อมูลรายการสินค้า
+    BE-->>FE: ส่งคืนข้อมูล Products JSON
+    FE-->>C: แสดงรายการสินค้าที่ตรงตามเงื่อนไข
     
-    opt มีการกรองข้อมูล (Filter)
-        S->>DB_P: กรองตามหมวดหมู่, ราคา, ฯลฯ
-    end
-    
-    DB_P-->>S: ส่งคืนรายการสินค้าที่ตรงกัน (Return matching items)
-    S-->>C: แสดงรายการสินค้า (Show items)
-    
-    C->>S: คลิกดูรายละเอียดสินค้า (View Details)
-    S->>DB_P: เรียกดูรายละเอียด, สเปก (Get details)
-    DB_P-->>S: ส่งคืนข้อมูลสินค้า (Return product info)
-    S-->>C: แสดงรายละเอียดสินค้า (Show details)
+    C->>FE: คลิกดูรายละเอียดสินค้า (View Details)
+    FE->>BE: GET /api/products/:id
+    BE->>DB_P: เรียกดูสเปกและข้อมูลสินค้าตาม ID
+    DB_P-->>BE: คืนข้อมูลสินค้า
+    BE-->>FE: ส่งคืนข้อมูล Product Details
+    FE-->>C: แสดงรายละเอียดสินค้า
     end
 
     %% ==========================================
-    %% Use Case: จัดการตะกร้าและสั่งซื้อ (Checkout)
+    %% Use Case: สั่งซื้อสินค้าและชำระเงิน (Checkout & Payment)
     %% ==========================================
     rect rgb(240, 255, 240)
-    Note over C, DB_O: Use Case: จัดการตะกร้า / สั่งซื้อ (Checkout)
+    Note over C, DB_O: Use Case: สั่งซื้อสินค้าและชำระเงิน (Checkout & Stock Deduction)
     
-    C->>S: เพิ่มลงตะกร้า / ยืนยันการสั่งซื้อ (Add to Cart / Checkout)
-    S->>DB_O: สร้างคำสั่งซื้อสถานะ Pending (Create pending order)
-    S->>DB_P: ตรวจสอบและจองสต็อก (Check and reserve stock)
+    C->>FE: เพิ่มสินค้าลงตะกร้า & กดดำเนินการสั่งซื้อ (Checkout)
+    FE->>C: กรอกที่อยู่จัดส่งและเลือกช่องทางชำระเงิน
+    C->>FE: ยืนยันการสั่งซื้อ
+    FE->>BE: POST /api/orders (Headers: Authorization Bearer JWT)
     
-    loop จองสต็อกสินค้าแต่ละชิ้น
-        DB_P->>DB_P: หักจำนวนสต็อก (Deduct stock)
-    end
-    
-    DB_P-->>S: ยืนยันสต็อกคงเหลือ (Return stock status)
-    S-->>C: แสดงยอดรวมและให้ชำระเงิน (Show total)
-    
-    C->>S: ดำเนินการชำระเงิน (Payment)
-    
-    alt ชำระเงินสำเร็จ
-        S->>DB_O: อัปเดตสถานะเป็น "ชำระเงินแล้ว/เตรียมส่ง" (Update status)
-        DB_O-->>S: ยืนยันการสร้างออเดอร์ (Confirm order placed)
-        S-->>C: แจ้งเตือนการสั่งซื้อสำเร็จ (Success message)
-    end
+    BE->>BE: authMiddleware (ตรวจสอบความถูกต้องของ JWT Token)
+    BE->>DB_P: ตรวจสอบและตัดสต็อกสินค้า (Deduct stock)
+    DB_P-->>BE: ยืนยันการตัดสต็อกสินค้า
+    BE->>DB_O: บันทึกข้อมูลคำสั่งซื้อใหม่ (Create Order: Status "รอดำเนินการ")
+    DB_O-->>BE: ยืนยันบันทึกออเดอร์
+    BE-->>FE: ส่งคืนข้อมูล Order Creation Response
+    FE-->>C: แสดงหน้าทำรายการสำเร็จ (Order Complete)
     end
 
     %% ==========================================
-    %% Use Case: ติดตามสถานะ (Track & History)
+    %% Use Case: ติดตามสถานะและยืนยันการรับสินค้า (Track Status & Confirm Delivery)
     %% ==========================================
     rect rgb(255, 240, 245)
-    Note over C, DB_O: Use Case: ติดตามสถานะและประวัติ (Track Orders)
+    Note over C, DB_O: Use Case: ติดตามสถานะพัสดุและยืนยันการรับสินค้า (Track Order & Confirm)
     
-    C->>S: ติดตามสถานะคำสั่งซื้อ (Track Order)
-    S->>DB_O: ดึงข้อมูลสถานะและ Tracking Number
-    DB_O-->>S: ส่งข้อมูลคำสั่งซื้อ (Return order info)
-    S-->>C: แสดงสถานะการจัดส่ง
+    C->>FE: เข้าหน้าโปรไฟล์ -> แท็บสถานะการจัดส่ง (Shipping Status)
+    FE->>BE: GET /api/orders (Bearer JWT Token)
+    BE->>DB_O: ดึงรายการคำสั่งซื้อของผู้ใช้งาน
+    DB_O-->>BE: คืนข้อมูลรายการคำสั่งซื้อ
+    BE-->>FE: ส่งคืน Orders List
+    FE-->>C: แสดงลำดับ Timeline การจัดส่งพัสดุ
     
-    C->>S: ดูประวัติการสั่งซื้อทั้งหมด (View Order History)
-    S->>DB_O: ดึงประวัติคำสั่งซื้อของลูกค้า
-    DB_O-->>S: ส่งคืนรายการคำสั่งซื้อทั้งหมด
-    S-->>C: แสดงประวัติคำสั่งซื้อ
+    opt เมื่อสินค้าถึงผู้รับแล้ว
+        C->>FE: กดปุ่ม "ยืนยันได้รับสินค้าเรียบร้อย"
+        FE->>FE: เรียกฟังก์ชัน handleConfirmDelivery(orderId)
+        FE->>BE: อัปเดตสถานะออเดอร์เป็น "เสร็จสิ้น"
+        BE->>DB_O: บันทึกสถานะใหม่ "เสร็จสิ้น" (Completed)
+        DB_O-->>BE: ยืนยันการอัปเดต
+        BE-->>FE: คืนผลลัพธ์อัปเดตสำเร็จ
+        FE-->>C: แสดงแจ้งเตือนยืนยันรับสินค้าสำเร็จ
+    end
     end
 
     %% ==========================================
-    %% Use Case: จัดการโปรไฟล์ (Manage Profile)
-    %% ==========================================
-    rect rgb(255, 255, 224)
-    Note over C, DB_O: Use Case: จัดการโปรไฟล์ (Manage Profile)
-    
-    C->>S: แก้ไขข้อมูลส่วนตัว / ที่อยู่ (Manage Profile)
-    S->>DB_U: อัปเดตข้อมูลติดต่อ (Update address/contact)
-    DB_U-->>S: ยืนยันการบันทึก (Confirm changes)
-    S-->>C: แจ้งเตือนแก้ไขสำเร็จ
-    end
-
-    %% ==========================================
-    %% Use Case: จัดการสต็อกและออเดอร์ (Employee)
+    %% Use Case: จัดการสินค้าและอัปเดตสถานะขนส่ง (Manager)
     %% ==========================================
     rect rgb(230, 230, 250)
-    Note over E, DB_O: Use Case: ตรวจสอบสต็อกและอัปเดตสถานะ (Employee)
+    Note over M, DB_O: Use Case: จัดการสินค้าและอัปเดตสถานะการจัดส่ง (Manager Operations)
     
-    E->>S: ตรวจสอบสต็อกสินค้า (Check Stock)
-    S->>DB_P: เรียกดูจำนวนสต็อกคงเหลือ
-    DB_P-->>S: ส่งข้อมูลสต็อก (Return stock data)
-    S-->>E: แสดงจำนวนสต็อก
+    M->>FE: เข้าสู่หน้ารายการสั่งซื้อของระบบ (/manager/shippingStatus)
+    FE->>BE: GET /api/manager/orders (managerMiddleware)
+    BE->>DB_O: ดึงคำสั่งซื้อทั้งหมดในระบบ
+    DB_O-->>BE: คืนข้อมูลออเดอร์ทั้งหมด
+    BE-->>FE: ส่งคืน All Orders Data
+    FE-->>M: แสดงตารางออเดอร์และสถานะปัจจุบัน
     
-    E->>S: อัปเดตสถานะการขนส่ง (Update Tracking Status)
-    S->>DB_O: เรียกดูข้อมูลคำสั่งซื้อ
-    DB_O-->>S: ส่งคืนข้อมูลคำสั่งซื้อ
-    S->>DB_O: ตั้งค่าสถานะ (เตรียมส่ง / จัดส่งแล้ว / เสร็จสิ้น)
-    DB_O-->>S: ยืนยันการอัปเดต (Confirm update)
-    S-->>E: แจ้งเตือนอัปเดตสถานะสำเร็จ
+    M->>FE: เปลี่ยนสถานะพัสดุ (เช่น "รอดำเนินการ" -> "จัดส่งแล้ว")
+    FE->>BE: POST /api/manager/orders/update-status
+    BE->>BE: managerMiddleware (ตรวจสอบสิทธิ์ Manager/Admin)
+    BE->>DB_O: บันทึกสถานะคำสั่งซื้อใหม่
+    DB_O-->>BE: ยืนยันการบันทึก
+    BE-->>FE: ส่งคืนผลลัพธ์อัปเดตสำเร็จ
+    FE-->>M: แจ้งเตือนอัปเดตสถานะพัสดุสำเร็จ
+    
+    opt จัดการแคตตาล็อกสินค้า (Manage Products)
+        M->>FE: เพิ่ม/แก้ไข/ลบ สินค้า (/manager/manageProducts)
+        FE->>BE: POST/DELETE /api/products/*
+        BE->>DB_P: อัปเดตข้อมูลใน products.json
+        DB_P-->>BE: ยืนยันการเปลี่ยนแปลง
+        BE-->>FE: ส่งคืนผลการดำเนินการ
+        FE-->>M: แสดงผลข้อมูลสินค้าอัปเดตล่าสุด
+    end
     end
 
     %% ==========================================
-    %% Use Case: สรุปภาพรวมและจัดการระบบ (Manager/Admin)
+    %% Use Case: บริหารจัดการผู้ใช้งานและรายงานสรุป (Admin)
     %% ==========================================
     rect rgb(240, 255, 255)
-    Note over M, DB_O: Use Case: สรุปภาพรวมและจัดการระบบทั้งหมด (Manager as Admin)
+    Note over A, DB_O: Use Case: จัดการสิทธิ์ผู้ใช้และดูรายงานสรุป (Admin Operations)
     
-    M->>S: ดูสรุปยอดขาย (Sales Dashboard)
-    S->>DB_O: ดึงข้อมูลและคำนวณยอดขาย (Aggregate sales data)
-    DB_O-->>S: ส่งคืนตารางและสถิติ (Return tables and statistics)
-    S-->>M: แสดงกราฟภาพรวม
+    A->>FE: เข้าหน้าจัดการผู้ใช้ (/admin/manageUsers)
+    FE->>BE: GET /api/users (adminMiddleware)
+    BE->>DB_U: เรียกดูรายชื่อผู้ใช้งานทั้งหมด
+    DB_U-->>BE: คืนข้อมูลผู้ใช้งาน
+    BE-->>FE: ส่งคืน Users List JSON
+    FE-->>A: แสดงตารางผู้ใช้งานและ Role สิทธิ์การใช้งาน
     
-    M->>S: จัดการสิทธิ์ผู้ใช้งาน (Manage Users / Change Role / Delete)
-    S->>DB_U: ระงับสิทธิ์ หรือ อัปเดตบัญชี (Suspend/Update account)
-    DB_U-->>S: ยืนยันการแก้ไข (Confirm change)
-    S-->>M: แจ้งเตือนแก้ไขผู้ใช้สำเร็จ
+    A->>FE: เปลี่ยน Role ผู้ใช้ (user / manager / admin) หรือ ลบบัญชี
+    FE->>BE: POST /api/users/role หรือ DELETE /api/users/:id
+    BE->>BE: adminMiddleware (ตรวจสอบสิทธิ์ Admin)
+    BE->>DB_U: อัปเดต Role หรือ ลบข้อมูลใน users.json
+    DB_U-->>BE: ยืนยันการอัปเดต
+    BE-->>FE: คืนผลลัพธ์การดำเนินการสำเร็จ
+    FE-->>A: อัปเดตตารางและแสดงแจ้งเตือนสำเร็จ
     
-    M->>S: จัดการข้อมูลสินค้า (Manage Products)
-    alt เพิ่มสินค้าใหม่ (Add)
-        S->>DB_P: Create new product
-    else แก้ไขสินค้า (Update)
-        S->>DB_P: Update product details
-    else ลบสินค้า (Delete)
-        S->>DB_P: Remove product
-    end
-    DB_P-->>S: ยืนยันการเปลี่ยนแปลง (Confirm action)
-    S-->>M: แจ้งเตือนอัปเดตแคตตาล็อกสำเร็จ
+    A->>FE: เข้าหน้าดูรายงานสรุปยอดขาย (/admin/summaryReport)
+    FE->>BE: ดึงสถิติคำสั่งซื้อ ยอดขายรวม และจำนวนผู้ใช้
+    BE->>DB_O: คำนวณสรุปยอดขายและแยกหมวดหมู่
+    DB_O-->>BE: คืนข้อมูลสรุปเชิงสถิติ
+    BE-->>FE: ส่งคืน Summary Data JSON
+    FE-->>A: แสดงผลรายงาน สรุปยอดขาย และสถิติในรูปแบบแดชบอร์ด
     end
 ```
 
@@ -688,8 +704,7 @@ Profile
 
 # 17. Prototype
 
-## Image
-![Prototype](/image/Prototype.gif)  
+(https://www.figma.com/design/jpIH9sre5hIUKetODCj5vq/Untitled?node-id=0-1&t=I6PmMZlWkXxkbaSc-1) 
 
 ---
 # 18. System Architecture
