@@ -388,7 +388,7 @@ classDiagram
 2. **Product Entity (`Product`)**
    - `checkStock(quantity)`: ตรวจสอบจำนวนสินค้าคงเหลือในคลังว่าเพียงพอหรือไม่
    - `deductStock(quantity)`: ตัดจำนวนสต็อกสินค้าเมื่อคำสั่งซื้อสำเร็จ
-   - `updateInfo(data)`: อัปเดตข้อมูลและรายละเอียดสเปคคอมพิวเตอร์
+   - `updateInfo(data)`: อัปเดตข้อมูลและรายละเอียด
 
 3. **Order & OrderItem Entities (`Order`, `OrderItem`)**
    - `calculateTotal()`: คำนวณราคารวมทั้งหมดของคำสั่งซื้อ
