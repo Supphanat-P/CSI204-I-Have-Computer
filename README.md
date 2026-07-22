@@ -488,8 +488,8 @@ classDiagram
     'textColor': '#000000',
     'labelTextColor': '#000000',
     'actorLineColor': '#222222',
-    'actorTextColor': '#ffffff',
-    'actorBkg': '#000000',
+    'actorTextColor': '#000000',
+    'actorBkg': '#ffffff',
     'actorBorder': '#222222',
     'signalColor': '#222222',
     'signalTextColor': '#000000',
@@ -686,6 +686,66 @@ Profile
 
 ---
 # 18. System Architecture
+
+## Frontend Folder Structure
+
+```text
+frontend/
+├── public/                 # Static assets (images, favicon, icons)
+├── src/                    # Main source code directory
+│   ├── assets/             # Images, SVGs, and global static assets
+│   ├── component/          # Reusable UI Components
+│   │   ├── Products/       # Product-specific components
+│   │   │   ├── AsideFilterProducts.jsx # Product category/price filter sidebar
+│   │   │   └── ProductCard.jsx          # Product card display component
+│   │   ├── profiles/       # User profile tab components
+│   │   │   ├── ProfileOrders.jsx        # Order history tab view
+│   │   │   ├── ProfileProductStatus.jsx # Order status tracking tab
+│   │   │   └── ProfileWhislists.jsx     # Favorite products wishlist tab
+│   │   └── ScrollToTop.jsx # Page navigation auto scroll-to-top utility
+│   ├── context/            # Global React Context State Management
+│   │   ├── AlertContext.jsx# Custom Alert / Notification toast context
+│   │   └── CartContext.jsx # Cart state management (items, quantity, total)
+│   ├── data/               # Mock data fallback
+│   │   └── products.json   # Local product catalog data
+│   ├── layouts/            # Base Layout components for routing
+│   │   ├── AdminLayout.jsx   # Header & navigation layout for Admin pages
+│   │   ├── MainLayout.jsx    # Header, navbar & footer layout for Customers
+│   │   └── ManagerLayout.jsx # Navigation layout for Manager pages
+│   ├── pages/              # Page View Components (Routes)
+│   │   ├── admin/          # Admin-only page views
+│   │   │   ├── ManageUser.jsx     # User role management & account control
+│   │   │   └── SummaryReport.jsx  # Sales dashboard & report analytics
+│   │   ├── manager/        # Manager-only page views
+│   │   │   ├── ManageProducts.jsx # Product CRUD & inventory stock control
+│   │   │   └── ShippingStatus.jsx # Order tracking & shipping status update
+│   │   ├── Checkout.jsx    # Checkout & Payment page
+│   │   ├── Homepage.jsx    # Main landing page view
+│   │   ├── Login.jsx       # User authentication login view
+│   │   ├── ManageUsers.jsx # General user management page
+│   │   ├── ProductDetails.jsx # Detailed product specification view
+│   │   ├── Products.jsx    # Product catalog page with search & filter
+│   │   ├── Profiles.jsx    # Customer profile dashboard view
+│   │   └── Register.jsx    # User registration page
+│   ├── App.css             # Component-level styles
+│   ├── App.jsx             # Main Router configuration & Context Provider wrappers
+│   ├── index.css           # Tailwind CSS directives & global resets
+│   └── main.jsx            # Application entry point (ReactDOM render)
+├── index.html              # HTML shell entry point
+├── package.json            # NPM dependencies & build scripts
+└── vite.config.js          # Vite configuration & dev server setup
+```
+
+### Component & Folder Breakdown
+
+| Folder / File | Type | Description |
+|---|---|---|
+| `src/component/` | Components | คอมโพเนนต์ UI ที่นำกลับมาใช้ซ้ำได้ เช่น การ์ดสินค้า, ตัวกรองข้อมูล, แท็บในหน้าโปรไฟล์ |
+| `src/context/` | State | ระบบจัดการสถานะส่วนกลาง (React Context) สำหรับตะกร้าสินค้า (`CartContext`) และการแจ้งเตือน (`AlertContext`) |
+| `src/layouts/` | Layouts | โครงสร้างหน้าจอหลักแบ่งตามบทบาทผู้ใช้ (`MainLayout`, `AdminLayout`, `ManagerLayout`) |
+| `src/pages/` | Views | หน้าจอหลักของแอปพลิเคชัน (Page Views) ที่ผูกกับเส้นทาง URL Routes |
+| `src/pages/admin/` | Views | หน้าสำหรับผู้ดูแลระบบ ได้แก่ การจัดการสิทธิ์ผู้ใช้งาน (`ManageUser.jsx`) และแดชบอร์ดสรุปยอดขาย (`SummaryReport.jsx`) |
+| `src/pages/manager/` | Views | หน้าสำหรับผู้จัดการ ได้แก่ การจัดการคลังสินค้าสต็อก (`ManageProducts.jsx`) และการอัปเดตสถานะจัดส่ง (`ShippingStatus.jsx`) |
 
 ## Overview Architecture Diagram
 
