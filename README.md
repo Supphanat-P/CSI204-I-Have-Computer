@@ -273,8 +273,8 @@ classDiagram
         +string role
         +register(userData) User
         +login(email, password) Token
-        +updateProfile(profileData) boolean
-        +changeRole(newRole) boolean
+        +updateProfile(profileData) void
+        +changeRole(newRole) void
     }
 
     class Customer {
@@ -295,6 +295,7 @@ classDiagram
     }
 
     class Admin {
+        +getAllOrders() Array~Order~
         +createProduct(productData) Product
         +updateProduct(productId, productData) boolean
         +deleteProduct(productId) boolean
@@ -314,8 +315,8 @@ classDiagram
         +Array~string~ highlights
         +Object attributes
         +Object attributesDetails
-        +checkStock(quantity) boolean
-        +deductStock(quantity) boolean
+        +checkStock(quantity) void
+        +deductStock(quantity) void
         +updateInfo(data) void
     }
 
@@ -357,6 +358,7 @@ classDiagram
     class CartItem {
         +number productId
         +string name
+        +string brand
         +number price
         +number quantity
         +string image
