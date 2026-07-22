@@ -20,8 +20,9 @@
 - [14. Data Schema](#14-data-schema)
 - [15. Sequence Diagrams](#15-sequence-diagrams)
 - [16. Wireframe](#16-wireframe)
-- [17. Prototypr](#17-prototype)
+- [17. Prototype](#17-prototype)
 - [18. System Architecture](#18-system-architecture)
+- [19. UAT (User Acceptance Testing)]
 
 ---
 
