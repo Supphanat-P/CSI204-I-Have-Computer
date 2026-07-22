@@ -227,6 +227,12 @@ async function updateUserRole(req, res) {
       return;
     }
 
+    if (req.user && req.user.id === id) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "ไม่สามารถเปลี่ยน role ของตัวเองได้" }));
+      return;
+    }
+
     const allowedRoles = ["user", "manager", "admin"];
     if (!allowedRoles.includes(role)) {
       res.writeHead(400, { "Content-Type": "application/json" });
@@ -336,4 +342,48 @@ async function updateProfile(req, res) {
   }
 }
 
-module.exports = { registerUser, loginUser, getUsers, updateUserRole, updateProfile };
+async function deleteUser(req, res) {
+  try {
+    const id = req.params?.id || req.body?.id;
+
+    if (!id) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "ไม่พบรหัสผู้ใช้" }));
+      return;
+    }
+
+    if (req.user && req.user.id === id) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "ไม่สามารถลบบัญชีของตัวเองได้" }));
+      return;
+    }
+
+    const users = readJsonFile("users.json");
+    const userIndex = users.findIndex((u) => u.id === id);
+
+    if (userIndex === -1) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "ไม่พบผู้ใช้ในระบบ" }));
+      return;
+    }
+
+    const deletedUser = users[userIndex];
+    users.splice(userIndex, 1);
+    writeJsonFile("users.json", users);
+
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({
+        success: true,
+        message: `ลบผู้ใช้ "${deletedUser.name}" สำเร็จ`,
+        id,
+      })
+    );
+  } catch (error) {
+    console.error("Delete user error:", error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "เกิดข้อผิดพลาดภายในเซิร์ฟเวอร์" }));
+  }
+}
+
+module.exports = { registerUser, loginUser, getUsers, updateUserRole, updateProfile, deleteUser };
