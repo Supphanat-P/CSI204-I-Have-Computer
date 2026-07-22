@@ -285,8 +285,8 @@ classDiagram
         +string role
         +register(userData) User
         +login(email, password) Token
-        +updateProfile(profileData) boolean
-        +changeRole(newRole) boolean
+        +updateProfile(profileData) void
+        +changeRole(newRole) void
     }
 
     class Customer {
@@ -300,22 +300,24 @@ classDiagram
 
     class Manager {
         +getAllOrders() Array~Order~
-        +updateOrderStatus(orderId, status) boolean
+        +updateOrderStatus(orderId, status) void
         +createProduct(productData) Product
-        +updateProduct(productId, productData) boolean
-        +deleteProduct(productId) boolean
+        +updateProduct(productId, productData) void
+        +deleteProduct(productId) void
     }
 
     class Admin {
-        +createProduct(productData) Product
-        +updateProduct(productId, productData) boolean
-        +deleteProduct(productId) boolean
-        +manageUserRole(userId, newRole) boolean
-        +viewSalesReport() Object
+        +getAllOrders() Array~Order~
+        +createProduct(productData) void
+        +updateProduct(productId, productData) void
+        +deleteProduct(productId) void
+        +manageUserRole(userId, newRole) void
+		+deleteUser(userId) : void
+        +viewsReport() Object
     }
 
     class Product {
-        +number id
+        +number productId
         +string name
         +string brand
         +number price
@@ -326,13 +328,13 @@ classDiagram
         +Array~string~ highlights
         +Object attributes
         +Object attributesDetails
-        +checkStock(quantity) boolean
-        +deductStock(quantity) boolean
+        +checkStock(quantity) void
+        +deductStock(quantity) void
         +updateInfo(data) void
     }
 
     class Order {
-        +string id
+        +string orderId
         +string date
         +Array~OrderItem~ items
         +number total
@@ -348,7 +350,7 @@ classDiagram
     }
 
     class OrderItem {
-        +number id
+        +number productId
         +string name
         +string brand
         +number price
@@ -358,6 +360,7 @@ classDiagram
     }
 
     class Cart {
+		+string cartId
         +Array~CartItem~ items
         +addItem(product, qty) void
         +removeItem(productId) void
@@ -369,6 +372,7 @@ classDiagram
     class CartItem {
         +number productId
         +string name
+        +string brand
         +number price
         +number quantity
         +string image
@@ -379,11 +383,13 @@ classDiagram
     User <|-- Manager
     User <|-- Admin
 
-    Customer "1" -- "0..*" Order : places >
-    Customer "1" -- "1" Cart : owns >
-    Order "1" *-- "1..*" OrderItem : contains >
-    Cart "1" *-- "0..*" CartItem : contains >
-    OrderItem "0..*" -- "1" Product : references >
+    Customer "1" -- "0..*" Order : 
+    Customer "1" -- "1" Cart : 
+    Order "1" *-- "1..*" OrderItem : 
+    Cart "1" *-- "0..*" CartItem : 
+    OrderItem "0..*" -- "1" Product :  
+    CartItem "0..*" -- "1" Product :  
+
 ```
 
 ### Entity Functions & Methods Detail
