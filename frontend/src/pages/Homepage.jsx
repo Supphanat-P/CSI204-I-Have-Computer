@@ -139,11 +139,10 @@ export default function Homepage() {
                 New Arrival
               </span>
               <h1 className="font-display-lg text-display-lg md:text-[64px] text-on-surface leading-none">
-                Premium Audio Experience
+                Premium IT Gear for the Modern Tech Enthusiast
               </h1>
               <p className="font-body-lg text-body-lg text-on-surface-variant max-w-md">
-                Shop the latest collection of noise-canceling headphones
-                designed for pure sonic immersion and comfort.
+                shop the latest in high-performance IT gear, from cutting-edge graphics cards to immersive audio solutions, all designed to elevate your tech experience.
               </p>
               <div className="pt-4">
                 <Link
@@ -160,8 +159,8 @@ export default function Homepage() {
             <div className="w-full md:w-[60%] h-full relative">
               <img
                 className="w-full h-full object-cover"
-                alt="Premium noise-canceling headphones with sleek matte black finish and brushed aluminum accents"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwSWJ3NfWx13dyU4wadgSUL1l2xZiXR9J-USB-YOqD0sm6_RQVu-XGZUbkA9rET96IlGK8YgkIqhp2uJnbiazrh55mgiLHl_oO7WMX5WpubplejI5Hhf6FGwrfM-HW4z0EpT113DKpcBaNFs5T8TcDD1pZ87ZO686dpNeaFuYT3WOccjdd7YjxOpoR4wuUJfDaHNNgdpesl_YAjwKMGzYRtaJXUFCCKyx_0BpEa_hZn3r_KwXUViyx3g"
+                alt="Premium IT gear and computer hardware display for high-performance builds."
+                src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1200&q=80"
               />
               {/* Atmospheric light effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-surface-container-low via-transparent to-transparent"></div>
@@ -204,6 +203,60 @@ export default function Homepage() {
             ))}
           </div>
         </section>
+         
+                 {/* Marquee Text Banner */}
+        <div
+          style={{
+            overflow: "hidden",
+            background: "var(--color-primary, #6750A4)",
+            padding: "30px 0",
+            borderTop: "2px solid rgba(255,255,255,0.15)",
+            borderBottom: "2px solid rgba(255,255,255,0.15)",
+          }}
+        >
+          <style>{`
+            @keyframes marquee-scroll {
+              0%   { transform: translateX(0); }
+              100% { transform: translateX(-50%); }
+            }
+            .marquee-track {
+              display: flex;
+              width: max-content;
+              animation: marquee-scroll 30s linear infinite;
+            }
+            .marquee-item {
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              padding: 0 32px;
+              white-space: nowrap;
+              font-family: 'Inter', 'Outfit', sans-serif;
+              font-weight: 800;
+              font-size: 1.15rem;
+              letter-spacing: 0.18em;
+              text-transform: uppercase;
+              color: #fff;
+              opacity: 0.92;
+              user-select: none;
+            }
+            .marquee-dot {
+              display: inline-block;
+              width: 7px;
+              height: 7px;
+              border-radius: 50%;
+              background: rgba(255,255,255,0.55);
+              flex-shrink: 0;
+            }
+          `}</style>
+          <div className="marquee-track">
+            {Array.from({ length: 15 }).map((_, i) => (
+              <span className="marquee-item" key={i}>
+                ihavecomputer but nai computer wa
+                <span className="marquee-dot" />
+              </span>
+            ))}
+          </div>
+        </div>
 
         {/* Brand Section */}
         <section className="bg-surface-container-low py-12 border-y border-outline-variant">
@@ -254,6 +307,60 @@ export default function Homepage() {
             </div>
           </div>
         </section>
+
+        {/* Why Choose Us */}
+        <section className="py-20 px-margin-desktop max-w-container-max mx-auto">
+          <div className="text-center mb-12">
+            <p className="font-label-caps text-label-caps text-primary uppercase tracking-[0.3em]">
+              Why Choose Us
+            </p>
+            <h2 className="font-headline-md text-display-lg-mobile text-on-surface mt-4">
+              Trusted IT gear for every build
+            </h2>
+            <p className="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto mt-4">
+              เราคัดสรรอุปกรณ์คอมพิวเตอร์คุณภาพสูง พร้อมบริการที่ตอบโจทย์ทั้งสายเกมเมอร์และสายทำงาน
+            </p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            <div className="rounded-3xl border border-outline-variant bg-surface-container-high p-8 text-center shadow-sm hover:shadow-lg transition-shadow duration-300">
+              <span className="material-symbols-outlined text-5xl text-primary mb-4 inline-block">
+                local_shipping
+              </span>
+              <h3 className="font-body-lg font-semibold text-on-surface mb-3">
+                ส่งเร็วถึงบ้าน
+              </h3>
+              <p className="font-body-md text-body-md text-on-surface-variant">
+                บริการจัดส่งไว พร้อม tracking อัพเดตสถานะทุกขั้นตอน.
+              </p>
+            </div>
+
+            <div className="rounded-3xl border border-outline-variant bg-surface-container-high p-8 text-center shadow-sm hover:shadow-lg transition-shadow duration-300">
+              <span className="material-symbols-outlined text-5xl text-primary mb-4 inline-block">
+                verified
+              </span>
+              <h3 className="font-body-lg font-semibold text-on-surface mb-3">
+                ของแท้รับประกัน
+              </h3>
+              <p className="font-body-md text-body-md text-on-surface-variant">
+                สินค้าทุกชิ้นเป็นของแท้ พร้อมรับประกันคุณภาพและบริการหลังการขาย.
+              </p>
+            </div>
+
+            <div className="rounded-3xl border border-outline-variant bg-surface-container-high p-8 text-center shadow-sm hover:shadow-lg transition-shadow duration-300">
+              <span className="material-symbols-outlined text-5xl text-primary mb-4 inline-block">
+                support_agent
+              </span>
+              <h3 className="font-body-lg font-semibold text-on-surface mb-3">
+                บริการช่วยเหลือตลอด
+              </h3>
+              <p className="font-body-md text-body-md text-on-surface-variant">
+                ทีมงานพร้อมตอบคำถามและออกแบบชุดคอมให้ตรงกับงบประมาณของคุณ.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Featured Products */}
         {/* <section className="py-20 px-margin-desktop max-w-container-max mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
@@ -325,61 +432,6 @@ export default function Homepage() {
                 </div>
               </div>
             ))}
-          </div>
-        </section> */}
-
-        {/* Newsletter / CTA มันจะส่งเมลไปหาเราตามเมลที่กรอก}
-        <section className="py-24 bg-primary text-white text-center px-margin-desktop overflow-hidden relative">
-          <div className="absolute inset-0 opacity-5">
-            <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern
-                  height="60"
-                  id="grid"
-                  patternUnits="userSpaceOnUse"
-                  width="60"
-                >
-                  <path
-                    d="M 60 0 L 0 0 0 60"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="0.5"
-                  ></path>
-                </pattern>
-              </defs>
-              <rect fill="url(#grid)" height="100%" width="100%"></rect>
-            </svg>
-          </div>
-          <div className="max-w-xl mx-auto relative z-10 space-y-6">
-            <h2 className="font-display-lg text-display-lg">
-              Stay Ahead of the Curve
-            </h2>
-            <p className="font-body-lg text-primary-fixed-dim">
-              Subscribe to get exclusive early access to drops, tech reviews,
-              and members-only pricing.
-            </p>
-            <form
-              onSubmit={handleSubscribe}
-              className="flex flex-col sm:flex-row gap-3 pt-4"
-            >
-              <input
-                className="flex-1 rounded-full px-8 py-4 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary border-none"
-                placeholder="Enter your email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <button
-                type="submit"
-                className="bg-secondary text-white px-10 py-4 rounded-full font-label-caps text-label-caps hover:brightness-110 transition-all uppercase tracking-wider"
-              >
-                Subscribe
-              </button>
-            </form>
-            <p className="font-label-caps text-[10px] text-primary-fixed-dim/60 uppercase tracking-widest">
-              By subscribing, you agree to our Terms and Privacy Policy.
-            </p>
           </div>
         </section> */}
       </main>

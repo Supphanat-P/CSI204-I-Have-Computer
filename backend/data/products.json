@@ -660,7 +660,7 @@
     "brand": "G.Skill",
     "type": "RAM",
     "price": 6450,
-    "stock": 15,
+    "stock": 14,
     "image": "https://media-cdn.bnn.in.th/279671/gskill-ddr4-trident-z5-rgb-dual-channel-1-square_medium.jpg",
     "description": "แรม DDR5 บัสสูง ดีไซน์สปอร์ตพร้อมไฟ RGB สวยงาม",
     "highlights": [
@@ -687,7 +687,8 @@
       "lighting": "RGB (Compatible with Asus, MSI, Gigabyte, ASRock software)",
       "profileSupport": "Intel XMP 3.0",
       "warranty": "Limited Lifetime"
-    }
+    },
+    "sold": 16
   },
   {
     "id": 21,
@@ -1085,7 +1086,7 @@
     "brand": "ASUS",
     "type": "Mainboard",
     "price": 6890,
-    "stock": 15,
+    "stock": 14,
     "image": "https://www.jib.co.th/img_master/product/original/2025052816365055782_1.jpg",
     "description": "เมนบอร์ดขนาด M-ATX ที่ทนทานและคุ้มราคาสำหรับเซ็ต AMD AM5",
     "highlights": [
@@ -1115,7 +1116,8 @@
       "lan": "1 x Realtek 2.5Gb Ethernet",
       "audio": "Realtek 7.1 Surround Sound High Definition Audio Codec",
       "warranty": "3 Years"
-    }
+    },
+    "sold": 16
   },
   {
     "id": 35,
