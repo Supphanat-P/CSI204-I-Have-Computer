@@ -74,9 +74,9 @@
 
 | Role |
 |------|
-| Admin | 
-| Customers |
+| Customer | 
 | Manager |
+| Admin |
 
 ---
 
