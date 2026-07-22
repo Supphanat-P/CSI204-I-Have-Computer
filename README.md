@@ -476,6 +476,30 @@ classDiagram
 # 15. Sequence Diagrams
 
 ```mermaid
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'primaryColor': '#ffffff',
+    'primaryTextColor': '#000000',
+    'primaryBorderColor': '#111111',
+    'lineColor': '#222222',
+    'secondaryColor': '#f8f9fa',
+    'tertiaryColor': '#ffffff',
+    'textColor': '#000000',
+    'labelTextColor': '#000000',
+    'actorLineColor': '#222222',
+    'actorTextColor': '#000000',
+    'actorBkg': '#ffffff',
+    'actorBorder': '#222222',
+    'signalColor': '#222222',
+    'signalTextColor': '#000000',
+    'labelBoxBkgColor': '#ffffff',
+    'labelBoxBorderColor': '#222222',
+    'loopTextColor': '#000000',
+    'noteBkgColor': '#fff5ad',
+    'noteTextColor': '#000000'
+  }
+}}%%
 sequenceDiagram
     autonumber
     actor C as ลูกค้า (Customer)
