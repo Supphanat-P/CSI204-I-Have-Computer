@@ -257,10 +257,8 @@
 
 # 13. Class Diagram
 
-## Diagram Image
-<img width="689" height="657" alt="classDiagram" src="https://github.com/user-attachments/assets/4f603698-5c1f-4fa2-8fd9-4ea00214352f" />
-
-## Class Specifications & Methods
+<!-- ## Diagram Image
+<img width="689" height="657" alt="classDiagram" src="https://github.com/user-attachments/assets/4f603698-5c1f-4fa2-8fd9-4ea00214352f" /> -->
 
 ```mermaid
 classDiagram
