@@ -31,16 +31,16 @@
 | Name | Student ID | Role | GitHub |
 |------|------------|------|--------|
 | Name | 67162090   | Project Manager | @Supphanat-P |
-| Name | 67081836 | Frontend / Backend | @Theepakorn-T |
-| Name | 67160778 | Frontend / Backend | @Theeradon-map |
-| Name | 67178272 | Frontend | @Chinnaphat-ppsadzy |
-| Name | 67158596 | Frontend | @Peeraphong-Taz |
+| Name | 67081836 | Frontend Developer | @Theepakorn-T |
+| Name | 67160778 | Frontend Developer  | @Theeradon-map |
+| Name | 67178272 | UI/UX Designer | @Chinnaphat-ppsadzy |
+| Name | 67158596 | UI/UX Designer | @Peeraphong-Taz |
 
 ---
 
 # 2. หลักการและเหตุผล (Rationale)
 
-- โครงงานนี้จัดทำขึ้นเพื่อพัฒนาแพลตฟอร์ม e-Commerce จำหน่ายอุปกรณ์คอมพิวเตอร์ออนไลน์ที่ช่วยให้ผู้ซื้อสามารถ ค้นหาสินค้า และสั่งซื้อสินค้าได้ตลอด 24 ชั่วโมง
+- โครงงานนี้จัดทำขค้นเพื่อพัฒนาแพลตฟอร์ม e-Commerce จำหน่ายอุปกรณ์คอมพิวเตอร์ออนไลน์ที่ช่วยให้ผู้ซื้อสามารถ สืบค้น เปรียบเทียบเสปค และสั่งซื้อสินค้าได้ตลอด 24 ชั่วโมง
   โดยตัวระบบ มุ่งเน้นการบูรณการเทคโนโลยี React , Node.js และ Local Storage เพื่ออำนวยความสะดวกแก่ผู้ใช้งานในทุกสถานที่พร้อมทั้งมีระบบหลังบ้านที่ช่วยให้ผู้บริหารจัดการข้อมูลสินค้าและควบคุมคลังสต็อกได้อย่างถูกต้อง แม่นยำ และมีประสิทธิภาพ
 
 ---
@@ -178,9 +178,21 @@
 
 ## Functional Requirements
 
-- Cart
-- Login / Register
-- Products Brownser
+- **ลูกค้า (Customers)**
+    - **สมัครสมาชิก/เข้าสู่ระบบ (Register/Login)** — ผู้ใช้สามารถสร้างบัญชีใหม่หรือเข้าสู่ระบบด้วยบัญชีที่มีอยู่แล้ว เพื่อเข้าถึงฟีเจอร์ต่าง ๆ ของระบบ
+    - **เรียกดูสินค้า (Browse Products)** — ผู้ใช้สามารถดูรายการสินค้าทั้งหมดที่มีในระบบ พร้อมรายละเอียดและราคา
+    - **เพิ่มสินค้าลงตะกร้า (Add to Cart)** — ผู้ใช้สามารถเลือกสินค้าที่ต้องการและเพิ่มลงในตะกร้าสินค้าเพื่อเตรียมสั่งซื้อ
+    - **ชำระเงิน (Checkout)** — ผู้ใช้สามารถดำเนินการสั่งซื้อและชำระเงินสำหรับสินค้าที่อยู่ในตะกร้า
+    - **ดูประวัติการสั่งซื้อ (View Order History)** — ผู้ใช้สามารถตรวจสอบรายการสั่งซื้อที่ผ่านมาทั้งหมด พร้อมสถานะของแต่ละคำสั่งซื้อ
+    - **ค้นหาสินค้า (Search Products)** — ผู้ใช้สามารถค้นหาสินค้าด้วยคำค้นหา เพื่อหาสินค้าที่ต้องการได้อย่างรวดเร็ว
+    - **ดูรายละเอียดสินค้า (View Product Details)** — ผู้ใช้สามารถดูข้อมูลรายละเอียดของสินค้าแต่ละชิ้น เช่น คำอธิบาย ราคา และรูปภาพ
+- **ผู้จัดการ (Manager)**
+    - **จัดการสินค้า (Manage Products)** — ผู้จัดการสามารถเพิ่ม แก้ไข หรือลบสินค้าในระบบ รวมถึงอัปเดตข้อมูลสินค้าต่าง ๆ
+    - **จัดการคำสั่งซื้อ (Manage Orders)** — ผู้จัดการสามารถดูรายการคำสั่งซื้อทั้งหมดและอัปเดตสถานะคำสั่งซื้อ (เช่น กำลังจัดส่ง, จัดส่งแล้ว)
+- **ผู้ดูแลระบบ (Admin)**
+    - **จัดการผู้ใช้ (Manage Users)** — ผู้ดูแลระบบสามารถดู แก้ไข หรือลบบัญชีผู้ใช้ในระบบ
+    - **จัดการบทบาท (Manage Roles)** — ผู้ดูแลระบบสามารถกำหนดหรือเปลี่ยนแปลงบทบาทของผู้ใช้ (เช่น ลูกค้า, ผู้จัดการ, ผู้ดูแลระบบ)
+
 
 ## Non-functional Requirements
 
@@ -273,8 +285,8 @@ classDiagram
         +string role
         +register(userData) User
         +login(email, password) Token
-        +updateProfile(profileData) void
-        +changeRole(newRole) void
+        +updateProfile(profileData) boolean
+        +changeRole(newRole) boolean
     }
 
     class Customer {
@@ -288,24 +300,22 @@ classDiagram
 
     class Manager {
         +getAllOrders() Array~Order~
-        +updateOrderStatus(orderId, status) void
+        +updateOrderStatus(orderId, status) boolean
         +createProduct(productData) Product
-        +updateProduct(productId, productData) void
-        +deleteProduct(productId) void
+        +updateProduct(productId, productData) boolean
+        +deleteProduct(productId) boolean
     }
 
     class Admin {
-        +getAllOrders() Array~Order~
-        +createProduct(productData) void
-        +updateProduct(productId, productData) void
-        +deleteProduct(productId) void
-        +manageUserRole(userId, newRole) void
-		+deleteUser(userId) : void
-        +viewsReport() Object
+        +createProduct(productData) Product
+        +updateProduct(productId, productData) boolean
+        +deleteProduct(productId) boolean
+        +manageUserRole(userId, newRole) boolean
+        +viewSalesReport() Object
     }
 
     class Product {
-        +number productId
+        +number id
         +string name
         +string brand
         +number price
@@ -316,13 +326,13 @@ classDiagram
         +Array~string~ highlights
         +Object attributes
         +Object attributesDetails
-        +checkStock(quantity) void
-        +deductStock(quantity) void
+        +checkStock(quantity) boolean
+        +deductStock(quantity) boolean
         +updateInfo(data) void
     }
 
     class Order {
-        +string orderId
+        +string id
         +string date
         +Array~OrderItem~ items
         +number total
@@ -338,7 +348,7 @@ classDiagram
     }
 
     class OrderItem {
-        +number productId
+        +number id
         +string name
         +string brand
         +number price
@@ -348,7 +358,6 @@ classDiagram
     }
 
     class Cart {
-		+string cartId
         +Array~CartItem~ items
         +addItem(product, qty) void
         +removeItem(productId) void
@@ -360,7 +369,6 @@ classDiagram
     class CartItem {
         +number productId
         +string name
-        +string brand
         +number price
         +number quantity
         +string image
@@ -371,13 +379,11 @@ classDiagram
     User <|-- Manager
     User <|-- Admin
 
-    Customer "1" -- "0..*" Order : 
-    Customer "1" -- "1" Cart : 
-    Order "1" *-- "1..*" OrderItem : 
-    Cart "1" *-- "0..*" CartItem : 
-    OrderItem "0..*" -- "1" Product :  
-    CartItem "0..*" -- "1" Product :  
-
+    Customer "1" -- "0..*" Order : places >
+    Customer "1" -- "1" Cart : owns >
+    Order "1" *-- "1..*" OrderItem : contains >
+    Cart "1" *-- "0..*" CartItem : contains >
+    OrderItem "0..*" -- "1" Product : references >
 ```
 
 ### Entity Functions & Methods Detail
@@ -394,7 +400,7 @@ classDiagram
 2. **Product Entity (`Product`)**
    - `checkStock(quantity)`: ตรวจสอบจำนวนสินค้าคงเหลือในคลังว่าเพียงพอหรือไม่
    - `deductStock(quantity)`: ตัดจำนวนสต็อกสินค้าเมื่อคำสั่งซื้อสำเร็จ
-   - `updateInfo(data)`: อัปเดตข้อมูลและรายละเอียด
+   - `updateInfo(data)`: อัปเดตข้อมูลและรายละเอียดสเปคคอมพิวเตอร์
 
 3. **Order & OrderItem Entities (`Order`, `OrderItem`)**
    - `calculateTotal()`: คำนวณราคารวมทั้งหมดของคำสั่งซื้อ
