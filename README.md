@@ -296,7 +296,6 @@ classDiagram
         +register(userData) User
         +login(email, password) Token
         +updateProfile(profileData) void
-        +changeRole(newRole) void
     }
 
     class Customer {
