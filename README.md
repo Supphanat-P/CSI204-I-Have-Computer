@@ -294,8 +294,7 @@ classDiagram
     }
 
     class Customer {
-        +Array~Address~ addresses
-        +Array~OrderItem~ cart
+        +string cusId 
         +addToCart(product, quantity) void
         +removeFromCart(productId) void
         +checkout(orderDetails) Order
@@ -303,6 +302,7 @@ classDiagram
     }
 
     class Manager {
+        +string mngId
         +getAllOrders() Array~Order~
         +updateOrderStatus(orderId, status) void
         +createProduct(productData) Product
@@ -311,6 +311,7 @@ classDiagram
     }
 
     class Admin {
+        +string admId
         +getAllOrders() Array~Order~
         +createProduct(productData) void
         +updateProduct(productId, productData) void
@@ -383,6 +384,18 @@ classDiagram
         +calculateSubtotal() number
     }
 
+    class Address {
+        +string id
+        +string provice
+        +string district
+        +string sdistrict
+        +number postalcode
+        +string addressDetail
+        +boolean isDefault
+        +updateAddress() : void
+        +addAddress() : void
+    }
+
     User <|-- Customer
     User <|-- Manager
     User <|-- Admin
@@ -393,6 +406,9 @@ classDiagram
     Cart "1" *-- "0..*" CartItem : 
     OrderItem "0..*" -- "1" Product :  
     CartItem "0..*" -- "1" Product :  
+    Address "0..*" -- "1" Customer :  
+
+
 
 ```
 
