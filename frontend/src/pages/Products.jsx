@@ -210,11 +210,14 @@ export default function Products() {
   };
 
   const displayedType = productType === "ALL" ? selectedType || "ทั้งหมด" : productType;
-
+  const itemsPerPage = 9;
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageCount = Math.ceil(filteredProducts.length / itemsPerPage);
+  const paginatedProducts = filteredProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const handlePageChange = (page) => setCurrentPage(page);
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-container-max mx-auto px-margin-desktop pt-6">
-        {/* Breadcrumbs Nav */}
         <nav className="flex flex-wrap items-center gap-2 text-label-md text-on-surface-variant">
           <Link to="/" className="hover:text-primary transition-colors">
             หน้าหลัก
@@ -323,11 +326,24 @@ export default function Products() {
                   ไม่พบสินค้าที่ตรงกับตัวกรองที่เลือก
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter mb-6 mt-6">
-                  {filteredProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                  ))}
-                </div>
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter mb-6 mt-6">
+                    {paginatedProducts.map((product) => (
+                      <ProductCard key={product.id} product={product} />
+                    ))}
+                  </div>
+                  <div className="flex justify-center mt-4 space-x-2">
+                    {Array.from({ length: pageCount }).map((_, i) => (
+                      <button
+                        key={i + 1}
+                        onClick={() => handlePageChange(i + 1)}
+                        className={`px-3 py-1 rounded ${currentPage === i + 1 ? 'bg-primary text-white' : 'bg-white border'}`}
+                      >
+                        {i + 1}
+                      </button>
+                    ))}
+                  </div>
+                </>
               )}
             </div>
           </section>
