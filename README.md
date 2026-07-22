@@ -125,6 +125,9 @@
 ## Backend
 
 - Node js
+- express js
+- cors js
+- bcrypt js
 - etc.
 
 ## Database
