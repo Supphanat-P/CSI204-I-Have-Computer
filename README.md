@@ -288,18 +288,19 @@ classDiagram
 
     class Manager {
         +getAllOrders() Array~Order~
-        +updateOrderStatus(orderId, status) boolean
+        +updateOrderStatus(orderId, status) void
         +createProduct(productData) Product
-        +updateProduct(productId, productData) boolean
-        +deleteProduct(productId) boolean
+        +updateProduct(productId, productData) void
+        +deleteProduct(productId) void
     }
 
     class Admin {
         +getAllOrders() Array~Order~
-        +createProduct(productData) Product
-        +updateProduct(productId, productData) boolean
-        +deleteProduct(productId) boolean
-        +manageUserRole(userId, newRole) boolean
+        +createProduct(productData) void
+        +updateProduct(productId, productData) void
+        +deleteProduct(productId) void
+        +manageUserRole(userId, newRole) void
+		+deleteUser(userId) : void
         +viewsReport() Object
     }
 
@@ -376,6 +377,7 @@ classDiagram
     Cart "1" *-- "0..*" CartItem : 
     OrderItem "0..*" -- "1" Product :  
     CartItem "0..*" -- "1" Product :  
+
 ```
 
 ### Entity Functions & Methods Detail
