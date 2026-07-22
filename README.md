@@ -475,6 +475,165 @@ classDiagram
 
 # 15. Sequence Diagrams
 
+sequenceDiagram
+    actor C as ลูกค้า (Customer)
+    actor E as พนักงาน (Employee)
+    actor M as ผู้จัดการ (Manager)
+    participant S as การแสดงผล (System)
+    participant DB_U as Users DB
+    participant DB_P as Products DB
+    participant DB_O as Orders DB
+    autonumber
+
+    %% ==========================================
+    %% Use Case: เข้าสู่ระบบ (Authentication)
+    %% ==========================================
+    rect rgb(240, 248, 255)
+    Note over C, DB_O: Use Case: ระบบเข้าสู่ระบบ (Authentication)
+    
+    alt ลูกค้าเข้าสู่ระบบ
+        C->>S: กรอกข้อมูล Login / Register
+    else พนักงานเข้าสู่ระบบ
+        E->>S: กรอกข้อมูล Login
+    else ผู้จัดการเข้าสู่ระบบ
+        M->>S: กรอกข้อมูล Login
+    end
+    
+    S->>DB_U: ตรวจสอบข้อมูลผู้ใช้และ Role (Validate credentials)
+    DB_U-->>S: ส่งคืนข้อมูลและสิทธิ์ผู้ใช้งาน (Return access info)
+    
+    alt Role = Customer
+        S-->>C: แสดงหน้าแรกของลูกค้า (Customer Home)
+    else Role = Employee
+        S-->>E: แสดงหน้าระบบจัดการคำสั่งซื้อ (Order Management)
+    else Role = Manager
+        S-->>M: แสดงหน้าแดชบอร์ด (Dashboard)
+    end
+    end
+
+    %% ==========================================
+    %% Use Case: ค้นหาสินค้า (Browse/Search)
+    %% ==========================================
+    rect rgb(255, 250, 240)
+    Note over C, DB_O: Use Case: ค้นหาสินค้า (Browse/Search)
+    
+    C->>S: ค้นหาสินค้า / เลือกหมวดหมู่ (Browse/Search)
+    S->>DB_P: เรียกดูข้อมูลสินค้า (Get products)
+    
+    opt มีการกรองข้อมูล (Filter)
+        S->>DB_P: กรองตามหมวดหมู่, ราคา, ฯลฯ
+    end
+    
+    DB_P-->>S: ส่งคืนรายการสินค้าที่ตรงกัน (Return matching items)
+    S-->>C: แสดงรายการสินค้า (Show items)
+    
+    C->>S: คลิกดูรายละเอียดสินค้า (View Details)
+    S->>DB_P: เรียกดูรายละเอียด, สเปก (Get details)
+    DB_P-->>S: ส่งคืนข้อมูลสินค้า (Return product info)
+    S-->>C: แสดงรายละเอียดสินค้า (Show details)
+    end
+
+    %% ==========================================
+    %% Use Case: จัดการตะกร้าและสั่งซื้อ (Checkout)
+    %% ==========================================
+    rect rgb(240, 255, 240)
+    Note over C, DB_O: Use Case: จัดการตะกร้า / สั่งซื้อ (Checkout)
+    
+    C->>S: เพิ่มลงตะกร้า / ยืนยันการสั่งซื้อ (Add to Cart / Checkout)
+    S->>DB_O: สร้างคำสั่งซื้อสถานะ Pending (Create pending order)
+    S->>DB_P: ตรวจสอบและจองสต็อก (Check and reserve stock)
+    
+    loop จองสต็อกสินค้าแต่ละชิ้น
+        DB_P->>DB_P: หักจำนวนสต็อก (Deduct stock)
+    end
+    
+    DB_P-->>S: ยืนยันสต็อกคงเหลือ (Return stock status)
+    S-->>C: แสดงยอดรวมและให้ชำระเงิน (Show total)
+    
+    C->>S: ดำเนินการชำระเงิน (Payment)
+    
+    alt ชำระเงินสำเร็จ
+        S->>DB_O: อัปเดตสถานะเป็น "ชำระเงินแล้ว/เตรียมส่ง" (Update status)
+        DB_O-->>S: ยืนยันการสร้างออเดอร์ (Confirm order placed)
+        S-->>C: แจ้งเตือนการสั่งซื้อสำเร็จ (Success message)
+    end
+    end
+
+    %% ==========================================
+    %% Use Case: ติดตามสถานะ (Track & History)
+    %% ==========================================
+    rect rgb(255, 240, 245)
+    Note over C, DB_O: Use Case: ติดตามสถานะและประวัติ (Track Orders)
+    
+    C->>S: ติดตามสถานะคำสั่งซื้อ (Track Order)
+    S->>DB_O: ดึงข้อมูลสถานะและ Tracking Number
+    DB_O-->>S: ส่งข้อมูลคำสั่งซื้อ (Return order info)
+    S-->>C: แสดงสถานะการจัดส่ง
+    
+    C->>S: ดูประวัติการสั่งซื้อทั้งหมด (View Order History)
+    S->>DB_O: ดึงประวัติคำสั่งซื้อของลูกค้า
+    DB_O-->>S: ส่งคืนรายการคำสั่งซื้อทั้งหมด
+    S-->>C: แสดงประวัติคำสั่งซื้อ
+    end
+
+    %% ==========================================
+    %% Use Case: จัดการโปรไฟล์ (Manage Profile)
+    %% ==========================================
+    rect rgb(255, 255, 224)
+    Note over C, DB_O: Use Case: จัดการโปรไฟล์ (Manage Profile)
+    
+    C->>S: แก้ไขข้อมูลส่วนตัว / ที่อยู่ (Manage Profile)
+    S->>DB_U: อัปเดตข้อมูลติดต่อ (Update address/contact)
+    DB_U-->>S: ยืนยันการบันทึก (Confirm changes)
+    S-->>C: แจ้งเตือนแก้ไขสำเร็จ
+    end
+
+    %% ==========================================
+    %% Use Case: จัดการสต็อกและออเดอร์ (Employee)
+    %% ==========================================
+    rect rgb(230, 230, 250)
+    Note over E, DB_O: Use Case: ตรวจสอบสต็อกและอัปเดตสถานะ (Employee)
+    
+    E->>S: ตรวจสอบสต็อกสินค้า (Check Stock)
+    S->>DB_P: เรียกดูจำนวนสต็อกคงเหลือ
+    DB_P-->>S: ส่งข้อมูลสต็อก (Return stock data)
+    S-->>E: แสดงจำนวนสต็อก
+    
+    E->>S: อัปเดตสถานะการขนส่ง (Update Tracking Status)
+    S->>DB_O: เรียกดูข้อมูลคำสั่งซื้อ
+    DB_O-->>S: ส่งคืนข้อมูลคำสั่งซื้อ
+    S->>DB_O: ตั้งค่าสถานะ (เตรียมส่ง / จัดส่งแล้ว / เสร็จสิ้น)
+    DB_O-->>S: ยืนยันการอัปเดต (Confirm update)
+    S-->>E: แจ้งเตือนอัปเดตสถานะสำเร็จ
+    end
+
+    %% ==========================================
+    %% Use Case: สรุปภาพรวมและจัดการระบบ (Manager/Admin)
+    %% ==========================================
+    rect rgb(240, 255, 255)
+    Note over M, DB_O: Use Case: สรุปภาพรวมและจัดการระบบทั้งหมด (Manager as Admin)
+    
+    M->>S: ดูสรุปยอดขาย (Sales Dashboard)
+    S->>DB_O: ดึงข้อมูลและคำนวณยอดขาย (Aggregate sales data)
+    DB_O-->>S: ส่งคืนตารางและสถิติ (Return tables and statistics)
+    S-->>M: แสดงกราฟภาพรวม
+    
+    M->>S: จัดการสิทธิ์ผู้ใช้งาน (Manage Users / Change Role / Delete)
+    S->>DB_U: ระงับสิทธิ์ หรือ อัปเดตบัญชี (Suspend/Update account)
+    DB_U-->>S: ยืนยันการแก้ไข (Confirm change)
+    S-->>M: แจ้งเตือนแก้ไขผู้ใช้สำเร็จ
+    
+    M->>S: จัดการข้อมูลสินค้า (Manage Products)
+    alt เพิ่มสินค้าใหม่ (Add)
+        S->>DB_P: Create new product
+    else แก้ไขสินค้า (Update)
+        S->>DB_P: Update product details
+    else ลบสินค้า (Delete)
+        S->>DB_P: Remove product
+    end
+    DB_P-->>S: ยืนยันการเปลี่ยนแปลง (Confirm action)
+    S-->>M: แจ้งเตือนอัปเดตแคตตาล็อกสำเร็จ
+    end
 
 # 16. Wireframe
 
