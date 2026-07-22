@@ -184,7 +184,7 @@ export default function ProfileProductStatus(
                     <div className="bg-surface-container-low border border-outline-variant rounded-2xl p-12 text-center flex flex-col items-center">
                         <span className="material-symbols-outlined text-6xl text-outline mb-4">local_shipping</span>
                         <h3 className="font-bold text-lg text-on-surface mb-1">ไม่มีข้อมูลคำสั่งซื้อ</h3>
-                        <p className="text-body-sm text-on-surface-variant max-w-sm">
+                        <p className="text-body-sm text-on-surface-variant">
                             คุณยังไม่มีคำสั่งซื้อใดๆ ในบัญชีนี้เพื่อใช้ตรวจสอบการจัดส่ง
                         </p>
                     </div>

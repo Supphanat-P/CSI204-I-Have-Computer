@@ -13,7 +13,8 @@
     "email": "paul@gm",
     "password": "$2a$10$rFgHpxHnbhoDLy6MwTJPQO5CVBQKIwDR3qSAywBlERauXTvoFfrgm",
     "phone": "-",
-    "birthDate": "-"
+    "birthDate": "-",
+    "role": "admin"
   },
   {
     "id": "3",
