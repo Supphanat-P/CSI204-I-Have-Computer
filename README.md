@@ -20,8 +20,9 @@
 - [14. Data Schema](#14-data-schema)
 - [15. Sequence Diagrams](#15-sequence-diagrams)
 - [16. Wireframe](#16-wireframe)
-- [17. Prototypr](#17-prototype)
+- [17. Prototype](#17-prototype)
 - [18. System Architecture](#18-system-architecture)
+- [19. User Acceptance Testing](#19-UAT-User-Acceptance-Testing)
 
 ---
 
@@ -30,10 +31,10 @@
 | Name | Student ID | Role | GitHub |
 |------|------------|------|--------|
 | Name | 67162090   | Project Manager | @Supphanat-P |
-| Name | 67081836 | Frontend Developer | @Theepakorn-T |
-| Name | 67160778 | Frontend Developer  | @Theeradon-map |
-| Name | 67178272 | UI/UX Designer | @Chinnaphat-ppsadzy |
-| Name | 67158596 | UI/UX Designer | @Peeraphong-Taz |
+| Name | 67081836 | Frontend / Backend | @Theepakorn-T |
+| Name | 67160778 | Frontend / Backend | @Theeradon-map |
+| Name | 67178272 | Frontend | @Chinnaphat-ppsadzy |
+| Name | 67158596 | Frontend | @Peeraphong-Taz |
 
 ---
 
@@ -272,8 +273,8 @@ classDiagram
         +string role
         +register(userData) User
         +login(email, password) Token
-        +updateProfile(profileData) boolean
-        +changeRole(newRole) boolean
+        +updateProfile(profileData) void
+        +changeRole(newRole) void
     }
 
     class Customer {
@@ -287,22 +288,24 @@ classDiagram
 
     class Manager {
         +getAllOrders() Array~Order~
-        +updateOrderStatus(orderId, status) boolean
+        +updateOrderStatus(orderId, status) void
         +createProduct(productData) Product
-        +updateProduct(productId, productData) boolean
-        +deleteProduct(productId) boolean
+        +updateProduct(productId, productData) void
+        +deleteProduct(productId) void
     }
 
     class Admin {
-        +createProduct(productData) Product
-        +updateProduct(productId, productData) boolean
-        +deleteProduct(productId) boolean
-        +manageUserRole(userId, newRole) boolean
-        +viewSalesReport() Object
+        +getAllOrders() Array~Order~
+        +createProduct(productData) void
+        +updateProduct(productId, productData) void
+        +deleteProduct(productId) void
+        +manageUserRole(userId, newRole) void
+		+deleteUser(userId) : void
+        +viewsReport() Object
     }
 
     class Product {
-        +number id
+        +number productId
         +string name
         +string brand
         +number price
@@ -313,13 +316,13 @@ classDiagram
         +Array~string~ highlights
         +Object attributes
         +Object attributesDetails
-        +checkStock(quantity) boolean
-        +deductStock(quantity) boolean
+        +checkStock(quantity) void
+        +deductStock(quantity) void
         +updateInfo(data) void
     }
 
     class Order {
-        +string id
+        +string orderId
         +string date
         +Array~OrderItem~ items
         +number total
@@ -335,7 +338,7 @@ classDiagram
     }
 
     class OrderItem {
-        +number id
+        +number productId
         +string name
         +string brand
         +number price
@@ -345,6 +348,7 @@ classDiagram
     }
 
     class Cart {
+		+string cartId
         +Array~CartItem~ items
         +addItem(product, qty) void
         +removeItem(productId) void
@@ -356,6 +360,7 @@ classDiagram
     class CartItem {
         +number productId
         +string name
+        +string brand
         +number price
         +number quantity
         +string image
@@ -366,11 +371,13 @@ classDiagram
     User <|-- Manager
     User <|-- Admin
 
-    Customer "1" -- "0..*" Order : places >
-    Customer "1" -- "1" Cart : owns >
-    Order "1" *-- "1..*" OrderItem : contains >
-    Cart "1" *-- "0..*" CartItem : contains >
-    OrderItem "0..*" -- "1" Product : references >
+    Customer "1" -- "0..*" Order : 
+    Customer "1" -- "1" Cart : 
+    Order "1" *-- "1..*" OrderItem : 
+    Cart "1" *-- "0..*" CartItem : 
+    OrderItem "0..*" -- "1" Product :  
+    CartItem "0..*" -- "1" Product :  
+
 ```
 
 ### Entity Functions & Methods Detail
@@ -387,7 +394,7 @@ classDiagram
 2. **Product Entity (`Product`)**
    - `checkStock(quantity)`: ตรวจสอบจำนวนสินค้าคงเหลือในคลังว่าเพียงพอหรือไม่
    - `deductStock(quantity)`: ตัดจำนวนสต็อกสินค้าเมื่อคำสั่งซื้อสำเร็จ
-   - `updateInfo(data)`: อัปเดตข้อมูลและรายละเอียดสเปคคอมพิวเตอร์
+   - `updateInfo(data)`: อัปเดตข้อมูลและรายละเอียด
 
 3. **Order & OrderItem Entities (`Order`, `OrderItem`)**
    - `calculateTotal()`: คำนวณราคารวมทั้งหมดของคำสั่งซื้อ
@@ -811,7 +818,7 @@ graph TD
 
 ---
 
-# 18. UAT (User Acceptance Testing)
+# 19. UAT (User Acceptance Testing)
 
 Persona : Customer
 | รหัสทดสอบ	 | รายการทดสอบ | สถานะการทดสอบ	 | ปัญหา/ข้อผิดพลาด	 | รายละเอียดของปัญหา |
@@ -821,10 +828,46 @@ Persona : Customer
 | UAT-C03 | ค้นหาสินค้า | ผ่าน | - | - |
 | UAT-C04 | ฟิลเตอร์สินค้า | ผ่าน | - | - |
 | UAT-C05 | สินค้าที่ชื่นชอบ | ผ่าน | - | - |
-| UAT-C06 | เพิ่มสินค้าลงตะกร้า | ผ่า่น | - | - |
+| UAT-C06 | เพิ่มสินค้าลงตะกร้า | ผ่าน | - | - |
 | UAT-C07 | คำนวณราคาตะกร้า | ผ่าน | - | - |
 | UAT-C08 | การเพิ่มที่อยู่จัดส่ง | ผ่าน | - | - |
 | UAT-C09 | การชำระเงิน | ผ่าน | - | - |
 | UAT-C10 | แก้ข้อมูลส่วนตัว | ผ่าน | - | - |
 | UAT-C11 | การดูสถานะคำสั่งซื้อ | ผ่าน | - | - |
 | UAT-C12 | เพิ่มข้อมูลบัตร | ผ่าน | - | - |
+| UAT-C13 | ประวัติการสั่งซื้อ | ผ่าน | - | - |
+
+Persona : Manager
+| รหัสทดสอบ	 | รายการทดสอบ | สถานะการทดสอบ	 | ปัญหา/ข้อผิดพลาด	 | รายละเอียดของปัญหา |
+|---|---|---|---|---|   
+| UAT-M01 | สมัครสมาชิก | ผ่าน | - | - |
+| UAT-M02 | เข้าสู่ระบบ | ผ่าน | - | - |
+| UAT-M03 | เพิ่มสินค้า | ผ่าน | - | - |
+| UAT-M04 | ลบสินค้า | ผ่าน | - | - |
+| UAT-M05 | แก้ไขข้อมูลสินค้า | ผ่าน | - | - |
+| UAT-M06 | ดูสินค้าหมด / ใกล้หมด สต็อก | ผ่าน | - | - |
+| UAT-M07 | จัดการสถานะการสั่งซื้อ | ผ่าน | - | - |
+
+Persona : Adminstrator
+| รหัสทดสอบ	 | รายการทดสอบ | สถานะการทดสอบ	 | ปัญหา/ข้อผิดพลาด	 | รายละเอียดของปัญหา |
+|---|---|---|---|---|   
+| UAT-A01 | สมัครสมาชิก | ผ่าน | - | - |
+| UAT-A02 | เข้าสู่ระบบ | ผ่าน | - | - |
+| UAT-A03 | เพิ่มสินค้า | ผ่าน | - | - |
+| UAT-A04 | ลบสินค้า | ผ่าน | - | - |
+| UAT-A05 | แก้ไขข้อมูลสินค้า | ผ่าน | - | - |
+| UAT-A06 | ดูสินค้าหมด / ใกล้หมด สต็อก | ผ่าน | - | - |
+| UAT-A07 | จัดการสถานะการสั่งซื้อ | ผ่าน | - | - |
+| UAT-A08 | ดูรายงานผล | ผ่าน | - | - |
+
+สรุปผลการทดสอบ
+จากเอกสาร UAT ที่ทำการทดสอบ สามารถสรุปผลการทดสอบและรายงานปัญหาที่เกิดขึ้นได้ดังนี้
+
+| Persona	 | ผ่าน | ไม่ผ่าน	 |
+|---|---|---|
+| Customer | 13 | 0 |
+| Manager | 7 | 0 |
+| Adminstrator | 8 | 0 |
+| รวม | 28 | 0 |
+
+อัตราการผ่านการทดสอบ ผ่าน = 28 รายการ, ไม่ผ่าน = 0 รายการ คิดเป็น 100% ที่ผ่านการทดสอบ
