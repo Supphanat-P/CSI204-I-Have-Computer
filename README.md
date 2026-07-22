@@ -487,7 +487,7 @@ classDiagram
     'tertiaryColor': '#ffffff',
     'textColor': '#000000',
     'labelTextColor': '#000000',
-    'actorLineColor': '#ffffff',
+    'actorLineColor': '#222222',
     'actorTextColor': '#ffffff',
     'actorBkg': '#000000',
     'actorBorder': '#222222',
