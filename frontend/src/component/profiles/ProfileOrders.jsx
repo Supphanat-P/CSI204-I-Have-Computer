@@ -155,6 +155,19 @@ export default function ProfileOrders({
                                     <span className="text-xs font-bold text-on-surface uppercase tracking-wider block mb-1">ที่อยู่จัดส่ง</span>
                                     <p className="leading-relaxed">{selectedOrder.shippingAddress}</p>
                                 </div>
+                                {(selectedOrder.courier || selectedOrder.trackingNumber) && (
+                                    <div className="bg-primary/5 p-3 rounded-xl border border-primary/20 space-y-1">
+                                        <span className="text-xs font-bold text-primary uppercase tracking-wider block">ข้อมูลการจัดส่ง / เลขติดตามพัสดุ</span>
+                                        <p className="text-sm font-bold text-on-surface">
+                                            บริษัทขนส่ง: <span className="text-primary">{selectedOrder.courier || "ไม่ระบุ"}</span>
+                                        </p>
+                                        {selectedOrder.trackingNumber && (
+                                            <p className="text-xs font-mono text-on-surface-variant">
+                                                เลขติดตามพัสดุ: <span className="bg-white px-2 py-0.5 rounded border border-outline-variant select-all font-bold text-on-surface">{selectedOrder.trackingNumber}</span>
+                                            </p>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         )}
 

@@ -264,6 +264,21 @@ export default function Profiles() {
     });
 
     if (confirmed) {
+      try {
+        if (currentUser?.token) {
+          await fetch("/api/orders/confirm-delivery", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${currentUser.token}`,
+            },
+            body: JSON.stringify({ orderId }),
+          });
+        }
+      } catch (err) {
+        console.error("Confirm delivery API error:", err);
+      }
+
       setOrders((prevOrders) =>
         prevOrders.map((ord) =>
           ord.id === orderId ? { ...ord, status: "เสร็จสิ้น" } : ord

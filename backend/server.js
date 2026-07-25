@@ -14,6 +14,7 @@ const {
   getOrders,
   getAllOrdersForManager,
   updateOrderStatus,
+  confirmDelivery,
 } = require("./routes/orders");
 const {
   authMiddleware,
@@ -42,6 +43,7 @@ app.post("/api/profile/update", authMiddleware, updateProfile);
 
 app.post("/api/orders", authMiddleware, createOrder);
 app.get("/api/orders", authMiddleware, getOrders);
+app.post("/api/orders/confirm-delivery", authMiddleware, confirmDelivery);
 
 // Manager order status management routes
 app.get(

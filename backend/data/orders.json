@@ -76,12 +76,14 @@
       }
     ],
     "total": 19900,
-    "status": "รอดำเนินการ",
+    "status": "เสร็จสิ้น",
     "shippingAddress": "123113 ต. วัดราชบพิธ อ. เขตพระนคร จ. กรุงเทพมหานคร 10200",
     "recipientName": "Thonradee Saetang",
     "recipientPhone": "0284592387",
     "paymentMethod": "โอนเงินผ่านบัญชีธนาคาร",
-    "userId": "1"
+    "userId": "1",
+    "courier": "Kerry Express",
+    "trackingNumber": "TH427318408"
   },
   {
     "id": "IHC-86508",
@@ -126,12 +128,14 @@
       }
     ],
     "total": 9169100,
-    "status": "รอดำเนินการ",
+    "status": "เสร็จสิ้น",
     "shippingAddress": "111111 ต. วังบูรพาภิรมย์ อ. เขตพระนคร จ. กรุงเทพมหานคร 10200",
     "recipientName": "ศุภณัฐ เดี่ยวไหมครับ2",
     "recipientPhone": "1111111111",
     "paymentMethod": "โอนเงินผ่านบัญชีธนาคาร",
-    "userId": "6"
+    "userId": "6",
+    "courier": "ไปรษณีย์ไทย (EMS)",
+    "trackingNumber": "TH852306307"
   },
   {
     "id": "IHC-28220",

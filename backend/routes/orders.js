@@ -146,7 +146,7 @@ function getAllOrdersForManager(req, res) {
 // Handler to update an order's status
 async function updateOrderStatus(req, res) {
   try {
-    const { orderId, status } = req.body;
+    const { orderId, status, courier, trackingNumber } = req.body;
 
     if (!orderId || !status) {
       res.writeHead(400, { "Content-Type": "application/json" });
@@ -163,7 +163,38 @@ async function updateOrderStatus(req, res) {
       return;
     }
 
+    const currentStatus = orders[orderIndex].status;
+    if (currentStatus === "จัดส่งแล้ว" && status === "รอดำเนินการ") {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(
+        JSON.stringify({
+          message: "ไม่สามารถเปลี่ยนสถานะกลับเป็นเตรียมส่งได้",
+        }),
+      );
+      return;
+    }
+
+    if (
+      currentStatus === "เสร็จสิ้น" &&
+      (status === "รอดำเนินการ" || status === "จัดส่งแล้ว")
+    ) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(
+        JSON.stringify({
+          message: "ไม่สามารถเปลี่ยนสถานะของคำสั่งซื้อที่เสร็จสิ้นแล้วได้",
+        }),
+      );
+      return;
+    }
+
     orders[orderIndex].status = status;
+    if (courier !== undefined) {
+      orders[orderIndex].courier = courier;
+    }
+    if (trackingNumber !== undefined) {
+      orders[orderIndex].trackingNumber = trackingNumber;
+    }
+
     writeJsonFile("orders.json", orders);
 
     res.writeHead(200, { "Content-Type": "application/json" });
@@ -177,9 +208,42 @@ async function updateOrderStatus(req, res) {
   }
 }
 
+async function confirmDelivery(req, res) {
+  try {
+    const { orderId } = req.body;
+    if (!orderId) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "กรุณาระบุรหัสใบสั่งซื้อ" }));
+      return;
+    }
+
+    const orders = readJsonFile("orders.json");
+    const orderIndex = orders.findIndex((o) => o.id === orderId);
+
+    if (orderIndex === -1) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "ไม่พบใบสั่งซื้อนี้ในระบบ" }));
+      return;
+    }
+
+    orders[orderIndex].status = "เสร็จสิ้น";
+    writeJsonFile("orders.json", orders);
+
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ success: true, order: orders[orderIndex] }));
+  } catch (error) {
+    console.error("Confirm delivery error:", error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({ message: "เกิดข้อผิดพลาดในการยืนยันการรับสินค้า" }),
+    );
+  }
+}
+
 module.exports = {
   createOrder,
   getOrders,
   getAllOrdersForManager,
   updateOrderStatus,
+  confirmDelivery,
 };
