@@ -174,15 +174,15 @@ export default function Homepage() {
             <h2 className="font-headline-md text-display-lg-mobile text-on-surface">
               Browse Categories
             </h2>
-            <a
+            <Link
               className="text-primary font-label-caps text-label-caps hover:underline flex items-center gap-1 uppercase"
-              href="/Products?productType=ALL"
+              to="/Products?productType=ALL"
             >
               View all
               <span className="material-symbols-outlined text-[18px]">
                 arrow_forward
               </span>
-            </a>
+            </Link>
           </div>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-gutter">
             {categories.map((cat, index) => (

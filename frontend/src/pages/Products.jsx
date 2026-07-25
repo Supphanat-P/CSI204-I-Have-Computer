@@ -24,6 +24,15 @@ export default function Products() {
   }, [searchParams]);
 
   useEffect(() => {
+    const typeParam = searchParams.get("productType");
+    if (typeParam) {
+      setProductType(typeParam);
+    } else {
+      setProductType("ALL");
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
     const brandParam = searchParams.get("brand");
     if (brandParam && products.length > 0) {
       const matchedBrand = [...new Set(products.map((p) => p.brand))].find(
@@ -72,11 +81,17 @@ export default function Products() {
 
   const availableProducts = useMemo(() => {
     if (productType !== "ALL") {
-      return products.filter((p) => p.type === productType);
+      return products.filter((p) => {
+        const itemType = p.productType || p.type || "";
+        return itemType.toLowerCase() === productType.toLowerCase();
+      });
     }
 
     if (selectedType) {
-      return products.filter((p) => p.type === selectedType);
+      return products.filter((p) => {
+        const itemType = p.productType || p.type || "";
+        return itemType.toLowerCase() === selectedType.toLowerCase();
+      });
     }
 
     return products;
@@ -87,7 +102,7 @@ export default function Products() {
   }, [availableProducts]);
 
   const types = useMemo(() => {
-    return [...new Set(products.map((p) => p.type).filter(Boolean))].sort();
+    return [...new Set(products.map((p) => p.productType || p.type).filter(Boolean))].sort();
   }, [products]);
 
   const priceMaxLimit = useMemo(() => {
@@ -215,6 +230,20 @@ export default function Products() {
   const pageCount = Math.ceil(filteredProducts.length / itemsPerPage);
   const paginatedProducts = filteredProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   const handlePageChange = (page) => setCurrentPage(page);
+  const handleTypeSelect = (type) => {
+    setProductType(type);
+    setSelectedType(type === "ALL" ? "" : type);
+    setSearchParams((prev) => {
+      const nextParams = new URLSearchParams(prev);
+      if (type === "ALL") {
+        nextParams.delete("productType");
+      } else {
+        nextParams.set("productType", type);
+      }
+      return nextParams;
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-container-max mx-auto px-margin-desktop pt-6">
@@ -249,7 +278,7 @@ export default function Products() {
               <span className="font-semibold text-sm text-on-surface">ประเภทสินค้า</span>
               <div className="mt-3 flex flex-wrap gap-2">
                 <button
-                  onClick={() => setProductType("ALL")}
+                  onClick={() => handleTypeSelect("ALL")}
                   className={`rounded-full border px-4 py-1.5 text-xs font-medium transition ${productType === "ALL"
                     ? "border-primary bg-primary text-white"
                     : "border-outline-variant bg-white hover:bg-surface-container-low"
@@ -260,11 +289,8 @@ export default function Products() {
                 {types.map((type) => (
                   <button
                     key={type}
-                    onClick={() => {
-                      setProductType(type);
-                      setSelectedType(type);
-                    }}
-                    className={`rounded-full border px-4 py-1.5 text-xs font-medium transition ${(productType === type || selectedType === type)
+                    onClick={() => handleTypeSelect(type)}
+                    className={`rounded-full border px-4 py-1.5 text-xs font-medium transition ${(productType.toLowerCase() === type.toLowerCase() || selectedType.toLowerCase() === type.toLowerCase())
                       ? "border-primary bg-primary text-white"
                       : "border-outline-variant bg-white hover:bg-surface-container-low"
                       }`}
