@@ -941,7 +941,7 @@
     "brand": "Cozoy",
     "type": "Headphones",
     "price": 1090,
-    "stock": 9,
+    "stock": 8,
     "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/products160454_800.jpg",
     "description": "หูฟังอินเอียร์มอนิเตอร์ไดรเวอร์ Dynamic ไดอะแฟรมกราฟีน ให้เสียงเที่ยงตรง มิติเสียงกว้าง เหมาะทั้งฟังเพลงและเล่นเกม",
     "highlights": [
@@ -969,7 +969,8 @@
       "chassisMaterial": "Medical-Grade 3D Printed Resin Shell",
       "features": "Ergonomic Design for 95% Ear Shapes, Accurate Sound Imaging for Gaming",
       "warranty": "1 Year (3 Months for Cable)"
-    }
+    },
+    "sold": 10
   },
   {
     "id": 29,

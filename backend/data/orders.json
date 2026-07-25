@@ -167,11 +167,36 @@
       }
     ],
     "total": 19240,
-    "status": "รอดำเนินการ",
+    "status": "จัดส่งแล้ว",
     "shippingAddress": "51 ต. บางยี่เรือ อ. เขตธนบุรี จ. กรุงเทพมหานคร 10600",
     "recipientName": "ชินภัทร ทรัพย์สมบัติ",
     "recipientPhone": "0647948490",
     "paymentMethod": "โอนเงินผ่านบัญชีธนาคาร",
-    "userId": "5"
+    "userId": "5",
+    "courier": "Kerry Express",
+    "trackingNumber": "TH488759650"
+  },
+  {
+    "id": "IHC-14834",
+    "date": "2026-07-25",
+    "items": [
+      {
+        "id": 28,
+        "name": "Cozoy D1 In-Ear Monitors (IEMs)",
+        "brand": "Cozoy",
+        "price": 1090,
+        "quantity": 1,
+        "image": "https://ihcupload.s3.ap-southeast-1.amazonaws.com/img/product/products160454_800.jpg"
+      }
+    ],
+    "total": 1090,
+    "status": "เสร็จสิ้น",
+    "shippingAddress": "ฟหกหกฟหกฟ ต. บางด้วน อ. เขตภาษีเจริญ จ. กรุงเทพมหานคร 10160",
+    "recipientName": "อุฟุฟวย",
+    "recipientPhone": "0612345761",
+    "paymentMethod": "โอนเงินผ่านบัญชีธนาคาร",
+    "userId": "1",
+    "courier": "DHL Express",
+    "trackingNumber": "TH318844328"
   }
 ]

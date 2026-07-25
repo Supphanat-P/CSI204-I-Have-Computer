@@ -163,6 +163,16 @@ async function updateOrderStatus(req, res) {
       return;
     }
 
+    if (status === "เสร็จสิ้น") {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(
+        JSON.stringify({
+          message: "การยืนยันส่งสำเร็จสามารถทำได้โดยผู้ซื้อเท่านั้น",
+        }),
+      );
+      return;
+    }
+
     const currentStatus = orders[orderIndex].status;
     if (currentStatus === "จัดส่งแล้ว" && status === "รอดำเนินการ") {
       res.writeHead(400, { "Content-Type": "application/json" });

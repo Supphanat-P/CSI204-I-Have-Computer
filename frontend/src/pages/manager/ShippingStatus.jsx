@@ -411,21 +411,16 @@ export default function ShippingStatus() {
                             )}
 
                             {isShipped && (
-                              <button
-                                type="button"
-                                disabled={updatingOrderId === order.id}
-                                onClick={() => handleUpdateStatus(order.id, "เสร็จสิ้น")}
-                                className="w-full flex items-center justify-center gap-1 bg-emerald-600 text-white hover:bg-emerald-700 px-3 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95 shadow-sm border-none cursor-pointer"
-                              >
-                                <span className="material-symbols-outlined text-sm">task_alt</span>
-                                <span>ยืนยันส่งสำเร็จ</span>
-                              </button>
+                              <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl text-xs font-semibold">
+                                <span className="material-symbols-outlined text-sm animate-pulse">local_shipping</span>
+                                <span>จัดส่งแล้ว<br />(รอผู้ซื้อยืนยัน)</span>
+                              </span>
                             )}
 
                             {isCompleted && (
-                              <span className="inline-flex items-center gap-1 px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full text-xs font-bold">
+                              <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl text-xs font-bold">
                                 <span className="material-symbols-outlined text-sm">check_circle</span>
-                                <span>จัดส่งสำเร็จแล้ว</span>
+                                <span>ผู้ซื้อยืนยันรับสินค้าแล้ว</span>
                               </span>
                             )}
 
